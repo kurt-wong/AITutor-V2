@@ -1,0 +1,50 @@
+{
+  "subject": "数学",
+  "grade": "高一",
+  "year": 2026,
+  "school": null,
+  "confidence": 0.95,
+  "warnings": [],
+  "questions": [
+    {
+      "question_number": "1",
+      "stem": "函数 f(x)=x^2 的最小值是多少？",
+      "options": [
+        {"label": "A", "text": "0"},
+        {"label": "B", "text": "1"},
+        {"label": "C", "text": "-1"},
+        {"label": "D", "text": "2"}
+      ],
+      "answer": "A",
+      "explanation": "因为 x^2 对任意实数 x 都有最小值 0，所以选 A。",
+      "images": [],
+      "question_type": "单选",
+      "difficulty": 2,
+      "score": 5,
+      "knowledge_points": ["二次函数"],
+      "confidence": 0.95,
+      "issues": [],
+      "source_page": 1
+    },
+    {
+      "question_number": "2",
+      "stem": "下列物质中属于氧化物的是（）",
+      "options": [
+        {"label": "A", "text": "O2"},
+        {"label": "B", "text": "CO2"},
+        {"label": "C", "text": "NaCl"},
+        {"label": "D", "text": "NaOH"}
+      ],
+      "answer": "B",
+      "explanation": "氧化物由两种元素组成且其中一种为氧元素，CO2 符合。",
+      "images": ["图片 1"],
+      "question_type": "单选",
+      "difficulty": 2,
+      "score": 5,
+      "knowledge_points": ["氧化物"],
+      "confidence": 0.95,
+      "issues": [],
+      "source_page": 1
+    }
+  ]
+}

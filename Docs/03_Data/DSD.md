@@ -1,0 +1,526 @@
+# AI Tutor Personal Edition — 数据库结构设计
+
+Version: 4.5
+Status: 开发指引基线
+Date: 2026-08-11
+Supersedes: DSD v4.3
+Source of truth: `Docs/00_Requirements/REQUIREMENTS_AND_SOLUTION.md`
+
+---
+
+## 1. 目的
+
+本文件定义项目数据库结构，是数据表和字段的唯一权威来源。
+
+所有 Repository、Migration 和 Service 数据访问必须符合本文件。
+
+---
+
+## 2. 存储栈
+
+允许：
+
+- PostgreSQL 16
+- pgvector
+- MinIO 或 NAS 对象存储
+- Redis
+
+禁止：
+
+- Qdrant
+- Milvus
+- Weaviate
+- ChromaDB
+
+---
+
+## 3. 设计原则
+
+### 3.1 Fact-Only
+
+数据库只保存事实：
+
+- 题目内容
+- 答案
+- 详解
+- 元数据
+- 来源和出现次数
+- 错题记录
+- 练习记录
+- 掌握度
+
+数据库禁止保存：
+
+- Prompt
+- 思维链
+- 临时 LLM 输出
+- Agent 对话
+
+### 3.2 内容与元数据分离
+
+题目内容字段：
+
+- stem
+- options
+- answer
+- explanation
+
+元数据字段：
+
+- subject
+- grade
+- year
+- school
+- question_type
+- score
+- difficulty
+- knowledge_points
+- occurrence_count
+
+### 3.3 单学生
+
+当前版本按单学生设计。
+
+用户表预留 role，但业务默认只有一个管理员和一个学生账号。
+
+### 3.4 知识树静态
+
+知识树节点由管理员维护。
+
+AI 只能把题目映射到已有节点，不能创建新节点。
+
+### 3.5 真题与生成题
+
+题目来源类型：
+
+- document：来自原始文档的真题
+- generated：AI 生成且审核通过的题
+- student：学生 JPG 错题新建的题
+
+---
+
+## 4. 表结构
+
+### 4.1 users
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| username | VARCHAR | 唯一 |
+| password_hash | VARCHAR | 登录密码哈希 |
+| role | VARCHAR | admin / student |
+| created_at | TIMESTAMPTZ | |
+| updated_at | TIMESTAMPTZ | |
+
+### 4.2 subjects
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| code | VARCHAR | 唯一编码 |
+| name | VARCHAR | 学科名 |
+| description | TEXT | |
+| created_at | TIMESTAMPTZ | |
+
+### 4.3 documents
+
+保存原始 PDF/DOCX 文件和处理状态。
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| filename | VARCHAR | 原始文件名 |
+| file_type | VARCHAR | pdf / docx |
+| object_key | VARCHAR | 对象存储 key |
+| subject | VARCHAR | 可选上传元数据 |
+| grade | VARCHAR | 可选上传元数据 |
+| year | INTEGER | 可选上传元数据 |
+| school | VARCHAR | 可选上传元数据 |
+| upload_status | VARCHAR | queued / processing / completed / failed |
+| processing_status | VARCHAR | pending / parsing / annotating / reviewing / completed / failed |
+| error_message | TEXT | |
+| native_markdown | TEXT | 电子文本 PDF 的 L1 Native Markdown（P2 落地） |
+| ocr_markdown | TEXT | 扫描件/OCR 路径的 L1 Markdown（P2 落地） |
+| created_at | TIMESTAMPTZ | |
+| updated_at | TIMESTAMPTZ | |
+
+### 4.4 document_processing_logs
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| document_id | UUID | FK documents |
+| stage | VARCHAR | |
+| message | TEXT | |
+| created_at | TIMESTAMPTZ | |
+
+### 4.5 questions
+
+核心题目表。
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| subject_id | UUID | FK subjects |
+| grade | VARCHAR | 高一/高二/高三 |
+| year | INTEGER | 来源年份 |
+| school | VARCHAR | 来源学校 |
+| question_type_id | UUID | FK question_types |
+| score | NUMERIC | 分值，可为空 |
+| difficulty | INTEGER | 1-5 |
+| stem | TEXT | 题干 |
+| options | JSONB | 选项数组 |
+| answer | TEXT | 标准答案 |
+| explanation | TEXT | 详解 |
+| source_type | VARCHAR | document / generated / student |
+| source_document_name | VARCHAR | 来源文档名 |
+| status | VARCHAR | approved / reviewing / rejected |
+| confidence | NUMERIC | 0-1 |
+| occurrence_count | INTEGER | 默认 1 |
+| created_at | TIMESTAMPTZ | |
+| updated_at | TIMESTAMPTZ | |
+
+### 4.6 question_images
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| question_id | UUID | FK questions |
+| image_key | VARCHAR | 对象存储 key |
+| image_type | VARCHAR | diagram / question_image / formula_image |
+| description | TEXT | |
+| image_order | INTEGER | 排序 |
+| page_no | INTEGER | 配图来源页码 |
+| bbox | JSONB | 配图在来源页面上的坐标 |
+| placement | VARCHAR | stem / options / answer / explanation / page_context |
+| source | VARCHAR | native / paddleocr / vl / manual |
+| figure_id | VARCHAR | 同一物理图在文档级去重中的稳定标识 |
+| created_at | TIMESTAMPTZ | |
+
+说明：
+
+- 物理图存储去重：同一 `figure_id` 在对象存储中只保留一份。
+- 题-图关联允许多对多：共享材料题场景下，同一 `figure_id` 可通过多条 `question_images` 记录关联到多道题。
+- 无显式证据的跨题广播必须抑制（详见 `V1_LESSONS.md` 3.4/3.26）。
+
+### 4.7 question_instances
+
+保存同一题在不同来源中的出现实例。
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| question_id | UUID | FK questions |
+| source_type | VARCHAR | document / generated / student |
+| source_document_name | VARCHAR | 来源文档名 |
+| source_page | INTEGER | 来源页码，可为空 |
+| source_question_number | VARCHAR | 来源原始题号，可为空 |
+| year | INTEGER | |
+| school | VARCHAR | |
+| occurrence_no | INTEGER | 同一来源内出现序号 |
+| created_at | TIMESTAMPTZ | |
+
+### 4.8 question_knowledge
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| question_id | UUID | FK questions |
+| knowledge_node_id | UUID | FK knowledge_nodes |
+| confidence | NUMERIC | 0-1 |
+| is_primary | BOOLEAN | 是否主知识点 |
+| created_at | TIMESTAMPTZ | |
+
+### 4.9 knowledge_nodes
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| subject_id | UUID | FK subjects |
+| parent_id | UUID | 可空 |
+| code | VARCHAR | 唯一编码 |
+| name | VARCHAR | 节点名 |
+| level | INTEGER | 层级 |
+| description | TEXT | |
+| created_at | TIMESTAMPTZ | |
+
+### 4.10 question_types
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| subject_id | UUID | FK subjects |
+| parent_id | UUID | 可空 |
+| code | VARCHAR | 唯一编码 |
+| name | VARCHAR | 细粒度题型名 |
+| sort_order | INTEGER | 排序 |
+| created_at | TIMESTAMPTZ | |
+
+### 4.11 question_embeddings
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| question_id | UUID | FK questions |
+| embedding | vector(2560) | pgvector，qwen3-embedding:4b |
+| embedding_provider | VARCHAR | Ollama |
+| embedding_dimension | INTEGER | 固定 2560 |
+| created_at | TIMESTAMPTZ | |
+
+### 4.12 wrong_upload_tasks
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| task_id | UUID | FK background_tasks |
+| user_id | UUID | FK users |
+| image_key | VARCHAR | 学生 JPG key |
+| detected_count | INTEGER | 切分题数 |
+| created_at | TIMESTAMPTZ | |
+
+### 4.13 wrong_upload_items
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| upload_id | UUID | FK wrong_upload_tasks |
+| question_id | UUID | 可空，匹配或新建后关联 |
+| content_snapshot | JSONB | 识别出的题目内容 |
+| metadata_snapshot | JSONB | 识别出的元数据 |
+| status | VARCHAR | pending_review / approved / rejected |
+| review_comment | TEXT | |
+| created_at | TIMESTAMPTZ | |
+
+### 4.14 wrong_questions
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| user_id | UUID | FK users |
+| question_id | UUID | FK questions |
+| source_type | VARCHAR | practice / jpg_upload |
+| error_type | VARCHAR | 可空 |
+| wrong_count | INTEGER | 默认 1 |
+| last_wrong_time | TIMESTAMPTZ | |
+| mastery_status | VARCHAR | mastered / reviewing / not_mastered |
+| review_count | INTEGER | 默认 0 |
+| last_review_at | TIMESTAMPTZ | |
+| created_at | TIMESTAMPTZ | |
+
+### 4.15 practice_sessions
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| user_id | UUID | FK users |
+| trigger_type | VARCHAR | manual / recommendation / admin |
+| question_count | INTEGER | |
+| status | VARCHAR | in_progress / completed / abandoned |
+| started_at | TIMESTAMPTZ | |
+| completed_at | TIMESTAMPTZ | |
+| created_at | TIMESTAMPTZ | |
+
+### 4.16 practice_answers
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| session_id | UUID | FK practice_sessions |
+| question_id | UUID | FK questions |
+| question_snapshot | JSONB | 题目快照 |
+| student_answer | TEXT | |
+| is_correct | BOOLEAN | |
+| duration_seconds | INTEGER | |
+| knowledge_point_ids | JSONB | 关联知识点 |
+| created_at | TIMESTAMPTZ | |
+
+### 4.17 mastery_records
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| user_id | UUID | FK users |
+| knowledge_node_id | UUID | FK knowledge_nodes |
+| mastery_level | INTEGER | 0-2 |
+| total_attempts | INTEGER | |
+| correct_count | INTEGER | |
+| recent_correct_rate | NUMERIC | 0-1 |
+| updated_at | TIMESTAMPTZ | |
+
+### 4.18 generation_jobs
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| task_id | UUID | FK background_tasks |
+| task_type | VARCHAR | practice / paper |
+| subject | VARCHAR | |
+| grade | VARCHAR | |
+| parameters | JSONB | 知识点、题型、难度、题量等 |
+| ratio_snapshot | JSONB | 历史比例快照 |
+| created_at | TIMESTAMPTZ | |
+| completed_at | TIMESTAMPTZ | |
+
+### 4.19 generation_results
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| job_id | UUID | FK generation_jobs |
+| question_id | UUID | FK questions |
+| review_status | VARCHAR | pending / approved / rejected |
+| review_comment | TEXT | |
+| created_at | TIMESTAMPTZ | |
+
+### 4.20 system_configs
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| config_key | VARCHAR | 唯一 |
+| config_value | TEXT | |
+| description | TEXT | |
+| updated_at | TIMESTAMPTZ | |
+
+---
+
+### 4.21 background_tasks
+
+统一后台任务表。文档解析、AI 生成、导出、错题识别等异步能力共用。
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| task_type | VARCHAR | document_parse / generation / export / wrong_question / embedding |
+| status | VARCHAR | queued / running / succeeded / failed / review_required |
+| progress | NUMERIC | 0-1 |
+| current_stage | VARCHAR | 当前阶段 |
+| error_detail | TEXT | 失败原因 |
+| payload_json | JSONB | 任务入参 |
+| result_json | JSONB | 任务结果摘要 |
+| created_at | TIMESTAMPTZ | |
+| updated_at | TIMESTAMPTZ | |
+
+### 4.22 domain_events
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| event_type | VARCHAR | QuestionCreated / QuestionReviewed 等 |
+| entity_type | VARCHAR | question / wrong_question / practice_session |
+| entity_id | UUID | |
+| payload_json | JSONB | 事件数据 |
+| created_at | TIMESTAMPTZ | |
+| processed_at | TIMESTAMPTZ | 消费者处理时间，可为空 |
+
+---
+
+## 5. 关系
+
+```text
+documents
+└── document_processing_logs
+
+questions
+├── question_images
+├── question_instances
+├── question_knowledge
+└── question_embeddings
+
+knowledge_nodes
+└── question_knowledge
+
+question_types
+└── questions
+
+wrong_upload_tasks
+└── wrong_upload_items
+
+wrong_questions → questions
+
+practice_sessions
+└── practice_answers → questions
+
+mastery_records → knowledge_nodes
+
+generation_jobs
+└── generation_results → questions
+
+background_tasks
+├── wrong_upload_tasks
+└── generation_jobs
+
+domain_events
+└── 事件实体：question / wrong_question / practice_session
+```
+
+---
+
+## 6. 索引建议
+
+普通索引：
+
+- questions(subject_id, grade, year)
+- questions(question_type_id)
+- questions(status, confidence)
+- questions(source_type)
+- question_knowledge(question_id, knowledge_node_id)
+- question_instances(question_id, year)
+- question_images(question_id, source, page_no)
+- wrong_questions(user_id, status)
+- practice_answers(session_id, question_id)
+- mastery_records(user_id, knowledge_node_id)
+- background_tasks(task_type, status)
+- domain_events(event_type, created_at)
+
+向量索引：
+- 当前 embedding 为 2560 维，超过 pgvector HNSW 索引 2000 维上限，初始阶段不建向量索引。
+- 家庭题库规模下先使用暴力余弦检索；后续如需向量索引，先做降维或更换不超过 2000 维的模型。
+
+---
+
+## 7. L1/L2 中间态说明
+
+L1（行编号原文）和 L2（LLM 标注镜像）是文档解析的中间态，**不落库**。
+
+- L1 是不可变的行编号原文，Native/OCR 输出统一为同一个 L1Document。
+- L2 是 LLM 标注结果的结构化镜像，只存储行号引用和元数据。
+- 最终入库的是 L3（由 L1 + L2 切片生成的题目内容）。
+- L2 标注的行号经过锚点校正后，由代码从 L1 切片生成 stem/options/answer/explanation。
+
+详细定义见 `Docs/01_Product/T3_IMPLEMENTATION.md`。
+
+---
+
+## 8. 一致性要求
+
+DSD 必须与以下文档保持一致：
+
+- PRD.md
+- SAD.md
+- ACS.md
+- MIS.md
+- PIPELINE.md
+
+冲突时：
+
+- 产品范围以 REQUIREMENTS_AND_SOLUTION.md 为准。
+- 数据库结构以本文件为准。
+
+---
+
+## 8. 变更记录
+
+### 2026-08-11
+
+- `documents.processing_status` 枚举补充 `failed`，与后台任务失败状态一致。
+
+### 2026-08-11 07:07:42
+
+- 固化 V1 教训：`documents` 增加 L1 Native/OCR Markdown 字段。
+- `question_images` 增加 `page_no/bbox/placement/source/figure_id`，用于无猜图、文档级去重和来源可追溯。
+
+### 2026-08-11
+
+- 版本升至 4.5：`question_images` 多对多语义说明（物理图存储去重 + 题图关联多对多 + 无证据广播抑制）。
+- 新增 L1/L2 中间态说明（不落库，详见 T3_IMPLEMENTATION.md）。

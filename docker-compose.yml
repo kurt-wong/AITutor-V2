@@ -1,0 +1,118 @@
+name: aitutors-v2
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-aitutors}
+      POSTGRES_USER: ${POSTGRES_USER:-aitutors}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-aitutors}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-aitutors}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-change-me}
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+  backend:
+    build: ./backend
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+      ADMIN_API_KEY: ${ADMIN_API_KEY:-change-me}
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-aitutors}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-aitutors}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-minio:9000}
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-aitutors}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-change-me}
+      MINIO_BUCKET: ${MINIO_BUCKET:-aitutors}
+      MINIO_SECURE: ${MINIO_SECURE:-false}
+      LLM_GATEWAY_MODE: ${LLM_GATEWAY_MODE:-mock}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      MIMO_API_KEY: ${MIMO_API_KEY:-}
+      QWEN_VL_API_KEY: ${QWEN_VL_API_KEY:-}
+      PADDLEOCR_VL_TOKEN: ${PADDLEOCR_VL_TOKEN:-}
+      DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL:-}
+      DEEPSEEK_MODEL: ${DEEPSEEK_MODEL:-}
+      MIMO_BASE_URL: ${MIMO_BASE_URL:-}
+      MIMO_MODEL: ${MIMO_MODEL:-}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-}
+      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-ollama}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-qwen3-embedding:4b}
+      EMBEDDING_DIMENSION: ${EMBEDDING_DIMENSION:-2560}
+      LLM_REQUEST_TIMEOUT_SECONDS: ${LLM_REQUEST_TIMEOUT_SECONDS:-60}
+      OCR_MOCK_MODE: ${OCR_MOCK_MODE:-true}
+      EMBEDDING_MOCK_MODE: ${EMBEDDING_MOCK_MODE:-true}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      minio:
+        condition: service_started
+
+  worker:
+    build: ./backend
+    command: celery -A app.tasks.celery_app worker --loglevel=info
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+      ADMIN_API_KEY: ${ADMIN_API_KEY:-change-me}
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-aitutors}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-aitutors}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-minio:9000}
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-aitutors}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-change-me}
+      MINIO_BUCKET: ${MINIO_BUCKET:-aitutors}
+      MINIO_SECURE: ${MINIO_SECURE:-false}
+      LLM_GATEWAY_MODE: ${LLM_GATEWAY_MODE:-mock}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      MIMO_API_KEY: ${MIMO_API_KEY:-}
+      QWEN_VL_API_KEY: ${QWEN_VL_API_KEY:-}
+      PADDLEOCR_VL_TOKEN: ${PADDLEOCR_VL_TOKEN:-}
+      DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL:-}
+      DEEPSEEK_MODEL: ${DEEPSEEK_MODEL:-}
+      MIMO_BASE_URL: ${MIMO_BASE_URL:-}
+      MIMO_MODEL: ${MIMO_MODEL:-}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-}
+      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-ollama}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-qwen3-embedding:4b}
+      EMBEDDING_DIMENSION: ${EMBEDDING_DIMENSION:-2560}
+      LLM_REQUEST_TIMEOUT_SECONDS: ${LLM_REQUEST_TIMEOUT_SECONDS:-60}
+      OCR_MOCK_MODE: ${OCR_MOCK_MODE:-true}
+      EMBEDDING_MOCK_MODE: ${EMBEDDING_MOCK_MODE:-true}
+    depends_on:
+      - backend
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  minio_data:

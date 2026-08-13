@@ -1,0 +1,42 @@
+# Secrets and local environment files
+.env
+.env.*
+!.env.example
+!**/.env.example
+
+# Agent-local state
+.claude/
+.agents/
+.codex/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+coverage/
+htmlcov/
+*.egg-info/
+
+# Node / frontend build
+node_modules/
+dist/
+.vite/
+*.local
+npm-debug.log*
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Generated test runtime artifacts
+test/results/*.log
+test/results/*_result.json
+test/results/phase1_*.json
+test/scripts/smoke_report.json
+*.tmp

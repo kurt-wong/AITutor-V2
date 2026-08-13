@@ -1,0 +1,411 @@
+{
+  "filename": "math_exercise_2024.pdf",
+  "source": "native",
+  "postprocessed": true,
+  "pages": [
+    {
+      "page_no": 1,
+      "width": 595,
+      "height": 842
+    }
+  ],
+  "lines": [
+    {
+      "line_id": "P1L001",
+      "page_no": 1,
+      "line_no_in_page": 1,
+      "order": 1,
+      "text": "高一数学期中试卷",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L002",
+      "page_no": 1,
+      "line_no_in_page": 2,
+      "order": 2,
+      "text": "一、选择题（每题3分，共30分）",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L003",
+      "page_no": 1,
+      "line_no_in_page": 3,
+      "order": 3,
+      "text": "1. 已知函数f(x) = 2x² - 3x + 1，则f(2)的值为",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L004",
+      "page_no": 1,
+      "line_no_in_page": 4,
+      "order": 4,
+      "text": "A. 3",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L005",
+      "page_no": 1,
+      "line_no_in_page": 5,
+      "order": 5,
+      "text": "B. 5",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L006",
+      "page_no": 1,
+      "line_no_in_page": 6,
+      "order": 6,
+      "text": "C. 7",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L007",
+      "page_no": 1,
+      "line_no_in_page": 7,
+      "order": 7,
+      "text": "D. 9",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L008",
+      "page_no": 1,
+      "line_no_in_page": 8,
+      "order": 8,
+      "text": "2. 若集合A = {1, 2, 3}，集合B = {2, 3, 4}，则A∩B =",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L009",
+      "page_no": 1,
+      "line_no_in_page": 9,
+      "order": 9,
+      "text": "A. {1, 2}",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L010",
+      "page_no": 1,
+      "line_no_in_page": 10,
+      "order": 10,
+      "text": "B. {2, 3}",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L011",
+      "page_no": 1,
+      "line_no_in_page": 11,
+      "order": 11,
+      "text": "C. {3, 4}",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L012",
+      "page_no": 1,
+      "line_no_in_page": 12,
+      "order": 12,
+      "text": "D. {1, 2, 3, 4}",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L013",
+      "page_no": 1,
+      "line_no_in_page": 13,
+      "order": 13,
+      "text": "3. 已知等差数列{an}中，a₁ = 2，公差d = 3，则a₅ =",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L014",
+      "page_no": 1,
+      "line_no_in_page": 14,
+      "order": 14,
+      "text": "A. 11",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L015",
+      "page_no": 1,
+      "line_no_in_page": 15,
+      "order": 15,
+      "text": "B. 14",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L016",
+      "page_no": 1,
+      "line_no_in_page": 16,
+      "order": 16,
+      "text": "C. 17",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L017",
+      "page_no": 1,
+      "line_no_in_page": 17,
+      "order": 17,
+      "text": "D. 20",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L018",
+      "page_no": 1,
+      "line_no_in_page": 18,
+      "order": 18,
+      "text": "二、填空题（每题3分，共15分）",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L019",
+      "page_no": 1,
+      "line_no_in_page": 19,
+      "order": 19,
+      "text": "4. 计算：√(16) + ∛(27) = ______",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L020",
+      "page_no": 1,
+      "line_no_in_page": 20,
+      "order": 20,
+      "text": "5. 已知log₂8 = x，则x = ______",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L021",
+      "page_no": 1,
+      "line_no_in_page": 21,
+      "order": 21,
+      "text": "三、解答题（共55分）",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L022",
+      "page_no": 1,
+      "line_no_in_page": 22,
+      "order": 22,
+      "text": "6.（10分）已知函数f(x) = x² - 4x + 3",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L023",
+      "page_no": 1,
+      "line_no_in_page": 23,
+      "order": 23,
+      "text": "（1）求函数f(x)的零点；",
+      "block_type": "text",
+      "source": "native",
+      "continuation": true
+    },
+    {
+      "line_id": "P1L024",
+      "page_no": 1,
+      "line_no_in_page": 24,
+      "order": 24,
+      "text": "（2）求函数f(x)在区间[0, 4]上的最大值和最小值。",
+      "block_type": "text",
+      "source": "native",
+      "continuation": true
+    },
+    {
+      "line_id": "P1L025",
+      "page_no": 1,
+      "line_no_in_page": 25,
+      "order": 25,
+      "text": "7.（10分）已知等比数列{an}中，a₁ = 1，公比q = 2",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L026",
+      "page_no": 1,
+      "line_no_in_page": 26,
+      "order": 26,
+      "text": "（1）求前5项的和S₅；",
+      "block_type": "text",
+      "source": "native",
+      "continuation": true
+    },
+    {
+      "line_id": "P1L027",
+      "page_no": 1,
+      "line_no_in_page": 27,
+      "order": 27,
+      "text": "（2）求通项公式an。",
+      "block_type": "text",
+      "source": "native",
+      "continuation": true
+    },
+    {
+      "line_id": "P1L028",
+      "page_no": 1,
+      "line_no_in_page": 28,
+      "order": 28,
+      "text": "答案：1.A 2.B 3.B 4.7 5.3",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L029",
+      "page_no": 1,
+      "line_no_in_page": 29,
+      "order": 29,
+      "text": "6.（1）零点为x=1和x=3；（2）最大值为3，最小值为-1",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L030",
+      "page_no": 1,
+      "line_no_in_page": 30,
+      "order": 30,
+      "text": "7.（1）S_5=31；（2）a_n=2^(n-1)",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L031",
+      "page_no": 1,
+      "line_no_in_page": 31,
+      "order": 31,
+      "text": "详解：",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L032",
+      "page_no": 1,
+      "line_no_in_page": 32,
+      "order": 32,
+      "text": "1. f(2)=2(2)^2-3(2)+1=8-6+1=3",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L033",
+      "page_no": 1,
+      "line_no_in_page": 33,
+      "order": 33,
+      "text": "2. A∩B={1,2,3}∩{2,3,4}={2,3}",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L034",
+      "page_no": 1,
+      "line_no_in_page": 34,
+      "order": 34,
+      "text": "3. 等差数列通项公式：a_n=a_1+(n-1)d=2+(5-1)×3=2+12=14",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L035",
+      "page_no": 1,
+      "line_no_in_page": 35,
+      "order": 35,
+      "text": "4. √(16)+√(27)=4+3=7",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L036",
+      "page_no": 1,
+      "line_no_in_page": 36,
+      "order": 36,
+      "text": "5. log_2(8)=log_2(2^3)=3",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L037",
+      "page_no": 1,
+      "line_no_in_page": 37,
+      "order": 37,
+      "text": "6.（1）令f(x)=0，得x^2-4x+3=0，解得x=1或x=3；（2）f(x)=(x-2)^2-1，在[0,4]上，f(0)=3，f(2)=-1，f(4)=3，所以最大值为3，最小值为-1",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L038",
+      "page_no": 1,
+      "line_no_in_page": 38,
+      "order": 38,
+      "text": "7.（1）S_5=a_1(1-q^5)/(1-q)=1×(1-2^5)/(1-2)=31；（2）a_n=a_1×q^(n-1)=1×2^(n-1)=2^(n-1)",
+      "block_type": "text",
+      "source": "native",
+      "continuation": false
+    }
+  ],
+  "images": [
+    {
+      "image_id": "P1IMG001",
+      "page_no": 1,
+      "bbox": {"x1": 120, "y1": 180, "x2": 260, "y2": 220},
+      "xref": 3,
+      "source": "native",
+      "figure_id": "FIG-001",
+      "url": null,
+      "placement": "stem"
+    }
+  ],
+  "metadata": {
+    "total_pages": 1,
+    "total_lines": 38,
+    "source_type": "native"
+  }
+}
