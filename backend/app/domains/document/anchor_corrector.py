@@ -1,17 +1,12 @@
-"""
-锚点校正器 — L2Annotation 行号 → CorrectedAnchor → 回写 question。
+"""锚点校验器 — L2Annotation 行号 → CorrectedAnchor → 回写 question。
 
-LLM 输出的行号经过代码校正后才能用于切片。
-校正规则按 T3_IMPLEMENTATION.md §4.3：
-1. 题号起点：吸附到最近的题号标记
-2. 选项边界：按选项标签校正
-3. 答案/详解边界：吸附到答案表、【答案】、【详解】标记
-4. nearest 必须经过内容校验；无稳定标记返回 retry
+职责边界（2026-08-17 对抗性审查后收紧）：
+- LLM 负责判断题目、选项、答案、详解的行号范围；
+- 代码只校验行号是否有效、首行是否指向正确内容（题号/选项标签）；
+- 校验失败返回 retry，由 simple_pipeline 的 LLM 重试链路处理；
+- 不再吸附无效行号、不反推题干、不扩展/收缩 stem 范围。
 
-校正后回写 question.stem_line_ids / options_line_ids，
-保存 llm_anchors（原始）和 corrected_anchors（校正后）两份镜像。
-
-详见 Docs/01_Product/T3_IMPLEMENTATION.md §4-8 Task 1.3。
+保存 llm_anchors（原始）和 corrected_anchors（校验后）两份镜像。
 """
 
 from __future__ import annotations
@@ -21,188 +16,62 @@ import re
 
 from app.domains.document.schemas_l1 import L1Document, L1Line
 from app.domains.document.schemas_l2 import CorrectedAnchor, L2DocumentAnnotation
+from app.domains.document.semantic_anchor import (
+    resolve_composite_stem_range,
+    resolve_stem_range,
+)
 
 logger = logging.getLogger(__name__)
 
 # 题号模式（行首）。排除小数和 LaTeX 续行（如 0.\end{aligned}）。
+# 兼容 VL 输出的转义点（如 "16\. 下列..."）：\\? 匹配可选的反斜杠。
 _QUESTION_NUMBER_RE = re.compile(
-    r"^(\s*)(\d{1,3})\s*[.、．](?!\d)(?!\\)"
+    r"^(\s*)(\d{1,3})\s*\\?[.、．]"
+    r"(?!\d+(?:\s*[+\-*/=×÷xX\\]|$))"
+    r"(?!\\)"
 )
 # 括号题号
 _PAREN_QUESTION_RE = re.compile(r"^(\s*)[（(]\s*(\d{1,3})\s*[）)]\s*")
-# 选项标签（（A） 或 (A) 或 A.）
-_OPTION_LABEL_RE = re.compile(r"^[（(]?\s*([A-D])\s*[）)]?\s*[.、．]?\s*")
-# 答案区标记
-_ANSWER_SECTION_RE = re.compile(r"(答案|Answer|参考答案|Answer\s*Key)", re.IGNORECASE)
+# 占位题号行（如 "（1）（集团校自创题）"）：不是完整题目。
+_PLACEHOLDER_QUESTION_RE = re.compile(
+    r"^\s*[（(]\s*\d{1,3}\s*[）)]\s*[（(]集团(?:校)?自创题[）)]\s*$"
+)
+# 选项标签（（A） 或 (A) 或 A.），七选五等题型允许 A-G。
+_OPTION_LABEL_RE = re.compile(r"^[（(]?\s*([A-G])\s*[）)]?\s*[.、．]?\s*")
+_STRICT_OPTION_LABEL_RE = re.compile(
+    r"^[\uFF08(]?\s*([A-G])\s*(?:"
+    r"[\uFF09)]\s*|[.\u3001\uFF0E]\s*|"
+    r"\s+(?=[0-9$\\[{(+-])|$"
+    r")"
+)
+# 答案区起点（精确）：独立"参考答案"/"答案"标题行或"【答案】"标题行。
+_ANSWER_SECTION_START_RE = re.compile(
+    r"(?:^|[\s，。；：])(?:参考答案|答案|Answer\s*Key)(?:\s*[:：]|$)|^【答案】\s*$",
+    re.IGNORECASE,
+)
 
 
-def correct_anchors(
-    annotation: L2DocumentAnnotation,
-    doc: L1Document,
-) -> L2DocumentAnnotation:
-    """校正 L2 标注中的行号锚点，并回写 question 字段。
+def _is_placeholder_question_line(text: str) -> bool:
+    """判断是否为仅含“集团校自创题”标记的占位题号行。"""
+    return bool(_PLACEHOLDER_QUESTION_RE.match(text or ""))
 
-    校正后 question.stem_line_ids / options_line_ids 被替换为 corrected_line_ids，
-    原始 LLM 输出保存在 llm_anchors 中。
 
-    Args:
-        annotation: LLM 标注结果
-        doc: L1 文档
+def _answer_section_start_order(doc: L1Document) -> int:
+    """返回参考答案区的第一个 order；无答案区时返回无穷大。
 
-    Returns:
-        更新后的 L2DocumentAnnotation
+    只把真正独立的"参考答案/答案"标题行视为答案区起点。
+    "三、解答题"标题后是解答题题目本体，不是答案区，不能作为边界
+    （否则数学/物理解答题题干会被误判"位于答案区"而全部拒绝）。
     """
-    valid_line_ids = {l.line_id for l in doc.lines}
-    line_by_id = {l.line_id: l for l in doc.lines}
-
-    question_start_map = _build_question_start_map(doc)
-    # 全局选项表用于跨题校正（当 LLM 指错题时吸附到正确题的选项）
-    global_option_map = _build_option_label_map(doc)
-
-    llm_anchors: list[CorrectedAnchor] = []
-    corrected_anchors: list[CorrectedAnchor] = []
-    anchor_status_summary: dict[str, int] = {}
-
-    for question in annotation.questions:
-        # 校正 stem
-        stem_anchor = _correct_field_anchor(
-            field="stem",
-            llm_line_ids=question.stem_line_ids,
-            valid_ids=valid_line_ids,
-            line_by_id=line_by_id,
-            question_start_map=question_start_map,
-            question_number=question.question_number,
-        )
-        llm_anchors.append(CorrectedAnchor(
-            field="stem",
-            llm_line_ids=question.stem_line_ids,
-            corrected_line_ids=question.stem_line_ids,
-            anchor_status="llm_raw",
-            question_number=question.question_number,
-        ))
-        corrected_anchors.append(stem_anchor)
-        question.stem_line_ids = stem_anchor.corrected_line_ids
-
-        # 构建本题的选项行范围（使用校正后的 stem 位置）
-        q_option_map = _build_per_question_option_map(
-            question, doc, line_by_id, global_option_map
-        )
-
-        # 校正 options（使用 per-question map）
-        corrected_options: dict[str, list[str]] = {}
-        for opt_label, opt_line_ids in question.options_line_ids.items():
-            opt_anchor = _correct_option_anchor(
-                label=opt_label,
-                llm_line_ids=opt_line_ids,
-                valid_ids=valid_line_ids,
-                line_by_id=line_by_id,
-                option_label_map=q_option_map,
-                question_number=question.question_number,
-            )
-            llm_anchors.append(CorrectedAnchor(
-                field=f"option_{opt_label}",
-                llm_line_ids=opt_line_ids,
-                corrected_line_ids=opt_line_ids,
-                anchor_status="llm_raw",
-                question_number=question.question_number,
-            ))
-            corrected_anchors.append(opt_anchor)
-            corrected_options[opt_label] = opt_anchor.corrected_line_ids
-        # 回写 question
-        question.options_line_ids = corrected_options
-
-        # 统计 anchor_status（只统计 stem）
-        status = stem_anchor.anchor_status
-        anchor_status_summary[status] = anchor_status_summary.get(status, 0) + 1
-
-    annotation.llm_anchors = llm_anchors
-    annotation.corrected_anchors = corrected_anchors
-    annotation.anchor_status_summary = anchor_status_summary
-
-    logger.info(
-        "anchor_correction questions=%d anchors=%d summary=%s",
-        len(annotation.questions),
-        len(corrected_anchors),
-        anchor_status_summary,
-    )
-
-    return annotation
-
-
-def _build_question_start_map(doc: L1Document) -> dict[int, str]:
-    """构建题号 → 行 ID 的映射。支持 (1) 和 1. 两种格式。"""
-    result: dict[int, str] = {}
     for line in doc.lines:
-        for pattern in [_PAREN_QUESTION_RE, _QUESTION_NUMBER_RE]:
-            m = pattern.match(line.text)
-            if m:
-                q_num = int(m.group(2))
-                if q_num not in result:
-                    result[q_num] = line.line_id
-                break
-    return result
+        if _ANSWER_SECTION_START_RE.search(line.text):
+            return line.order
+    return float("inf")
 
 
-def _build_option_label_map(doc: L1Document) -> dict[str, str]:
-    """构建选项标签 → 行 ID 的全局映射。"""
-    result: dict[str, str] = {}
-    for line in doc.lines:
-        m = _OPTION_LABEL_RE.match(line.text)
-        if m:
-            label = m.group(1)
-            if label not in result:
-                result[label] = line.line_id
-    return result
-
-
-def _build_per_question_option_map(
-    question, doc: L1Document, line_by_id: dict, global_map: dict
-) -> dict[str, str]:
-    """构建 per-question 的选项标签 → 行 ID 映射。
-
-    策略：从 question.stem_line_ids 的起始位置开始，
-    向后搜索直到下一个题号标记，收集此范围内的选项。
-    """
-    # 找到本题起始行的 order
-    stem_order = 0
-    if question.stem_line_ids:
-        first_line = line_by_id.get(question.stem_line_ids[0])
-        if first_line:
-            stem_order = first_line.order
-
-    # 找到下一题的起始 order
-    next_q_order = float("inf")
-    for line in doc.lines:
-        if line.order <= stem_order:
-            continue
-        if _PAREN_QUESTION_RE.match(line.text) or _QUESTION_NUMBER_RE.match(line.text):
-            next_q_order = line.order
-            break
-
-    # 收集本题范围内的选项
-    result: dict[str, str] = {}
-    for line in doc.lines:
-        if line.order < stem_order or line.order >= next_q_order:
-            continue
-        m = _OPTION_LABEL_RE.match(line.text)
-        if m:
-            label = m.group(1)
-            if label not in result:
-                result[label] = line.line_id
-
-    # 不回退到全局 map，避免跨题选项污染
-    return result
-
-
-def _has_stable_marker(line: L1Line) -> bool:
-    """检查行是否有稳定锚点标记（题号或选项标签）。"""
-    if _QUESTION_NUMBER_RE.match(line.text):
-        return True
-    if _PAREN_QUESTION_RE.match(line.text):
-        return True
-    if _OPTION_LABEL_RE.match(line.text):
-        return True
-    return False
+def _is_after_answer_section(line: L1Line | None, stop_order: int) -> bool:
+    """判断行是否位于参考答案区之后。"""
+    return line is not None and line.order >= stop_order
 
 
 def _extract_question_number(text: str) -> int | None:
@@ -216,213 +85,355 @@ def _extract_question_number(text: str) -> int | None:
     return None
 
 
-def _correct_field_anchor(
+def _build_question_start_map(doc: L1Document) -> dict[int, str]:
+    """构建题号 → 行 ID 映射，供 simple_pipeline 判断漏题后触发重试。
+
+    保留第一性原理边界：这里不修正 LLM 锚点，只用于判断文档是否存在 LLM 漏标的题号。
+    参考答案区之后的行不参与，避免 "4.【分析】"、"37.B" 被误认为题目。
+    """
+    stop_order = _answer_section_start_order(doc)
+    best: dict[int, tuple[int, int, str]] = {}
+    for line in doc.lines:
+        if line.order >= stop_order:
+            break
+        if _is_placeholder_question_line(line.text):
+            continue
+        m_paren = _PAREN_QUESTION_RE.match(line.text)
+        m_dot = _QUESTION_NUMBER_RE.match(line.text)
+        if not m_paren and not m_dot:
+            continue
+        q_num = int((m_dot or m_paren).group(2))
+        marker_end = (m_dot or m_paren).end()
+        rest = line.text[marker_end:].strip()
+        bare = not rest
+        if m_dot:
+            priority = 3 if bare else 1
+        else:
+            priority = 2 if bare else 0
+        current = best.get(q_num)
+        if current is None or (priority, -line.order) > (current[0], -current[1]):
+            best[q_num] = (priority, line.order, line.line_id)
+    return {q_num: lid for q_num, (_, _, lid) in best.items()}
+
+
+def _validate_stem_anchor(
     *,
-    field: str,
     llm_line_ids: list[str],
     valid_ids: set[str],
     line_by_id: dict[str, L1Line],
-    question_start_map: dict[int, str],
-    question_number: str | None = None,
+    question_number: str | None,
+    stop_order: int,
+    is_composite: bool = False,
+    has_shared_material: bool = False,
 ) -> CorrectedAnchor:
-    """校正单个字段的锚点。
+    """只校验 stem：首行必须是当前题号，且不得位于答案区。
 
-    anchor_status 规则：
-    - exact: 首行精确匹配题号/选项标记
-    - nearest: 行号有效 + 同范围内有稳定标记
-    - retry: 行号有效但无稳定标记（LLM 粗定位偏移）
-    - missing: 行号为空或全部无效
+    综合题（is_composite=True 或 has_shared_material=True）豁免首行题号校验：
+    材料首行通常不含题号，只要求行号有效、不在答案区。
     """
-    if not llm_line_ids:
-        return CorrectedAnchor(
-            field=field,
-            llm_line_ids=[],
-            corrected_line_ids=[],
-            anchor_status="missing",
-            validation_passed=False,
-            evidence="LLM 未输出行号",
-            question_number=question_number,
-        )
-
     valid_ids_list = [lid for lid in llm_line_ids if lid in valid_ids]
     if not valid_ids_list:
         return CorrectedAnchor(
-            field=field,
+            field="stem",
             llm_line_ids=llm_line_ids,
             corrected_line_ids=[],
-            anchor_status="missing",
+            anchor_status="retry",
             validation_passed=False,
-            evidence=f"所有行号无效: {llm_line_ids}",
+            evidence="LLM 未输出有效题干行号，需重新标注",
             question_number=question_number,
         )
 
-    # 检查首行是否精确匹配题号标记（(1) 和 1. 两种格式）
-    # 关键：必须校验该题号是否属于当前题目，不能跨题 exact
     first_line = line_by_id.get(valid_ids_list[0])
-    if first_line and (
-        _QUESTION_NUMBER_RE.match(first_line.text)
-        or _PAREN_QUESTION_RE.match(first_line.text)
-    ):
-        matched_num = _extract_question_number(first_line.text)
-        if question_number and matched_num and str(matched_num) != question_number:
-            # 首行题号与当前题目不符 → 跨题，不能 exact，落入后续逻辑
-            pass
-        else:
-            return CorrectedAnchor(
-                field=field,
-                llm_line_ids=llm_line_ids,
-                corrected_line_ids=valid_ids_list,
-                anchor_status="exact",
-                validation_passed=True,
-                evidence=f"精确匹配题号标记: {first_line.text[:30]}",
-                question_number=question_number,
-            )
+    if _is_after_answer_section(first_line, stop_order):
+        return CorrectedAnchor(
+            field="stem",
+            llm_line_ids=llm_line_ids,
+            corrected_line_ids=[],
+            anchor_status="retry",
+            validation_passed=False,
+            evidence="题干首行位于答案区，需重新标注",
+            question_number=question_number,
+        )
 
-    # 尝试修正到当前题目的起始行（question_start_map）
-    if question_number and question_number.isdigit():
-        target_qnum = int(question_number)
-        if target_qnum in question_start_map:
-            target_line_id = question_start_map[target_qnum]
-            if target_line_id in valid_ids:
-                return CorrectedAnchor(
-                    field=field,
-                    llm_line_ids=llm_line_ids,
-                    corrected_line_ids=[target_line_id],
-                    anchor_status="nearest",
-                    validation_passed=True,
-                    evidence=f"修正到题目 {question_number} 起始行: {line_by_id[target_line_id].text[:30]}",
-                    question_number=question_number,
-                )
-            else:
-                # 目标行不在有效行中 → retry
-                return CorrectedAnchor(
-                    field=field,
-                    llm_line_ids=llm_line_ids,
-                    corrected_line_ids=[],
-                    anchor_status="retry",
-                    validation_passed=False,
-                    evidence=f"题目 {question_number} 起始行 {target_line_id} 不在 LLM 行号中",
-                    question_number=question_number,
-                )
+    # 综合题豁免：材料首行通常不含题号，只要求行号有效、不在答案区
+    if is_composite or has_shared_material:
+        return CorrectedAnchor(
+            field="stem",
+            llm_line_ids=llm_line_ids,
+            corrected_line_ids=valid_ids_list,
+            anchor_status="exact",
+            validation_passed=True,
+            evidence=f"综合题校验通过：行号有效，首行不在答案区",
+            question_number=question_number,
+        )
 
-    # 检查有效行中是否有稳定标记（且标记属于当前题目）
-    for lid in valid_ids_list:
-        line = line_by_id.get(lid)
-        if line and _has_stable_marker(line):
-            # 验证该标记是否属于当前题目
-            marker_num = _extract_question_number(line.text)
-            if question_number and marker_num and str(marker_num) != question_number:
-                # 稳定标记属于其他题目 → retry
-                return CorrectedAnchor(
-                    field=field,
-                    llm_line_ids=llm_line_ids,
-                    corrected_line_ids=valid_ids_list,
-                    anchor_status="retry",
-                    validation_passed=False,
-                    evidence=f"稳定标记属于题目 {marker_num}，非当前题目 {question_number}",
-                    question_number=question_number,
-                )
-            return CorrectedAnchor(
-                field=field,
-                llm_line_ids=llm_line_ids,
-                corrected_line_ids=valid_ids_list,
-                anchor_status="nearest",
-                validation_passed=True,
-                evidence=f"吸附到稳定标记: {line.text[:30]}",
-                question_number=question_number,
-            )
+    matched = _extract_question_number(first_line.text) if first_line else None
+    if matched is None or str(matched) != question_number:
+        return CorrectedAnchor(
+            field="stem",
+            llm_line_ids=llm_line_ids,
+            corrected_line_ids=[],
+            anchor_status="retry",
+            validation_passed=False,
+            evidence=(
+                f"题干首行不是题目 {question_number} 的题号行，需重新标注"
+            ),
+            question_number=question_number,
+        )
 
-    # 行号有效但无稳定标记 → retry（不是 nearest）
     return CorrectedAnchor(
-        field=field,
+        field="stem",
         llm_line_ids=llm_line_ids,
         corrected_line_ids=valid_ids_list,
-        anchor_status="retry",
-        validation_passed=False,
-        evidence="行号有效但无稳定锚点标记，需重新标注",
+        anchor_status="exact",
+        validation_passed=True,
+        evidence=f"校验通过：首行为题目 {question_number} 题号行",
         question_number=question_number,
     )
 
 
-def _correct_option_anchor(
+def _validate_option_anchor(
     *,
     label: str,
     llm_line_ids: list[str],
     valid_ids: set[str],
     line_by_id: dict[str, L1Line],
-    option_label_map: dict[str, str],
-    question_number: str | None = None,
+    question_number: str | None,
+    stop_order: int,
 ) -> CorrectedAnchor:
-    """校正选项锚点。"""
-    if not llm_line_ids:
-        return CorrectedAnchor(
-            field=f"option_{label}",
-            llm_line_ids=[],
-            corrected_line_ids=[],
-            anchor_status="missing",
-            validation_passed=False,
-            evidence=f"LLM 未输出选项 {label} 行号",
-            question_number=question_number,
-        )
-
+    """只校验选项：首行必须是当前标签的选项行，且不得位于答案区。"""
     valid_ids_list = [lid for lid in llm_line_ids if lid in valid_ids]
     if not valid_ids_list:
         return CorrectedAnchor(
             field=f"option_{label}",
             llm_line_ids=llm_line_ids,
             corrected_line_ids=[],
-            anchor_status="missing",
+            anchor_status="retry",
             validation_passed=False,
-            evidence=f"选项 {label} 所有行号无效",
+            evidence=f"选项 {label} 未输出有效行号，需重新标注",
             question_number=question_number,
         )
 
-    # 检查首行是否精确匹配选项标签
-    # 关键：必须验证该行在当前题目的 per-question map 范围内，不能跨题 exact
     first_line = line_by_id.get(valid_ids_list[0])
-    if first_line:
-        m = _OPTION_LABEL_RE.match(first_line.text)
-        if m and m.group(1) == label:
-            # 验证该行是否在当前题目的选项范围内
-            if valid_ids_list[0] in option_label_map.values():
-                return CorrectedAnchor(
-                    field=f"option_{label}",
-                    llm_line_ids=llm_line_ids,
-                    corrected_line_ids=valid_ids_list,
-                    anchor_status="exact",
-                    validation_passed=True,
-                    evidence=f"精确匹配选项 {label}: {first_line.text[:30]}",
-                    question_number=question_number,
-                )
-            else:
-                # 跨题选项，不能 exact → 落入 nearest/missing 逻辑
-                pass
-
-    # 尝试吸附到正确标签的选项行：替换错误行，不是追加
-    if label in option_label_map:
-        target_id = option_label_map[label]
-        # 如果 LLM 给的行不是目标行，替换为正确行
-        if target_id not in valid_ids_list:
-            corrected_ids = [target_id]
-        else:
-            corrected_ids = valid_ids_list
+    if _is_after_answer_section(first_line, stop_order):
         return CorrectedAnchor(
             field=f"option_{label}",
             llm_line_ids=llm_line_ids,
-            corrected_line_ids=corrected_ids,
-            anchor_status="nearest",
-            validation_passed=True,
-            evidence=f"吸附到选项 {label}: {line_by_id[target_id].text[:30]}",
+            corrected_line_ids=[],
+            anchor_status="retry",
+            validation_passed=False,
+            evidence=f"选项 {label} 首行位于答案区，需重新标注",
             question_number=question_number,
         )
 
-    # 无对应标签的选项行 → retry
+    m = _STRICT_OPTION_LABEL_RE.match(first_line.text) if first_line else None
+    if not m or m.group(1) != label:
+        return CorrectedAnchor(
+            field=f"option_{label}",
+            llm_line_ids=llm_line_ids,
+            corrected_line_ids=[],
+            anchor_status="retry",
+            validation_passed=False,
+            evidence=f"选项 {label} 首行不是匹配的选项标签行，需重新标注",
+            question_number=question_number,
+        )
+
     return CorrectedAnchor(
         field=f"option_{label}",
         llm_line_ids=llm_line_ids,
         corrected_line_ids=valid_ids_list,
-        anchor_status="retry",
+        anchor_status="exact",
+        validation_passed=True,
+        evidence=f"校验通过：首行为选项 {label} 标签行",
         question_number=question_number,
-        validation_passed=False,
-        evidence=f"选项 {label} 无匹配的选项标记行",
     )
+
+
+def _truncate_stem_at_next_question(
+    stem_line_ids: list[str],
+    line_by_id: dict[str, L1Line],
+    question_start_map: dict[int, str],
+    current_question_number: str | None,
+    stop_order: int,
+) -> list[str]:
+    """P0-B: 截断 stem 行号到下一题起点之前。
+
+    防止 LLM 标注的 stem 范围包含了下一题的行（结束位置未校验）。
+    使用 question_start_map（来自 _build_question_start_map）确定下一题边界。
+    """
+    if not stem_line_ids:
+        return stem_line_ids
+
+    # 找到下一题的起始 order
+    try:
+        current_qnum = int(current_question_number) if current_question_number else None
+    except (ValueError, TypeError):
+        current_qnum = None
+
+    if current_qnum is None:
+        return stem_line_ids
+
+    # question_start_map: {qnum: line_id}，找到大于当前题号的最小题号
+    next_qnum = None
+    for qnum in sorted(question_start_map.keys()):
+        if qnum > current_qnum:
+            next_qnum = qnum
+            break
+
+    # 计算截断边界 order
+    boundary_order = stop_order  # 默认：答案区起点
+    if next_qnum is not None:
+        next_line_id = question_start_map[next_qnum]
+        next_line = line_by_id.get(next_line_id)
+        if next_line is not None:
+            boundary_order = min(boundary_order, next_line.order)
+
+    # 截断：只保留 order < boundary_order 的行
+    truncated = [
+        lid for lid in stem_line_ids
+        if lid in line_by_id and line_by_id[lid].order < boundary_order
+    ]
+
+    if len(truncated) < len(stem_line_ids):
+        removed = len(stem_line_ids) - len(truncated)
+        logger.info(
+            "P0-B: truncated %d stem lines after next-question boundary (Q%s, next_qnum=%s, boundary_order=%s)",
+            removed, current_question_number, next_qnum, boundary_order,
+        )
+
+    return truncated if truncated else stem_line_ids  # 至少保留原值（避免截断为空）
+
+
+def correct_anchors(
+    annotation: L2DocumentAnnotation,
+    doc: L1Document,
+) -> L2DocumentAnnotation:
+    """校验 L2 标注中的行号锚点，并回写 question 字段。
+
+    校验通过：question.stem_line_ids / options_line_ids 保留 LLM 有效行号。
+    校验失败：清空对应 corrected_line_ids 并标记 retry，由重试链路修正。
+    """
+    valid_line_ids = {l.line_id for l in doc.lines}
+    line_by_id = {l.line_id: l for l in doc.lines}
+    stop_order = _answer_section_start_order(doc)
+    question_start_map = _build_question_start_map(doc)
+
+    llm_anchors: list[CorrectedAnchor] = []
+    corrected_anchors: list[CorrectedAnchor] = []
+    anchor_status_summary: dict[str, int] = {}
+
+    for question in annotation.questions:
+        semantic_stem = resolve_stem_range(
+            question,
+            doc,
+            stop_order=stop_order,
+            question_start_map=question_start_map,
+        )
+        if semantic_stem is None and (
+            question.is_composite or question.shared_material_line_ids
+        ):
+            semantic_stem = resolve_composite_stem_range(
+                question,
+                doc,
+                stop_order=stop_order,
+                question_start_map=question_start_map,
+            )
+        stem_anchor = _validate_stem_anchor(
+            llm_line_ids=question.stem_line_ids,
+            valid_ids=valid_line_ids,
+            line_by_id=line_by_id,
+            question_number=question.question_number,
+            stop_order=stop_order,
+            is_composite=question.is_composite,
+            has_shared_material=bool(question.shared_material_line_ids),
+        )
+        if semantic_stem is not None:
+            semantic_anchor = _validate_stem_anchor(
+                llm_line_ids=semantic_stem.line_ids,
+                valid_ids=valid_line_ids,
+                line_by_id=line_by_id,
+                question_number=question.question_number,
+                stop_order=stop_order,
+                is_composite=question.is_composite,
+                has_shared_material=bool(question.shared_material_line_ids),
+            )
+            if semantic_anchor.validation_passed:
+                semantic_anchor.anchor_status = semantic_stem.status
+                semantic_anchor.corrected_line_ids = semantic_stem.line_ids
+                semantic_anchor.evidence = semantic_stem.evidence
+                stem_anchor = semantic_anchor
+        llm_anchors.append(CorrectedAnchor(
+            field="stem",
+            llm_line_ids=question.stem_line_ids,
+            corrected_line_ids=question.stem_line_ids,
+            anchor_status="llm_raw",
+            question_number=question.question_number,
+        ))
+        corrected_anchors.append(stem_anchor)
+        question.stem_line_ids = stem_anchor.corrected_line_ids
+
+        # P0-B: stem 结束位置校验 — 截断到下一题起点之前。
+        # 语义锚点在有 marker 时已计算下一题边界，但 LLM 裸行号路径不做此检查。
+        # 这里统一后处理：无论 stem 来自语义锚点还是 LLM 原始行号，
+        # 都不能包含下一题的行。
+        question.stem_line_ids = _truncate_stem_at_next_question(
+            question.stem_line_ids,
+            line_by_id,
+            question_start_map,
+            question.question_number,
+            stop_order,
+        )
+
+        corrected_options: dict[str, list[str]] = {}
+        for opt_label, opt_line_ids in question.options_line_ids.items():
+            opt_anchor = _validate_option_anchor(
+                label=opt_label,
+                llm_line_ids=opt_line_ids,
+                valid_ids=valid_line_ids,
+                line_by_id=line_by_id,
+                question_number=question.question_number,
+                stop_order=stop_order,
+            )
+            llm_anchors.append(CorrectedAnchor(
+                field=f"option_{opt_label}",
+                llm_line_ids=opt_line_ids,
+                corrected_line_ids=opt_line_ids,
+                anchor_status="llm_raw",
+                question_number=question.question_number,
+            ))
+            corrected_anchors.append(opt_anchor)
+            corrected_options[opt_label] = opt_anchor.corrected_line_ids
+        question.options_line_ids = corrected_options
+
+        # Remove option lines from stem (LLM may have over-included)
+        all_option_line_ids = set()
+        for opt_ids in corrected_options.values():
+            all_option_line_ids.update(opt_ids)
+        if all_option_line_ids:
+            original_stem_len = len(question.stem_line_ids)
+            question.stem_line_ids = [
+                lid for lid in question.stem_line_ids
+                if lid not in all_option_line_ids
+            ]
+            if len(question.stem_line_ids) != original_stem_len:
+                logger.info(
+                    "Removed %d option lines from stem for Q%s",
+                    original_stem_len - len(question.stem_line_ids),
+                    question.question_number,
+                )
+
+        status = stem_anchor.anchor_status
+        anchor_status_summary[status] = anchor_status_summary.get(status, 0) + 1
+
+    annotation.llm_anchors = llm_anchors
+    annotation.corrected_anchors = corrected_anchors
+    annotation.anchor_status_summary = anchor_status_summary
+
+    logger.info(
+        "anchor_validation questions=%d anchors=%d summary=%s",
+        len(annotation.questions),
+        len(corrected_anchors),
+        anchor_status_summary,
+    )
+
+    return annotation

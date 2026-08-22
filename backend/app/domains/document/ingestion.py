@@ -109,24 +109,29 @@ async def ingest_pipeline_result(
     answer_map = answer_result.answers if answer_result else {}
 
     for sq in sliced_questions:
+        # P0-A: 每题独立 savepoint，一道题失败不毒化 session 不拖垮整份文档。
+        # begin_nested() 创建 PostgreSQL SAVEPOINT，异常时只回滚当前题目，
+        # 外层事务（含之前成功的题目）继续有效。
         try:
-            question_id = await _ingest_one_question(
-                session,
-                sq=sq,
-                subject=subject,
-                document=document,
-                answer_map=answer_map,
-                l1_document=pipeline_result.l1_document,
-                question_images=pipeline_result.question_images,
-            )
-            if question_id:
-                result.ingested += 1
-                result.question_ids.append(question_id)
-            else:
-                result.skipped += 1
+            async with session.begin_nested():
+                question_id = await _ingest_one_question(
+                    session,
+                    sq=sq,
+                    subject=subject,
+                    document=document,
+                    answer_map=answer_map,
+                    l1_document=pipeline_result.l1_document,
+                    question_images=pipeline_result.question_images,
+                )
+                if question_id:
+                    result.ingested += 1
+                    result.question_ids.append(question_id)
+                else:
+                    result.skipped += 1
         except Exception as exc:
             result.failed += 1
-            result.errors.append(f"Q{sq.question_number}: {exc}")
+            error_msg = f"Q{sq.question_number}: {type(exc).__name__}: {exc}"
+            result.errors.append(error_msg[:300])
             logger.warning("ingestion failed for Q%s: %s", sq.question_number, exc)
 
     # 发布领域事件
