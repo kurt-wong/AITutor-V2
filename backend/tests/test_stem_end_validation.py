@@ -138,3 +138,29 @@ class TestTruncateStemAtNextQuestion:
             stem_ids, line_by_id, qmap, "5", 2,
         )
         assert result == ["P1L001"]
+
+    def test_all_lines_past_boundary_returns_empty(self):
+        """所有行都在下一题边界之后 → 返回空列表（不回退到原始列表）。
+
+        对抗性验证：旧代码 `return truncated if truncated else stem_line_ids`
+        会在 truncated 为空时返回原始列表，截断被静默撤销。
+        """
+        lines = [
+            _line("P1L001", "1. Q1 start", 1),
+            _line("P1L002", "2. Q2 start", 2),
+            _line("P1L003", "Q2 continuation", 3),
+        ]
+        line_by_id = {l.line_id: l for l in lines}
+        qmap = {1: "P1L001", 2: "P1L002"}
+
+        # stem 只包含 Q2 的行（全部在 Q2 边界之后）
+        stem_ids = ["P1L002", "P1L003"]
+
+        result = _truncate_stem_at_next_question(
+            stem_ids, line_by_id, qmap, "1", float("inf"),
+        )
+
+        assert result == [], (
+            f"全部行在边界之后时应返回空列表，实际 {result}。"
+            "如果返回原始列表，说明 fallback bug 仍在。"
+        )

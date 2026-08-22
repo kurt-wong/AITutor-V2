@@ -301,7 +301,10 @@ def _truncate_stem_at_next_question(
             removed, current_question_number, next_qnum, boundary_order,
         )
 
-    return truncated if truncated else stem_line_ids  # 至少保留原值（避免截断为空）
+    # 不回退到原始列表：如果全部行都在边界之后，返回空列表（下游 quality_gate 拦截）。
+    # 旧逻辑 `return truncated if truncated else stem_line_ids` 是 self-defeating 的：
+    # 当 LLM 完全标错时截断为空 → 回退到原始列表 → 截断失效。
+    return truncated
 
 
 def correct_anchors(
