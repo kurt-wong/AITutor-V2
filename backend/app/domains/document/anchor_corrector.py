@@ -379,13 +379,17 @@ def correct_anchors(
         # 语义锚点在有 marker 时已计算下一题边界，但 LLM 裸行号路径不做此检查。
         # 这里统一后处理：无论 stem 来自语义锚点还是 LLM 原始行号，
         # 都不能包含下一题的行。
-        question.stem_line_ids = _truncate_stem_at_next_question(
+        truncated_ids = _truncate_stem_at_next_question(
             question.stem_line_ids,
             line_by_id,
             question_start_map,
             question.question_number,
             stop_order,
         )
+        question.stem_line_ids = truncated_ids
+        # 同步 stem_anchor.corrected_line_ids，避免下游（content_slicer 合并、
+        # pipeline 序列化、配图关联）使用未截断的行号。
+        stem_anchor.corrected_line_ids = truncated_ids
 
         corrected_options: dict[str, list[str]] = {}
         for opt_label, opt_line_ids in question.options_line_ids.items():

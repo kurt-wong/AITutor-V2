@@ -164,3 +164,96 @@ class TestTruncateStemAtNextQuestion:
             f"全部行在边界之后时应返回空列表，实际 {result}。"
             "如果返回原始列表，说明 fallback bug 仍在。"
         )
+
+
+class TestCorrectAnchorsStemSync:
+    """P0-B 集成测试：correct_anchors 截断后 stem_anchor.corrected_line_ids 同步。"""
+
+    def test_correct_anchors_syncs_stem_anchor_after_truncation(self):
+        """截断后 question.stem_line_ids 和 stem_anchor.corrected_line_ids 一致。"""
+        from app.domains.document.anchor_corrector import correct_anchors
+        from app.domains.document.schemas_l2 import (
+            L2DocumentAnnotation,
+            L2QuestionAnnotation,
+        )
+
+        lines = [
+            _line("P1L001", "1. Q1 stem start", 1),
+            _line("P1L002", "Q1 continuation", 2),
+            _line("P1L003", "2. Q2 stem start", 3),
+            _line("P1L004", "Q2 continuation", 4),
+        ]
+        doc = _doc(lines)
+
+        # LLM 标注 Q1 stem 包含 P1L001-P1L003（含 Q2 的首行）
+        q1 = L2QuestionAnnotation(
+            question_number="1",
+            question_type="single_choice",
+            stem_line_ids=["P1L001", "P1L002", "P1L003"],
+            options_line_ids={"A": ["P1L004"]},
+            answer_line_ids=[],
+            explanation_line_ids=[],
+            is_composite=False,
+        )
+        annotation = L2DocumentAnnotation(
+            filename="test.pdf",
+            questions=[q1],
+        )
+
+        result = correct_anchors(annotation, doc)
+
+        # 截断后 stem_line_ids 应不含 P1L003（Q2 start）
+        assert result.questions[0].stem_line_ids == ["P1L001", "P1L002"], (
+            f"stem_line_ids 应截断到 Q2 之前，实际 {result.questions[0].stem_line_ids}"
+        )
+
+        # stem_anchor.corrected_line_ids 必须同步（在 annotation.corrected_anchors 中）
+        stem_anchors = [
+            a for a in result.corrected_anchors
+            if a.field == "stem" and a.question_number == "1"
+        ]
+        assert len(stem_anchors) == 1, f"应有 1 个 stem anchor，实际 {len(stem_anchors)}"
+        assert stem_anchors[0].corrected_line_ids == ["P1L001", "P1L002"], (
+            f"stem_anchor.corrected_line_ids 应同步截断，实际 {stem_anchors[0].corrected_line_ids}。"
+            "下游 content_slicer/pipeline/配图仍会用到这个字段。"
+        )
+
+    def test_correct_anchors_no_truncation_anchor_unchanged(self):
+        """不需要截断时 stem_anchor.corrected_line_ids 保持原值。"""
+        from app.domains.document.anchor_corrector import correct_anchors
+        from app.domains.document.schemas_l2 import (
+            L2DocumentAnnotation,
+            L2QuestionAnnotation,
+        )
+
+        lines = [
+            _line("P1L001", "1. Q1 stem", 1),
+            _line("P1L002", "Q1 continuation", 2),
+            _line("P1L003", "2. Q2 stem", 3),
+        ]
+        doc = _doc(lines)
+
+        q1 = L2QuestionAnnotation(
+            question_number="1",
+            question_type="single_choice",
+            stem_line_ids=["P1L001", "P1L002"],
+            options_line_ids={"A": ["P1L003"]},
+            answer_line_ids=[],
+            explanation_line_ids=[],
+            is_composite=False,
+        )
+        annotation = L2DocumentAnnotation(
+            filename="test.pdf",
+            questions=[q1],
+        )
+
+        result = correct_anchors(annotation, doc)
+
+        # 不需要截断
+        assert result.questions[0].stem_line_ids == ["P1L001", "P1L002"]
+        stem_anchors = [
+            a for a in result.corrected_anchors
+            if a.field == "stem" and a.question_number == "1"
+        ]
+        assert len(stem_anchors) == 1
+        assert stem_anchors[0].corrected_line_ids == ["P1L001", "P1L002"]
