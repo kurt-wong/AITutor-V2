@@ -219,19 +219,32 @@ def _merge_question_group(
     # 切片合并后的 stem（只含子题，不含共享材料）
     stem = _slice_lines(all_stem_lines, line_by_id)
 
-    # 构建子题元数据
+    # 构建子题元数据（P1-6 修复：从 L2 子题提取答案，而非 SlicedQuestion.answer（永远 None））
     from app.domains.document.schemas_l2 import L2SubQuestion
-    sub_questions = []
+    sub_questions: list[L2SubQuestion] = []
     for q in group:
-        sub_questions.append(L2SubQuestion(
-            qno=q.question_number,
-            question_type=q.question_type,
-            answer=q.answer,
-            knowledge_points=q.knowledge_points or [],
-            score=q.score,
-        ))
+        # 优先从 L2 子题元数据提取答案（_slice_single_question 传递的 question.sub_questions）
+        l2_subs = q.sub_questions or []
+        if l2_subs:
+            for sub in l2_subs:
+                sub_questions.append(L2SubQuestion(
+                    qno=sub.qno or q.question_number,
+                    question_type=sub.question_type or q.question_type,
+                    answer=sub.answer,  # L2 标注层的子题答案（LLM 输出）
+                    knowledge_points=sub.knowledge_points or q.knowledge_points or [],
+                    score=sub.score or q.score,
+                ))
+        else:
+            # 无 L2 子题时回退到 SlicedQuestion 层
+            sub_questions.append(L2SubQuestion(
+                qno=q.question_number,
+                question_type=q.question_type,
+                answer=q.answer,
+                knowledge_points=q.knowledge_points or [],
+                score=q.score,
+            ))
 
-    # 合并答案
+    # 合并答案（从有答案的子题构建）
     answers = []
     for sq in sub_questions:
         if sq.answer:

@@ -1,0 +1,103 @@
+"""P1-6 严格测试：综合题子题答案从 L2 标注层正确提取。
+
+审计发现（PIPELINE_AUDIT_2026_08_22.md §二 E）：
+- _merge_question_group 用 q.answer（SlicedQuestion.answer，永远 None）构建子题元数据 →
+  子题答案全部丢失，merged_answer 也为空。
+- 修复：从 q.sub_questions（L2 标注层，带 LLM 输出的答案）提取。
+
+本测试验证：
+1. L2 子题有答案时正确传递到合并后的 sub_questions
+2. merged_answer 由子题答案正确构建
+3. 无 L2 子题时回退到 SlicedQuestion.answer
+"""
+
+from app.domains.document.content_slicer import _merge_question_group
+from app.domains.document.schemas_l1 import L1Document, L1Line, L1Page
+from app.domains.document.schemas_l2 import (
+    CorrectedAnchor,
+    L2SubQuestion,
+    SlicedQuestion,
+)
+
+
+def _doc() -> L1Document:
+    lines = [
+        L1Line("P1L001", 1, 1, 1, "材料行1", "text"),
+        L1Line("P1L002", 1, 2, 2, "材料行2", "text"),
+        L1Line("P1L003", 1, 3, 3, "1. 第一空", "text"),
+        L1Line("P1L004", 1, 4, 4, "2. 第二空", "text"),
+    ]
+    return L1Document(
+        filename="test.pdf", pages=[L1Page(page_no=1, lines=lines)],
+        lines=lines, source="ppsv3", total_pages=1,
+    )
+
+
+def _make_sub_q(qno: str, answer: str) -> SlicedQuestion:
+    """构造带 L2 子题的 SlicedQuestion（模拟 _slice_single_question 输出）。"""
+    anchor = CorrectedAnchor(
+        field="stem", llm_line_ids=[f"P1L00{int(qno)}"],
+        corrected_line_ids=[f"P1L00{int(qno)}"],
+        anchor_status="exact", validation_passed=True,
+    )
+    return SlicedQuestion(
+        question_number=qno,
+        question_type="fill_in",
+        stem="",
+        options=[],
+        answer=None,  # SlicedQuestion.answer 永远 None（_slice_single_question 不设置）
+        confidence=0.9,
+        stem_anchor=anchor,
+        corrected_anchors=[anchor],
+        shared_material_line_ids=["P1L001", "P1L002"],
+        sub_questions=[L2SubQuestion(qno=qno, answer=answer, question_type="fill_in")],
+    )
+
+
+class TestMergeQuestionGroupSubQuestionAnswers:
+    def test_l2_sub_answers_extracted(self):
+        """L2 子题有答案时，合并后 sub_questions[i].answer 正确传递。"""
+        doc = _doc()
+        line_by_id = {l.line_id: l for l in doc.lines}
+        group = [
+            _make_sub_q("1", "A"),
+            _make_sub_q("2", "B"),
+        ]
+        merged = _merge_question_group(group, line_by_id)
+
+        answers = [sq.answer for sq in (merged.sub_questions or [])]
+        assert "A" in answers
+        assert "B" in answers
+
+    def test_merged_answer_built_from_sub_answers(self):
+        """merged_answer 由子题答案正确构建（非 None）。"""
+        doc = _doc()
+        line_by_id = {l.line_id: l for l in doc.lines}
+        group = [
+            _make_sub_q("1", "C"),
+            _make_sub_q("2", "D"),
+        ]
+        merged = _merge_question_group(group, line_by_id)
+
+        assert merged.answer is not None
+        assert "C" in merged.answer
+        assert "D" in merged.answer
+
+    def test_no_l2_sub_fallback_to_sliced_question_answer(self):
+        """无 L2 子题时回退到 SlicedQuestion.answer。"""
+        doc = _doc()
+        line_by_id = {l.line_id: l for l in doc.lines}
+        anchor = CorrectedAnchor(
+            field="stem", llm_line_ids=["P1L003"],
+            corrected_line_ids=["P1L003"],
+            anchor_status="exact", validation_passed=True,
+        )
+        q = SlicedQuestion(
+            question_number="1", question_type="fill_in", stem="", options=[],
+            answer="X",  # SlicedQuestion.answer 有值
+            confidence=0.9, stem_anchor=anchor, corrected_anchors=[anchor],
+            shared_material_line_ids=["P1L001"], sub_questions=None,  # 无 L2 子题
+        )
+        merged = _merge_question_group([q], line_by_id)
+        assert merged.answer is not None
+        assert "X" in merged.answer

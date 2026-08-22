@@ -1258,3 +1258,15 @@ LLM 能正确识别各种答案格式：
 - conftest.py temp 根从工作区 tmp 改回系统 temp（避免沙箱 tmp 目录 ACL 锁死导致 pytest hang）。
 - 全量 pytest（沙箱，排除 8 个环境问题测试）：**512 passed，0 failed**。
 - 版本升至 6.0。
+
+### 2026-08-22 02:30:00
+
+#### P1-6 综合题子题答案丢失修复 + 真实 PDF 端到端验证
+
+审计发现（PIPELINE_AUDIT_2026_08_22.md §二 E）：`_merge_question_group` 用 `q.answer`（SlicedQuestion.answer，切片时永远 None）构建子题元数据 → 79 道综合题的 297 个子题中 34 个答案丢失（11.4%）；合并答案 merged_answer 也全为空。根因：LLM 答案在 L2 标注层（`L2SubQuestion.answer`），但切片层从未读取。
+
+- **修复**：`_merge_question_group`（`content_slicer.py` L222-245）改为优先从 `q.sub_questions[i].answer`（L2 标注层）提取答案，无 L2 子题时回退到 `q.answer`；merged_answer 从有效子题答案构建。
+- **对抗性审查**：4 项边界测试全部通过（L2 答案为空、混合 L2/无 L2、多子题、单题组）。
+- **真实 PDF 端到端验证**：重启后端加载 P0 修复代码 → 上传数学 PDF → 等待管线完成 → **23 题全部有题型（fill_in=6, short_answer=5, single_choice=12）+ 全部有难度（1=3, 2=4, 3=10, 4=4, 5=2）**。同一 PDF 修复前入库结果为 with_type=0, with_diff=0，修复后全部填充，P0-2/P0-3 修复生效。
+- 全量 pytest：**515 passed，0 failed**（+3 vs 上轮，新增 P1-6 测试）。
+- 版本升至 6.1。
