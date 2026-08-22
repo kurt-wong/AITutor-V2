@@ -98,3 +98,31 @@ class TestGetQuestionTypeIdGetOrCreate:
         subj = await _make_subject(db)
         assert await _get_question_type_id(db, None, subj.id) is None
         assert await _get_question_type_id(db, "", subj.id) is None
+
+    @pytest.mark.asyncio
+    async def test_cross_subject_reuses_same_type_record(self, db):
+        """跨学科题型复用同一记录。
+
+        当前实现：QuestionType.code 全局唯一，不按 subject_id 隔离。
+        数学创建的 single_choice 记录，英语题也会复用同一行。
+        这意味着 question_types.subject_id 只记录第一个创建者的学科。
+        此测试记录并固化该行为：如果未来需要学科隔离题型，此测试必须同步修改。
+        """
+        subj_math = await _make_subject(db)
+        subj_eng = Subject(code=f"TST_QT_ENG_{id(db)}", name="英语测试科")
+        db.add(subj_eng)
+        await db.flush()
+
+        qid_math = await _get_question_type_id(db, "single_choice", subj_math.id)
+        qid_eng = await _get_question_type_id(db, "single_choice", subj_eng.id)
+
+        # 同一记录：code 全局唯一
+        assert qid_math == qid_eng, "跨学科应复用同一 QuestionType 记录"
+
+        # 全局只有一条 single_choice
+        assert await _count(db, "single_choice") == 1
+
+        # subject_id 记录的是第一个创建者（可能是其他测试/运行留下的记录）。
+        # 当前实现不按 subject_id 隔离题型，所以 subject_id 的值不阻断入库。
+        qt = await db.get(QuestionType, qid_math)
+        assert qt is not None

@@ -1270,3 +1270,15 @@ LLM 能正确识别各种答案格式：
 - **真实 PDF 端到端验证**：重启后端加载 P0 修复代码 → 上传数学 PDF → 等待管线完成 → **23 题全部有题型（fill_in=6, short_answer=5, single_choice=12）+ 全部有难度（1=3, 2=4, 3=10, 4=4, 5=2）**。同一 PDF 修复前入库结果为 with_type=0, with_diff=0，修复后全部填充，P0-2/P0-3 修复生效。
 - 全量 pytest：**515 passed，0 failed**（+3 vs 上轮，新增 P1-6 测试）。
 - 版本升至 6.1。
+
+### 2026-08-22 03:30:00
+
+#### e2e 可复现验收 + 跨学科题型测试 + 测试计数修正
+
+验证结论：P0/P1 修复目标已达成，但 e2e 缺少可复现自动化脚本，且测试计数有一处偏差。
+
+- **e2e 可复现验收脚本**：新增 `backend/tests/test_e2e_ingestion_verification.py`（9 项断言，直接查 PostgreSQL via asyncpg，不依赖 ORM/async session）。断言：文档存在 + processing_status=completed、23 题入库、题型分布精确匹配、难度分布精确匹配、question_type_id 无 NULL、difficulty 无 NULL、题干非空、approved 状态、题型有中文名。运行方式：`cd backend && python -m pytest tests/test_e2e_ingestion_verification.py -v`。
+- **跨学科题型测试**：`test_question_type_get_or_create.py` 新增 `test_cross_subject_reuses_same_type_record`，固化 `QuestionType.code` 全局唯一行为（不按 `subject_id` 隔离），记录 `subject_id` 只指向第一个创建者。未来如需学科隔离此测试必须同步修改。
+- **测试计数修正**：P0-1 实际 9 项（`test_question_image_association.py`），非此前声称的 10 项。P0 新测试合计仍为 36（9+5+10+6+6）。P1-6 测试 3 项 + 对抗性 4 项。当前全量 pytest **549 passed**（含后续叠加测试）。
+- 全量 P0+P1+adversarial+e2e+跨学科 测试：**53 passed，0 failed**。
+- 版本升至 6.2。

@@ -1,7 +1,7 @@
 # AI Tutor Personal Edition — RESTART_PROMPT
 
-Version: 5.2
-Status: 重启恢复指引（Phase 2A 总验收通过；Phase 2B/2C 已实现；高优先级遗留修复完成；待 Phase 2D/3 决策）
+Version: 6.2
+Status: 重启恢复指引（Phase 2A 总验收通过；Phase 2B/2C 已实现；入库管线 P0/P1 修复完成含 e2e 验收；待 Phase 2D/3 决策）
 Date: 2026-08-22
 
 ---
@@ -30,7 +30,7 @@ Date: 2026-08-22
 
 ## 3. 系统现状
 
-当前阶段：**Phase 2A 总验收通过；Phase 2B/2C 已实现；高优先级遗留修复完成；全量 pytest 549 passed（2026-08-22，版本 5.3）。**
+当前阶段：**Phase 2A 总验收通过；Phase 2B/2C 已实现；入库管线 P0/P1 修复完成（含 e2e 可复现验收）；全量 pytest 549 passed（2026-08-22，版本 6.2）。**
 
 > **全量回归确认（2026-08-22 00:39）**：修复收集错误（`run_pipeline` 恢复至 pipeline.py，4 个引用方零改动）+ 4 项测试与生产代码不同步（processor 已迁移 `run_simple_pipeline`，patch 目标同步）+ DB 历史题清理（9 道英语卷题，stats 测试恢复干净库前提）+ 沙箱 temp 权限根治（`backend/tests/conftest.py` 固定 temp 根到工作区 `tmp/pytest`，`processor._download_pdf` 改工作区 tmp，新增 `test_temp_root.py`）。全量 pytest（用户本机，注入 backend/.env DATABASE_URL）**549 passed，0 failed，9 warnings**（546 → 549，+3 temp 根测试；收集错误与 temp 权限间歇失败均已消除）。
 > **已知记录口径修正**：此前 LOG/PROJECT_STATUS 中 534/537/539/542/546 等数字与当前工作树不一致（processor 迁移后测试未同步、收集错误被隐藏），本次全量 549 passed 为权威基线。
@@ -42,6 +42,7 @@ Date: 2026-08-22
 > **Phase 2C ✅ 已实现（两轮审查修复后）**：Structure Signature 采集（object/task/method/condition 四层，序列化附带 source/confidence/annotation_version 元数据）+ Annotation 版本标记（`ANNOTATION_PROMPT_VERSION`）；10 项测试。
 > 含 Phase 2B/2C 两轮修复后全量 pytest 540 passed（用户本机预期；沙箱 537 passed + 3 项 temp 权限）。
 > 高优先级遗留修复完成：answer_retry_worker 提取失败按 max_retries 恢复 pending/failed；综合题合并保留 structure_signature；全量 pytest 546 passed。
+> **入库管线 P0/P1 修复完成（2026-08-22）**：5 个 P0（配图属性名、题型 get-or-create、难度必填 prompt、膨胀检测、材料独立）+ 1 个 P1（子题答案 L2 层提取），共 40 项测试。e2e 可复现验收：数学 PDF 23 题题型/难度分布精确匹配（`test_e2e_ingestion_verification.py`，9 项，直接查 PostgreSQL）。跨学科题型行为固化（`QuestionType.code` 全局唯一，6 项）。P0 审计报告：`Docs/05_Development/PIPELINE_AUDIT_2026_08_22.md`。
 > 下一步：Phase 2D Similarity/Family 研究（前置条件：样本量 + golden set + Structure Signature raw 分布）。
 
 - Math: ✅ 管线通过（21 题全部正确）

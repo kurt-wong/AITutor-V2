@@ -4,7 +4,7 @@
 
 ## 当前状态
 
-**Phase 2A 总验收通过；Phase 2B/2C 已实现；高优先级遗留修复完成；全量 pytest 549 passed（2026-08-22，版本 5.3）。**
+**Phase 2A 总验收通过；Phase 2B/2C 已实现；高优先级遗留修复完成；入库管线 P0/P1 修复完成（含 e2e 可复现验收）；全量 pytest 549 passed（2026-08-22，版本 6.2）。**
 
 > **全量回归确认（2026-08-22 00:39）**：修复收集错误（`run_pipeline` 恢复至 pipeline.py，4 个引用方零改动）+ 4 项测试与生产代码不同步（processor 已迁移 `run_simple_pipeline`，patch 目标同步）+ DB 历史题清理（9 道英语卷题，stats 测试恢复干净库前提）+ 沙箱 temp 权限根治（`backend/tests/conftest.py` 固定 temp 根到工作区 `tmp/pytest`，`processor._download_pdf` 改工作区 tmp，新增 `test_temp_root.py`）。全量 pytest（用户本机，注入 backend/.env DATABASE_URL）**549 passed，0 failed，9 warnings**（546 → 549，+3 temp 根测试；收集错误与 temp 权限间歇失败均已消除）。
 > **已知记录口径修正**：此前 LOG 中 534/537/539/542/546 等数字与当前工作树不一致（processor 迁移后测试未同步、收集错误被隐藏），本次全量 549 passed 为权威基线。
@@ -274,9 +274,9 @@ ROADMAP 基线：`Docs/01_Product/ROADMAP.md` v2.0 P4A
 | 3 | 难度 88% NULL | prompt L457 标 difficulty 为"可选字段" + 无判断依据 + 无校验回填 | P0 | ✅ 已修复（2026-08-22） |
 | 4 | 英语综合题材料并入题干仍 0.9 approved | quality_gate 无材料混入/stem 异常检测（L143-144 自述放弃）；0.9 是结构分非内容分 | P0 | ✅ 已修复（2026-08-22） |
 | 5 | 综合题材料并入题干（根因层） | prompt L518 明文要求 stem_line_ids=材料全文+子题行号 + content_slicer L210 显式并入 | P0 | ✅ 已修复（2026-08-22） |
-| 6 | 合并综合题答案丢失 | `_slice_single_question` 不传 answer，子题 12-20 答案入库前丢失 | P1 | ⬜ 待修复 |
+| 6 | 合并综合题答案丢失 | `_slice_single_question` 不传 answer，子题 12-20 答案入库前丢失 | P1 | ✅ 已修复（2026-08-22） |
 | 7 | 答案合并绕过 V1_LESSONS 3.8 | LLM answer_map 无条件覆盖教师版答案表答案 | P1 | ⬜ 待修复 |
-| 8 | 配图元数据丢失 | `_build_question_images` 只输出 3 个 key，page_no/bbox/source/figure_id 落 None | P1 | ⬜ 待修复 |
+| 8 | 配图元数据丢失 | `_build_question_images` 只输出 3 个 key，page_no/bbox/source/figure_id 落 None | P1 | ✅ 已修复（2026-08-22，随 P0-1 修复） |
 | 9 | dedup figure_mapping 不被消费 | 被去重图片位置不再参与关联，多对多失效 | P2 | ⬜ 待修复 |
 
 ### P2 — 扩展
