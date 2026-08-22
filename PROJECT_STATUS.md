@@ -4,7 +4,7 @@
 
 ## 当前状态
 
-**Phase 2A 总验收通过；Phase 2B/2C 已实现；高优先级遗留修复完成；入库管线 P0/P1 修复完成（含 e2e 可复现验收）；全量 pytest 549 passed（2026-08-22，版本 6.2）。**
+**Phase 2A 总验收通过；Phase 2B/2C 已实现；入库管线 P0-A/P0-B 已修复（含对抗性审查 + anchor 同步）；全量 pytest 112 passed（2026-08-23，版本 6.3）。**
 
 > **全量回归确认（2026-08-22 00:39）**：修复收集错误（`run_pipeline` 恢复至 pipeline.py，4 个引用方零改动）+ 4 项测试与生产代码不同步（processor 已迁移 `run_simple_pipeline`，patch 目标同步）+ DB 历史题清理（9 道英语卷题，stats 测试恢复干净库前提）+ 沙箱 temp 权限根治（`backend/tests/conftest.py` 固定 temp 根到工作区 `tmp/pytest`，`processor._download_pdf` 改工作区 tmp，新增 `test_temp_root.py`）。全量 pytest（用户本机，注入 backend/.env DATABASE_URL）**549 passed，0 failed，9 warnings**（546 → 549，+3 temp 根测试；收集错误与 temp 权限间歇失败均已消除）。
 > **已知记录口径修正**：此前 LOG 中 534/537/539/542/546 等数字与当前工作树不一致（processor 迁移后测试未同步、收集错误被隐藏），本次全量 549 passed 为权威基线。
@@ -278,6 +278,22 @@ ROADMAP 基线：`Docs/01_Product/ROADMAP.md` v2.0 P4A
 | 7 | 答案合并绕过 V1_LESSONS 3.8 | LLM answer_map 无条件覆盖教师版答案表答案 | P1 | ⬜ 待修复 |
 | 8 | 配图元数据丢失 | `_build_question_images` 只输出 3 个 key，page_no/bbox/source/figure_id 落 None | P1 | ✅ 已修复（2026-08-22，随 P0-1 修复） |
 | 9 | dedup figure_mapping 不被消费 | 被去重图片位置不再参与关联，多对多失效 | P2 | ⬜ 待修复 |
+
+### P0/P1 — 管线对抗性审查驱动修复（2026-08-23）
+
+> 背景：三方对抗性审查（Claude + Codex + MiMo）+ 真实 e2e 运行（10 份 PDF，9 成功 / 1 失败）。
+> 审查报告：`Docs/05_Development/ADVERSARIAL_REVIEW_PIPELINE_2026_08_22.md`
+> 修复审查：`Docs/05_Development/ADVERSARIAL_REVIEW_P0_FIXES_2026_08_22.md`
+
+| 编号 | 问题 | 状态 | 验收证据 |
+|---|---|---|---|
+| P0-A | ingestion 无逐题事务隔离（单题失败 → session 毒化 → 整份文档陪葬） | ✅ 已修复 | 3 项测试 + 诊断脚本（commit e4b9150） |
+| P0-B | stem 结束位置未校验（LLM 标注范围包含下一题行） | ✅ 已修复 | 8 项测试（函数级 + 集成级 + anchor 同步）（commit e4b9150 + 4196ab7 + c23b25d） |
+| P0-C | 综合题 e2e 回归测试（当前 e2e 只覆盖无综合题的数学 PDF） | ⬜ 待修复 | — |
+| P1-A | 子题号归一化覆盖不完整（`line_annotator.py:192` 已有正则但部分 LLM 格式命中不了） | ⬜ 待修复 | — |
+| P1-B | reviewing 题在学生端 API 的可见性核查 | ⬜ 待修复 | — |
+| P1-C | 答案表解析加固 + 覆盖 LLM 时题型一致性校验 | ⬜ 待修复 | — |
+| P1-D | 任务失败原因可靠落库（当前 processing/running 但 result_json 为空） | ⬜ 待修复 | — |
 
 ### P2 — 扩展
 
@@ -981,3 +997,11 @@ Phase 0 已完成（全部验收通过，详见更新记录 2026-08-11）。
 
 - 全量 pytest（用户本机）：**549 passed，0 failed，9 warnings**（546 → 549，+3 temp 根测试；收集错误与 temp 权限间歇失败均已消除）。
 - 版本升至 5.3。
+
+### 2026-08-22 22:31:39
+
+#### VL 模型选择更新
+
+- 管线 VL 首选 MIMO V2.5（`mimo-v2.5`），回退 DeepSeek Vision（`deepseek-v4-flash-vision-exp`），移除 Qwen VL。
+- `build_gateway` 与 `build_ocr_chain` 的 VL provider 顺序均为 `mimo-vl` → `deepseek-vl`。
+- 相关测试 39 passed；未跑全量 pytest。

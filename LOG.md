@@ -1282,3 +1282,57 @@ LLM 能正确识别各种答案格式：
 - **测试计数修正**：P0-1 实际 9 项（`test_question_image_association.py`），非此前声称的 10 项。P0 新测试合计仍为 36（9+5+10+6+6）。P1-6 测试 3 项 + 对抗性 4 项。当前全量 pytest **549 passed**（含后续叠加测试）。
 - 全量 P0+P1+adversarial+e2e+跨学科 测试：**53 passed，0 failed**。
 - 版本升至 6.2。
+
+### 2026-08-22 22:31:39
+
+#### VL 模型选择更新：MIMO V2.5 首选，DeepSeek Vision 回退
+
+- `backend/app/core/config.py` 新增 `DEEPSEEK_VL_MODEL`，移除 Qwen VL 活动配置。
+- `backend/app/ai/gateway.py` VL provider 顺序改为 `mimo-vl` → `deepseek-vl`。
+- `backend/app/domains/document/ocr/providers.py` OCR fallback 链同步为 MIMO V2.5 → DeepSeek Vision。
+- `.env.example`、`docker-compose.yml`、`backend/.env` 增加 `DEEPSEEK_VL_MODEL` 与 `MIMO_VL_MODEL`。
+- `ocr_smoke.py` / `llm_smoke_test.py` 移除 Qwen VL，新增 DeepSeek Vision。
+- 相关测试 39 passed；未跑全量 pytest。
+
+### 2026-08-22 23:00:00
+
+#### 5科×2份PDF e2e 全量管线运行 + 发现 P0 级 cascade failure
+
+清除全部 32 份文档/467 题，上传 10 份 PDF（数学/物理/化学/英语/语文各 2 份）重跑全量管线。
+
+- **结果**：9/10 成功（165 题入库），1 份失败（物理-八十中 0 题）。
+- **失败根因**：content_slicer 对未合并的综合题子题产出重复 `source_question_number='4'`，`ix_question_instances_doc_qno` 唯一索引拒绝 → SQLAlchemy session PendingRollbackError → Q5-Q20 全部级联失败。**这是 Claude 审计 + Codex 复核都没发现的真实 P0 问题**。
+- **数据质量**：NULL 题型=0，NULL 难度=0（P0-2/P0-3 修复生效）。题型分布 single_choice=89, short_answer=42, fill_in=26, multiple_choice=8。难度分布 1=18, 2=72, 3=46, 4=17, 5=12。
+- **文件名 URL 编码**：aiohttp FormData 双重编码中文文件名 → DB 存储 `%E5%8C%97...`。
+
+### 2026-08-22 23:30:00
+
+#### 管线深度对抗性审查（三方：Claude + Codex + MiMo）
+
+- Claude 审计 8 条问题，Codex 逐条复核。MiMo 从第一性原理独立审查并发现双方都漏掉的 P0 cascade failure。
+- 审查报告：`Docs/05_Development/ADVERSARIAL_REVIEW_PIPELINE_2026_08_22.md`。
+- MiMo 独立发现：P0-A（ingestion 无逐题事务隔离）、P0-B（stem 结束位置未校验）、P1-D（任务失败原因未落库）。
+- Claude 事实错误：#6"禁止自动发布仍会入库"（ingestion L168 已降级 reviewing）、#4"OCR 噪声误合并"（合并只作用于 LLM 标记的 shared_material_line_ids）、#1"大部分 difficulty=3"（e2e 实测 level2=72 > level3=46）。
+- Claude 夸大：#3"架构级错误"（cloze→single_choice 是设计决策，quality_gate 选项检查不失效）、#7"只触发重试"（通过 semantic_anchor 污染切片内容，用户交叉验证确认）。
+
+### 2026-08-23 00:00:00
+
+#### P0-A / P0-B 修复实施 + 严格对抗性审查
+
+**P0-A：ingestion savepoint 事务隔离**
+- `ingestion.py` L111-135：每题 `session.begin_nested()` savepoint，单题 UniqueViolationError 不毒化 session。
+- `document_worker.py` L171-183 + L221-234：失败时先 `session.rollback()` 再标记 task/document failed。
+- 测试 3 项（`test_ingestion_savepoint.py`）：单题失败不拖垮 / 全题失败 graceful / 混合场景。
+- 诊断脚本 `_tmp_savepoint_diag.py` 直接查 PostgreSQL 确认 savepoint 行为。
+- commit `e4b9150`。
+
+**P0-B：stem 结束位置校验**
+- `anchor_corrector.py` L252-304：新增 `_truncate_stem_at_next_question`，截断 stem 到下一题起点之前。
+- `anchor_corrector.py` L378-390：`correct_anchors` 后处理调用截断。
+- 修复 1：L304 fallback bug（`return truncated if truncated else stem_line_ids` → `return truncated`），诊断脚本确认旧逻辑返回 `['P1L002']`（应为空）。
+- 修复 2（用户交叉验证发现）：截断后同步 `stem_anchor.corrected_line_ids`，避免下游 content_slicer/pipeline/配图使用未截断行号。
+- 测试 8 项（`test_stem_end_validation.py`）：6 项函数级 + 2 项 correct_anchors 集成级。
+- commit `e4b9150` + `4196ab7` + `c23b25d`。
+
+**全量回归**：112 passed, 0 failed（e2e 5 项因 DB 清空预期失败）。
+**版本升至 6.3。**
