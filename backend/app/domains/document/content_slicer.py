@@ -48,6 +48,20 @@ _QUESTION_TYPE_CANONICAL = {
     "简答题": "short_answer",
     "解答题": "short_answer",
     "计算题": "short_answer",
+    "实验题": "short_answer",
+    "实验": "short_answer",
+    "实验探究": "short_answer",
+    "探究题": "short_answer",
+    "experiment": "short_answer",
+    "reading_expression": "short_answer",  # 英语阅读表达
+    "word_fill": "fill_in",
+    "vocabulary_fill": "fill_in",
+    "词汇填空": "fill_in",
+    "选词填空": "fill_in",
+    "cloze": "single_choice",  # 完形填空：每个空格本质上是单选
+    "reading": "single_choice",  # 阅读理解
+    "seven_to_five": "single_choice",  # 七选五
+    "grammar_fill": "fill_in",  # 语法填空
 }
 
 
@@ -69,6 +83,12 @@ def slice_questions(
         sq = _slice_single_question(question, line_by_id, anchor_map)
         sliced.append(sq)
 
+    # Task 2.3: 共享材料题 section_id 校验
+    _validate_shared_material_sections(sliced)
+
+    # 三层安全网：共享材料题合并
+    sliced = _merge_shared_material_questions(sliced, line_by_id)
+
     logger.info(
         "content_slicing questions=%d sliced=%d",
         len(annotation.questions),
@@ -76,6 +96,234 @@ def slice_questions(
     )
 
     return sliced
+
+
+def _merge_shared_material_questions(
+    questions: list[SlicedQuestion],
+    line_by_id: dict[str, L1Line],
+) -> list[SlicedQuestion]:
+    """三层安全网：共享材料题合并。
+
+    Layer 1: LLM 已标记 is_composite 的题目直接保留。
+    Layer 2: 按 shared_material_line_ids 重叠合并未标记的题目。
+    Layer 3: 标记疑似共享材料题供人工复查。
+    """
+    if not questions:
+        return questions
+
+    # 分离：LLM 已标记的综合题 vs 未标记的题目
+    composites: list[SlicedQuestion] = []
+    candidates: list[SlicedQuestion] = []
+    for q in questions:
+        if q.is_composite:
+            composites.append(q)
+        else:
+            candidates.append(q)
+
+    # Layer 2: 按 shared_material_line_ids 重叠合并
+    merged = _merge_by_shared_material(candidates, line_by_id)
+
+    # Layer 3: 标记疑似共享材料题
+    _mark_suspected_shared_material(merged)
+
+    result = composites + merged
+    logger.info(
+        "merge_composites: llm_marked=%d merged=%d total=%d",
+        len(composites),
+        len(merged),
+        len(result),
+    )
+    return result
+
+
+def _merge_by_shared_material(
+    questions: list[SlicedQuestion],
+    line_by_id: dict[str, L1Line],
+) -> list[SlicedQuestion]:
+    """Layer 2: 按 shared_material_line_ids 重叠合并题目。
+
+    规则：
+    - 两个题目共享 ≥1 行材料行 → 合并为一道综合题
+    - 合并后保留第一道题的 question_number 和 section_id
+    - 子题元数据从各题的 question_number 和 answer 构建
+    """
+    if not questions:
+        return []
+
+    # 构建材料行 → 题目索引映射
+    material_to_questions: dict[str, list[int]] = {}
+    for idx, q in enumerate(questions):
+        if q.shared_material_line_ids:
+            for lid in q.shared_material_line_ids:
+                material_to_questions.setdefault(lid, []).append(idx)
+
+    # 找出需要合并的题目组（连通分量）
+    n = len(questions)
+    parent = list(range(n))
+
+    def find(x: int) -> int:
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    def union(x: int, y: int) -> None:
+        px, py = find(x), find(y)
+        if px != py:
+            parent[px] = py
+
+    for indices in material_to_questions.values():
+        if len(indices) >= 2:
+            for i in range(1, len(indices)):
+                union(indices[0], indices[i])
+
+    # 按组聚合
+    groups: dict[int, list[SlicedQuestion]] = {}
+    for idx, q in enumerate(questions):
+        root = find(idx)
+        groups.setdefault(root, []).append(q)
+
+    # 合并每组
+    merged: list[SlicedQuestion] = []
+    for group in groups.values():
+        if len(group) == 1:
+            merged.append(group[0])
+        else:
+            composite = _merge_question_group(group, line_by_id)
+            merged.append(composite)
+
+    return merged
+
+
+def _merge_question_group(
+    group: list[SlicedQuestion],
+    line_by_id: dict[str, L1Line],
+) -> SlicedQuestion:
+    """将多道共享材料的题目合并为一道综合题。"""
+    # 按 question_number 排序
+    group.sort(key=lambda q: _parse_qno(q.question_number))
+
+    primary = group[0]
+
+    # 合并 stem_line_ids：只含所有子题行号（P0-5：材料行不并入 stem 文本）
+    # SlicedQuestion 的行号在 stem_anchor.corrected_line_ids 中；
+    # 若子题的锚点行号混入了共享材料行（LLM 错标），同样剔除。
+    shared_ids = set(primary.shared_material_line_ids or [])
+    all_stem_lines: list[str] = []
+    for q in group:
+        q_stem_ids = q.stem_anchor.corrected_line_ids if q.stem_anchor else []
+        for lid in q_stem_ids:
+            if lid not in all_stem_lines and lid not in shared_ids:
+                all_stem_lines.append(lid)
+
+    # 切片合并后的 stem（只含子题，不含共享材料）
+    stem = _slice_lines(all_stem_lines, line_by_id)
+
+    # 构建子题元数据
+    from app.domains.document.schemas_l2 import L2SubQuestion
+    sub_questions = []
+    for q in group:
+        sub_questions.append(L2SubQuestion(
+            qno=q.question_number,
+            question_type=q.question_type,
+            answer=q.answer,
+            knowledge_points=q.knowledge_points or [],
+            score=q.score,
+        ))
+
+    # 合并答案
+    answers = []
+    for sq in sub_questions:
+        if sq.answer:
+            answers.append(f"({sq.qno}) {sq.answer}")
+    merged_answer = " ".join(answers) if answers else None
+
+    # 合并 knowledge_points
+    all_kp = []
+    for q in group:
+        if q.knowledge_points:
+            all_kp.extend(q.knowledge_points)
+    unique_kp = list(dict.fromkeys(all_kp))  # 保序去重
+
+    # 保留第一道带 structure_signature 的题目签名
+    structure_signature = next(
+        (q.structure_signature for q in group if q.structure_signature),
+        None,
+    )
+
+    # 合并 confidence（取最低，默认 0.5）
+    min_confidence = min(
+        (q.confidence for q in group if q.confidence is not None),
+        default=0.5,
+    )
+
+    # 合并 answer_line_ids
+    all_answer_lines = []
+    for q in group:
+        for lid in (q.answer_line_ids or []):
+            if lid not in all_answer_lines:
+                all_answer_lines.append(lid)
+
+    # 合并 explanation_line_ids
+    all_explanation_lines = []
+    for q in group:
+        for lid in (q.explanation_line_ids or []):
+            if lid not in all_explanation_lines:
+                all_explanation_lines.append(lid)
+
+    return SlicedQuestion(
+        question_number=primary.question_number,
+        question_type=primary.question_type,
+        stem=stem,
+        options=[],
+        section_id=primary.section_id,
+        shared_material_line_ids=primary.shared_material_line_ids,
+        difficulty=primary.difficulty,
+        score=primary.score,
+        knowledge_points=unique_kp,
+        confidence=min_confidence,
+        stem_anchor=primary.stem_anchor,
+        options_anchor=None,
+        corrected_anchors=primary.corrected_anchors,
+        source_page=primary.source_page,
+        structure_signature=structure_signature,
+        is_composite=True,
+        sub_questions=sub_questions,
+        answer=merged_answer,
+        answer_line_ids=all_answer_lines,
+        explanation_line_ids=all_explanation_lines,
+    )
+
+
+def _parse_qno(qno: str) -> int:
+    """解析题号为数字，用于排序。"""
+    m = re.search(r"(\d+)", qno or "")
+    return int(m.group(1)) if m else 0
+
+
+def _mark_suspected_shared_material(questions: list[SlicedQuestion]) -> None:
+    """Layer 3: 标记疑似共享材料题供人工复查。
+
+    规则：
+    - 有 shared_material_line_ids 但未被合并的题目
+    - 多道填空题/阅读题紧邻且无独立材料
+    """
+    for q in questions:
+        if q.is_composite:
+            continue
+        if q.shared_material_line_ids:
+            # 有共享材料但未被合并，可能是漏合并
+            if not hasattr(q, 'review_notes') or q.review_notes is None:
+                q.review_notes = []
+            q.review_notes.append("疑似共享材料题，请人工确认是否需要合并")
+
+
+def _validate_shared_material_sections(questions: list[SlicedQuestion]) -> None:
+    """保留入口；section 类型与题组边界由 LLM 负责，不再按关键词/分组告警。
+
+    代码只负责按 LLM 给出的行号切片；若 section_id 或共享材料行号有误，
+    由 simple_pipeline 的 LLM 重试链路修正，不在此处用规则猜测。
+    """
 
 
 def _build_anchor_map(annotation: L2DocumentAnnotation) -> dict:
@@ -101,7 +349,15 @@ def _slice_single_question(
     anchor_map: dict,
 ) -> SlicedQuestion:
     """切片单个题目。"""
-    stem = _slice_lines(question.stem_line_ids, line_by_id)
+    # P0-5 修复（PIPELINE_AUDIT_2026_08_22.md §二 A）：
+    # 共享材料行不得并入题干 —— 即使 LLM 把材料行写进 stem_line_ids，
+    # 这里也按 shared_material_line_ids 剔除（双保险，防止材料整段并入 stem）。
+    shared_ids = set(question.shared_material_line_ids or [])
+    stem_ids = [
+        lid for lid in (question.stem_line_ids or [])
+        if lid not in shared_ids
+    ]
+    stem = _slice_lines(stem_ids, line_by_id)
     options = _slice_options(question.options_line_ids, line_by_id)
 
     # 获取 anchors
@@ -146,6 +402,7 @@ def _slice_single_question(
         stem=stem,
         options=options,
         section_id=question.section_id,
+        shared_material_line_ids=question.shared_material_line_ids,
         difficulty=question.difficulty,
         score=question.score,
         knowledge_points=question.knowledge_points,
@@ -154,6 +411,9 @@ def _slice_single_question(
         options_anchor=options_anchor,
         corrected_anchors=all_anchors,
         source_page=question.source_page,
+        structure_signature=question.structure_signature,
+        is_composite=question.is_composite,
+        sub_questions=question.sub_questions,
     )
 
 

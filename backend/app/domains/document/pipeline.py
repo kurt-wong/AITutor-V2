@@ -21,11 +21,13 @@ import json
 import logging
 import time
 from pathlib import Path
+from typing import Any, Callable, Coroutine
 
 from app.ai.gateway import LLMGateway
 from app.domains.document.answer_matcher import match_answers
 from app.domains.document.anchor_corrector import correct_anchors
 from app.domains.document.content_slicer import slice_questions
+from app.domains.document.image_deduplicator import deduplicate_images
 from app.domains.document.l1_arbiter import arbitrate_lines, apply_arbitration
 from app.domains.document.line_annotator import annotate_document
 from app.domains.document.native_markdown import extract_l1_from_pdf
@@ -36,6 +38,9 @@ from app.domains.document.schemas_l1 import L1Document, L1Line, L1Page
 from app.domains.document.schemas_l2 import L2DocumentAnnotation, SlicedQuestion
 
 logger = logging.getLogger(__name__)
+
+# 进度回调类型：stage 名称 + 进度值（0-1）
+ProgressCallback = Callable[[str, float], Coroutine[Any, Any, None]]
 
 
 def _provenance_to_dict(prov) -> dict | None:
@@ -48,6 +53,15 @@ def _provenance_to_dict(prov) -> dict | None:
         "confidence": prov.confidence,
         "evidence": prov.evidence,
     }
+
+
+def _has_dual_sources(line: L1Line) -> bool:
+    """判断是否同时持有 native/ppsv3 原始文本。
+
+    raw_sources 还会携带 native_line_id 溯源键，不能用 len() 判断双源。
+    """
+    raw = line.raw_sources or {}
+    return "native" in raw and "ppsv3" in raw
 
 
 def _bbox_iou(box_a: dict | None, box_b: dict | None) -> float:
@@ -303,11 +317,11 @@ def _merge_dual_source(
     - 答案表格行必须按题号对齐
     - 未对齐的文本不允许进入仲裁
     """
-    from app.domains.document.l1_postprocessor import postprocess_l1
-
-    # 后处理两个 L1
-    native_processed = postprocess_l1(native_doc)
-    ppsv3_processed = postprocess_l1(ppsv3_doc)
+    # H2 修复：不再重复调用 postprocess_l1
+    # native_doc 和 ppsv3_doc 已在各自的 L1 生成阶段后处理过
+    # native_markdown.py 和 ppsv3_l1.py 各自调用了 postprocess_l1
+    native_processed = native_doc
+    ppsv3_processed = ppsv3_doc
 
     # 估算坐标系比例因子并归一化 native bbox
     scale = _estimate_bbox_scale_factor(native_processed.lines, ppsv3_processed.lines)
@@ -337,39 +351,41 @@ def _merge_dual_source(
         elif line_type == "answer_table":
             native_answer_tables_by_q.setdefault(key, []).append(line)
 
-    # 构建 native line_id 索引（primary 匹配策略）
-    nat_by_orig_line_id: dict[str, L1Line] = {}
-    for orig_line in native_doc.lines:
-        best_proc = None
-        best_sim = 0.0
-        for proc_line in native_processed.lines:
-            if proc_line.page_no != orig_line.page_no:
-                continue
-            sim = _text_similarity(orig_line.text, proc_line.text)
-            if sim > best_sim:
-                best_sim = sim
-                best_proc = proc_line
-        # 只在相似度 > 0.3 时才匹配（避免不同内容被错误绑定）
-        if best_proc and best_sim > 0.3:
-            nat_by_orig_line_id[orig_line.line_id] = best_proc
+    # 构建 native 行号索引：Native 与 PP 行号前缀不同，按 (page, line_no) 对齐
+    native_by_line_no: dict[tuple[int, int], L1Line] = {}
+    for line in native_processed.lines:
+        native_by_line_no[(line.page_no, line.line_no_in_page)] = line
+
+    # 构建 proc 索引：line_id 精确匹配（主），(page, text) 回退（辅）
+    proc_by_id = {l.line_id: l for l in ppsv3_processed.lines}
+    proc_fallback: dict[tuple[int, str], list[L1Line]] = {}
+    for pl in ppsv3_processed.lines:
+        proc_fallback.setdefault((pl.page_no, pl.text.strip()), []).append(pl)
+    used_fallback_ids: set[str] = set()
 
     merged_lines: list[L1Line] = []
     for orig_pp_line in ppsv3_doc.lines:
-        # 在 postprocessed PP lines 中找到对应的行
-        line = None
-        for proc_line in ppsv3_processed.lines:
-            if proc_line.page_no == orig_pp_line.page_no and proc_line.text.strip() == orig_pp_line.text.strip():
-                line = proc_line
-                break
+        # 优先：按 line_id 精确匹配（postprocess 保留 line_id，最可靠）
+        line = proc_by_id.get(orig_pp_line.line_id)
+        if line is None:
+            # 回退：按 (page, text) 匹配，每行只用一次避免重复
+            key = (orig_pp_line.page_no, orig_pp_line.text.strip())
+            for cand in proc_fallback.get(key, []):
+                if cand.line_id not in used_fallback_ids:
+                    line = cand
+                    used_fallback_ids.add(cand.line_id)
+                    break
         if line is None:
             continue
 
         pp_type = _detect_line_type(line.text)
 
-        # Primary 策略：按原始 line_id 精确匹配（两个源共享 line_id 时最优）
-        # 但必须验证 PP 和 native 文本内容相似，避免不同切分的行被错误绑定
-        nat_match = nat_by_orig_line_id.get(orig_pp_line.line_id)
-        if nat_match and _text_similarity(line.text, nat_match.text) > 0.3:
+        # Primary 策略：按 (page, line_no) 对齐 Native/PP
+        # 但必须验证文本内容足够相似，避免不同切分的行被错误绑定
+        nat_match = native_by_line_no.get(
+            (line.page_no, line.line_no_in_page)
+        )
+        if nat_match and _text_similarity(line.text, nat_match.text) > 0.6:
             best_match = nat_match
             best_score = 1.0
         else:
@@ -424,10 +440,14 @@ def _merge_dual_source(
                     best_score = iou
                     best_match = nat_line
 
-        # 验证语义绑定
+        # 验证语义绑定；native 行号只进 raw_sources，不覆盖 canonical P 行号
         if best_match and best_score > 0.3:
             if _validate_semantic_binding(line.text, best_match.text, pp_type):
-                raw_sources = {"ppsv3": line.text, "native": best_match.text}
+                raw_sources = {
+                    "ppsv3": line.text,
+                    "native": best_match.text,
+                    "native_line_id": best_match.line_id,
+                }
             else:
                 # 语义绑定无效，只保留 PP
                 logger.debug(
@@ -453,7 +473,10 @@ def _merge_dual_source(
     merged_nat_ids: set[str] = set()
     for ml in merged_lines:
         raw = ml.raw_sources or {}
-        if "native" in raw:
+        nat_lid = raw.get("native_line_id")
+        if nat_lid:
+            merged_nat_ids.add(nat_lid)
+        elif "native" in raw:
             nat_text = raw["native"]
             for nat_line in native_processed.lines:
                 if nat_line.text.strip() == nat_text.strip():
@@ -463,9 +486,56 @@ def _merge_dual_source(
     if native_only_count > 0:
         logger.info("merge: %d native-only lines not in PP (not added to preserve line numbering)", native_only_count)
 
+    # 图片合并策略：per-image fallback
+    # 以 PP-StructureV3 图片为主，native 图片仅在 ppsv3 无对应时补充
+    merged_images = list(ppsv3_doc.images)
+    if native_processed.images:
+        # 复用已计算的 scale（native lines 已归一化，重新计算会得到 1.0）
+
+        # 收集 ppsv3 图片的 (page_no, bbox) 用于匹配
+        ppsv3_img_bboxes: dict[int, list[dict]] = {}
+        for img in ppsv3_processed.images:
+            ppsv3_img_bboxes.setdefault(img.page_no, []).append(img.bbox or {})
+
+        # 逐张检查 native 图片
+        native_added = 0
+        missing_figure_count = 0
+        for nat_img in native_processed.images:
+            if not nat_img.bbox:
+                # V1_LESSONS 3.4: 无 bbox 时记录 missing_figure，不整页兜底
+                nat_img.placement = "missing_figure"
+                missing_figure_count += 1
+                continue
+
+            # 归一化 native bbox 到 ppsv3 坐标系
+            nat_bbox_norm = _normalize_bbox(nat_img.bbox, scale)
+            nat_cx = (nat_bbox_norm["x1"] + nat_bbox_norm["x2"]) / 2
+            nat_cy = (nat_bbox_norm["y1"] + nat_bbox_norm["y2"]) / 2
+
+            # 检查是否有 ppsv3 图片在同一区域（50px 容差）
+            has_ppsv3_match = False
+            for pp_bbox in ppsv3_img_bboxes.get(nat_img.page_no, []):
+                if not pp_bbox:
+                    continue
+                pp_cx = (pp_bbox["x1"] + pp_bbox["x2"]) / 2
+                pp_cy = (pp_bbox["y1"] + pp_bbox["y2"]) / 2
+                if abs(nat_cx - pp_cx) < 50 and abs(nat_cy - pp_cy) < 50:
+                    has_ppsv3_match = True
+                    break
+
+            if not has_ppsv3_match:
+                # native 图片在 ppsv3 中无对应，补充添加
+                merged_images.append(nat_img)
+                native_added += 1
+
+        if native_added > 0:
+            logger.info("merge: added %d native images not in ppsv3", native_added)
+        if missing_figure_count > 0:
+            logger.info("merge: %d native images missing bbox (marked as missing_figure)", missing_figure_count)
+
     return L1Document(
         filename=ppsv3_doc.filename, pages=ppsv3_processed.pages,
-        lines=merged_lines, images=ppsv3_doc.images,
+        lines=merged_lines, images=merged_images,
         source="mixed", total_pages=ppsv3_doc.total_pages,
         text_coverage=ppsv3_doc.text_coverage,
         raw_lines=ppsv3_processed.raw_lines,
@@ -486,14 +556,85 @@ def _anchor_to_dict(anchor) -> dict | None:
     }
 
 
+def _slice_l1_text(doc: L1Document | None, line_ids: list[str]) -> str:
+    """Slice original L1 text for shared material review display."""
+    if not doc:
+        return ""
+    line_by_id = {line.line_id: line for line in doc.lines}
+    return "\n".join(
+        line_by_id[lid].text
+        for lid in line_ids
+        if lid in line_by_id
+    )
+
+
+def _question_is_ingested(q: dict) -> bool:
+    """判断题目是否达到可入库标准：高置信度且无禁止自动发布问题。"""
+    if q.get("confidence", 0) < 0.8:
+        return False
+    if any("禁止自动发布" in i for i in (q.get("issues") or [])):
+        return False
+    if not (q.get("stem") or "").strip():
+        return False
+    if not (q.get("answer") or "").strip():
+        return False
+    return True
+
+
+def _discard_reason_label(issue: str) -> str:
+    """把质量门 issue 映射为简洁的未入库原因。"""
+    if "锚点" in issue:
+        return "锚点不确定"
+    if "答案缺失" in issue:
+        return "答案缺失"
+    if "答案可疑" in issue:
+        return "答案可疑"
+    if "选项" in issue:
+        return "选项异常"
+    if "题干为空" in issue:
+        return "题干为空"
+    if "LLM 答案切片为空或仅标点" in issue:
+        return "答案切片无效"
+    return issue.split("，")[0].split("；")[0]
+
+
+def _discard_category_for_issue(issue: str) -> str:
+    """把质量门 issue 映射为更细的丢弃类别。"""
+    if "行号" in issue or "line_id" in issue:
+        return "invalid_line_id"
+    if "答案缺失" in issue or "LLM 答案切片为空或仅标点" in issue:
+        return "answer_empty"
+    if "锚点" in issue:
+        return "anchor_mismatch"
+    if "答案可疑" in issue:
+        return "answer_suspicious"
+    if "选项" in issue:
+        return "options_anomaly"
+    if "题干为空" in issue:
+        return "stem_empty"
+    return "blocked"
+
+
 class PipelineResult:
-    """管线执行结果。"""
+    """管线执行结果。
+
+    三态语义（T3_IMPLEMENTATION §9）：
+    - succeeded: 所有关键 stage 成功
+    - failed: 任一关键 stage 失败（L1/标注/锚点/切片/答案匹配/质量门）
+    - partial_failed: 保留字段，当前不使用（所有 stage 要么成功要么失败）
+
+    关键 stage 失败时，任务状态必须为 failed，不能为 succeeded。
+    """
 
     def __init__(self) -> None:
+        self.status: str = "succeeded"  # succeeded / failed / partial_failed
         self.stages: list[dict] = []
-        self.l1_document: L1Document | None = None
+        self.stage_errors: list[dict] = []  # [{"stage": "...", "error": "..."}]
+        self.l1_document: L1Document | None = None  # canonical 合并后的 L1
+        self.native_l1_document: L1Document | None = None  # PyMuPDF 提取的 native L1（图片bbox/答案表辅助）
         self.l2_annotation: L2DocumentAnnotation | None = None
         self.sliced_questions: list[SlicedQuestion] = []
+        self.question_images: list[dict] = []  # DSD question_images 关联
         self.errors: list[str] = []
         self.total_time_ms: int = 0
 
@@ -505,37 +646,167 @@ class PipelineResult:
         })
 
     def to_dict(self) -> dict:
+        # 提取 L1 图片元数据（去重后，过滤无 bbox 的 PP 内部诊断图）
+        images_out = []
+        if self.l1_document:
+            for img in self.l1_document.images:
+                # 无 bbox 的图片是 PP 内部诊断图（layout_det_res 等），不输出
+                if not img.bbox:
+                    continue
+                images_out.append({
+                    "image_id": img.image_id,
+                    "page_no": img.page_no,
+                    "bbox": img.bbox,
+                    "source": img.source,
+                    "figure_id": img.figure_id,
+                    "placement": img.placement,
+                    "url": img.url,
+                    "xref": img.xref,
+                })
+        questions = [
+            {
+                "question_number": sq.question_number,
+                "question_type": sq.question_type,
+                "section_id": sq.section_id,
+                "stem": sq.stem,
+                "stem_line_ids": sq.stem_anchor.corrected_line_ids if sq.stem_anchor else [],
+                "options": sq.options,
+                "options_line_ids": {a.field.replace("option_", ""): a.corrected_line_ids for a in sq.corrected_anchors if a.field.startswith("option_")},
+                "answer": sq.answer,
+                "explanation": sq.explanation,
+                "difficulty": sq.difficulty,
+                "score": sq.score,
+                "knowledge_points": sq.knowledge_points,
+                "confidence": sq.confidence,
+                "source_page": sq.source_page,
+                "structure_signature": sq.structure_signature,
+                "answer_line_ids": sq.answer_line_ids,
+                "explanation_line_ids": sq.explanation_line_ids,
+                "answer_provenance": _provenance_to_dict(sq.answer_provenance),
+                "explanation_provenance": _provenance_to_dict(sq.explanation_provenance),
+                "corrected_anchors": [_anchor_to_dict(a) for a in sq.corrected_anchors],
+                "shared_material_line_ids": sq.shared_material_line_ids,
+                "shared_material": _slice_l1_text(
+                    self.l1_document,
+                    sq.shared_material_line_ids,
+                ),
+                "is_composite": sq.is_composite,
+                "sub_questions": [
+                    {
+                        "qno": sq_sub.qno,
+                        "question_type": sq_sub.question_type,
+                        "answer": sq_sub.answer,
+                        "knowledge_points": sq_sub.knowledge_points,
+                        "score": sq_sub.score,
+                    }
+                    for sq_sub in (sq.sub_questions or [])
+                ],
+                "review_notes": sq.review_notes or [],
+                "issues": sq.issues,
+            }
+            for sq in self.sliced_questions
+        ]
+        ingested = [q for q in questions if _question_is_ingested(q)]
+        discarded = [q for q in questions if q not in ingested]
+        discard_reasons: dict[str, int] = {}
+        for q in discarded:
+            reasons = {
+                _discard_reason_label(issue)
+                for issue in (q.get("issues") or [])
+            }
+            for reason in reasons:
+                discard_reasons[reason] = discard_reasons.get(reason, 0) + 1
+            q["discard_categories"] = sorted({
+                _discard_category_for_issue(issue)
+                for issue in (q.get("issues") or [])
+            })
+            q["discard_details"] = list(q.get("issues") or [])
+
+        llm_annotation_out = None
+        if self.l2_annotation is not None:
+            anchor_by_question: dict[str, dict[str, dict]] = {}
+            for anchor in self.l2_annotation.corrected_anchors:
+                q_num = anchor.question_number
+                if q_num:
+                    anchor_by_question.setdefault(q_num, {})[anchor.field] = {
+                        "anchor_status": anchor.anchor_status,
+                        "evidence": anchor.evidence,
+                        "corrected_line_ids": anchor.corrected_line_ids,
+                    }
+            llm_questions = []
+            for q in self.l2_annotation.questions:
+                anchors = anchor_by_question.get(q.question_number, {})
+                stem_anchor = anchors.get("stem")
+                llm_questions.append({
+                    "question_number": q.question_number,
+                    "question_type": q.question_type,
+                    "section_id": q.section_id,
+                    "stem_start_marker": q.stem_start_marker,
+                    "stem_end_marker": q.stem_end_marker,
+                    "stem_line_ids": q.stem_line_ids,
+                    "options_line_ids": q.options_line_ids,
+                    "answer_line_ids": q.answer_line_ids,
+                    "explanation_line_ids": q.explanation_line_ids,
+                    "stem_anchor": stem_anchor,
+                    "option_anchors": {
+                        key: value
+                        for key, value in anchors.items()
+                        if key.startswith("option_")
+                    },
+                })
+            llm_annotation_out = {
+                "filename": self.l2_annotation.filename,
+                "subject": self.l2_annotation.subject,
+                "metadata_confidence": self.l2_annotation.metadata_confidence,
+                "questions": llm_questions,
+                "anchor_status_summary": self.l2_annotation.anchor_status_summary,
+                "raw_response": self.l2_annotation.raw_response,
+            }
+
         return {
+            "status": self.status,
             "stages": self.stages,
+            "stage_errors": self.stage_errors,
             "total_time_ms": self.total_time_ms,
             "errors": self.errors,
             "question_count": len(self.sliced_questions),
-            "questions": [
-                {
-                    "question_number": sq.question_number,
-                    "question_type": sq.question_type,
-                    "section_id": sq.section_id,
-                    "stem": sq.stem,
-                    "stem_line_ids": sq.stem_anchor.corrected_line_ids if sq.stem_anchor else [],
-                    "options": sq.options,
-                    "options_line_ids": {a.field.replace("option_", ""): a.corrected_line_ids for a in sq.corrected_anchors if a.field.startswith("option_")},
-                    "answer": sq.answer,
-                    "explanation": sq.explanation,
-                    "difficulty": sq.difficulty,
-                    "score": sq.score,
-                    "knowledge_points": sq.knowledge_points,
-                    "confidence": sq.confidence,
-                    "source_page": sq.source_page,
-                    "answer_line_ids": sq.answer_line_ids,
-                    "explanation_line_ids": sq.explanation_line_ids,
-                    "answer_provenance": _provenance_to_dict(sq.answer_provenance),
-                    "explanation_provenance": _provenance_to_dict(sq.explanation_provenance),
-                    "corrected_anchors": [_anchor_to_dict(a) for a in sq.corrected_anchors],
-                    "issues": sq.issues,
-                }
-                for sq in self.sliced_questions
-            ],
+            "images": images_out,
+            "question_images": self.question_images,
+            "questions": questions,
+            "ingested_questions": ingested,
+            "discarded_questions": discarded,
+            "ingest_summary": {
+                "total": len(questions),
+                "ingested": len(ingested),
+                "discarded": len(discarded),
+                "discard_reasons": discard_reasons,
+            },
+            "llm_annotation": llm_annotation_out,
         }
+
+
+def _question_field_line_ids(q, field: str) -> list[str]:
+    """从题目对象提取字段的行号：优先 corrected anchor，回退到 line_ids 属性。
+
+    SlicedQuestion 的行号存在 stem_anchor/options_anchor（CorrectedAnchor）的
+    corrected_line_ids 中；部分调用方（测试 mock）直接暴露 stem_line_ids 属性。
+    """
+    anchor = getattr(q, f"{field}_anchor", None)
+    if anchor is not None:
+        cids = getattr(anchor, "corrected_line_ids", None)
+        if isinstance(cids, list) and cids:
+            return list(cids)
+    return list(getattr(q, f"{field}_line_ids", None) or [])
+
+
+def save_result(result: PipelineResult, output_path: Path) -> None:
+    """保存管线结果到 JSON 文件。"""
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps(result.to_dict(), ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    logger.info("pipeline result saved to %s", output_path)
 
 
 async def run_pipeline(
@@ -547,7 +818,14 @@ async def run_pipeline(
     ppsv3_doc: L1Document | None = None,
     native_doc: L1Document | None = None,
 ) -> PipelineResult:
-    """执行完整的文档处理管线。
+    """执行完整的文档处理管线（双源 L1 + LLM 行级仲裁路径）。
+
+    生产主路径为 simple_pipeline.run_simple_pipeline；本函数保留旧的双源
+    仲裁语义，作为 fallback 供 eval 脚本（run_phase1_eval.py 等）与兼容
+    测试使用（simple_pipeline docstring 约定 pipeline.py 保持不变）。
+
+    Fix 1 (CRITICAL): 空 L1 文档归一化为 None；双源全空 → status=failed
+    且 stage_errors 记录 l1_generation，禁止空结果以 succeeded 通过。
 
     Args:
         pdf_path: PDF 文件路径（可选，为 None 时跳过 native L1 提取和 OCR）
@@ -596,6 +874,12 @@ async def run_pipeline(
     if ppsv3_doc and page_range:
         ppsv3_doc = _filter_by_page_range(ppsv3_doc, page_range)
 
+    # Fix 1 (CRITICAL): 空 L1 文档归一化为 None，避免空结果通过 merge 后仍 succeeded
+    if native_doc is not None and not native_doc.lines:
+        native_doc = None
+    if ppsv3_doc is not None and not ppsv3_doc.lines:
+        ppsv3_doc = None
+
     # 构建双源 L1
     if native_doc and ppsv3_doc:
         doc, native_only_count = _merge_dual_source(native_doc, ppsv3_doc)
@@ -615,6 +899,11 @@ async def run_pipeline(
             line.raw_sources = {"ppsv3": line.text}
             line.source = "ppsv3"
     else:
+        result.status = "failed"
+        result.stage_errors.append({
+            "stage": "l1_generation",
+            "error": "both native and PP-StructureV3 failed",
+        })
         result.errors.append("Stage 1: both native and PP-StructureV3 failed")
         logger.error("pipeline stage_1_failed: both sources failed")
         result.total_time_ms = int((time.perf_counter() - total_start) * 1000)
@@ -714,11 +1003,133 @@ async def run_pipeline(
     return result
 
 
-def save_result(result: PipelineResult, output_path: Path) -> None:
-    """保存管线结果到 JSON 文件。"""
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(
-        json.dumps(result.to_dict(), ensure_ascii=False, indent=2),
-        encoding="utf-8",
+def _build_question_images(
+    sliced: list,
+    images: list,
+    doc: L1Document | None,
+) -> list[dict]:
+    """将 L1 图片关联到题目。
+
+    关联规则（V1_LESSONS 3.26）：
+    - 无 bbox 图片不关联（禁止无证据广播）
+    - placement=standalone 的图片不关联
+    - 图片 bbox 与题目的 stem/options/answer 行 bbox 重叠（含 20px margin）时关联
+    - 优先关联到 stem，其次 options，最后 answer_area
+
+    审计修复（2026-08-22，P0-1/P1-8）：
+    - stem/options 行号改从 anchor 结构读取（SlicedQuestion 无 stem_line_ids/
+      options_line_ids 属性，行号在 stem_anchor.corrected_line_ids 与
+      corrected_anchors 中）——此前 getattr 取不到属性导致分支永不执行，
+      配图关联率仅 15.5%
+    - 输出补齐 page_no/bbox/source/figure_id（此前只输出 3 个 key，入库元数据全 None）
+    """
+    if not images or not sliced:
+        return []
+
+    # 构建 line_id → line 映射
+    line_by_id: dict[str, L1Line] = {}
+    if doc:
+        for line in doc.lines:
+            line_by_id[line.line_id] = line
+
+    MARGIN = 20  # px，模糊区域
+    result: list[dict] = []
+
+    for img in images:
+        # 无 bbox 或 standalone 不关联
+        if not img.bbox:
+            continue
+        if img.placement == "standalone":
+            continue
+
+        img_cx = (img.bbox["x1"] + img.bbox["x2"]) / 2
+        img_cy = (img.bbox["y1"] + img.bbox["y2"]) / 2
+
+        best_q = None
+        best_placement = None
+        best_distance = float("inf")
+
+        for q in sliced:
+            qno = getattr(q, "question_number", None)
+            if not qno:
+                continue
+
+            # 检查 stem 行（P0-1：改用 _question_field_line_ids 读 anchor 行号）
+            for lid in _question_field_line_ids(q, "stem"):
+                line = line_by_id.get(lid)
+                if line and line.bbox:
+                    if _bbox_contains_with_margin(line.bbox, img_cx, img_cy, MARGIN):
+                        if best_placement != "stem":
+                            best_q = qno
+                            best_placement = "stem"
+                            best_distance = 0
+
+            # 检查 options 行（P0-1：从 corrected_anchors 收集 option_* 锚点行号）
+            option_lids = _question_option_line_ids(q)
+            for lid in option_lids:
+                line = line_by_id.get(lid)
+                if line and line.bbox:
+                    if _bbox_contains_with_margin(line.bbox, img_cx, img_cy, MARGIN):
+                        if best_placement is None:
+                            best_q = qno
+                            best_placement = "options"
+
+            # 检查 answer 行
+            for lid in (getattr(q, "answer_line_ids", None) or []):
+                line = line_by_id.get(lid)
+                if line and line.bbox:
+                    if _bbox_contains_with_margin(line.bbox, img_cx, img_cy, MARGIN):
+                        if best_placement is None:
+                            best_q = qno
+                            best_placement = "answer_area"
+
+        if best_q and best_placement:
+            result.append({
+                "question_number": best_q,
+                "image_id": img.image_id,
+                "placement": best_placement,
+                # P1-8：补齐入库元数据（此前缺这 4 个 key，QuestionImage 行 bbox/page_no 全 None）
+                "page_no": img.page_no,
+                "bbox": img.bbox,
+                "source": img.source,
+                "figure_id": img.figure_id,
+            })
+
+    return result
+
+
+def _question_option_line_ids(q) -> list[str]:
+    """从题目的 corrected_anchors 提取选项行号（field 前缀 option_）。
+
+    SlicedQuestion 无 options_line_ids 属性；选项锚点行号存放在
+    corrected_anchors 中（field="option_A" 等）。兼容测试 mock 直接暴露
+    options_line_ids dict 的情况。
+    """
+    anchors = getattr(q, "corrected_anchors", None) or []
+    if anchors:
+        lids: list[str] = []
+        for a in anchors:
+            field = getattr(a, "field", "")
+            if field.startswith("option_"):
+                cids = getattr(a, "corrected_line_ids", None) or []
+                lids.extend(cids)
+        if lids:
+            return lids
+    # 兼容测试 mock：直接暴露 options_line_ids dict
+    opts = getattr(q, "options_line_ids", None) or {}
+    if isinstance(opts, dict):
+        out: list[str] = []
+        for lid_list in opts.values():
+            out.extend(lid_list if isinstance(lid_list, list) else [])
+        return out
+    return []
+
+
+def _bbox_contains_with_margin(
+    bbox: dict, cx: float, cy: float, margin: float
+) -> bool:
+    """检查点 (cx, cy) 是否在 bbox 扩展 margin 后的范围内。"""
+    return (
+        bbox["x1"] - margin <= cx <= bbox["x2"] + margin
+        and bbox["y1"] - margin <= cy <= bbox["y2"] + margin
     )
-    logger.info("pipeline result saved to %s", output_path)
