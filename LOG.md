@@ -1678,3 +1678,32 @@ python test/scripts/answer_verifier.py
   DB 数据前置（用户本机可写、清库后可过），无回归
 
 **版本升至 6.11。**
+
+### 2026-08-25 03:30:00
+
+#### provider_used 落盘（T0-4）+ Phase 2D 前置评估（T0-5）（版本 6.12）
+
+**provider_used 落盘（T0-4）**：
+- `PipelineResult` 新增 `ocr_provider_used`（provider.name：paddleocr/mimo-vl/deepseek-vl）
+  与 `ocr_model_used`（实际胜出提供方所用模型），`to_dict()` 写入 task result
+  （background_tasks.result_json），让"哪个 OCR 提供方完成"有 DB 证据。
+- `simple_pipeline`：OCR 链完成后捕获 `ocr_doc.provider_used`；`_actual_ocr_model`
+  按胜出提供方返回真实模型（paddle → 路由模型；mimo-vl/deepseek-vl → settings 模型；
+  避免 VL 降级时误写路由模型 PP-StructureV3）。
+- `run_pipeline`（fallback）对称捕获 provider。
+- `ppsv3_l1` stage 增加 provider/model 字段。
+- 实时验证（英语重跑 task 65bce466）：`ocr_provider_used=paddleocr`、
+  `ocr_model_used=PP-StructureV3`；11/11 入库稳定复现。
+- 单元测试 +2：`test_simple_pipeline_records_ocr_provider`、
+  `test_actual_ocr_model_matches_winning_provider`。
+
+**Phase 2D 前置条件评估（T0-5）**：
+- 样本量：DB 191 题（approved 177）；历史 42、化学 26、地理 25、生物 24、物理 19、
+  英语 15、语文 7、数学 5——数学/语文过少，相似度统计样本不足。
+- golden set：5 份（英语 2、数学 2、物理 1），仅覆盖 3 科且为字段级 golden，
+  无相似度/题族 golden 标注。
+- Structure Signature：L2 226 题中仅 45 题（20%）含签名，且限于数学/物理/化学。
+- 结论：**前置条件未满足**，Phase 2D 暂不启动；需先扩充样本、补齐 9 科签名覆盖、
+  建立相似度 golden。数据质量备注：28 题 subject 名称为空（subject_id 关联问题）。
+
+**版本升至 6.12。**

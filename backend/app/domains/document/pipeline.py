@@ -637,6 +637,11 @@ class PipelineResult:
         self.question_images: list[dict] = []  # DSD question_images 关联
         self.errors: list[str] = []
         self.total_time_ms: int = 0
+        # OCR 提供方证据（2026-08-25 T0-4）：哪个 OCR 提供方完成了提取。
+        # ocr_provider_used = provider.name（paddleocr / mimo-vl / deepseek-vl）
+        # ocr_model_used = 学科路由选择的模型（PP-StructureV3 / PaddleOCR-VL-1.6）
+        self.ocr_provider_used: str | None = None
+        self.ocr_model_used: str | None = None
 
     def add_stage(self, name: str, duration_ms: int, **info) -> None:
         self.stages.append({
@@ -769,6 +774,8 @@ class PipelineResult:
             "stage_errors": self.stage_errors,
             "total_time_ms": self.total_time_ms,
             "errors": self.errors,
+            "ocr_provider_used": self.ocr_provider_used,
+            "ocr_model_used": self.ocr_model_used,
             "question_count": len(self.sliced_questions),
             "images": images_out,
             "question_images": self.question_images,
@@ -860,9 +867,14 @@ async def run_pipeline(
             ocr_start = time.perf_counter()
             ocr_chain = build_ocr_chain()
             ocr_doc = await ocr_chain.extract(pdf_path)
+            result.ocr_provider_used = ocr_doc.provider_used or result.ocr_provider_used
             ppsv3_doc = extract_l1_from_ocr(ocr_doc, filename=filename)
             duration = int((time.perf_counter() - ocr_start) * 1000)
-            result.add_stage("ppsv3_l1", duration, lines=len(ppsv3_doc.lines))
+            result.add_stage(
+                "ppsv3_l1", duration,
+                lines=len(ppsv3_doc.lines),
+                provider=result.ocr_provider_used,
+            )
         except Exception as exc:
             logger.warning("ppsv3_l1 failed: %s", exc)
     else:

@@ -101,6 +101,25 @@ def _ocr_model_for_subject(
     return _DEFAULT_OCR_MODEL
 
 
+def _actual_ocr_model(
+    provider_name: str | None,
+    routed_model: str | None,
+) -> str | None:
+    """返回实际完成 OCR 的提供方所用模型（T0-4 证据准确性）。
+
+    路由模型（routed_model）是学科路由的期望模型；当链降级到 VL 提供方时，
+    实际模型与路由模型不同，必须按胜出提供方返回真实模型。
+    """
+    from app.core.config import settings
+    if provider_name == "paddleocr":
+        return routed_model
+    if provider_name == "mimo-vl":
+        return settings.mimo_vl_model or None
+    if provider_name == "deepseek-vl":
+        return settings.deepseek_vl_model or None
+    return routed_model
+
+
 def _has_retryable_failures(sliced, doc: L1Document) -> bool:
     """判断当前结果是否值得触发一次 LLM 标注重试。"""
     for sq in sliced:
@@ -358,11 +377,18 @@ async def run_simple_pipeline(
                 ocr_doc = await ocr_chain.extract(pdf_path)
             finally:
                 ocr_chain.close()
+            # T0-4: OCR 提供方证据（task result 可审计"哪个提供方完成"）
+            result.ocr_provider_used = ocr_doc.provider_used or result.ocr_provider_used
+            result.ocr_model_used = _actual_ocr_model(
+                result.ocr_provider_used, resolved_model,
+            )
             ppsv3_doc = extract_l1_from_ocr(ocr_doc, filename=filename)
             result.add_stage(
                 "ppsv3_l1",
                 int((time.perf_counter() - stage_start) * 1000),
                 lines=len(ppsv3_doc.lines),
+                provider=result.ocr_provider_used,
+                model=result.ocr_model_used,
             )
         except Exception as exc:
             # OCR 失败：保持 failed 状态（不引入新状态避免下游不兼容）

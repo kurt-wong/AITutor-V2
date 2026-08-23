@@ -1,7 +1,7 @@
 # AI Tutor Personal Edition — RESTART_PROMPT
 
-Version: 6.11
-Status: 重启恢复指引（9 科答案基线 mismatch=0；英语 stem 位置/选项归属 11/11、严格 10/11、Q46 作文已入库；PPS/PVL 队列满载已解决（paddle 提交 200）；下一步：provider_used 落盘 + Phase 2D 前置评估 + 轮换泄露 API key）
+Version: 6.12
+Status: 重启恢复指引（9 科答案基线 mismatch=0；英语 stem 位置/选项归属 11/11、严格 10/11、Q46 作文已入库；PPS/PVL 队列满载已解决；provider_used 落盘完成；Phase 2D 前置条件未满足暂缓；下一步：轮换泄露 API key（待用户操作）+ 英语答案 free_text 验证改进 + 扩充样本）
 Date: 2026-08-25
 
 ---
@@ -115,8 +115,8 @@ Date: 2026-08-25
 1. **PPS/PVL 队列满载** ✅ 已解决：paddle 提交 HTTP 200 + jobId 返回；英语重跑 PP-StructureV3 OCR 2.8s 直接成功。客户端排队 + 熔断 + 降级机制保留（防御性）。
 2. **轮换泄露 API key（安全）**：dacad48 提交把 MIMO/DeepSeek/PaddleOCR 密钥写进 git 历史，92a8c07 已从工作树移除硬编码。**必须轮换三个 key**，更新 backend/.env（.gitignore 中）。待用户在各平台控制台执行。
 3. **英语 stem 位置/选项归属** ✅ 已完成（2026-08-25 02:30）：位置 7/11 → 11/11、选项 7/11 → 11/11、Q46 作文缺库解决（DB 11/11）、严格通过 10/11。根因：semantic_anchor is_short_answer 忽略 end_marker（语法填空行内编号）+ 截断边界按题号大小而非文档顺序（OCR 噪声 "48、" 截空 Q46）。详见 LOG.md 2026-08-25 02:30。
-4. **provider_used 落盘**：把 OCR 提供方写入 task result，让"哪个提供方完成"有 DB 证据（用户建议）。**当前焦点**。
-5. **Phase 2D Similarity/Family**（前置条件：样本量 + golden set + Structure Signature raw 分布）。
+4. **provider_used 落盘** ✅ 已完成（2026-08-25 03:30）：`PipelineResult` 新增 ocr_provider_used/ocr_model_used 写入 task result。实时验证：英语重跑 ocr_provider_used=paddleocr、ocr_model_used=PP-StructureV3。
+5. **Phase 2D Similarity/Family** ⏸ 前置条件未满足（评估完成，2026-08-25 03:30）：样本 191 题（数学 5、语文 7 过少）、golden 仅 3 科、Structure Signature 覆盖率 20%（限数学/物理/化学）。需先扩充样本 + 补齐 9 科签名 + 建立相似度 golden。
 
 ### T1. 建立真实文档测试集
 
@@ -664,3 +664,10 @@ python test/scripts/adversarial_check_live_validation.py --require-live-pp
 - 修复文件：`semantic_anchor.py`（综合题 short_answer 信任 end_marker）、`anchor_corrector.py`（截断边界改文档顺序 + 题号过滤）、`e2e_semantic_report.py`（选项归属改 L2 行号区间）、`test_semantic_anchor.py`（+2 测试）、`test_ocr_vision_pdf_fallback.py`（过期测试修复）。
 - 全量 pytest 629 passed，剩余失败均为沙箱 temp ACL 与 DB 数据前置，无回归。
 - 下一步：T0-4 provider_used 落盘 → T0-5 Phase 2D 前置评估；轮换泄露 API key 待用户操作。
+
+### 2026-08-25 03:30:00
+
+- 版本升至 6.12。T0-4 provider_used 落盘完成（ocr_provider_used/ocr_model_used 写入 task result，实时验证 paddleocr/PP-StructureV3）。
+- T0-5 Phase 2D 前置评估完成：样本 191 题、golden 3 科、签名覆盖率 20%——前置条件未满足，暂缓启动。
+- 英语最终验收稳定：位置/选项/stem/材料 11/11、DB 11/11、严格 10/11 (91%)。
+- 下一步：轮换泄露 API key（待用户操作）+ 英语答案 free_text 验证改进（可选）+ 扩充样本/补齐 9 科签名 → Phase 2D。

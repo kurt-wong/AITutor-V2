@@ -394,3 +394,80 @@ def test_ocr_model_subject_routing():
     assert _ocr_model_for_subject("地理") == "PP-StructureV3"
     assert _ocr_model_for_subject("语文") == "PP-StructureV3"
     assert _ocr_model_for_subject("数学") == "PP-StructureV3"
+
+
+def test_actual_ocr_model_matches_winning_provider():
+    """T0-4: ocr_model_used 必须反映实际胜出提供方的模型。
+
+    VL 降级时不能写路由模型（PP-StructureV3），必须写 VL 提供方真实模型。
+    """
+    from app.core.config import settings
+    from app.domains.document.simple_pipeline import _actual_ocr_model
+
+    assert _actual_ocr_model("paddleocr", "PP-StructureV3") == "PP-StructureV3"
+    assert _actual_ocr_model("paddleocr", "PaddleOCR-VL-1.6") == "PaddleOCR-VL-1.6"
+    assert _actual_ocr_model("mimo-vl", "PP-StructureV3") == settings.mimo_vl_model
+    assert _actual_ocr_model("deepseek-vl", "PP-StructureV3") == settings.deepseek_vl_model
+    assert _actual_ocr_model("mock", "PP-StructureV3") == "PP-StructureV3"
+
+
+def test_simple_pipeline_records_ocr_provider():
+    """T0-4: OCR 完成后提供方落入 PipelineResult 与 task result（DB 证据）。
+
+    ocr_provider_used = 实际完成提取的提供方（链上 provider.name）；
+    ocr_model_used = 学科路由选择的模型。
+    """
+    from unittest.mock import patch
+
+    from app.domains.document.ocr.providers import OCRFallbackChain
+    from app.domains.document.schemas import OcrDocument, OcrPage
+
+    class _FakeOCRChain(OCRFallbackChain):
+        def __init__(self) -> None:
+            super().__init__([])
+
+        async def extract(self, file_path):
+            return OcrDocument(
+                filename=file_path.name,
+                pages=[
+                    OcrPage(
+                        page_number=1,
+                        markdown="1. 题干\nA. x\nB. y\nC. z\nD. w",
+                        source_provider="fake-ocr",
+                    )
+                ],
+                provider_used="fake-ocr",
+            )
+
+        def close(self) -> None:
+            pass
+
+    pdf = ROOT / "tmp" / "provider_test.pdf"
+    pdf.parent.mkdir(parents=True, exist_ok=True)
+    pdf.write_bytes(b"%PDF-1.4 fake pdf")
+    try:
+        gateway = LLMGateway(
+            mode="live",
+            providers=[MockLLMProvider(response=_mock_llm_response())],
+        )
+        with patch(
+            "app.domains.document.simple_pipeline.build_ocr_chain",
+            return_value=_FakeOCRChain(),
+        ):
+            result = asyncio.run(run_simple_pipeline(
+                pdf_path=pdf,
+                gateway=gateway,
+                subject="英语",
+            ))
+
+        assert result.ocr_provider_used == "fake-ocr"
+        assert result.ocr_model_used == "PP-StructureV3"
+        assert result.to_dict()["ocr_provider_used"] == "fake-ocr"
+        assert result.to_dict()["ocr_model_used"] == "PP-StructureV3"
+        ppsv3_stage = next(
+            s for s in result.stages if s["name"] == "ppsv3_l1"
+        )
+        assert ppsv3_stage.get("provider") == "fake-ocr"
+        assert ppsv3_stage.get("model") == "PP-StructureV3"
+    finally:
+        pdf.unlink(missing_ok=True)

@@ -1160,3 +1160,16 @@ Phase 0 已完成（全部验收通过，详见更新记录 2026-08-11）。
 - 9 科答案基线 mismatch=0、严格通过率 76%（英语重跑后需按新口径复算）
 - 英语：位置/选项 11/11、严格 10/11
 - **下一步**：T0-4 provider_used 落盘 → T0-5 Phase 2D 前置评估 → 英语答案 free_text 验证改进（可选）→ 轮换泄露 API key（待用户操作）
+
+### 2026-08-25 03:30:00
+
+#### provider_used 落盘完成 + Phase 2D 前置评估（版本 6.12）
+
+- **T0-4 provider_used 落盘**：`PipelineResult` 新增 `ocr_provider_used`/`ocr_model_used`，写入 task result（background_tasks.result_json）。实时验证：英语重跑 `ocr_provider_used=paddleocr`、`ocr_model_used=PP-StructureV3`，11/11 入库稳定。
+- **T0-5 Phase 2D 前置评估**：样本 191 题（数学 5、语文 7 过少）、golden 仅 3 科、Structure Signature 覆盖率 20%（限数学/物理/化学）——**前置条件未满足，暂不启动**。
+- 英语最终验收稳定：位置/选项/stem/材料 11/11，DB 11/11，严格 10/11 (91%)。
+
+**当前状态**：
+- 英语：位置/选项 11/11、严格 10/11（91%）；T0 剩余项：轮换泄露 API key（待用户操作）
+- Phase 2D：前置条件未满足（样本量/golden/签名覆盖率），待积累
+- **下一步**：英语答案 free_text 验证改进（可选）→ 扩充样本 + 补齐 9 科 Structure Signature → Phase 2D
