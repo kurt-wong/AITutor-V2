@@ -1,6 +1,6 @@
 """P0-2 严格测试：_get_question_type_id get-or-create。
 
-审计发现（PIPELINE_AUDIT_2026_08_22.md §四 A）：
+审计发现（bugs.md BUG-012 §四 A）：
 - question_types 表无种子数据，_get_question_type_id 只查不建 →
   423 题 question_type_id 全 NULL。
 - 修复：未命中 canonical 题型时自动创建（get-or-create）。

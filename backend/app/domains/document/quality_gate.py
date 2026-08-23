@@ -29,7 +29,7 @@ _MATH_DOLLAR_RE = re.compile(r"\$[^$]*\$")
 _PUNCT_ONLY_RE = re.compile(r"[\s，。；：、.．!！?？\-—…]+")
 _SEVEN_CHOICE_RE = re.compile(r"七选五|7选5|7选七")
 
-# P0-4 修复（PIPELINE_AUDIT_2026_08_22.md §三 B/D）：
+# P0-4 修复（bugs.md BUG-012 §三 B/D）：
 # 题干异常膨胀检测 —— 拦截"综合题材料整段并入题干"类缺陷。
 # 阈值设计（保守防误伤）：
 # - 非综合题正常题干通常 < 200 字符（含公式/图注）；材料混入可达 1000+。

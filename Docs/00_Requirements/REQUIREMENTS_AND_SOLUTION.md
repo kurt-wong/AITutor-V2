@@ -375,7 +375,7 @@ DOCX 处理：
 |---|---|
 | embedding | NAS 本地模型 |
 | PDF 版面解析 | PP-StructureV3 云 API |
-| OCR/VL | PaddleOCR-VL / MIMO / Qwen |
+| OCR/VL | PaddleOCR-VL / MIMO / DeepSeek Vision |
 | 元数据标注 | DeepSeek / MIMO |
 | 题目生成 | DeepSeek / MIMO |
 | 难度评估 | LLM + 规则 + 学习数据 |

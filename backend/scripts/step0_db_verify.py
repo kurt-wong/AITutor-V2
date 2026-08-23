@@ -1,4 +1,4 @@
-"""Step 0: 数据库验证脚本 — 执行 PHASE_2A_EXECUTION_PLAN.md 要求的所有 SQL 查询。"""
+"""Step 0: 数据库验证脚本 — 执行 docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md 要求的所有 SQL 查询。"""
 import asyncio
 import sys
 from sqlalchemy import text

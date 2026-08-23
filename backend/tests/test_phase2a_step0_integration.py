@@ -437,7 +437,7 @@ async def test_instance_without_document_id_fails(db, subject_id):
 
 
 # ═══════════════════════════════════════════════════════════════════
-# 6. Ingestion 真实路径验证（PHASE_2A_EXECUTION_PLAN Step 0 补齐）
+# 6. Ingestion 真实路径验证（docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md Step 0 补齐）
 # ═══════════════════════════════════════════════════════════════════
 # 执行计划指出：原有 test_question_creation_without_year_school /
 # test_instance_creation_with_document_id 直接构造 model，未走 ingestion；

@@ -799,7 +799,7 @@ def _normalize_structure_signature(value) -> dict | None:
 def _normalize_difficulty(value) -> int:
     """规范化难度：必须是 1-5 整数；缺失/非法默认 3（中等）。
 
-    P0-3 修复（PIPELINE_AUDIT_2026_08_22.md §一 Q3）：
+    P0-3 修复（bugs.md BUG-012 §一 Q3）：
     - 此前 prompt 将 difficulty 标为可选、无校验透传 → 88% 题目 difficulty 为 NULL。
     - prompt 已改必填并给出判断依据；此处做代码层兜底：
       字符串数字（"3"）、浮点（3.0）归一为 int；越界/非法/缺失 → 3。

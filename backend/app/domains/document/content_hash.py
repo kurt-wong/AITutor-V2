@@ -1,6 +1,6 @@
 """content_hash 规范化与计算（Phase 2A Step 5）。
 
-设计（已冻结，PHASE_2A_EXECUTION_PLAN.md Step 5）：
+设计（已冻结，docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md Step 5）：
 - content_hash = SHA256(规范化题干 + 规范化选项 + 规范化题型)
 - 规范化规则：Unicode NFKC + 全角转半角 + 去空白/换行/制表 + 去常见标点 + 小写，
   保证同一道题无论排版差异（空格/标点/换行/全半角）都得到相同 hash。

@@ -1,6 +1,6 @@
 """P0-5 严格测试：综合题共享材料独立于 stem。
 
-审计发现（PIPELINE_AUDIT_2026_08_22.md §二 A）：
+审计发现（bugs.md BUG-012 §二 A）：
 - prompt L518 明文要求综合题 stem_line_ids = 材料全文 + 子题行号 →
   材料整段并入题干（英语完形/阅读 stem 达 2000-2600 字符）。
 - content_slicer._merge_question_group L210 显式把材料行并入 stem。

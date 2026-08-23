@@ -4,7 +4,7 @@ Phase 2A Step 0 真实 Migration Rehearsal — pytest 集成测试。
 在一次性临时数据库上执行完整 migration upgrade/downgrade 演练，
 验证 document_id 回填、COALESCE、year/school 删除、唯一索引、downgrade 有损。
 
-这是 Step 0 验收的核心测试（PHASE_2A_EXECUTION_PLAN.md Step 0 完成判定）。
+这是 Step 0 验收的核心测试（docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md Step 0 完成判定）。
 与 scripts/step0_backfill_verify.py 等价，但以 pytest 形式纳入正式验收。
 
 注意：需要 PostgreSQL 可达（DATABASE_URL 环境变量或 backend/.env）。
@@ -52,7 +52,7 @@ def _asyncpg_dsn(info: dict, db: str) -> str:
 async def test_step0_migration_rehearsal(monkeypatch):
     """一次性临时库执行完整 migration upgrade/downgrade 演练。
 
-    覆盖 PHASE_2A_EXECUTION_PLAN.md Step 0 全部验证项：
+    覆盖 docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md Step 0 全部验证项：
     1. document_id 通过 source_document_name = documents.filename 正确回填
     2. year/school COALESCE 不清空 Instance 已有值
     3. questions.year/school 被删除

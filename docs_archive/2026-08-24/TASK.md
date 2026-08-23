@@ -101,11 +101,6 @@ Date: 2026-08-11
 9. live 测试单独运行，不污染默认 pytest。
 10. 复合题必须 section 级切分；quality gate 失败部分保存并标记低置信度。
 
-## 7. 试卷结构门禁（Paper Structure Gate）
+### 2026-08-11 23:49:10
 
-- Manifest 位置：`test/annotations/structure/`
-- 校验内容：顶层题号、`is_composite`、子题、共享材料、底层题号覆盖、题型集合。
-- 接入位置：`test/scripts/run_live_validation.py`、`test/scripts/adversarial_check_live_validation.py`、`backend/tests/test_paper_structure_gate.py`。
-- 新增试卷：人工确认试卷结构 → 新建 manifest → 在 `paper_structure.PAPER_STRUCTURES` 增加映射 → 补回归测试。
-
-> 变更记录统一记录在根目录 `LOG.md`；历史版本文档见 `docs_archive/2026-08-24/`。
+- 更新 L1 来源约束：PyMuPDF 不再作为整份正文 L1 基座。

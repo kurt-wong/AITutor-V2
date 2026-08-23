@@ -560,7 +560,7 @@ async def _get_question_type_id(
 ) -> UUID | None:
     """查找题型 ID；找不到则创建（get-or-create）。
 
-    P0-2 修复（PIPELINE_AUDIT_2026_08_22.md §四 A）：
+    P0-2 修复（bugs.md BUG-012 §四 A）：
     - 此前只按 QuestionType.code 查表、查不到返回 None 且不创建；
       question_types 表无种子数据 → 423 题 question_type_id 全 NULL。
     - 现在未命中 canonical 题型时自动创建（code=canonical，name=中文映射），

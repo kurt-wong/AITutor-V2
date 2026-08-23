@@ -320,16 +320,8 @@ backend/app/domains/document/
 
 注意：当前 `question_extractor.py` 仍是临时验证版，允许 LLM 直接输出内容文本。正式 T3 前必须改为“粗略行号标注 + 代码锚点校正”范式，禁止直接复用到正式入库链路。
 
-## 9. 表格选项提取
+### 2026-08-11 23:49:10
 
-- 化学等试卷的选项可能位于 HTML table，PPS/VL 直接按行拆分会丢失选项内容。
-- 原则：保留 table 类型，解析 `<table>/<tr>/<td>`，处理 `rowspan/colspan`，再提取选项行。
-- 集成点：`ocr_l1_converter.py`、`content_slicer.py` 的表格选项切片；验收必须覆盖化学表格选项题。
-
-## 10. PP 主路径
-
-- 主路径为 `simple_pipeline.py`：PP canonical 为正文源，native 只做证据补充，LLM 输出行号/锚点，代码负责定位与切片。
-- `pipeline.py`、`l1_arbiter.py` 保留为 fallback。
-- 详细实验过程和归档版本见 `docs_archive/2026-08-24/SIMPLE_PIPELINE.md`。
-
-> 变更记录统一记录在根目录 `LOG.md`；历史版本文档见 `docs_archive/2026-08-24/`。
+- 文档解析架构调整为 L1 双源：PyMuPDF native 与 PP-StructureV3 raw L1 并存。
+- canonical L1 由代码按行选择，LLM 只做行级仲裁。
+- PyMuPDF 降级为辅助工具，不再作为整份正文 L1 基座。

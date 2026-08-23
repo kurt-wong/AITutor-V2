@@ -1,6 +1,6 @@
 """P0-4 严格测试：quality_gate 题干异常膨胀检测。
 
-审计发现（PIPELINE_AUDIT_2026_08_22.md §三 B/D）：
+审计发现（bugs.md BUG-012 §三 B/D）：
 - quality_gate confidence 是纯结构打分，从不校验题干长度/材料混入 →
   英语综合题材料整段并入题干（stem 2000-2600 字符）仍 0.9 approved。
 - 修复：非综合题 stem > 800 字符、综合题 stem > 3000 字符 → 降分 + 标记 issue。

@@ -1,7 +1,7 @@
 """
 Phase 2A Step 6 集成测试 — 知识点映射落库。
 
-覆盖（PHASE_2A_EXECUTION_PLAN.md Step 6 必须新增测试）：
+覆盖（docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md Step 6 必须新增测试）：
 1. 入库一道题后，question_knowledge 能关联到正确 knowledge_nodes
 2. 低置信度映射的 review_status = 'pending'
 3. mapping_source 为 llm/rule/manual 之一

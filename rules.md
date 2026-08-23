@@ -14,7 +14,8 @@
 |---|---|
 | 真实需求 / 方案基线 | `Docs/00_Requirements/REQUIREMENTS_AND_SOLUTION.md` |
 | 字段 / 功能 / 状态字典 | `Docs/00_Requirements/DICTIONARY.md` |
-| 项目定位 / 技术栈 / 进度 / 已知问题 / 完成度 | `PROJECT_STATUS.md` |
+| 项目定位 / 技术栈 / 当前状态 / 完成度 | `PROJECT_STATUS.md` |
+| 已知问题 / Bug 跟踪 | `bugs.md` |
 | 变更历史 | `LOG.md` |
 | 文档解析管线（PP-StructureV3 API、阶段定义、回退链） | `Docs/02_Architecture/PIPELINE.md` |
 | V1 经验教训 / 强制约束 | `Docs/05_Development/V1_LESSONS.md` |
@@ -149,9 +150,25 @@ Agent → MCP Tool → Application Service
 2. 新增内容按时间顺序追加到文件末尾，禁止在文件头部随意新增。
 3. 禁止覆盖或删除历史记录；如需修正，追加一条新的修正记录。
 4. `LOG.md` 每次重要变更追加一条记录。
-5. `PROJECT_STATUS.md` 可以更新顶部“当前状态/文档基线”等当前快照，但每次更新必须同时在文末“更新记录”追加完整时间戳条目。
+5. `PROJECT_STATUS.md`、`RESTART_PROMPT.md`、`bugs.md` 等状态类文档必须按时间戳顺序在文末追加更新记录，禁止直接在文档头更新；如维护头部快照，则头部只保留最新快照，且每次头部变化必须先在文末追加完整时间戳条目。
 6. `RESTART_PROMPT.md` 用于 Codex/Claude 重启恢复；项目目标、系统现状、待办任务变化后必须同步更新，并在文末追加时间戳记录。
 7. 出现新字段、新功能或新状态枚举时，必须同步维护 `Docs/00_Requirements/DICTIONARY.md`，并在文末“更新记录”追加完整时间戳。
+
+日常更新必须写入对应文档，不得新建替代文档：
+
+| 更新类型 | 对应文档 |
+|---|---|
+| 日常代码更新、修复、测试、变更历史 | 根目录 `LOG.md` |
+| 项目当前状态、阶段、下一步任务 | 根目录 `PROJECT_STATUS.md` |
+| Codex/Claude 重启后恢复上下文 | 根目录 `RESTART_PROMPT.md` |
+| 开发过程中发现的 Bug / 修复记录 | 根目录 `bugs.md` |
+| 规划、设计、需求、架构、API、数据、UI 契约 | `Docs/` 下对应规划类权威文档 |
+
+禁止事项：
+
+- 禁止在 `Docs/` 下创建任何状态类、执行记录类、审查报告类、临时方案类文档。
+- 未经用户确认，禁止在 `Docs/` 下新增任何文档。
+- 确需新增 `Docs` 文档时，必须先向用户说明用途、目录和对应权威文档，得到用户确认后才能创建。
 
 ---
 
@@ -172,10 +189,14 @@ Agent → MCP Tool → Application Service
 
 ## 文档治理
 
+- **`Docs/` 只允许存放项目规划、设计、契约类权威文档。**
+- 禁止在 `Docs/` 下随意新增执行记录、审查报告、临时方案、验收报告、修复计划等文档。
+- 日常代码更新和修复记录写入 `LOG.md`；当前状态写入 `PROJECT_STATUS.md`；Bug 写入根目录 `bugs.md`；重启恢复上下文写入 `RESTART_PROMPT.md`。
+- 若确需在 `Docs/` 新增文档，必须先经用户审核同意，且只能写入对应规划类目录。
 - 技术细节（工具名/类名/端点/表结构）写入文档前，先运行 `backend/scripts/validate_docs_vs_code.py` 验证与代码一致（退出码 0）
 - 代码变更必须同步对应权威文档；「目标架构」与「已实现」必须显式标注，不得混写
 - 版本号规则：工具增删 → MINOR++；架构重大变更 → MAJOR++；错字/格式 → PATCH
-- 大规模文档修正前，先备份到 `Docs/ARCHIVE/<YYYY-MM-DD>/`
+- 大规模文档修正前，先备份到 `docs_archive/<YYYY-MM-DD>/`
 - 变更完成后更新对应文档 CHANGE LOG 与 `LOG.md`
 
 ---

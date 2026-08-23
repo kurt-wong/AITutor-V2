@@ -1,7 +1,7 @@
 """
 Phase 2A Step 5 测试 — 精确去重 content_hash。
 
-覆盖（PHASE_2A_EXECUTION_PLAN.md Step 5 必须新增测试）：
+覆盖（docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md Step 5 必须新增测试）：
 1. 同一 PDF 上传两次，第二次只创建 Instance，不创建新 Question
 2. 题干相同但选项不同，创建不同 Question
 3. 题干、选项、题型相同但答案不同，不创建重复 Question，产生审核冲突

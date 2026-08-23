@@ -1,7 +1,7 @@
 """
 Phase 2A Step 4 集成测试 — 答案重试关联修正。
 
-覆盖（PHASE_2A_EXECUTION_PLAN.md Step 4 必须新增测试）：
+覆盖（docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md Step 4 必须新增测试）：
 1. 同一文档有 3 道空答案题，重试后每道题更新到正确 Question
 2. 不同文档有相同题号时，不会互相污染
 3. document_id 或 source_question_number 找不到 Instance 时，记录失败而不是更新错误题目

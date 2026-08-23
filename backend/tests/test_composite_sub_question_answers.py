@@ -1,6 +1,6 @@
 """P1-6 严格测试：综合题子题答案从 L2 标注层正确提取。
 
-审计发现（PIPELINE_AUDIT_2026_08_22.md §二 E）：
+审计发现（bugs.md BUG-012 §二 E）：
 - _merge_question_group 用 q.answer（SlicedQuestion.answer，永远 None）构建子题元数据 →
   子题答案全部丢失，merged_answer 也为空。
 - 修复：从 q.sub_questions（L2 标注层，带 LLM 输出的答案）提取。

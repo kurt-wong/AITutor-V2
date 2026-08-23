@@ -370,4 +370,6 @@ redis
 - 任何表结构变更必须同步 Alembic migration。
 - live LLM/OCR 测试必须与常规 pytest 隔离。
 
-> 变更记录统一记录在根目录 `LOG.md`；历史版本文档见 `docs_archive/2026-08-24/SAD.md`。
+### 2026-08-11 23:49:10
+
+- 文档解析架构更新为 L1 双源：PyMuPDF native 与 PP-StructureV3 并存。

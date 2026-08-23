@@ -116,7 +116,7 @@ Source of truth: `Docs/00_Requirements/REQUIREMENTS_AND_SOLUTION.md`
 > 代码审计（2026-08-21）发现三项额外问题：审核不写回 DB、Worker 把失败当成功、L2 Annotation 被裁剪。
 > 这三项与原有 DSD 变更合并为 Phase 2A 六步，按依赖关系排序。Step 1 包含 migration + 最小入库适配，否则 migration 后测试不可能全绿。
 > 每项完成后跑 pytest。
-> 执行控制：DSH 必须遵守 `docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md`；禁止用文档状态代替命令输出。
+> 执行控制：DSH 必须遵守 `Docs/01_Product/PHASE_2A_EXECUTION_PLAN.md`；禁止用文档状态代替命令输出。
 
 | Step | 任务 | 说明 | 验收 |
 |---|---|---|---|
@@ -249,4 +249,17 @@ Source of truth: `Docs/00_Requirements/REQUIREMENTS_AND_SOLUTION.md`
 
 ---
 
-> 变更记录统一记录在根目录 `LOG.md`；历史版本文档见 `docs_archive/2026-08-24/ROADMAP.md`。
+## 6. 变更记录
+
+### 2026-08-11 23:49:10
+
+- P2 文档解析改为 L1 双源：PyMuPDF native + PP-StructureV3 ppsv3。
+- canonical L1 由代码按证据生成，LLM 只做行级仲裁。
+
+### 2026-08-21
+
+- 版本升至 2.0。
+- P4 重写为 Phase 2 四阶段（2A 数据底座 / 2B 统计搜索 / 2C Annotation 积累 / 2D Similarity/Family 研究）。
+- Phase 2 设计基线冻结为 PLAN_QUESTION_FAMILY v2.0。
+- Phase 2A 明确五项 P0：知识映射落库、Question/Instance 字段修正、Instance 关联 document_id、content_hash、occurrence_count 派生。
+- Family/Similarity/Embedding 暂不实现。

@@ -632,4 +632,15 @@ Response:
 
 ---
 
-> 变更记录统一记录在根目录 `LOG.md`；历史版本文档见 `docs_archive/2026-08-24/ACS.md`。
+## 8. 变更记录
+
+### 2026-08-22
+
+- `GET /api/admin/statistics` 响应新增 `kp_year_trend`（知识点×年份趋势，受 start_year/end_year 过滤）。
+- `GET /api/admin/questions/{question_id}` 响应补充配图 `images` 列表与 `occurrence_count` 派生值（实现与合约对齐，ACS §5.3 原文已定义）。
+
+### 2026-08-11
+
+- 新增系统健康检查 API：`GET /api/health`、`GET /api/health/dependencies`。
+- 新增错误码 `UPLOAD_FAILED`、`TASK_RETRY_INVALID`。
+- `GET /api/admin/documents` 的状态筛选补充 `queued`。

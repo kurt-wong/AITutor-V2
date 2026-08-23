@@ -1,7 +1,7 @@
 """
 Phase 2A Step 3 测试 — Worker 失败语义 + L2 完整持久化 + 幂等重跑清理。
 
-覆盖（PHASE_2A_EXECUTION_PLAN.md Step 3 必须新增测试）：
+覆盖（docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md Step 3 必须新增测试）：
 1. ingestion 抛异常时 background_tasks.status='failed'、documents.processing_status='failed'
 2. 答案提取失败时任务仍 succeeded，答案进入 retry queue
 3. llm_annotated_markdown 包含 knowledge_points/difficulty/score/corrected_anchors/anchor_status/question_type

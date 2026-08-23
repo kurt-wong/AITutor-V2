@@ -351,7 +351,7 @@ def _serialize_l2_for_persistence(l2_annotation) -> dict:
 async def _cleanup_unreviewed_records(session, document_id: UUID) -> None:
     """幂等重跑清理：删除该文档下未审核的 document 来源记录。
 
-    Phase 2A Step 3（PLAN §7.1 Step 3 / PHASE_2A_EXECUTION_PLAN Step 3）：
+    Phase 2A Step 3（PLAN §7.1 Step 3 / docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md Step 3）：
     - 只清理 `source_type='document'` 且 `status='reviewing'`（未被人工审核）的记录；
     - 已审核（status != 'reviewing'）或 review_overrides 非空的记录保留，不静默覆盖。
     - 只删除当前 document_id 下的 Instance；同一 Question 在其他文档下的 Instance 保留。

@@ -377,7 +377,7 @@ def _slice_single_question(
     anchor_map: dict,
 ) -> SlicedQuestion:
     """切片单个题目。"""
-    # P0-5 修复（PIPELINE_AUDIT_2026_08_22.md §二 A）：
+    # P0-5 修复（bugs.md BUG-012 §二 A）：
     # 独立题：共享材料行不得并入题干。
     # 综合题：stem 应包含材料 + 子题内容（前端展示需要连贯性），
     #         不剔除 shared_material_line_ids。

@@ -305,7 +305,7 @@ LIMIT 20
 
 > 执行顺序有依赖，必须按序号顺序执行。每项完成后跑 `pytest backend/tests`，基线 407 passed。
 > Phase 2A 验收前，不新增 Family/Similarity/Annotation 表设计变更。
-> 执行控制：DSH 必须遵守 `Docs/01_Product/PHASE_2A_EXECUTION_PLAN.md`，所有完成声明必须附实际命令和 DB 验证输出。
+> 执行控制：DSH 必须遵守 `docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md`，所有完成声明必须附实际命令和 DB 验证输出。
 
 #### Step 1：DSD 变更 + 最小入库适配
 

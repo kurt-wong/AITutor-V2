@@ -478,4 +478,23 @@ Phase 3（规模化）                                   │
 
 ---
 
-> 变更记录统一记录在根目录 `LOG.md`；历史版本文档见 `docs_archive/2026-08-24/T3_IMPLEMENTATION.md`。
+## 13. 变更记录
+
+### 2026-08-11
+
+- 创建本文件，作为 T3 实施的执行基线。
+- 整合 V1 代码/日志分析、Codex 评审意见，确定 Annotation Paradigm 实施路线。
+- 定义 L1 行模型（PP 用 P1L001，Native 用 N1L001，canonical 保留 PP 行号）、L2 标注契约、锚点校正契约、Source Provenance 契约。
+- 建立 Phase 0-3 四阶段 Task 列表和依赖关系。
+
+### 2026-08-11 23:49:10
+
+- 架构调整为 L1 双源：PyMuPDF native 与 PP-StructureV3 raw L1 并存，canonical L1 由代码按证据选择。
+- PyMuPDF 降级为辅助工具，不再作为整份正文 L1 基座。
+- LLM 只允许做行级仲裁，禁止输出或生成 L1 原文。
+- 上下标/化学式默认双源校验，禁止直接接受 PP 识别结果。
+
+### 2026-08-20 22:40:51
+
+- 明确 L1 行模型：PP 用 `P1L001`，Native 用 `N1L001`，canonical 保留 PP 行号。
+- native 行号通过 `raw_sources["native_line_id"]` 溯源，不暴露给 LLM 标注阶段。

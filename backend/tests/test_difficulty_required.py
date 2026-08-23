@@ -1,6 +1,6 @@
 """P0-3 严格测试：difficulty 必填 prompt + _normalize_difficulty 兜底。
 
-审计发现（PIPELINE_AUDIT_2026_08_22.md §一 Q3）：
+审计发现（bugs.md BUG-012 §一 Q3）：
 - prompt 将 difficulty 标为"可选字段"且无判断依据 → LLM 大量省略 →
   已入库 88% 题目 difficulty 为 NULL（444 题仅 56 题有值）。
 - 修复：prompt 改必填 + 判断依据；代码层 _normalize_difficulty 兜底

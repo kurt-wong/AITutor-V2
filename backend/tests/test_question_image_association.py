@@ -1,6 +1,6 @@
 """P0-1 严格测试：_build_question_images 使用真实 SlicedQuestion 结构。
 
-审计发现（PIPELINE_AUDIT_2026_08_22.md §四 D）：
+审计发现（bugs.md BUG-012 §四 D）：
 - `_build_question_images` 原先用 `getattr(q, "stem_line_ids")` / `getattr(q, "options_line_ids")`
   读行号，但生产 SlicedQuestion（schemas_l2.L142-179）**没有这两个属性**，
   行号实际存放在 `stem_anchor.corrected_line_ids` 与 `corrected_anchors`（field 前缀 option_）。

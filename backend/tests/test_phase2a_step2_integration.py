@@ -1,7 +1,7 @@
 """
 Phase 2A Step 2 集成测试 — 审核决定写回 DB。
 
-覆盖（PHASE_2A_EXECUTION_PLAN.md Step 2 必须新增测试）：
+覆盖（docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md Step 2 必须新增测试）：
 1. 审核通过后 questions.status = 'approved'（DB 真实变化）
 2. 审核驳回后 questions.status = 'rejected'（DB 真实变化）
 3. review_overrides 的 stem/options/answer/explanation 写回对应 Question（DB 真实变化）
