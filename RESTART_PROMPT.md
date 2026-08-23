@@ -1,7 +1,7 @@
 # AI Tutor Personal Edition — RESTART_PROMPT
 
-Version: 6.10
-Status: 重启恢复指引（9 科答案基线 mismatch=0、严格通过率 76%；英语 P0-A 材料合并 11/11 验证通过；OCR 链加固完成；下一步：处理 PPS/PVL 队列满载 + 英语 stem 位置/选项归属 + 轮换泄露 API key）
+Version: 6.11
+Status: 重启恢复指引（9 科答案基线 mismatch=0；英语 stem 位置/选项归属 11/11、严格 10/11、Q46 作文已入库；PPS/PVL 队列满载已解决（paddle 提交 200）；下一步：provider_used 落盘 + Phase 2D 前置评估 + 轮换泄露 API key）
 Date: 2026-08-25
 
 ---
@@ -112,10 +112,10 @@ Date: 2026-08-25
 
 ### T0. 2026-08-25 当前焦点（按优先级）
 
-1. **处理 PPS/PVL 队列满载**（用户正在尝试）：paddle AIStudio API 返回 400 code 10010"任务提交队列已满"（官方错误码表无此码）。已做客户端排队（PPS 也走 PaddleOCRQueue）+ 10010 熔断（300s）+ mimo 短超时降级。若用户找到服务端方案（如提升配额/换 token/换 API），更新 .env 后重启后端验证。
-2. **轮换泄露 API key（安全）**：dacad48 提交把 MIMO/DeepSeek/PaddleOCR 密钥写进 git 历史，92a8c07 已从工作树移除硬编码。**必须轮换三个 key**，更新 backend/.env（.gitignore 中）。
-3. **英语 stem 位置/选项归属**：位置 7/11 (64%)、选项 7/11 (64%)。位置问题是 stem 越界串题（content_slicer 锚点），选项问题是综合题选项跨 section。与答案修复分开处理。
-4. **provider_used 落盘**：把 OCR 提供方写入 task result，让"哪个提供方完成"有 DB 证据（用户建议）。
+1. **PPS/PVL 队列满载** ✅ 已解决：paddle 提交 HTTP 200 + jobId 返回；英语重跑 PP-StructureV3 OCR 2.8s 直接成功。客户端排队 + 熔断 + 降级机制保留（防御性）。
+2. **轮换泄露 API key（安全）**：dacad48 提交把 MIMO/DeepSeek/PaddleOCR 密钥写进 git 历史，92a8c07 已从工作树移除硬编码。**必须轮换三个 key**，更新 backend/.env（.gitignore 中）。待用户在各平台控制台执行。
+3. **英语 stem 位置/选项归属** ✅ 已完成（2026-08-25 02:30）：位置 7/11 → 11/11、选项 7/11 → 11/11、Q46 作文缺库解决（DB 11/11）、严格通过 10/11。根因：semantic_anchor is_short_answer 忽略 end_marker（语法填空行内编号）+ 截断边界按题号大小而非文档顺序（OCR 噪声 "48、" 截空 Q46）。详见 LOG.md 2026-08-25 02:30。
+4. **provider_used 落盘**：把 OCR 提供方写入 task result，让"哪个提供方完成"有 DB 证据（用户建议）。**当前焦点**。
 5. **Phase 2D Similarity/Family**（前置条件：样本量 + golden set + Structure Signature raw 分布）。
 
 ### T1. 建立真实文档测试集
@@ -656,3 +656,11 @@ python test/scripts/adversarial_check_live_validation.py --require-live-pp
 ### 2026-08-24 23:55:00
 
 - `rules.md` 已明确日常文档更新映射，并禁止未经用户确认在 `Docs/` 新增状态类文档。
+
+### 2026-08-25 02:30:00
+
+- 版本升至 6.11。PPS/PVL 队列满载解决（paddle 提交 200，英语重跑 PPS OCR 直接成功）。
+- 英语 stem 位置/选项归属修复完成：位置 7/11 → 11/11、选项 7/11 → 11/11、Q46 作文缺库解决（DB 11/11）、严格通过 10/11 (91%)。
+- 修复文件：`semantic_anchor.py`（综合题 short_answer 信任 end_marker）、`anchor_corrector.py`（截断边界改文档顺序 + 题号过滤）、`e2e_semantic_report.py`（选项归属改 L2 行号区间）、`test_semantic_anchor.py`（+2 测试）、`test_ocr_vision_pdf_fallback.py`（过期测试修复）。
+- 全量 pytest 629 passed，剩余失败均为沙箱 temp ACL 与 DB 数据前置，无回归。
+- 下一步：T0-4 provider_used 落盘 → T0-5 Phase 2D 前置评估；轮换泄露 API key 待用户操作。

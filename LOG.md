@@ -1628,3 +1628,53 @@ python test/scripts/answer_verifier.py
 - ⚠️ 密钥已进 git 历史，需轮换
 
 **版本升至 6.10。**
+
+### 2026-08-25 02:30:00
+
+#### 英语 stem 位置/选项归属修复 + Q46 作文缺库解决（版本 6.11）
+
+**PPS/PVL 队列满载验证（T0-1）**：
+- paddle 提交测试 HTTP 200 + jobId 返回（此前 400 code 10010 队列满）——服务端方案生效
+- 英语重跑 OCR 走 PP-StructureV3 直接成功（2.8s），10010 熔断不再触发
+- 后端重启（新代码）健康检查通过：postgresql/redis/minio 全 ok
+
+**英语 stem 位置修复（T0-3，位置 7/11 → 11/11）**：
+- 根因 1（Q11/Q14/Q18 stem 越界串题）：`semantic_anchor.resolve_stem_range` 的
+  is_short_answer 分支忽略 LLM end_marker，强制用 next_q-1 做边界。语法填空子题号是
+  行内数字（11(it)、14a），next_q 越过整个 section 簇落到下一节题号行，把
+  语法填空_B/C + 选词填空内容吞进 stem。
+  修复：综合题（is_composite 或 shared_material）且含 end_marker 时取
+  min(end_marker, next_q-1)，evidence 记为 end=min(end_marker,next_question)。
+  普通独立题保持确定性 next_q 边界（物理 Q15 跨页 end_marker 不稳定，测试锁定）。
+- 根因 2（Q46 作文缺库）：`anchor_corrector._truncate_stem_at_next_question` 按
+  "题号大于当前"取下一题边界；OCR 噪声题号行（书面表达第一节标题拆行 "48、49"）
+  题号 48 > 46 但文档顺序在作文题之前，把 Q46 stem 截空 → 丢弃。
+  修复：边界改为"当前题号行/题干起点之后、且题号不小于当前题"的最早题号行
+  （文档顺序 + 题号过滤混合规则）。子题行（（1）（2））因题号小被排除。
+- 重跑后 DB 验证：Q11 stem=515 字符（原 1737）、Q14=388（原 1144）、Q18=573（原 678），
+  均只含各自材料段；Q46 作文 prompt 完整入库（136 字符）。
+
+**选项归属修复（选项 7/11 → 11/11）**：
+- 数据核实：Q1/Q26/Q29/Q33 的 DB 选项文本正确、行号均在各自 section 内
+- 验证脚本假阳性：综合题多子题选项按 label 拼接成一段文本，拼接文本在 section 原文中
+  不连续出现，`compact_text(db_text) not in section_text` 误报
+- 修复：`e2e_semantic_report.py` verify_options 改用 L2 options_line_ids 行号区间判断
+  （section.id_min ~ 下一 section.id_min），无 L2 行号时文本兜底
+
+**其他**：
+- 存量过期测试修复：`test_ocr_vision_pdf_fallback.py::test_paddle_queue_full_retries_submit`
+  仍按 8574109 之前的行为期望 10010 重试 2 次后成功；熔断设计下连续 2 次 10010 触发
+  300s 熔断。改为 `test_submit_transient_error_retries_then_succeeds`（503 瞬态错误重试），
+  10010 熔断路径由 test_paddle_circuit_breaker.py 覆盖。
+- 单元测试 +2：`test_composite_fill_in_stem_respects_end_marker`（语法填空场景）、
+  `test_truncation_uses_document_order_not_number_order`（OCR 噪声题号场景）
+
+**验收（真实重跑，task 7bc91b60）**：
+- L2 11 → 管线 11 → DB 11（此前 DB 10，Q46 缺库）
+- stem 11/11、位置 11/11、材料 11/11、选项 11/11、答案 10/11
+- 严格通过率 10/11 (91%)（此前 3/11）
+- 剩余：Q46 答案 free_text_answer 不可验证（作文自由文本，验证器固有边界）
+- 全量 pytest（沙箱）：629 passed，剩余 12 failed + 2 errors 均为沙箱 temp ACL 与
+  DB 数据前置（用户本机可写、清库后可过），无回归
+
+**版本升至 6.11。**

@@ -535,6 +535,28 @@ V1 最后停留在 Session #178：F2/F3 代码已改，但因旧进程抢队列�
    LLM 标注阶段只暴露 canonical 行号。
 3. 双源合并按 `(page, line_no)` 加文本相似度对齐，不能假设 native 与 PP 共享 `line_id`。
 
+### 3.32 行内编号 section 的 stem 边界必须信任 end_marker（P0，2026-08-25）
+
+教训：
+
+- 语法填空/完形等共享材料 section 的子题号常为行内数字（`11(it)`、`14a`、
+  `18(award)`），不是独立题号行。
+- `resolve_stem_range` 的 is_short_answer 分支曾强制 `end_order = next_q - 1`
+  （确定性下一题边界），此时 `next_q` 越过整个 section 簇落到下一节题号行，
+  把后续 section 内容吞进 stem（英语 Q11/Q14/Q18 串入 语法填空_B/C + 选词填空）。
+- 截断边界按"题号大于当前"取下一题时，OCR 噪声题号行（书面表达标题拆行
+  `48、49`）题号 48 > 46 但文档顺序在作文题之前，把 Q46 stem 截空 → 作文缺库。
+
+强制约束：
+
+1. 综合题（is_composite 或 shared_material）的 short_answer/fill_in 型题目，
+   必须信任 LLM end_marker：`end = min(end_marker, next_q - 1, stop_order - 1)`。
+2. 普通独立题保持确定性 next_q 边界（物理 Q15 跨页 end_marker 不稳定，已锁定测试）。
+3. stem 截断边界必须按**文档顺序**（当前题号行/题干起点之后的题号行）取，
+   且只考虑题号不小于当前题的题号行（排除子题行（1）（2）等小号）；
+   禁止仅按题号大小取边界（噪声题号会把 stem 截空）。
+4. 边界锚点优先当前题自己的题号行；无独立题号行（行内编号）时退回题干起点。
+
 ---
 
 ## 7. 变更记录
@@ -586,3 +608,8 @@ V1 最后停留在 Session #178：F2/F3 代码已改，但因旧进程抢队列�
 
 - 新增 3.31：Native/PP 行号编码分离。
 - PP 用 `P1L001`，Native 用 `N1L001`；canonical 保留 PP 行号，native 行号只存 `raw_sources["native_line_id"]`。
+
+### 2026-08-25 02:30:00
+
+- 新增 3.32：行内编号 section 的 stem 边界必须信任 end_marker（P0）。
+- 来源：英语 Q11/Q14/Q18 stem 越界串题 + Q46 作文缺库（OCR 噪声题号截空）修复。

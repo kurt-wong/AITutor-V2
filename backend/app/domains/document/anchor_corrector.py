@@ -259,34 +259,55 @@ def _truncate_stem_at_next_question(
     """P0-B: 截断 stem 行号到下一题起点之前。
 
     防止 LLM 标注的 stem 范围包含了下一题的行（结束位置未校验）。
-    使用 question_start_map（来自 _build_question_start_map）确定下一题边界。
+    边界取「文档顺序上位于当前题干起点之后最早的题号行」：
+    - 常规顺序编号时等价于「下一个题号」；
+    - 语法填空等行内编号 section 中，题号行可能在数节之外；
+    - OCR 噪声题号（如书面表达标题拆行 "48、49"）若在文档顺序上早于
+      当前题，仅按题号大小取边界会把 stem 截空（英语 Q46 作文被误丢），
+      故必须按文档顺序，不按题号大小。
     """
     if not stem_line_ids:
         return stem_line_ids
 
-    # 找到下一题的起始 order
+    # 当前题干在文档中的起点 order
+    current_orders = [
+        line_by_id[lid].order
+        for lid in stem_line_ids
+        if lid in line_by_id
+    ]
+    if not current_orders:
+        return stem_line_ids
+    current_start = min(current_orders)
+
     try:
         current_qnum = int(current_question_number) if current_question_number else None
     except (ValueError, TypeError):
         current_qnum = None
 
+    # 非数字题号（如"实验一"）：无题号序可言，保持旧行为不做截断
+    # （子题行（1）（2）等小号会误作边界导致过度截断）。
     if current_qnum is None:
         return stem_line_ids
 
-    # question_start_map: {qnum: line_id}，找到大于当前题号的最小题号
-    next_qnum = None
-    for qnum in sorted(question_start_map.keys()):
-        if qnum > current_qnum:
-            next_qnum = qnum
-            break
+    # 边界锚点：优先当前题自己的题号行（复合题材料在前、题号行在 stem
+    # 内部时，题号行不能当作下一题边界，但它仍锚定本节的起点）。
+    # 无独立题号行（语法填空等行内编号）时退回题干起点。
+    own_line_id = question_start_map.get(current_qnum) if current_qnum is not None else None
+    own_line = line_by_id.get(own_line_id) if own_line_id else None
+    anchor_order = own_line.order if own_line is not None else current_start
 
-    # 计算截断边界 order
+    # 文档顺序边界：锚点之后、且题号不小于当前题号的题号行。
+    # - 题号过滤：子题行（（1）（2）等小号）不属于顶层题边界；
+    # - 文档顺序过滤：OCR 噪声题号（如书面表达标题拆行 "48、49"）在文档
+    #   顺序上早于当前题时，仅按题号大小取边界会把 stem 截空
+    #   （英语 Q46 作文被误丢）。
     boundary_order = stop_order  # 默认：答案区起点
-    if next_qnum is not None:
-        next_line_id = question_start_map[next_qnum]
-        next_line = line_by_id.get(next_line_id)
-        if next_line is not None:
-            boundary_order = min(boundary_order, next_line.order)
+    for qnum, line_id in question_start_map.items():
+        if current_qnum is not None and qnum <= current_qnum:
+            continue
+        line = line_by_id.get(line_id)
+        if line is not None and line.order > anchor_order:
+            boundary_order = min(boundary_order, line.order)
 
     # 截断：只保留 order < boundary_order 的行
     truncated = [
@@ -297,8 +318,8 @@ def _truncate_stem_at_next_question(
     if len(truncated) < len(stem_line_ids):
         removed = len(stem_line_ids) - len(truncated)
         logger.info(
-            "P0-B: truncated %d stem lines after next-question boundary (Q%s, next_qnum=%s, boundary_order=%s)",
-            removed, current_question_number, next_qnum, boundary_order,
+            "P0-B: truncated %d stem lines after next-question boundary (Q%s, boundary_order=%s)",
+            removed, current_question_number, boundary_order,
         )
 
     # 不回退到原始列表：如果全部行都在边界之后，返回空列表（下游 quality_gate 拦截）。

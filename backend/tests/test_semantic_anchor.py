@@ -458,3 +458,78 @@ def test_short_answer_stem_ends_at_next_question():
     # stem 应包含 Q15 到 Q16 之间的所有行
     assert "P1L004" in result1.questions[0].stem_line_ids  # 图注行
     assert "end=next_question_boundary" in (result1.corrected_anchors[0].evidence or "")
+
+
+def test_composite_fill_in_stem_respects_end_marker():
+    """综合题（语法填空型）end_marker 早于 next_q 时以 end_marker 截断。
+
+    场景：语法填空 A/B/C 的材料挤在同一页，子题号行内编号（11(it)、14a），
+    next_q 会越过整个 section 簇落到下一节题号行。LLM end_marker 指向
+    section 内材料末尾，是更可靠的边界（2026-08-25 英语位置修复）。
+    """
+    doc = _doc(
+        [
+            "Tangshan started to revive 11(it) and rebuild for a brighter future.",
+            "B",
+            "Anger is an emotion 14a classmate borrows our things.",
+            "C",
+            "The IOC announced that Lang Ping 18(award) the award.",
+            "21. 选词填空第一题",
+        ]
+    )
+    annotation = L2DocumentAnnotation(
+        filename="test.pdf",
+        questions=[
+            L2QuestionAnnotation(
+                question_number="11",
+                question_type="fill_in",
+                is_composite=True,
+                shared_material_line_ids=["P1L001"],
+                stem_line_ids=["P1L001", "P1L002", "P1L003", "P1L004", "P1L005"],
+                stem_start_marker="Tangshan started to revive",
+                stem_end_marker="rebuild for a brighter future.",
+                options_line_ids={},
+            ),
+        ],
+    )
+
+    result = correct_anchors(annotation, doc)
+    # stem 只含语法填空_A 材料行，不吞入 B/C 与选词填空
+    assert result.questions[0].stem_line_ids == ["P1L001"]
+    assert "end=min(end_marker,next_question)" in (
+        result.corrected_anchors[0].evidence or ""
+    )
+
+
+def test_truncation_uses_document_order_not_number_order():
+    """截断边界按文档顺序取下一题号行，不按题号大小。
+
+    场景：OCR/版面噪声题号行（如书面表达第一节标题拆行的 "48、49"）在
+    文档顺序上早于当前题，但题号更大。旧逻辑按题号取 next 会把 stem 截空
+    （英语 Q46 作文被误丢）；必须只考虑当前题干起点之后的行。
+    """
+    doc = _doc(
+        [
+            "48. 书面表达第一节的题",   # P1L001 题号 48，文档顺序在 46 之前
+            "46. 作文题题干：给Jim写信",  # P1L002
+            "注意：词数100左右",          # P1L003
+            "参考答案",                   # P1L004 答案区起点
+        ]
+    )
+    annotation = L2DocumentAnnotation(
+        filename="test.pdf",
+        questions=[
+            L2QuestionAnnotation(
+                question_number="46",
+                question_type="short_answer",
+                stem_line_ids=["P1L002", "P1L003"],
+                stem_start_marker=None,
+                stem_end_marker=None,
+                options_line_ids={},
+            ),
+        ],
+    )
+
+    result = correct_anchors(annotation, doc)
+    # stem 不被题号 48 的行截空
+    assert result.questions[0].stem_line_ids == ["P1L002", "P1L003"]

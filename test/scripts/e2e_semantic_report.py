@@ -273,6 +273,31 @@ class Section:
     norm_start: int = -1
     norm_end: int = -1
     norm_text: str = ""
+    # L1 行号区间（2026-08-25：选项归属校验用）。
+    # id_min = 本 section 成员题 shared/stem/options 行号的最小 (page, line)；
+    # id_max = 下一个 section 的 id_min（无下一个时为 None，即无上界）。
+    id_min: tuple | None = None
+    id_max: tuple | None = None
+
+
+def _lid_key(lid: str | None) -> tuple[int, int] | None:
+    """L1 行号 "P1L003" / "N1L003" → (page, line) 元组，可排序。"""
+    m = re.match(r"^[PN](\d+)L(\d+)$", lid or "")
+    if not m:
+        return None
+    return (int(m.group(1)), int(m.group(2)))
+
+
+def _lid_within(lid: str | None, section: Section) -> bool:
+    """判断行号是否落在 section 的 L1 行号区间 [id_min, id_max) 内。"""
+    key = _lid_key(lid)
+    if key is None or section.id_min is None:
+        return True  # 行号无法解析或 section 无行号区间时不判失败
+    if key < section.id_min:
+        return False
+    if section.id_max is not None and key >= section.id_max:
+        return False
+    return True
 
 
 @dataclass
@@ -612,6 +637,15 @@ def build_sections(
         if not shared_text and shared_lines:
             shared_text = "\n".join(shared_lines)
 
+        # section 的 L1 行号区间：成员题 shared/stem/options 行号的最小值
+        all_ids: list[str] = []
+        for q in questions:
+            all_ids.extend(str(lid) for lid in to_list(q.get("shared_material_line_ids")))
+            all_ids.extend(str(lid) for lid in to_list(q.get("stem_line_ids")))
+            for lids in (q.get("options_line_ids") or {}).values():
+                all_ids.extend(str(lid) for lid in to_list(lids))
+        id_keys = [k for k in (_lid_key(lid) for lid in all_ids) if k is not None]
+
         sections.append(
             Section(
                 section_id=sid,
@@ -619,10 +653,18 @@ def build_sections(
                 start_text=start_text,
                 shared_text=shared_text,
                 has_shared_material=has_shared,
+                id_min=min(id_keys) if id_keys else None,
             )
         )
 
-    sections.sort(key=lambda s: qn_num(s.qns[0]) if s.qns else 9999)
+    # 按文档顺序（行号区间）排序，无行号时按题号排序兜底
+    sections.sort(
+        key=lambda s: (s.id_min is None, s.id_min if s.id_min is not None else (0, 0), qn_num(s.qns[0]) if s.qns else 9999)
+    )
+    # 每个 section 的上界 = 下一个 section 的起点
+    for index, section in enumerate(sections):
+        if index + 1 < len(sections):
+            section.id_max = sections[index + 1].id_min
     return sections
 
 
@@ -716,7 +758,7 @@ def verify_question(
 
     verify_stem(result, db_stem, l2_q, pipeline_q, section, sections, source_compact, headers_in_source)
     verify_material(result, db_stem, section, pipeline_q, source_compact)
-    verify_options(result, db_options, pipeline_q, section)
+    verify_options(result, db_options, pipeline_q, section, l2_q=l2_q)
     if answer_verification is not None:
         result.answer_status = answer_verification.status
         result.answer_evidence_kind = answer_verification.evidence_kind
@@ -856,6 +898,7 @@ def verify_options(
     db_options,
     pipeline_q: dict,
     section: Section | None,
+    l2_q: dict | None = None,
 ) -> None:
     db_options_list = to_list(db_options)
     expected_options = to_list(pipeline_q.get("options"))
@@ -885,21 +928,38 @@ def verify_options(
 
     section_text = section.norm_text if section else ""
     missing_in_db: list[str] = []
-    wrong_location: list[str] = []
     for label, expected_text in expected_by_label.items():
         db_text = db_by_label.get(label, "")
         if not db_text or expected_text not in db_text and db_text not in expected_text:
             missing_in_db.append(label)
-            continue
-        if section_text and compact_text(db_text) not in section_text:
-            wrong_location.append(label)
-
     if missing_in_db:
         result.details.append(f"DB 选项缺失: {','.join(missing_in_db)}")
         return
-    if wrong_location:
-        result.details.append(f"选项未落在当前 section: {','.join(wrong_location)}")
-        return
+
+    wrong_location: list[str] = []
+    # 归属校验优先用 L2 行号区间（2026-08-25）：
+    # 综合题多子题选项会按 label 拼接成一段文本，拼接文本在 section 原文中
+    # 不连续出现，纯文本包含判断会产生假阳性（英语 Q1/Q26/Q29/Q33 选项实际
+    # 都在各自 section 内）。L2 options_line_ids 直接指向 L1 行号，精确判断。
+    l2_opt_ids = (l2_q or {}).get("options_line_ids") or {}
+    has_l2_option_ids = any(to_list(lids) for lids in l2_opt_ids.values())
+    if has_l2_option_ids and section is not None and section.id_min is not None:
+        for label in expected_by_label:
+            lids = to_list(l2_opt_ids.get(label))
+            if lids and not all(_lid_within(lid, section) for lid in lids):
+                wrong_location.append(label)
+        if wrong_location:
+            result.details.append(f"选项行号越出当前 section: {','.join(wrong_location)}")
+            return
+    else:
+        # 无 L2 行号或 section 无行号区间 → 文本包含判断兜底（单行选项/历史数据）
+        for label, expected_text in expected_by_label.items():
+            db_text = db_by_label.get(label, "")
+            if section_text and compact_text(db_text) not in section_text:
+                wrong_location.append(label)
+        if wrong_location:
+            result.details.append(f"选项未落在当前 section: {','.join(wrong_location)}")
+            return
 
     extra_labels = sorted(set(db_by_label.keys()) - set(expected_by_label.keys()))
     if extra_labels:

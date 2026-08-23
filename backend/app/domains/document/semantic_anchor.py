@@ -335,8 +335,23 @@ def resolve_stem_range(
             end_order = min(end_order, hard_boundary)
         end_was_capped = end_match is not None and end_match.order != end_order
     elif is_short_answer and next_q is not None:
-        # short_answer: stem ends at next question boundary (deterministic)
+        # short_answer: stem ends at next question boundary (deterministic).
+        # 例外（2026-08-25 英语语法填空）：综合题（section/共享材料型）的
+        # 子题号常为行内编号（"11(it)"、"14a"），next_q 会越过整个 section
+        # 簇落到下一节题号行，把后续 section 内容吞进 stem。此时 LLM
+        # end_marker 是 section 内材料末尾的更可靠证据，取两者较早者。
+        # 普通独立题保持确定性 next_q 边界（物理 Q15 跨页 end_marker
+        # 不稳定，见 test_short_answer_stem_ends_at_next_question）。
         end_order = next_q - 1
+        if (
+            (question.is_composite or question.shared_material_line_ids)
+            and end_match is not None
+        ):
+            end_line = line_by_id[end_match.line_id]
+            if _STRICT_OPTION_LABEL_RE.match(end_line.text):
+                end_order = min(end_order, end_line.order - 1)
+            else:
+                end_order = min(end_order, end_match.order)
         if stop_order != float("inf"):
             end_order = min(end_order, stop_order - 1)
         end_was_capped = end_match is not None and end_match.order != end_order
@@ -388,7 +403,13 @@ def resolve_stem_range(
     if is_choice and has_options:
         evidence_parts.append("end=first_option_boundary")
     elif is_short_answer and next_q is not None:
-        evidence_parts.append("end=next_question_boundary")
+        if (
+            (question.is_composite or question.shared_material_line_ids)
+            and end_match is not None
+        ):
+            evidence_parts.append("end=min(end_marker,next_question)")
+        else:
+            evidence_parts.append("end=next_question_boundary")
     elif end_was_capped:
         evidence_parts.append(
             f"end_capped_at_boundary(from={end_match.line_id})"

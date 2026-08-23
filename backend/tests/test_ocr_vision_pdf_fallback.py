@@ -79,7 +79,13 @@ def test_llm_vision_ocr_keeps_image_data_url() -> None:
         tmp_dir.rmdir()
 
 
-def test_paddle_queue_full_retries_submit() -> None:
+def test_submit_transient_error_retries_then_succeeds() -> None:
+    """提交遇到瞬态错误（503）时按 submit_max_retries 重试后成功。
+
+    注意：10010（队列满）不再重试 2 次后成功——8574109 起连续 2 次 10010
+    触发熔断（300s）并立即降级 VL，由 test_paddle_circuit_breaker.py 覆盖；
+    这里用 503 验证普通瞬态错误的重试路径。
+    """
     post_count = 0
 
     def handler(request: httpx.Request) -> httpx.Response:
@@ -87,10 +93,7 @@ def test_paddle_queue_full_retries_submit() -> None:
         if request.method == "POST":
             post_count += 1
             if post_count < 3:
-                return httpx.Response(
-                    400,
-                    text='{"code":10010,"msg":"queue full"}',
-                )
+                return httpx.Response(503, text="service unavailable")
             return httpx.Response(200, json={"data": {"jobId": "job-q"}})
         if request.url.path.endswith("/job-q"):
             return httpx.Response(
