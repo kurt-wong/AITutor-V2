@@ -290,11 +290,21 @@ def _merge_question_group(
             if lid not in all_explanation_lines:
                 all_explanation_lines.append(lid)
 
+    # 合并选项：聚合子题选项，按 label 去重
+    merged_options = []
+    seen_labels = set()
+    for q in group:
+        for opt in (q.options or []):
+            label = opt.get("label", "")
+            if label and label not in seen_labels:
+                seen_labels.add(label)
+                merged_options.append(opt)
+
     return SlicedQuestion(
         question_number=primary.question_number,
         question_type=primary.question_type,
         stem=stem,
-        options=[],
+        options=merged_options,
         section_id=primary.section_id,
         shared_material_line_ids=primary.shared_material_line_ids,
         difficulty=primary.difficulty,
