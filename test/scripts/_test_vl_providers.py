@@ -1,19 +1,30 @@
 #!/usr/bin/env python3
-"""测试 VL OCR 提供方（mimo-vl / deepseek-vl）是否可用。"""
-import sys, io, json, asyncio
+"""测试 VL OCR 提供方（mimo-vl / deepseek-vl）是否可用。
+
+密钥从 backend/.env 读取，禁止硬编码。
+"""
+import sys, io, json, asyncio, os
 import httpx
 from pathlib import Path
+from dotenv import load_dotenv
 
 if sys.stdout and hasattr(sys.stdout, "buffer"):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
-MIMO_BASE = "https://api.xiaomimimo.com/v1"
-MIMO_KEY = "sk-cnolie3bj6swyssiji0dpuehvuop18csfqfph5a36hrxvpm0"
-MIMO_MODEL = "mimo-v2.5"
+# 加载 backend/.env（含 API key）
+load_dotenv(Path(__file__).resolve().parents[2] / "backend" / ".env")
 
-DEEPSEEK_BASE = "https://api.deepseek.com"
-DEEPSEEK_KEY = "sk-96521bea50fb4eac88288e11e4415402"
-DEEPSEEK_MODEL = "deepseek-v4-flash-vision-exp"
+MIMO_BASE = os.environ.get("MIMO_BASE_URL", "https://api.xiaomimimo.com/v1")
+MIMO_KEY = os.environ.get("MIMO_API_KEY", "")
+MIMO_MODEL = os.environ.get("MIMO_VL_MODEL", "mimo-v2.5")
+
+DEEPSEEK_BASE = os.environ.get("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
+DEEPSEEK_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
+DEEPSEEK_MODEL = os.environ.get("DEEPSEEK_VL_MODEL", "deepseek-v4-flash-vision-exp")
+
+if not MIMO_KEY or not DEEPSEEK_KEY:
+    print("ERROR: MIMO_API_KEY / DEEPSEEK_API_KEY not found in backend/.env")
+    sys.exit(1)
 
 async def main():
     file_path = Path(r"test/pdf/2026北京东城高一（上）期末英语（教师版）.pdf")

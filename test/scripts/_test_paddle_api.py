@@ -1,14 +1,22 @@
 #!/usr/bin/env python3
-"""直接测试 paddle API 请求，复现 400 错误。"""
-import sys, io, json, asyncio
+"""直接测试 paddle API 请求，复现 400 错误。
+
+密钥从 backend/.env 读取，禁止硬编码。
+"""
+import sys, io, json, asyncio, os
 import httpx
 from pathlib import Path
+from dotenv import load_dotenv
 
 if sys.stdout and hasattr(sys.stdout, "buffer"):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
+load_dotenv(Path(__file__).resolve().parents[2] / "backend" / ".env")
+
 BASE_URL = "https://paddleocr.aistudio-app.com/api/v2/ocr/jobs"
-TOKEN = "5e6b7c1269811b4177fb6a7770a2ccfddb1029cc"
+TOKEN = os.environ.get("PADDLEOCR_VL_TOKEN", "")
+if not TOKEN:
+    raise SystemExit("PADDLEOCR_VL_TOKEN not found in backend/.env")
 MODEL = "PP-StructureV3"
 
 async def main():

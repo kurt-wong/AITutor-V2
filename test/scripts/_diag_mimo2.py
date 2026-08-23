@@ -1,15 +1,23 @@
 #!/usr/bin/env python3
-"""单独测试 mimo-vl timeout=300 是否稳定断连。"""
-import sys, io, json, asyncio, base64
+"""单独测试 mimo-vl timeout=300 是否稳定断连。
+
+密钥从 backend/.env 读取，禁止硬编码。
+"""
+import sys, io, json, asyncio, base64, os
 import httpx
 from pathlib import Path
+from dotenv import load_dotenv
 
 if sys.stdout and hasattr(sys.stdout, "buffer"):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
-MIMO_BASE = "https://api.xiaomimimo.com/v1"
-MIMO_KEY = "sk-cnolie3bj6swyssiji0dpuehvuop18csfqfph5a36hrxvpm0"
-MIMO_MODEL = "mimo-v2.5"
+load_dotenv(Path(__file__).resolve().parents[2] / "backend" / ".env")
+
+MIMO_BASE = os.environ.get("MIMO_BASE_URL", "https://api.xiaomimimo.com/v1")
+MIMO_KEY = os.environ.get("MIMO_API_KEY", "")
+MIMO_MODEL = os.environ.get("MIMO_VL_MODEL", "mimo-v2.5")
+if not MIMO_KEY:
+    raise SystemExit("MIMO_API_KEY not found in backend/.env")
 
 async def test_once(timeout: float, label: str, i: int):
     import fitz

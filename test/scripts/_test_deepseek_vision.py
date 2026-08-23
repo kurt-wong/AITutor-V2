@@ -1,15 +1,23 @@
 #!/usr/bin/env python3
-"""测试 deepseek-vl 视觉请求（图片输入）。"""
-import sys, io, json, asyncio, base64
+"""测试 deepseek-vl 视觉请求（图片输入）。
+
+密钥从 backend/.env 读取，禁止硬编码。
+"""
+import sys, io, json, asyncio, base64, os
 import httpx
 from pathlib import Path
+from dotenv import load_dotenv
 
 if sys.stdout and hasattr(sys.stdout, "buffer"):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
-DEEPSEEK_BASE = "https://api.deepseek.com"
-DEEPSEEK_KEY = "sk-96521bea50fb4eac88288e11e4415402"
-DEEPSEEK_MODEL = "deepseek-v4-flash-vision-exp"
+load_dotenv(Path(__file__).resolve().parents[2] / "backend" / ".env")
+
+DEEPSEEK_BASE = os.environ.get("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
+DEEPSEEK_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
+DEEPSEEK_MODEL = os.environ.get("DEEPSEEK_VL_MODEL", "deepseek-v4-flash-vision-exp")
+if not DEEPSEEK_KEY:
+    raise SystemExit("DEEPSEEK_API_KEY not found in backend/.env")
 
 async def main():
     import fitz

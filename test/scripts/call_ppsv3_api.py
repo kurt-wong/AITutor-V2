@@ -5,9 +5,14 @@ import sys
 import time
 
 import requests
+from dotenv import load_dotenv
+
+load_dotenv(os.path.join(os.path.dirname(__file__), "..", "..", "backend", ".env"))
 
 JOB_URL = "https://paddleocr.aistudio-app.com/api/v2/ocr/jobs"
-TOKEN = "5e6b7c1269811b4177fb6a7770a2ccfddb1029cc"
+TOKEN = os.environ.get("PADDLEOCR_VL_TOKEN", "")
+if not TOKEN:
+    raise SystemExit("PADDLEOCR_VL_TOKEN not found in backend/.env")
 MODEL = "PP-StructureV3"
 
 PDF_PATH = os.path.join(os.path.dirname(__file__), "..", "pdf", "2026北京朝阳高一（上）期末数学（教师版）.pdf")

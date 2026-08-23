@@ -6,9 +6,14 @@ import time
 from pathlib import Path
 
 import requests
+from dotenv import load_dotenv
 
-# 从 .env 或环境变量读取
-TOKEN = os.environ.get("PADDLEOCR_VL_TOKEN", "5e6b7c1269811b4177fb6a7770a2ccfddb1029cc")
+load_dotenv(Path(__file__).resolve().parents[2] / "backend" / ".env")
+
+# 从 backend/.env 或环境变量读取，禁止硬编码
+TOKEN = os.environ.get("PADDLEOCR_VL_TOKEN", "")
+if not TOKEN:
+    raise SystemExit("PADDLEOCR_VL_TOKEN not found in backend/.env")
 JOB_URL = "https://paddleocr.aistudio-app.com/api/v2/ocr/jobs"
 
 headers = {"Authorization": f"bearer {TOKEN}"}
