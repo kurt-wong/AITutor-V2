@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """WP4: 生成英语/物理 native L1 fixture + golden 草稿。
 
-注意（TASK_2.5_REPAIR_PLAN WP4）：
+注意（历史 Task 2.5 WP4）：
   - golden 必须人工核对，禁止直接用 live 结果作为 golden。
   - 本脚本生成的 golden 是 **manual_review_draft**（status 字段标注）：
     * expected_content / expected_anchor / answer / answer_line_ids 从 native-only live 结果提取；

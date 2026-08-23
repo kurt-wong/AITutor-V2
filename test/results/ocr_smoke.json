@@ -23,23 +23,11 @@
       "provider_used": null,
       "source_provider": null,
       "elapsed_s": 4.4
-    },
-    "qwen_vl": {
-      "status": "failed",
-      "provider": "qwen_vl",
-      "http_status": null,
-      "raw_body": null,
-      "error": "all LLM vision providers failed (qwen_vl: All connection attempts failed)",
-      "pages": null,
-      "provider_used": null,
-      "source_provider": null,
-      "elapsed_s": 4.3
     }
   },
   "overall": "FAIL",
   "failures": [
     "paddleocr: failed record missing http_status and raw_body",
-    "mimo: failed record missing http_status and raw_body",
-    "qwen_vl: failed record missing http_status and raw_body"
+    "mimo: failed record missing http_status and raw_body"
   ]
 }

@@ -130,7 +130,7 @@
 
 必须整改：
 
-1. **修复 OCR 链路**（PaddleOCR 返回格式错误、MIMO/Qwen VL 400），用真实 PP 数据重跑；在此之前不得再宣称"双源完整管线通过"。**注意**："OCR 不可用"目前只有验收报告的自述，`test/results/` 下没有 PaddleOCR 格式错误或 MIMO/Qwen 400 的日志产物，只能作为外部背景、不能作为验收依据；修复 OCR 后必须单独留下 smoke 日志供复核。
+1. **修复 OCR 链路**（PaddleOCR 返回格式错误、MIMO/DeepSeek VL 400），用真实 PP 数据重跑；在此之前不得再宣称"双源完整管线通过"。**注意**："OCR 不可用"目前只有验收报告的自述，`test/results/` 下没有 PaddleOCR 格式错误或 MIMO/DeepSeek VL 400 的日志产物，只能作为外部背景、不能作为验收依据；修复 OCR 后必须单独留下 smoke 日志供复核。
 2. **验收报告必须如实呈现**：以 `report.json` 为准（overall=FAIL + 失败项），补上 stem_content/options_content，修正耗时与复现率数字；mock 结果须先持久化到 `report.json` 再引用，禁止引用未落盘的展示数据。
 3. **建立英语/物理 golden**（验收报告注意事项自己也承认缺失），用于内容级比对，而非只比题数。
 4. **修复 answer_matcher 行号偏移与高置信度错误答案**：Q11 `'2 2'`（provenance confidence=1.0、题目 confidence=0.85、无"禁止自动发布"issue）在 **Step 2 落库前必须堵住**——对答案表匹配输出增加内容校验/低置信度门槛，native 答案表行号偏移需校正；当前尚未自动落库，属"待堵口"而非"已污染"。
