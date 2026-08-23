@@ -211,6 +211,10 @@ def build_ocr_chain(
         providers.append(QueuedPaddleOCRProvider(paddle_client, max_concurrent=1))
 
     if settings.mimo_api_key and settings.mimo_base_url and settings.mimo_vl_model:
+        # mimo-vl 服务端间歇性断连/挂起（2026-08-25 实测）：
+        # 用短超时 + 少重试，快速失败让 OCRFallbackChain 降级到 deepseek-vl。
+        # 全局 LLM_REQUEST_TIMEOUT_SECONDS=300 会让挂起请求等满 5 分钟，拖死整条链。
+        mimo_timeout = min(settings.llm_request_timeout_seconds, 45.0)
         providers.append(
             LLMVisionOCRProvider(
                 name="mimo-vl",
@@ -222,7 +226,8 @@ def build_ocr_chain(
                             base_url=settings.mimo_base_url,
                             api_key=settings.mimo_api_key,
                             model=settings.mimo_vl_model,
-                            timeout_seconds=settings.llm_request_timeout_seconds,
+                            timeout_seconds=mimo_timeout,
+                            max_retries=1,
                         )
                     ],
                 ),
