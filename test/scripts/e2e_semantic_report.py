@@ -27,6 +27,15 @@ import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
+from urllib.parse import unquote
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from answer_verifier import (  # noqa: E402
+    MATCHED,
+    UNVERIFIABLE,
+    AnswerVerification,
+    verify_document_answers,
+)
 
 if sys.stdout and hasattr(sys.stdout, "buffer"):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
@@ -278,6 +287,10 @@ class QuestionResult:
     material_hit: bool = False
     options_hit: bool = False
     answer_hit: bool = False
+    answer_status: str = UNVERIFIABLE
+    answer_evidence_kind: str = ""
+    answer_evidence_source: str = ""
+    answer_unverifiable_reason: str = ""
     strict_pass: bool = False
     failure_stage: str = ""
     details: list[str] = field(default_factory=list)
@@ -321,6 +334,31 @@ class SubjectReport:
     def answer_hits(self) -> int:
         return sum(1 for r in self.results if r.answer_hit)
 
+    @property
+    def answer_unverifiable_count(self) -> int:
+        return sum(
+            1
+            for r in self.results
+            if r.answer_status == UNVERIFIABLE
+        )
+
+    @property
+    def answer_unverifiable_reasons(self) -> dict[str, int]:
+        counts: dict[str, int] = {}
+        for r in self.results:
+            if r.answer_status == UNVERIFIABLE:
+                reason = r.answer_unverifiable_reason or "unknown"
+                counts[reason] = counts.get(reason, 0) + 1
+        return counts
+
+    @property
+    def answer_mismatched_count(self) -> int:
+        return sum(
+            1
+            for r in self.results
+            if r.answer_status not in (MATCHED, UNVERIFIABLE)
+        )
+
 
 # ---------- 数据装载 ----------
 
@@ -328,6 +366,34 @@ class SubjectReport:
 def load_json_value(value):
     parsed = parse_json(value)
     return parsed if isinstance(parsed, dict) else {}
+
+
+def _find_pdf_path(subject: str, filename: str) -> Path | None:
+    pdf_root = PROJECT_ROOT / "test" / "pdf"
+    if not pdf_root.exists():
+        return None
+    target = unquote(filename or "").replace(".pdf", "")
+    normalized_target = re.sub(r"\s+", "", target)
+    for path in pdf_root.glob("*.pdf"):
+        normalized_stem = re.sub(r"\s+", "", path.stem)
+        if normalized_target and normalized_target == normalized_stem:
+            return path
+    for path in pdf_root.glob("*.pdf"):
+        if subject and subject in path.name:
+            return path
+    return None
+
+
+def _extract_pdf_raw_text(subject: str, filename: str) -> str:
+    path = _find_pdf_path(subject, filename)
+    if path is None:
+        return ""
+    try:
+        import fitz
+        with fitz.open(path) as pdf:
+            return "\n".join(page.get_text("text") for page in pdf)
+    except Exception:
+        return ""
 
 
 async def load_document(conn, subject: str) -> SubjectReport | None:
@@ -418,6 +484,15 @@ async def load_document(conn, subject: str) -> SubjectReport | None:
     db_by_qn = {str(r["source_question_number"]): dict(r) for r in db_rows}
     db_qns = set(db_by_qn.keys())
     pipeline_qns = set(pipeline_by_qn.keys())
+    raw_text = _extract_pdf_raw_text(subject, doc["filename"] or "")
+    native_text = doc["native_markdown"] or ""
+    ocr_text = doc["ocr_markdown"] or ""
+    answer_verifications = verify_document_answers(
+        [dict(r) for r in db_rows],
+        raw_text,
+        native_text,
+        ocr_text,
+    )
 
     all_qns = sorted(
         pipeline_qns | db_qns,
@@ -439,6 +514,7 @@ async def load_document(conn, subject: str) -> SubjectReport | None:
             source=source,
             source_compact=source_compact,
             headers_in_source=headers_in_source,
+            answer_verification=answer_verifications.get(qn),
         )
         report.results.append(result)
 
@@ -622,6 +698,7 @@ def verify_question(
     source: str,
     source_compact: str,
     headers_in_source: list[str],
+    answer_verification: AnswerVerification | None = None,
 ) -> QuestionResult:
     db_stem = (db_row or {}).get("stem") or ""
     db_options = (db_row or {}).get("options")
@@ -640,7 +717,25 @@ def verify_question(
     verify_stem(result, db_stem, l2_q, pipeline_q, section, sections, source_compact, headers_in_source)
     verify_material(result, db_stem, section, pipeline_q, source_compact)
     verify_options(result, db_options, pipeline_q, section)
-    verify_answer(result, db_answer, db_row, l2_q, pipeline_q, source)
+    if answer_verification is not None:
+        result.answer_status = answer_verification.status
+        result.answer_evidence_kind = answer_verification.evidence_kind
+        result.answer_evidence_source = answer_verification.evidence_source
+        result.answer_hit = answer_verification.status == MATCHED
+        if not result.answer_hit:
+            if answer_verification.reason:
+                result.answer_unverifiable_reason = answer_verification.reason
+                result.details.append(f"答案验收: {answer_verification.reason}")
+            else:
+                result.details.append(
+                    f"答案验收: mismatched (DB={db_answer!r}, expected={answer_verification.expected!r})"
+                )
+    else:
+        result.answer_status = UNVERIFIABLE
+        result.answer_unverifiable_reason = (
+            "missing_db_question" if db_row is None else "missing_answer_verification"
+        )
+        result.details.append(f"答案验收: {result.answer_unverifiable_reason}")
 
     result.strict_pass = bool(
         result.stem_hit
@@ -877,13 +972,14 @@ def print_report(report: SubjectReport) -> None:
         q_type = "综合" if r.is_composite else "独立"
         status = r.db_status or "缺库"
         stage = r.failure_stage or "-"
+        answer_mark = "Y" if r.answer_hit else ("U" if r.answer_status == UNVERIFIABLE else "N")
         print(
             f"Q{r.question_number:<4}{q_type:<6}{status:<10}"
             f"{'Y' if r.stem_hit else 'N':<6}"
             f"{'Y' if r.stem_location_hit else 'N':<6}"
             f"{'Y' if r.material_hit else 'N':<6}"
             f"{'Y' if r.options_hit else 'N':<7}"
-            f"{'Y' if r.answer_hit else 'N':<7}"
+            f"{answer_mark:<7}"
             f"{stage:<12}"
         )
 
@@ -895,6 +991,17 @@ def print_report(report: SubjectReport) -> None:
         print(f"  composite 材料: {report.material_hits}/{total}")
         print(f"  options 归属: {report.options_hits}/{total}")
         print(f"  answer 命中: {report.answer_hits}/{total}")
+        unverifiable = report.answer_unverifiable_count
+        if unverifiable:
+            print(f"  answer 不可验证: {unverifiable}/{total}")
+            for reason, count in sorted(
+                report.answer_unverifiable_reasons.items(),
+                key=lambda item: -item[1],
+            ):
+                print(f"    - {reason}: {count}")
+        mismatched = report.answer_mismatched_count
+        if mismatched:
+            print(f"  answer 不匹配: {mismatched}/{total}")
 
     failures = [r for r in report.results if not r.strict_pass]
     if failures:
@@ -931,7 +1038,7 @@ def print_summary(reports: list[SubjectReport]) -> None:
     print(f"{'=' * 90}")
     print(
         f"{'学科':<8}{'L2':<6}{'管线':<6}{'DB':<6}{'严格':<7}"
-        f"{'stem':<6}{'位置':<6}{'材料':<6}{'选项':<7}{'答案':<7}"
+        f"{'stem':<6}{'位置':<6}{'材料':<6}{'选项':<7}{'答案':<7}{'答U':<7}{'答M':<7}"
     )
     for report in reports:
         total = len(report.results)
@@ -940,6 +1047,7 @@ def print_summary(reports: list[SubjectReport]) -> None:
             f"{report.db_count:<6}{report.strict_pass_count:<7}"
             f"{report.stem_hits:<6}{report.location_hits:<6}{report.material_hits:<6}"
             f"{report.options_hits:<7}{report.answer_hits:<7}"
+            f"{report.answer_unverifiable_count:<7}{report.answer_mismatched_count:<7}"
         )
     total_q = sum(len(r.results) for r in reports)
     if total_q:
@@ -949,11 +1057,13 @@ def print_summary(reports: list[SubjectReport]) -> None:
         mat = sum(r.material_hits for r in reports)
         opt = sum(r.options_hits for r in reports)
         ans = sum(r.answer_hits for r in reports)
+        ans_u = sum(r.answer_unverifiable_count for r in reports)
+        ans_m = sum(r.answer_mismatched_count for r in reports)
         print("-" * 90)
         print(
             f"{'合计':<8}{sum(r.l2_count for r in reports):<6}"
             f"{sum(r.pipeline_count for r in reports):<6}{sum(r.db_count for r in reports):<6}"
-            f"{strict:<7}{stem:<6}{loc:<6}{mat:<6}{opt:<7}{ans:<7}"
+            f"{strict:<7}{stem:<6}{loc:<6}{mat:<6}{opt:<7}{ans:<7}{ans_u:<7}{ans_m:<7}"
         )
         print(f"  严格通过率: {strict}/{total_q} ({strict/total_q*100:.0f}%)")
 

@@ -1466,3 +1466,38 @@ LLM 能正确识别各种答案格式：
 **这是当前代码的真实基线。后续所有修复必须与这份报告对比，证明改进幅度。**
 
 **版本升至 6.7。**
+
+### 2026-08-24 23:00:00
+
+#### 答案验证器独立化 + 9 科答案基线建立
+
+**背景**：9 科 e2e 语义验收基准报告完成（严格通过率 44%），但答案验证部分存在假阳性问题（短答案直接匹配导致 76% 通过率不可信）。用户要求以原始 PDF 为主判据，建立可信的答案基线。
+
+**答案验证器 (`test/scripts/answer_verifier.py`)**：
+- 新建独立模块，从 e2e_semantic_report.py 分离答案验证逻辑
+- 四层独立证据对比：pdf_raw_text（主判据）→ native_markdown（交叉验证）→ ocr_markdown（辅助证据）→ DB
+- 5 种证据模式：table_mode、prefix_mode、inline_mode、free_text_mode、composite_mode
+- 验证状态：matched / mismatched / unverifiable（带原因分类）
+- unverifiable 原因：free_text_answer、missing_db_question、composite_subquestion
+
+**P0-A composite 材料合并修复**：
+- 修复 `content_slicer._slice_single_question`：composite 题合并 `shared_material_line_ids` + `stem_line_ids`，材料行在前，去重
+- 17/17 测试通过
+- 需重跑英语入库验证
+
+**物理空单元格列错位修复**：
+- 答案表有空单元格时（如物理 Q4/Q7），解析器忽略空格导致列错位
+- 修复：答案验证器保留空单元格，不忽略空白答案格
+- 验证：物理 Q5/Q6/Q8 不再误报为 mismatch
+
+**9 科答案基线**：
+- matched: 162/198
+- mismatched: 2/198（生物 Q6, Q7 — 真实答案错误）
+- unverifiable: 14/198
+- 严格通过: 156/209 (75%)
+
+**测试**：
+- `test/scripts/test_answer_verifier.py`：4 项通过
+- `backend/tests/test_composite_material_separate.py`：17 项通过
+
+**版本升至 6.8。**

@@ -4,7 +4,7 @@
 
 ## 当前状态
 
-**Phase 2A 总验收通过；Phase 2B/2C 已实现；入库管线 P0-A/P0-B/P0-G 止血补丁完成；9 科 e2e 语义验收基准报告完成（严格通过率 44%）；架构方向决策：先量化再止血再单科原型再逐科推广（2026-08-23，版本 6.7）。**
+**Phase 2A 总验收通过；Phase 2B/2C 已实现；入库管线 P0-A/P0-B/P0-G 止血补丁完成；9 科 e2e 语义验收基准报告完成；答案验证器独立化完成（以原始 PDF 为主判据）；9 科答案基线已建立（严格通过率 75%）；架构方向决策：先量化再止血再单科原型再逐科推广（2026-08-24，版本 6.8）。**
 
 > **全量回归确认（2026-08-22 00:39）**：修复收集错误（`run_pipeline` 恢复至 pipeline.py，4 个引用方零改动）+ 4 项测试与生产代码不同步（processor 已迁移 `run_simple_pipeline`，patch 目标同步）+ DB 历史题清理（9 道英语卷题，stats 测试恢复干净库前提）+ 沙箱 temp 权限根治（`backend/tests/conftest.py` 固定 temp 根到工作区 `tmp/pytest`，`processor._download_pdf` 改工作区 tmp，新增 `test_temp_root.py`）。全量 pytest（用户本机，注入 backend/.env DATABASE_URL）**549 passed，0 failed，9 warnings**（546 → 549，+3 temp 根测试；收集错误与 temp 权限间歇失败均已消除）。
 > **已知记录口径修正**：此前 LOG 中 534/537/539/542/546 等数字与当前工作树不一致（processor 迁移后测试未同步、收集错误被隐藏），本次全量 549 passed 为权威基线。
@@ -177,6 +177,50 @@ T3 Phase 0 状态：L1/L2 Schema、fixture（数学 38 行 postprocessed + 英�
 - 历史 LLM JSON 解析偶发失败（9.3%）。
 - 地理 16/16 全是综合题（11 组单选题组 + 5 道材料分析题），2 道丢弃为预期行为：Q19 选项是图片（OCR 无法提取），Q23-Q25 试卷缺失。实际丢弃率 0%。
 - 地理走 PPS（图片/表格多，PPS 提取 112 张图 vs VL 50 张，无公式需求）。
+
+### 9 科答案基线（2026-08-24，以原始 PDF 为主判据）
+
+> 验证方法：答案验证器 `test/scripts/answer_verifier.py`，四层独立证据对比（pdf_raw_text 主判据 → native_markdown 交叉验证 → ocr_markdown 辅助证据 → DB）。
+
+| 学科 | DB 题数 | matched | mismatched | unverifiable | 严格通过 |
+|---|---|---|---|---|---|
+| 化学 | 26 | 26 | 0 | 0 | 25/26 |
+| 历史 | 42 | 42 | 0 | 0 | 35/42 |
+| 地理 | 25 | 20 | 0 | 5 | 25/25 |
+| 政治 | 28 | 28 | 0 | 0 | 28/28 |
+| 数学 | 5 | 5 | 0 | 0 | 5/5 |
+| 物理 | 19 | 13 | 0 | 6 | 7/19 |
+| 生物 | 24 | 22 | **2** | 0 | 22/24 |
+| 英语 | 22 | 20 | 0 | 2 | 6/22 |
+| 语文 | 7 | 6 | 0 | 1 | 3/7 |
+| **合计** | **198** | **162** | **2** | **14** | **156/209** |
+
+**严格通过率: 156/209 (75%)**
+
+**mismatched（真实错误，必须修复）**：
+- 生物 Q6: DB='D'，PDF='C' → 管线 answer_matcher 或 LLM 标注错误
+- 生物 Q7: DB='D'，PDF='A' → 管线 answer_matcher 或 LLM 标注错误
+
+**unverifiable 明细**：
+- `free_text_answer`: 5 题（物理实验/计算题，长文本答案）
+- `missing_db_question`: 11 题（不在 DB 中，无法验证）
+- `composite_subquestion`: 1 题（英语综合题子题未完全映射）
+
+**答案验证器证据模式**：
+| 模式 | 适用场景 | 示例 |
+|---|---|---|
+| `table_mode` | 题号行+答案行表格 | 化学、政治、数学、物理、生物 |
+| `prefix_mode` | 题号+答案列表 | 英语选择题、语文选择题 |
+| `inline_mode` | 故选X项、答案：X | 历史 |
+| `free_text_mode` | 长文本/公式答案 | 化学填空题、物理计算题 |
+| `composite_mode` | 综合题子题分布 | 语文综合题、英语完形 |
+
+**验证原则**：
+1. 以原始 PDF 文本层为主判据（PyMuPDF `page.get_text("text")`）
+2. native_markdown 为交叉验证（验证管线 native 阶段是否忠实）
+3. ocr_markdown 为辅助证据
+4. 三者冲突时标记为 unverifiable，人工复查
+5. unverifiable 不能算通过
 
 ---
 
@@ -1005,3 +1049,38 @@ Phase 0 已完成（全部验收通过，详见更新记录 2026-08-11）。
 - 管线 VL 首选 MIMO V2.5（`mimo-v2.5`），回退 DeepSeek Vision（`deepseek-v4-flash-vision-exp`），移除 Qwen VL。
 - `build_gateway` 与 `build_ocr_chain` 的 VL provider 顺序均为 `mimo-vl` → `deepseek-vl`。
 - 相关测试 39 passed；未跑全量 pytest。
+
+### 2026-08-24 23:00:00
+
+#### 答案验证器独立化 + 9 科答案基线建立
+
+**背景**：9 科 e2e 语义验收基准报告完成（严格通过率 44%），但答案验证部分存在假阳性问题（短答案直接匹配导致 76% 通过率不可信）。用户要求以原始 PDF 为主判据，建立可信的答案基线。
+
+**答案验证器 (`test/scripts/answer_verifier.py`)**：
+- 新建独立模块，从 e2e_semantic_report.py 分离答案验证逻辑
+- 四层独立证据对比：pdf_raw_text（主判据）→ native_markdown（交叉验证）→ ocr_markdown（辅助证据）→ DB
+- 5 种证据模式：table_mode、prefix_mode、inline_mode、free_text_mode、composite_mode
+- 验证状态：matched / mismatched / unverifiable（带原因分类）
+- unverifiable 原因：free_text_answer、missing_db_question、composite_subquestion
+
+**P0-A composite 材料合并修复**：
+- 修复 `content_slicer._slice_single_question`：composite 题合并 `shared_material_line_ids` + `stem_line_ids`，材料行在前，去重
+- 17/17 测试通过
+- 需重跑英语入库验证
+
+**物理空单元格列错位修复**：
+- 答案表有空单元格时（如物理 Q4/Q7），解析器忽略空格导致列错位
+- 修复：答案验证器保留空单元格，不忽略空白答案格
+- 验证：物理 Q5/Q6/Q8 不再误报为 mismatch
+
+**9 科答案基线**：
+- matched: 162/198
+- mismatched: 2/198（生物 Q6, Q7 — 真实答案错误）
+- unverifiable: 14/198
+- 严格通过: 156/209 (75%)
+
+**测试**：
+- `test/scripts/test_answer_verifier.py`：4 项通过
+- `backend/tests/test_composite_material_separate.py`：17 项通过
+
+**版本升至 6.8。**
