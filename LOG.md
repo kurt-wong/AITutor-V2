@@ -1374,3 +1374,23 @@ LLM 能正确识别各种答案格式：
 **下一步**：写 `test/scripts/e2e_semantic_report.py` 验收脚本，先跑语文+英语。
 
 **版本升至 6.4。**
+
+### 2026-08-23 04:00:00
+
+#### e2e 源数据对齐验收（语文+英语）
+
+新增 `test/scripts/e2e_source_validation.py`，直接读取原 PDF 文本，与 native_markdown、ocr_markdown、llm_annotated_markdown、DB 逐项对照。
+
+**整体覆盖率**：
+- 英语：raw→native 0.975, native→raw 0.980; raw→ocr 0.793, ocr→raw 0.856
+- 语文：raw→native 0.949, native→raw 0.962; raw→ocr 0.810, ocr→raw 0.831
+
+**确认的真实问题**（有原始 PDF + 三层 markdown 证据）：
+1. **英语 Q26 材料丢失**：原文/native/OCR/LLM shared_material 都包含材料，但 DB 不含。确认材料在 content_slicer 阶段丢失。
+2. **英语 Q37 越界**：材料在原文/native/OCR/LLM/DB 都存在，但 DB 串入"第三部分"。确认 stem 边界错误。
+3. **语文 Q1 串 section**：原文/native/OCR/DB 都包含"二、本大题共6小题"。确认 Q1 串到下一 section。
+4. **语文 Q17 串题**：原文/native/OCR/DB 都包含"四、本大题"和"到泗洪去"。确认 Q17 串入 Q18 材料。
+
+**结论**：v2 验收报告的核心问题不是误报，有原始文档证据支持。但只覆盖语文+英语两科，需扩展到 9 科后才能 lock 代码。
+
+**版本升至 6.5。**

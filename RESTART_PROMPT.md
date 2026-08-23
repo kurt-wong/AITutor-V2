@@ -1,7 +1,7 @@
 # AI Tutor Personal Edition — RESTART_PROMPT
 
-Version: 6.4
-Status: 重启恢复指引（架构方向决策完成：先量化再止血再单科原型再逐科推广；下一步建 e2e 验收框架）
+Version: 6.5
+Status: 重启恢复指引（e2e 源数据对齐验收完成，4 项真实问题确认；待扩展 9 科 + 单科原型）
 Date: 2026-08-23
 
 ---
@@ -30,7 +30,7 @@ Date: 2026-08-23
 
 ## 3. 系统现状
 
-当前阶段：**Phase 2A 总验收通过；Phase 2B/2C 已实现；入库管线 P0-A/P0-B/P0-G 止血补丁完成；架构方向决策完成：先量化再止血再单科原型再逐科推广；下一步建 e2e 验收框架（2026-08-23，版本 6.4）。**
+当前阶段：**Phase 2A 总验收通过；Phase 2B/2C 已实现；入库管线 P0-A/P0-B/P0-G 止血补丁完成；e2e 源数据对齐验收完成（语文+英语，4 项真实问题确认）；架构方向决策：先量化再止血再单科原型再逐科推广（2026-08-23，版本 6.5）。**
 
 > **全量回归确认（2026-08-22 00:39）**：修复收集错误（`run_pipeline` 恢复至 pipeline.py，4 个引用方零改动）+ 4 项测试与生产代码不同步（processor 已迁移 `run_simple_pipeline`，patch 目标同步）+ DB 历史题清理（9 道英语卷题，stats 测试恢复干净库前提）+ 沙箱 temp 权限根治（`backend/tests/conftest.py` 固定 temp 根到工作区 `tmp/pytest`，`processor._download_pdf` 改工作区 tmp，新增 `test_temp_root.py`）。全量 pytest（用户本机，注入 backend/.env DATABASE_URL）**549 passed，0 failed，9 warnings**（546 → 549，+3 temp 根测试；收集错误与 temp 权限间歇失败均已消除）。
 > **已知记录口径修正**：此前 LOG/PROJECT_STATUS 中 534/537/539/542/546 等数字与当前工作树不一致（processor 迁移后测试未同步、收集错误被隐藏），本次全量 549 passed 为权威基线。
