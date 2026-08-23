@@ -1501,3 +1501,25 @@ LLM 能正确识别各种答案格式：
 - `backend/tests/test_composite_material_separate.py`：17 项通过
 
 **版本升至 6.8。**
+
+### 2026-08-25 01:00:00
+
+#### P0-C 修复：选择题共享 answer_line_id 时 LLM 直接答案优先
+
+**根因**：生物 Q6 和 Q7 的 `answer_line_ids` 都指向 `P9L003`（OCR 答案表同一行），切片逻辑从同一行提取答案 → Q7 取到 Q6 的答案 'D' 而非 LLM 的正确答案 'A'。
+
+**修复**：`answer_matcher._apply_llm_annotation_answers` 中，选择题如果 LLM 直接给了有效字母答案（A-D），直接用，不走 `answer_line_ids` 切片。非选择题行为不变。
+
+**测试**：`backend/tests/test_answer_shared_line_id.py` 4 项通过（共享行 ID 优先、无直接答案回退、无效答案回退、解答题不受影响）。
+
+**验证方式**：重跑生物入库后，答案验证器应显示 mismatched 从 2 降为 0：
+```bash
+# 1. 清理生物 DB 数据
+python backend/scripts/e2e_clear_db.py --subject 生物
+# 2. 重跑生物入库
+python test/scripts/simple_pipeline_batch.py --subject 生物
+# 3. 重跑答案验证
+python test/scripts/answer_verifier.py
+```
+
+**Git commit**: `0ff94d3`
