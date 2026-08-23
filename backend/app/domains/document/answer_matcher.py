@@ -136,7 +136,9 @@ def match_answers(
     Returns:
         更新后的 SlicedQuestion 列表（带 provenance）
     """
-    answer_table = _parse_answer_table(doc)
+    parsed_table = _parse_answer_table(doc)
+    answer_table = {k: v[0] for k, v in parsed_table.items()}
+    answer_table_sources = {k: v[1] for k, v in parsed_table.items()}
     explanation_map = _parse_explanations(doc)
     solution_blocks = _parse_solution_blocks(doc)
     if llm_annotation is not None:
@@ -149,7 +151,8 @@ def match_answers(
 
     for sq in sliced_questions:
         _match_single_question(
-            sq, doc, answer_table, explanation_map, solution_blocks
+            sq, doc, answer_table, answer_table_sources,
+            explanation_map, solution_blocks,
         )
 
     logger.info(
@@ -515,8 +518,17 @@ def _parse_solution_blocks(doc: L1Document) -> dict[str, dict]:
     return blocks
 
 
-def _parse_answer_table(doc: L1Document) -> dict[str, str]:
-    """解析文末答案表，返回 {题号: 答案}。
+def _is_ocr_source(source: str) -> bool:
+    """判断 L1 行来源是否为 OCR。"""
+    return source in ("ppsv3", "paddleocr", "mimo", "deepseek_vl")
+
+
+def _parse_answer_table(doc: L1Document) -> dict[str, tuple[str, str]]:
+    """解析文末答案表，返回 {题号: (答案, 来源)}。
+
+    来源取值：
+    - "native"：来自 native L1 行（PyMuPDF 文本层，可靠）
+    - "ocr"：来自 OCR L1 行（PP-StructureV3/VL，可能识别错误）
 
     支持：
     - 逐行格式（数学 "（1）A" 括号 / 英语 "1. D" 点号）；
@@ -526,11 +538,18 @@ def _parse_answer_table(doc: L1Document) -> dict[str, str]:
     遇详解标题（【导语】等）暂停收集，遇下一个"参考答案"/【答案】标题恢复；
     解析区之后的写作指导行（如 "1.词汇积累"）因处于详解区块内而被跳过。
     """
-    table: dict[str, str] = {}
+    table: dict[str, tuple[str, str]] = {}
     in_answer_section = False
     in_detail_block = False
     pending_qnums: list[str] = []
     table_keys: set[str] = set()  # 表格格式已给出的题号（权威，后续行不得覆盖）
+
+    def add_answer(q_num: str, answer: str, line_source: str) -> None:
+        """写入答案并记录来源。native 优先（后写覆盖先写）。"""
+        source = "native" if not _is_ocr_source(line_source) else "ocr"
+        if q_num in table and table[q_num][1] == "native" and source == "ocr":
+            return  # native 答案已存在，OCR 不覆盖
+        table[q_num] = (answer, source)
 
     for line in doc.lines:
         if _ANSWER_SECTION_RE.search(line.text):
@@ -556,11 +575,11 @@ def _parse_answer_table(doc: L1Document) -> dict[str, str]:
             else:
                 continue
 
-        # PP HTML 表格格式（物理答案区被 PP 识别为 <table>）
+        # PP HTML 表格格式（物理/生物答案区被 PP 识别为 <table>，属 OCR 来源）
         html_pairs = _parse_html_answer_table(line.text)
         if html_pairs is not None:
             for q_num, answer in html_pairs:
-                table[q_num] = answer
+                add_answer(q_num, answer, line.source or "ocr")
                 table_keys.add(q_num)
             continue
 
@@ -574,7 +593,7 @@ def _parse_answer_table(doc: L1Document) -> dict[str, str]:
             if ans_match:
                 answers = ans_match.group(1).split()
                 for q_num, answer in zip(pending_qnums, answers):
-                    table[q_num] = answer.strip()
+                    add_answer(q_num, answer, line.source or "native")
                     table_keys.add(q_num)
             pending_qnums = []
             continue
@@ -611,7 +630,7 @@ def _parse_answer_table(doc: L1Document) -> dict[str, str]:
             if len(answer) <= 6:
                 answer = _SCORE_SUFFIX_RE.sub("", answer).strip()
             if q_num and answer:
-                table[q_num] = answer
+                add_answer(q_num, answer, line.source or "native")
 
     return table
 
@@ -915,12 +934,15 @@ def _match_single_question(
     sq: SlicedQuestion,
     doc: L1Document,
     answer_table: dict[str, str],
+    answer_table_sources: dict[str, str],
     explanation_map: dict[str, list[str]],
     solution_blocks: dict[str, dict],
 ) -> None:
     """为单个题目匹配答案和详解。
 
     V1_LESSONS 3.17: 选择题答案优先从答案表提取，LLM 只做兜底。
+    来源感知：OCR 答案表可能识别错误（如生物 Q6 识别成 'D' 实为 'C'），
+    当 OCR 答案表与 LLM 有效字母答案冲突时，保留 LLM 答案。
     """
     has_llm_answer = (
         sq.answer_provenance is not None
@@ -934,21 +956,27 @@ def _match_single_question(
     )
 
     # V1_LESSONS 3.17: 答案表有该题且答案像字母 → 优先用答案表，忽略 LLM
-    # 但如果 LLM 已给出有效字母答案且与答案表不同，保留 LLM 答案。
-    # 原因：OCR 答案表可能有识别错误（如生物 Q6 识别成 'D' 实为 'C'），
-    # 而 LLM 从原文语义提取的答案更可靠。
+    # 来源感知例外：答案表来自 OCR 且与 LLM 有效字母答案冲突 → 保留 LLM
+    # （OCR 可能识别错误，LLM 从原文语义提取的答案更可靠）
     table_answer = answer_table.get(sq.question_number)
     if table_answer and _CHOICE_ANSWER_RE.match(
         table_answer.strip().upper().replace(" ", "")
     ):
+        table_source = answer_table_sources.get(sq.question_number, "native")
         llm_answer_valid = (
             has_llm_answer
             and sq.answer
             and _CHOICE_ANSWER_RE.match(sq.answer.strip().upper().replace(" ", ""))
         )
-        if llm_answer_valid and sq.answer.strip().upper() != table_answer.strip().upper():
+        ocr_conflicts_with_llm = (
+            table_source == "ocr"
+            and llm_answer_valid
+            and sq.answer.strip().upper() != table_answer.strip().upper()
+        )
+        if ocr_conflicts_with_llm:
+            # OCR 答案表与 LLM 冲突 → 保留 LLM（OCR 识别错误）
             logger.info(
-                "llm_answer_kept_over_table q=%s llm=%r table=%r",
+                "llm_answer_kept_over_ocr_table q=%s llm=%r table=%r",
                 sq.question_number, sq.answer, table_answer,
             )
         else:
