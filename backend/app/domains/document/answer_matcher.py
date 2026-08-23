@@ -934,16 +934,30 @@ def _match_single_question(
     )
 
     # V1_LESSONS 3.17: 答案表有该题且答案像字母 → 优先用答案表，忽略 LLM
+    # 但如果 LLM 已给出有效字母答案且与答案表不同，保留 LLM 答案。
+    # 原因：OCR 答案表可能有识别错误（如生物 Q6 识别成 'D' 实为 'C'），
+    # 而 LLM 从原文语义提取的答案更可靠。
     table_answer = answer_table.get(sq.question_number)
     if table_answer and _CHOICE_ANSWER_RE.match(
         table_answer.strip().upper().replace(" ", "")
     ):
-        if has_llm_answer:
+        llm_answer_valid = (
+            has_llm_answer
+            and sq.answer
+            and _CHOICE_ANSWER_RE.match(sq.answer.strip().upper().replace(" ", ""))
+        )
+        if llm_answer_valid and sq.answer.strip().upper() != table_answer.strip().upper():
             logger.info(
-                "answer_table_overrides_llm q=%s table=%r llm=%r",
-                sq.question_number, table_answer, sq.answer,
+                "llm_answer_kept_over_table q=%s llm=%r table=%r",
+                sq.question_number, sq.answer, table_answer,
             )
-        _match_document_answer(sq, doc, answer_table, solution_blocks)
+        else:
+            if has_llm_answer:
+                logger.info(
+                    "answer_table_overrides_llm q=%s table=%r llm=%r",
+                    sq.question_number, table_answer, sq.answer,
+                )
+            _match_document_answer(sq, doc, answer_table, solution_blocks)
     elif not has_llm_answer:
         _match_document_answer(sq, doc, answer_table, solution_blocks)
 

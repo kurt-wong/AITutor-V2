@@ -3,7 +3,9 @@
 根因：生物 Q6 和 Q7 的 answer_line_ids 都是 ['P9L003']（OCR 答案表同一行），
 切片逻辑从同一行提取答案 → Q7 取到 Q6 的答案 'D' 而非 LLM 的正确答案 'A'。
 
-修复：选择题如果 LLM 直接给了有效字母答案，直接用，不走切片。
+修复：
+1. _apply_llm_annotation_answers：选择题 LLM 直接答案优先于切片
+2. _match_single_question：LLM 有效字母答案与答案表不同时，保留 LLM 答案
 """
 
 import pytest
