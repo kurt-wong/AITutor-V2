@@ -127,6 +127,13 @@ class DocumentProcessor:
             return result
 
         except Exception as exc:
+            # P0-A 修复（2026-08-23）：异常后 session 可能被毒化（PendingRollbackError），
+            # 必须先 rollback 清除失败态，否则 fail_task 的 repository.get 也会失败，
+            # 任务永远卡在 running。
+            try:
+                await self.task_service.rollback()
+            except Exception:
+                pass
             await self.task_service.fail_task(task_id, error_detail=f"解析失败: {exc}")
             raise
         finally:

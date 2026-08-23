@@ -183,13 +183,15 @@ def build_ocr_chain(
 
         paddle_client = PaddleOCRClient(**paddle_kwargs)
 
-        # VL 模型需要并发控制（队列保护）
-        # 当 model 包含 "VL" 时，用 PaddleOCRQueue 包装，限制并发为 1
-        if model is not None and "VL" in model.upper():
-            logger.info("Using queued PaddleOCR provider for VL model: %s", model)
-            providers.append(QueuedPaddleOCRProvider(paddle_client, max_concurrent=1))
-        else:
-            providers.append(paddle_client)
+        # 所有 PaddleOCR 模型（PPS 和 VL）都走本地队列（max_concurrent=1）。
+        # 原因：paddle AIStudio API 服务端队列容量有限（code 10010 队列满），
+        # 客户端排队可避免多 worker/多文档并发提交打爆服务端队列。
+        # 历史：VL 模型已排队（2026-08-18），PPS 未排队导致并发提交触发 10010。
+        logger.info(
+            "Using queued PaddleOCR provider for model: %s (max_concurrent=1)",
+            model or "PP-StructureV3",
+        )
+        providers.append(QueuedPaddleOCRProvider(paddle_client, max_concurrent=1))
 
     if settings.mimo_api_key and settings.mimo_base_url and settings.mimo_vl_model:
         providers.append(

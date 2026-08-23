@@ -199,8 +199,8 @@ class TestBuildOcrChainVLModel:
             assert isinstance(provider, QueuedPaddleOCRProvider), f"Failed for model: {model_name}"
 
     @patch("app.domains.document.ocr.providers.settings")
-    def test_non_vl_model_uses_plain_client(self, mock_settings):
-        """When model does not contain 'VL', should use plain PaddleOCRClient."""
+    def test_non_vl_model_uses_queued_client(self, mock_settings):
+        """PPS 模型也走本地队列（2026-08-25：服务端队列满 10010 修复）。"""
         mock_settings.ocr_mock_mode = False
         mock_settings.paddleocr_vl_token = "test-token"
         mock_settings.paddleocr_api_base_url = "https://example.com/api"
@@ -215,12 +215,11 @@ class TestBuildOcrChainVLModel:
 
         assert len(chain.providers) == 1
         provider = chain.providers[0]
-        assert isinstance(provider, PaddleOCRClient)
-        assert not isinstance(provider, QueuedPaddleOCRProvider)
+        assert isinstance(provider, QueuedPaddleOCRProvider)
 
     @patch("app.domains.document.ocr.providers.settings")
-    def test_no_model_uses_plain_client(self, mock_settings):
-        """When model is None (default), should use plain PaddleOCRClient."""
+    def test_no_model_uses_queued_client(self, mock_settings):
+        """model 为 None（默认 PPS）也走本地队列。"""
         mock_settings.ocr_mock_mode = False
         mock_settings.paddleocr_vl_token = "test-token"
         mock_settings.paddleocr_api_base_url = "https://example.com/api"
@@ -235,8 +234,7 @@ class TestBuildOcrChainVLModel:
 
         assert len(chain.providers) == 1
         provider = chain.providers[0]
-        assert isinstance(provider, PaddleOCRClient)
-        assert not isinstance(provider, QueuedPaddleOCRProvider)
+        assert isinstance(provider, QueuedPaddleOCRProvider)
 
 
 class TestBuildOcrChainIntegration:

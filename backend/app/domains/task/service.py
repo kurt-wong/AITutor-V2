@@ -87,6 +87,10 @@ class TaskService:
     async def get_task(self, task_id: UUID) -> BackgroundTask | None:
         return await self.repository.get(task_id)
 
+    async def rollback(self) -> None:
+        """回滚当前 session（清除异常后的 PendingRollbackError 状态）。"""
+        await self.repository.session.rollback()
+
     async def list_tasks(
         self,
         *,

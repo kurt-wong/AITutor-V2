@@ -355,7 +355,7 @@ VL API 不稳定时（队列满/5xx/超时），`_submit_with_retry` 自动重�
 
 ### VL 队列保护
 
-- `build_ocr_chain(model=...)` 对包含 `VL` 的模型使用 `QueuedPaddleOCRProvider`，底层 `PaddleOCRQueue(max_concurrent=1)`。
-- 化学 `PaddleOCR-VL-1.6` 走单并发；PP-StructureV3 仍直接使用 client，不额外排队。
+- `build_ocr_chain(model=...)` 对所有 PaddleOCR 模型（PPS 和 VL）使用 `QueuedPaddleOCRProvider`，底层 `PaddleOCRQueue(max_concurrent=1)`。
+- 历史：2026-08-18 仅 VL 排队，PPS 直接使用 client。2026-08-25 发现 paddle AIStudio API 服务端队列满（code 10010）在 PPS 并发提交时更严重，PPS 也改为排队。
 - 新增真实并发测试：同一队列并发提交 2 个 PDF，`max_active == 1`。
 - `simple_pipeline` 使用完 OCR 链后调用 `ocr_chain.close()`，取消 VL 队列后台 worker，避免 long-running 进程残留 pending task。
