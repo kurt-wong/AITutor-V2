@@ -1523,3 +1523,34 @@ python test/scripts/answer_verifier.py
 ```
 
 **Git commit**: `0ff94d3`
+
+### 2026-08-25 02:00:00
+
+#### P0-C 收敛为来源感知 + composite 子题映射回退
+
+**用户审查发现**（P0-C 不能直接验收）：
+1. 原全局改动破坏 `test_answer_matcher.py`（"答案表优先"契约）
+2. 生物 Q6/Q7 修对了，但改动过度扩大为全局规则
+3. 生物重跑后 subject=NULL，--all 只报告 8 科
+
+**收敛修复（来源感知）**：
+- `_parse_answer_table` 返回 `(答案, 来源)`，按行 source 区分 native/ocr
+- native 答案表仍优先（保持 V1_LESSONS 3.17 契约）
+- OCR 答案表与 LLM 有效字母答案冲突 → 保留 LLM（OCR 可能识别错误，如生物 Q6 'D' 实为 'C'）
+
+**composite 子题映射回退**：
+- 生物 Q21-Q26 子题号是"（1）（2）（3）"（非数字），verify_one 递归返回 invalid_question_number → 全部标 composite_subquestion unverifiable
+- 修复：子题无法映射时回退到父题整体答案的长文本匹配（`_find_free_text`），子题部分 matched 才保留 composite_subquestion
+
+**验证结果**：
+- `test_answer_matcher.py`: 28 passed + `test_answer_shared_line_id.py`: 4 passed = **32 passed**
+- 生物 Q6=C、Q7=A（与 PDF 一致），mismatched 2→0
+- 生物 Q21-Q26: unverifiable → matched，严格通过 18/26 → 24/26
+- 9 科: matched 186→193, unverifiable 23→16, **mismatched 0**
+- 严格通过: **158/209 (76%)**
+
+**unverifiable 分布**（16 个）：missing_db_question 11 + free_text_answer 5，composite_subquestion 清零
+
+**报告**: `test/results/e2e_semantic_report_9subjects_p0c_v4.txt`
+
+**Git commit**: `2d472f4`（来源感知）、`67e5a83`（composite 回退）
