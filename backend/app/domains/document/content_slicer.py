@@ -102,35 +102,34 @@ def _merge_shared_material_questions(
     questions: list[SlicedQuestion],
     line_by_id: dict[str, L1Line],
 ) -> list[SlicedQuestion]:
-    """三层安全网：共享材料题合并。
+    """共享材料题处理。
 
-    Layer 1: LLM 已标记 is_composite 的题目直接保留。
-    Layer 2: 按 shared_material_line_ids 重叠合并未标记的题目。
-    Layer 3: 标记疑似共享材料题供人工复查。
+    核心原则：是否是综合题由 LLM 通过语义、上下文、试题结构综合判断。
+    代码尊重 LLM 的 is_composite 标记，不强制合并 LLM 标记为独立的题目。
+
+    Layer 1: LLM 已标记 is_composite=True → 保留为综合题
+    Layer 2: LLM 标记 is_composite=False → 保留为独立题（即使有 shared_material_line_ids）
+    Layer 3: 标记疑似共享材料题供人工复查
     """
     if not questions:
         return questions
 
-    # 分离：LLM 已标记的综合题 vs 未标记的题目
     composites: list[SlicedQuestion] = []
-    candidates: list[SlicedQuestion] = []
+    independents: list[SlicedQuestion] = []
     for q in questions:
         if q.is_composite:
             composites.append(q)
         else:
-            candidates.append(q)
+            independents.append(q)
 
-    # Layer 2: 按 shared_material_line_ids 重叠合并
-    merged = _merge_by_shared_material(candidates, line_by_id)
+    # Layer 3: 标记有 shared_material_line_ids 的独立题供人工复查
+    _mark_suspected_shared_material(independents)
 
-    # Layer 3: 标记疑似共享材料题
-    _mark_suspected_shared_material(merged)
-
-    result = composites + merged
+    result = composites + independents
     logger.info(
-        "merge_composites: llm_marked=%d merged=%d total=%d",
+        "merge_composites: llm_composites=%d independents=%d total=%d",
         len(composites),
-        len(merged),
+        len(independents),
         len(result),
     )
     return result
