@@ -72,6 +72,8 @@ class HTTPLLMProvider(LLMProvider):
         model: str,
         timeout_seconds: float = 60.0,
         response_format: dict[str, str] | None = None,
+        max_tokens: int | None = None,
+        max_completion_tokens: int | None = None,
         max_retries: int = 2,
         retry_base_delay: float = 1.0,
     ) -> None:
@@ -81,6 +83,8 @@ class HTTPLLMProvider(LLMProvider):
         self.model = model
         self.timeout_seconds = timeout_seconds
         self.response_format = response_format
+        self.max_tokens = max_tokens
+        self.max_completion_tokens = max_completion_tokens
         self.max_retries = max_retries
         self.retry_base_delay = retry_base_delay
 
@@ -93,6 +97,14 @@ class HTTPLLMProvider(LLMProvider):
         }
         if self.response_format:
             payload["response_format"] = self.response_format
+        if self.max_tokens:
+            payload["max_tokens"] = self.max_tokens
+        if self.max_completion_tokens:
+            payload["max_completion_tokens"] = self.max_completion_tokens
+        logger.info(
+            "LLM request provider=%s model=%s max_tokens=%s max_completion_tokens=%s prompt_len=%d",
+            self.name, self.model, self.max_tokens, self.max_completion_tokens, len(prompt),
+        )
         return await self._post_completion(url, payload=payload)
 
     async def complete_vision(
@@ -131,10 +143,46 @@ class HTTPLLMProvider(LLMProvider):
             try:
                 async with httpx.AsyncClient(timeout=self.timeout_seconds) as client:
                     response = await client.post(url, json=payload, headers=headers)
-                    response.raise_for_status()
+                    if response.status_code >= 400:
+                        # 必须带出 status 和 body，不能只抛 raise_for_status() 的通用错误
+                        # （否则 LLM/OCR 400 失败原因不可复现）
+                        body_preview = response.text[:300]
+                        raise httpx.HTTPStatusError(
+                            f"provider={self.name} HTTP {response.status_code}: {body_preview}",
+                            request=response.request,
+                            response=response,
+                        )
                     data = response.json()
                     if not isinstance(data, dict):
                         raise ValueError("LLM response is not a JSON object")
+                    choices = data.get("choices") or []
+                    first_choice = choices[0] if choices else None
+                    finish_reason = (
+                        first_choice.get("finish_reason")
+                        if isinstance(first_choice, dict)
+                        else None
+                    )
+                    usage = data.get("usage") or {}
+                    completion_tokens = (
+                        usage.get("completion_tokens")
+                        if isinstance(usage, dict)
+                        else None
+                    )
+                    reasoning_tokens = (
+                        (usage.get("completion_tokens_details") or {}).get(
+                            "reasoning_tokens"
+                        )
+                        if isinstance(usage, dict)
+                        else None
+                    )
+                    logger.info(
+                        "LLM response provider=%s finish_reason=%s "
+                        "completion_tokens=%s reasoning_tokens=%s",
+                        self.name,
+                        finish_reason,
+                        completion_tokens,
+                        reasoning_tokens,
+                    )
                     return extract_completion_text(data)
             except (httpx.HTTPStatusError, httpx.RequestError, ValueError, OSError) as e:
                 last_error = e

@@ -33,10 +33,10 @@ def test_line_ids_are_continuous():
 
 
 def test_line_id_format():
-    """行 ID 格式为 P{page}L{line:03d}。"""
+    """Native 行 ID 格式为 N{page}L{line:03d}。"""
     result = extract_l1_from_pdf(TEST_PDF, page_range=(1, 1))
     for line in result.lines:
-        assert line.line_id.startswith("P1L")
+        assert line.line_id.startswith("N1L")
         assert len(line.line_id) == 6
 
 

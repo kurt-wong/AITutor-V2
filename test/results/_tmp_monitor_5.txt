@@ -1,0 +1,341 @@
+﻿
+[0min] === 管线进度 ===
+  任务: {'queued': 4, 'running': 1, 'succeeded': 4}
+  文档: 4/9 completed
+    ⏳ 化学: pending (0题)
+    ⏳ 历史: pending (0题)
+    ⏳ 地理: pending (0题)
+    ⏳ 政治: processing (0题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[1min] === 管线进度 ===
+  任务: {'queued': 4, 'running': 1, 'succeeded': 4}
+  文档: 4/9 completed
+    ⏳ 化学: pending (0题)
+    ⏳ 历史: pending (0题)
+    ⏳ 地理: pending (0题)
+    ⏳ 政治: processing (0题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[2min] === 管线进度 ===
+  任务: {'queued': 4, 'running': 1, 'succeeded': 4}
+  文档: 4/9 completed
+    ⏳ 化学: pending (0题)
+    ⏳ 历史: pending (0题)
+    ⏳ 地理: pending (0题)
+    ⏳ 政治: processing (0题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[3min] === 管线进度 ===
+  任务: {'queued': 3, 'running': 1, 'succeeded': 5}
+  文档: 5/9 completed
+    ⏳ 化学: pending (0题)
+    ⏳ 历史: processing (0题)
+    ⏳ 地理: pending (0题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[4min] === 管线进度 ===
+  任务: {'queued': 3, 'running': 1, 'succeeded': 5}
+  文档: 5/9 completed
+    ⏳ 化学: pending (0题)
+    ⏳ 历史: processing (0题)
+    ⏳ 地理: pending (0题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[5min] === 管线进度 ===
+  任务: {'queued': 3, 'running': 1, 'succeeded': 5}
+  文档: 5/9 completed
+    ⏳ 化学: pending (0题)
+    ⏳ 历史: processing (0题)
+    ⏳ 地理: pending (0题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[6min] === 管线进度 ===
+  任务: {'queued': 3, 'running': 1, 'succeeded': 5}
+  文档: 5/9 completed
+    ⏳ 化学: pending (0题)
+    ⏳ 历史: processing (0题)
+    ⏳ 地理: pending (0题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[7min] === 管线进度 ===
+  任务: {'queued': 3, 'running': 1, 'succeeded': 5}
+  文档: 5/9 completed
+    ⏳ 化学: pending (0题)
+    ⏳ 历史: processing (0题)
+    ⏳ 地理: pending (0题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[8min] === 管线进度 ===
+  任务: {'queued': 3, 'running': 1, 'succeeded': 5}
+  文档: 5/9 completed
+    ⏳ 化学: pending (0题)
+    ⏳ 历史: processing (0题)
+    ⏳ 地理: pending (0题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[9min] === 管线进度 ===
+  任务: {'queued': 3, 'running': 1, 'succeeded': 5}
+  文档: 5/9 completed
+    ⏳ 化学: pending (0题)
+    ⏳ 历史: processing (0题)
+    ⏳ 地理: pending (0题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[10min] === 管线进度 ===
+  任务: {'queued': 3, 'running': 1, 'succeeded': 5}
+  文档: 5/9 completed
+    ⏳ 化学: pending (0题)
+    ⏳ 历史: processing (0题)
+    ⏳ 地理: pending (0题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[11min] === 管线进度 ===
+  任务: {'queued': 3, 'running': 1, 'succeeded': 5}
+  文档: 5/9 completed
+    ⏳ 化学: pending (0题)
+    ⏳ 历史: processing (0题)
+    ⏳ 地理: pending (0题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[12min] === 管线进度 ===
+  任务: {'queued': 2, 'running': 1, 'succeeded': 6}
+  文档: 6/9 completed
+    ⏳ 化学: pending (0题)
+    ✅ 历史: completed (42题)
+    ⏳ 地理: processing (0题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[13min] === 管线进度 ===
+  任务: {'queued': 2, 'running': 1, 'succeeded': 6}
+  文档: 6/9 completed
+    ⏳ 化学: pending (0题)
+    ✅ 历史: completed (42题)
+    ⏳ 地理: processing (0题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[14min] === 管线进度 ===
+  任务: {'queued': 2, 'running': 1, 'succeeded': 6}
+  文档: 6/9 completed
+    ⏳ 化学: pending (0题)
+    ✅ 历史: completed (42题)
+    ⏳ 地理: processing (0题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[15min] === 管线进度 ===
+  任务: {'queued': 2, 'running': 1, 'succeeded': 6}
+  文档: 6/9 completed
+    ⏳ 化学: pending (0题)
+    ✅ 历史: completed (42题)
+    ⏳ 地理: processing (0题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[16min] === 管线进度 ===
+  任务: {'queued': 2, 'running': 1, 'succeeded': 6}
+  文档: 6/9 completed
+    ⏳ 化学: pending (0题)
+    ✅ 历史: completed (42题)
+    ⏳ 地理: processing (0题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[17min] === 管线进度 ===
+  任务: {'queued': 2, 'running': 1, 'succeeded': 6}
+  文档: 6/9 completed
+    ⏳ 化学: pending (0题)
+    ✅ 历史: completed (42题)
+    ⏳ 地理: processing (0题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[18min] === 管线进度 ===
+  任务: {'queued': 2, 'succeeded': 7}
+  文档: 7/9 completed
+    ⏳ 化学: pending (0题)
+    ✅ 历史: completed (42题)
+    ✅ 地理: completed (25题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: pending (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[19min] === 管线进度 ===
+  任务: {'queued': 1, 'running': 1, 'succeeded': 7}
+  文档: 7/9 completed
+    ⏳ 化学: pending (0题)
+    ✅ 历史: completed (42题)
+    ✅ 地理: completed (25题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: processing (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[20min] === 管线进度 ===
+  任务: {'queued': 1, 'running': 1, 'succeeded': 7}
+  文档: 7/9 completed
+    ⏳ 化学: pending (0题)
+    ✅ 历史: completed (42题)
+    ✅ 地理: completed (25题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ⏳ 生物: processing (0题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[21min] === 管线进度 ===
+  任务: {'running': 1, 'succeeded': 8}
+  文档: 8/9 completed
+    ⏳ 化学: processing (0题)
+    ✅ 历史: completed (42题)
+    ✅ 地理: completed (25题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ✅ 生物: completed (24题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[22min] === 管线进度 ===
+  任务: {'running': 1, 'succeeded': 8}
+  文档: 8/9 completed
+    ⏳ 化学: processing (0题)
+    ✅ 历史: completed (42题)
+    ✅ 地理: completed (25题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ✅ 生物: completed (24题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[23min] === 管线进度 ===
+  任务: {'running': 1, 'succeeded': 8}
+  文档: 8/9 completed
+    ⏳ 化学: processing (0题)
+    ✅ 历史: completed (42题)
+    ✅ 地理: completed (25题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ✅ 生物: completed (24题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[24min] === 管线进度 ===
+  任务: {'running': 1, 'succeeded': 8}
+  文档: 8/9 completed
+    ⏳ 化学: processing (0题)
+    ✅ 历史: completed (42题)
+    ✅ 地理: completed (25题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ✅ 生物: completed (24题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+[25min] === 管线进度 ===
+  任务: {'succeeded': 9}
+  文档: 9/9 completed
+    ✅ 化学: completed (26题)
+    ✅ 历史: completed (42题)
+    ✅ 地理: completed (25题)
+    ✅ 政治: completed (28题)
+    ✅ 数学: completed (5题)
+    ✅ 物理: completed (19题)
+    ✅ 生物: completed (24题)
+    ✅ 英语: completed (22题)
+    ✅ 语文: completed (7题)
+
+=== 全部完成 ===
+  总题目数: 198

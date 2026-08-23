@@ -268,7 +268,7 @@ L3  前端/导出渲染：由 L1 + L2 组合生成，不直接信任 LLM 抄写�
 |---|---|
 | PDF 版面解析 | Native 文本层优先；PP-StructureV3 云 API 兜底 |
 | DOCX 解析 | 本地解析 + LLM 结构化 |
-| OCR/VL | PaddleOCR-VL、MIMO、Qwen |
+| OCR/VL | PaddleOCR-VL、MIMO、DeepSeek Vision |
 | 元数据标注 | DeepSeek / MIMO |
 | AI 生成题 | DeepSeek / MIMO |
 | 难度评估 | LLM + 规则 + 学习数据 |

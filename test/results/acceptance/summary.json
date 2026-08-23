@@ -1,0 +1,490 @@
+[
+  {
+    "filename": "2026北京九中高一（上）期末历史（教师版）.pdf",
+    "subject": "历史",
+    "ocr_model": "PP-StructureV3",
+    "stages": {
+      "pipeline": {
+        "status": "succeeded",
+        "elapsed_ms": 587320,
+        "question_count": 43,
+        "ingested": 39,
+        "discarded": 4,
+        "errors": []
+      },
+      "answer_extraction": {
+        "status": "success",
+        "subject": "历史",
+        "total": 43,
+        "verified": 43,
+        "with_answer": 43,
+        "elapsed_ms": 163025,
+        "error": null
+      },
+      "document_persist": {
+        "native_markdown_chars": 18371,
+        "ocr_markdown_chars": 18957,
+        "llm_annotated_chars": 2626
+      },
+      "ingestion_preview": {
+        "total": 43,
+        "approved": 39,
+        "reviewing": 2,
+        "skipped": 2,
+        "answer_source_llm": 43,
+        "answer_source_pipeline": 0,
+        "answer_source_none": 0
+      },
+      "quality": {
+        "high_confidence": 39,
+        "low_confidence": 2,
+        "blocked": 4,
+        "answer_missing": 0
+      }
+    },
+    "errors": [],
+    "questions": [
+      {
+        "question_number": "41",
+        "question_type": "short_answer",
+        "stem_preview": "41.古代经济\n材料一下图为陕西何家村出土的“唐朝怀集庸调银饼”。上刻有“怀集县（今广东怀集县）开十（开元十年）庸调银拾两，专当官令王文乐、典陈友、匠高童”。\n",
+        "answer_preview": "（1）类型：实物史料。价值：对研究唐代的租庸调制有重要价值；与文献史料相互佐证，弥补文献史料不足。\n（2）内容：私人土地上发现的矿藏，地主有优先开采权；允许私人",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "42",
+        "question_type": "short_answer",
+        "stem_preview": "42.近代文化\n材料一20世纪初，青年革命家陈天华撰写了《猛回头》，宣传革命思想，采用传统弹词的表现形式，“唤醒国人迷梦，提倡独立精神，一字一泪，一语一血”，很",
+        "answer_preview": "（1）时代精神：追求民族独立。\n背景：清末民族危机空前严重：仁人志士投身民族独立运动；民众的民族意识觉醒。\n（2）新局面：形式上白话文逐渐普及开来：内容上报刊宣",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "1",
+        "question_type": "single_choice",
+        "stem_preview": "1.下表是对中国新石器时代某一文化遗存的描述。这一文化遗存最有可能是（）\n距今约7000至5000年前，位于黄河中游地区典型器物是彩绘陶器，以粟等为主要栽培作物",
+        "answer_preview": "B",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "2",
+        "question_type": "single_choice",
+        "stem_preview": "2.下图是中国古代某一历史时期形势图。下列表述符合该时期的是（）\n东\n匈奴胡\n5燕\n勤\nr\n海\n赵\n邮郸1\n东\nVU 郑\n成阳洛阳\n海\n都城\n诸侯国国都\nunn",
+        "answer_preview": "D",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "3",
+        "question_type": "single_choice",
+        "stem_preview": "3.秦统一后，拆除了六国之间人为设置的川防障碍，修建从咸阳通往各地的驰道。为防御匈奴，秦修筑直道：征服南越后，开通新道；在西南边境修筑五尺道，与驰道相连。这些道",
+        "answer_preview": "A",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "4",
+        "question_type": "single_choice",
+        "stem_preview": "4.《汉书》记载：“武帝施主父偃之策，下推恩之令，使诸侯王得分户邑，以封子弟，不行黜陟，而藩国自析。”据此判断汉武帝实行“推恩令”的主要目的是（）",
+        "answer_preview": "D",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "5",
+        "question_type": "single_choice",
+        "stem_preview": "5.某同学整理了以下关键词：“外戚与宦官交替专权”“党锢之祸”“豪强地主势力发展”。由此判断，\n他学习的内容应是（）",
+        "answer_preview": "B",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "6",
+        "question_type": "single_choice",
+        "stem_preview": "6.“晋永嘉大乱，幽、冀、青、并、充州及徐州之淮北流民，相率过淮（河），亦有过（长）江在晋陵郡界者。”魏晋南北朝时期此类现象大量存在，其影响是（）",
+        "answer_preview": "C",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "7",
+        "question_type": "single_choice",
+        "stem_preview": "7.有学者评价某史事“顺应了北方民族交往交流交融的历史趋势，大大缓解了民族矛盾，促进了经济发展和社会繁荣，为以后北方统一南方以及隋唐盛世的出现打下了基础”。下列",
+        "answer_preview": "D",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "8",
+        "question_type": "single_choice",
+        "stem_preview": "8.唐朝初年，唐太宗吸取隋亡的教训，轻徭薄赋，劝课农桑，戒奢从简，知人善任，虚怀纳谏。在他统治时期，国家出现了少有的开明政治局面，史称（）",
+        "answer_preview": "B",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "9",
+        "question_type": "single_choice",
+        "stem_preview": "9.如图为某同学在学习三省六部制时制作的知识结构图，其中①处应为（）\n一更部\n执行政令④一户部一礼部六\n同意后审议通过一兵部邮\n审议政令③一刑部\n文予审议一工部",
+        "answer_preview": "D",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "10",
+        "question_type": "single_choice",
+        "stem_preview": "10.下表是汉朝至唐朝通过“丝绸之路”交流的相关史实。据此可知，这一时期的中外交流（\n<html><body><table><tr><td>时期</td><td",
+        "answer_preview": "B",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "11",
+        "question_type": "single_choice",
+        "stem_preview": "11.中医药学是中华民族的伟大成就之一，下列表述正确的有（）\n①《黄帝内经》——奠定了中医理论基础\n②《千金方》—一世界最早由国家颁行的药典\n③《神农本草经》—",
+        "answer_preview": "C",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "12",
+        "question_type": "single_choice",
+        "stem_preview": "12.北京成为王朝的都城开始于（）",
+        "answer_preview": "B",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "13",
+        "question_type": "single_choice",
+        "stem_preview": "13．“天下之兵，本于枢密，有发兵之权而无握兵之重，京师之兵（指禁军），总于三帅，有握兵之重而无发兵之权”。这一措施（）",
+        "answer_preview": "D",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "14",
+        "question_type": "single_choice",
+        "stem_preview": "14.下列史料涉及的史事，按时序排列正确的是（）\n①“三十老明经，五十少进士”\n②“取士不问家世，婚姻不问阀阅”\n③“诸不在六艺之科孔子之术者，皆绝其道，勿使并",
+        "answer_preview": "C",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "15",
+        "question_type": "single_choice",
+        "stem_preview": "15.元朝疆域辽阔，为加强对全国的统治，元朝实行的地方行政制度是（）",
+        "answer_preview": "D",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "16",
+        "question_type": "single_choice",
+        "stem_preview": "16.明太祖说：“自秦始置丞相，不旋踵而亡。汉、唐、宋因之，虽有贤相，然其间所用者多有小人，专权乱政。”鉴于此，他采取的措施是（）",
+        "answer_preview": "C",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "17",
+        "question_type": "single_choice",
+        "stem_preview": "17.明末清初，黄宗羲提出“为天下之大害者，君而已矣”，王夫之提出“天下非一姓之私也”。两位思想家共同的主张是（）",
+        "answer_preview": "A",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "18",
+        "question_type": "single_choice",
+        "stem_preview": "18.某学生在梳理清朝康乾盛世时期历史知识时，记录了“台湾设府”“签订《尼布楚条约》”“派遣驻藏大臣”“设立伊型将军”等内容。据此可知，该学生学习的主题是（）",
+        "answer_preview": "B",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "19",
+        "question_type": "single_choice",
+        "stem_preview": "19.1840年6月，英国发动侵略中国的战争，清政府组织了抵抗。这场战争以清政府被迫签订中国近代史上第一个不平等条约而结束。这场战争是（）",
+        "answer_preview": "A",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "20",
+        "question_type": "single_choice",
+        "stem_preview": "20.下图是鸦片战争后中国出现的一部作品的书影，这部作品（）\n，\n中",
+        "answer_preview": "C",
+        "answer_source": "llm_extracted",
+        "confidence": 0.6,
+        "status": "reviewing",
+        "issues": [
+          "锚点需重新标注，禁止自动发布"
+        ]
+      },
+      {
+        "question_number": "21",
+        "question_type": "single_choice",
+        "stem_preview": "21.1861年，曾国藩在《复陈购买外洋船炮折》中说：“购成之后，访募覃思之士，智巧之匠，始而演习，继而试造，不过一二年，火轮船必为中外官民通行之物，可以剿发逆",
+        "answer_preview": "B",
+        "answer_source": "llm_extracted",
+        "confidence": 0.6,
+        "status": "reviewing",
+        "issues": [
+          "锚点需重新标注，禁止自动发布"
+        ]
+      },
+      {
+        "question_number": "22",
+        "question_type": "single_choice",
+        "stem_preview": "",
+        "answer_preview": "C",
+        "answer_source": "llm_extracted",
+        "confidence": 0.1,
+        "status": "skipped",
+        "issues": [
+          "锚点需重新标注，禁止自动发布",
+          "题干为空"
+        ]
+      },
+      {
+        "question_number": "23",
+        "question_type": "single_choice",
+        "stem_preview": "23.近代以来，随着民族危机的加深，一系列救亡探索运动先后登上中国历史的舞台。以下运动中发生背景与甲午中日战争密切相关的是（）",
+        "answer_preview": "C",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "24",
+        "question_type": "single_choice",
+        "stem_preview": "24.学者金冲及评价1911年湖北革命党人的行动时指出：“他们在当时无论从社会地位和声望看，都是一些小人物，却做出了惊天动地的大事情。”这里的“大事情”应是（）",
+        "answer_preview": "C",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "25",
+        "question_type": "single_choice",
+        "stem_preview": "25.1914—1920年，中国民族资本主义快速发展，推动这一时期民族资本主义发展的因素有（）\n①民国政府鼓励民间兴办实业\n②西方列强忙于第一次世界大战\n③官僚",
+        "answer_preview": "B",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "26",
+        "question_type": "single_choice",
+        "stem_preview": "26.下表为1919年部分报刊对五四运动的报道，它们可以反映出五四运动（）\n<html><body><table><tr><td>报刊</td><td>文章标题",
+        "answer_preview": "B",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "27",
+        "question_type": "single_choice",
+        "stem_preview": "27.“红船精神”孕育于浙江嘉兴南湖的红船上。“红船”纪念的历史事件是（\n红船精神\n开天辟地、敢为人先的首创精神坚定理想、百折不挠的奋斗精神立党为公、忠诚为民的",
+        "answer_preview": "B",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "28",
+        "question_type": "single_choice",
+        "stem_preview": "28.1924年1月，孙中山在广州主持召开了中国国民党第一次全国代表大会，这次会议（）",
+        "answer_preview": "C",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "29",
+        "question_type": "single_choice",
+        "stem_preview": "29.如表为某学习小组围绕研究的主题搜集的资料，据此判断，该组研究的主题是（）\n<html><body><table><tr><td>时间</td><td>史事",
+        "answer_preview": "D",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "30",
+        "question_type": "single_choice",
+        "stem_preview": "30.台儿庄战役是抗日战争时期正面战场的一次重要战役，该战役（）",
+        "answer_preview": "D",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "31",
+        "question_type": "single_choice",
+        "stem_preview": "31.中国共产党在抗日战争中发挥了中流砥柱的作用，具体体现在①推动抗日民族统一战线的建立和巩固②制定和执行全面抗战路线③开辟的敌后战场逐渐成为抗战主战场④派遣中",
+        "answer_preview": "A",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "32",
+        "question_type": "single_choice",
+        "stem_preview": "32.1948年12月30日，新华社发表毛泽东撰写的一九四九年新年献词《将革命进行到底》。其中提到“东北的敌人已经完全消灭，华北的敌人即将完全消灭，华东和中原的",
+        "answer_preview": "A",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "33",
+        "question_type": "single_choice",
+        "stem_preview": "33.毛泽东思想是马克思主义中国化的第一次历史性飞跃。以下内容按时间排序正确的是（）\n①)“全党同志和全解放区军民，必须团结一致，彻底粉碎蒋介石的进攻，建立独立",
+        "answer_preview": "C",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "34",
+        "question_type": "single_choice",
+        "stem_preview": "34.下表中农民货币收入的变化主要得益于（）\n1949—1952年农民货币收入情况\n<html><body><table><tr><td rowspan=\"2\"",
+        "answer_preview": "C",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "35",
+        "question_type": "single_choice",
+        "stem_preview": "35.中共八大是我国建设社会主义道路的一次成功探索。大会提出党和人民当前的主要任务是（）",
+        "answer_preview": "B",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "36",
+        "question_type": "single_choice",
+        "stem_preview": "36．“三线建设”从1964年开始，进行了十多年。在贵州、陕西及鄂西、湘西等地区建立起许多军事工业基地，在西部地区建成攀枝花大型钢铁联合企业等一大批工业基地，还",
+        "answer_preview": "B",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "37",
+        "question_type": "single_choice",
+        "stem_preview": "37.实现了新中国成立以来党的历史上具有深远意义的伟大转折，开启了改革开放和社会主义现代化建设新时期的会议是（）",
+        "answer_preview": "B",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "38",
+        "question_type": "single_choice",
+        "stem_preview": "38.从1979年到1984年，我国农业总产值年均增长8.9%，人均占有粮食从1978年的",
+        "answer_preview": "A",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "39",
+        "question_type": "single_choice",
+        "stem_preview": "39.中共十八大以来，中国特色社会主义进入新时代。下列属于十八大以来取得的重大成就是（）\n①颁布《中华人民共和国民法典》②正式加入世界贸易组织\n③脱贫攻坚战取得",
+        "answer_preview": "C",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "40",
+        "question_type": "single_choice",
+        "stem_preview": "40.新时代中国特色大国外交取得巨大成就，主要基于（）",
+        "answer_preview": "D",
+        "answer_source": "llm_extracted",
+        "confidence": 1.0,
+        "status": "approved",
+        "issues": []
+      },
+      {
+        "question_number": "43",
+        "question_type": "short_answer",
+        "stem_preview": "",
+        "answer_preview": "倡导以和平共处五项原则作为国际关系准则：参与以联合国为中心的多边外交活动；促进全球治理体系改革与完善，推动气候变化《巴黎协定》生效：倡议推动区域和国际合作如上海",
+        "answer_source": "llm_extracted",
+        "confidence": 0.0,
+        "status": "skipped",
+        "issues": [
+          "锚点需重新标注，禁止自动发布",
+          "题干为空",
+          "详解依赖 LLM 兜底"
+        ]
+      }
+    ]
+  }
+]

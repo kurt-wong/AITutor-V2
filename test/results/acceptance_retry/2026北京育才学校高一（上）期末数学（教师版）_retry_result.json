@@ -1,0 +1,26 @@
+{
+  "filename": "2026北京育才学校高一（上）期末数学（教师版）.pdf",
+  "subject": "数学",
+  "stages": {
+    "pipeline": {
+      "status": "succeeded",
+      "elapsed_ms": 1037992,
+      "question_count": 8,
+      "errors": []
+    },
+    "answer_extraction": {
+      "status": "success",
+      "subject": "数学",
+      "total": 11,
+      "verified": 11,
+      "elapsed_ms": 7292,
+      "error": null
+    },
+    "ingestion_preview": {
+      "total": 8,
+      "approved": 8,
+      "reviewing": 0
+    }
+  },
+  "errors": []
+}

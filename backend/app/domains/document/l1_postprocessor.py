@@ -57,6 +57,16 @@ _PAREN_QUESTION_INLINE_PATTERN = re.compile(
 )
 
 
+# ── 页脚过滤 ──────────────────────────────────────────────────────
+
+_PAGE_FOOTER_RE = re.compile(r"^\s*第\s*\d+\s*页/共\s*\d+\s*页\s*$")
+
+
+def _filter_page_footers(lines: list[L1Line]) -> list[L1Line]:
+    """过滤页脚行（"第x页/共y页"），避免被纳入 stem_line_ids。"""
+    return [l for l in lines if not _PAGE_FOOTER_RE.match(l.text or "")]
+
+
 # ── 主入口 ──────────────────────────────────────────────────────
 
 
@@ -84,6 +94,9 @@ def postprocess_l1(doc: L1Document) -> L1Document:
 
     # Step 2: 单行选项行内切分
     expanded = _expand_inline_option_lines(expanded)
+
+    # Step 2.5: 过滤页脚行（"第x页/共y页"）
+    expanded = _filter_page_footers(expanded)
 
     # Step 3: 重编行号
     result_lines = _renumber_lines(expanded, doc.source)
@@ -120,6 +133,11 @@ def _expand_question_number_lines(lines: list[L1Line]) -> list[L1Line]:
     for line in lines:
         text = line.text
 
+        # table block 是结构化整体，不能按单元格里的数字/选项标记拆行。
+        if line.block_type == "table":
+            result.append(line)
+            continue
+
         # 找到行内所有题号位置
         splits = _find_inline_question_numbers(text)
 
@@ -146,6 +164,10 @@ def _expand_question_number_lines(lines: list[L1Line]) -> list[L1Line]:
                 bbox=line.bbox if i == 0 else None,
                 source=line.source,
                 continuation=line.continuation,
+                raw_sources=dict(line.raw_sources) if line.raw_sources else {},
+                selected_source=line.selected_source,
+                evidence=line.evidence,
+                confidence=line.confidence,
             )
             result.append(new_line)
 
@@ -287,6 +309,11 @@ def _expand_inline_option_lines(lines: list[L1Line]) -> list[L1Line]:
     for line in lines:
         text = line.text
 
+        # table block 的单元格可能含 A./B./C./D.，不应按选项切分。
+        if line.block_type == "table":
+            result.append(line)
+            continue
+
         # 检查是否是单行多选项
         option_positions = _find_inline_options(text)
 
@@ -312,6 +339,10 @@ def _expand_inline_option_lines(lines: list[L1Line]) -> list[L1Line]:
                 bbox=line.bbox if i == 0 else None,
                 source=line.source,
                 continuation=line.continuation,
+                raw_sources=dict(line.raw_sources) if line.raw_sources else {},
+                selected_source=line.selected_source,
+                evidence=line.evidence,
+                confidence=line.confidence,
             )
             result.append(new_line)
 
@@ -369,9 +400,10 @@ def _renumber_lines(lines: list[L1Line], source: str) -> list[L1Line]:
 
     for page_no in sorted(pages.keys()):
         page_lines = pages[page_no]
+        prefix = _page_line_id_prefix(page_lines)
         for line_no, line in enumerate(page_lines, start=1):
             new_line = L1Line(
-                line_id=f"P{page_no}L{line_no:03d}",
+                line_id=f"{prefix}{page_no}L{line_no:03d}",
                 page_no=page_no,
                 line_no_in_page=line_no,
                 order=global_order,
@@ -380,11 +412,29 @@ def _renumber_lines(lines: list[L1Line], source: str) -> list[L1Line]:
                 bbox=line.bbox,
                 source=line.source,
                 continuation=line.continuation,
+                raw_sources=dict(line.raw_sources) if line.raw_sources else {},
+                selected_source=line.selected_source,
+                evidence=line.evidence,
+                confidence=line.confidence,
             )
             result.append(new_line)
             global_order += 1
 
     return result
+
+
+def _page_line_id_prefix(page_lines: list[L1Line]) -> str:
+    """按来源确定页内行号前缀。
+
+    Native 生成阶段使用 N，PP-StructureV3 使用 P。优先沿用原始行的前缀，
+    便于兼容手工构造且仍以 P 为前缀的既有测试 fixture。
+    """
+    for line in page_lines:
+        if line.line_id and line.line_id[0] in ("P", "N"):
+            return line.line_id[0]
+    if page_lines and page_lines[0].source == "native":
+        return "N"
+    return "P"
 
 
 # ── Step 4: 同步 pages 行引用 ──────────────────────────────────────

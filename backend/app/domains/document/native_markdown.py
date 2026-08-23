@@ -142,7 +142,7 @@ def extract_l1_from_pdf(
         for block in content_blocks:
             line_no = len(page_lines) + 1
             line = L1Line(
-                line_id=f"P{page_no}L{line_no:03d}",
+                line_id=f"N{page_no}L{line_no:03d}",
                 page_no=page_no,
                 line_no_in_page=line_no,
                 order=global_order,

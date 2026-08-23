@@ -1,0 +1,43 @@
+{
+  "subject": "math",
+  "source_file": "2026北京朝阳高一（上）期末数学（教师版）.pdf",
+  "sections": [
+    {
+      "name": "一、选择题",
+      "type": "single_choice",
+      "range": [
+        1,
+        8
+      ],
+      "points_per_q": 5
+    },
+    {
+      "name": "二、填空题",
+      "type": "fill_in",
+      "range": [
+        9,
+        14
+      ],
+      "points_per_q": 5
+    },
+    {
+      "name": "三、解答题",
+      "type": "short_answer",
+      "range": [
+        15,
+        21
+      ],
+      "points_per_q": [
+        10,
+        12,
+        12,
+        12,
+        12,
+        12,
+        14
+      ]
+    }
+  ],
+  "composite_rules": [],
+  "total_questions": 21
+}

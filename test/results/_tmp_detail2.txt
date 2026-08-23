@@ -1,0 +1,9 @@
+﻿=== 未完成文档 ===
+  物理 | processing | 2026%E5%8C%97%E4%BA%AC%E5%85%AB%E5%8D%81%E4%B8%AD%E9%AB%98%E
+  最近日志:
+    2026-08-22 07:58:41.812831+00:00 | upload | Document uploaded
+
+=== 运行中的任务 ===
+  task=4b434935-f98e-4e1a-b7d9-eb03bfaaf7e6 | stage=question_images | progress=0.900 | err=
+
+questions=165 instances=165

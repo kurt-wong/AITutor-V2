@@ -7,14 +7,22 @@ from typing import Protocol, Sequence, runtime_checkable
 from app.ai.gateway import LLMGateway
 from app.ai.providers import HTTPLLMProvider
 from app.core.config import settings
-from app.domains.document.ocr.paddle_client import PaddleOCRClient
+from app.domains.document.ocr.paddle_client import PaddleOCRClient, PaddleOCRQueue
 from app.domains.document.schemas import OcrDocument, OcrPage
 
 logger = logging.getLogger(__name__)
 
 
 class OCRProviderError(RuntimeError):
-    pass
+    """所有 OCR provider 失败时抛出；failures 保留每个 provider 的失败明细。"""
+
+    def __init__(
+        self,
+        message: str,
+        failures: list[tuple[str, str]] | None = None,
+    ) -> None:
+        super().__init__(message)
+        self.failures = failures or []
 
 
 @runtime_checkable
@@ -56,28 +64,72 @@ class LLMVisionOCRProvider:
         self.gateway = gateway
 
     async def extract(self, file_path: Path) -> OcrDocument:
-        image_data_url = _data_url(file_path)
-        prompt = (
-            "请把这份文档完整 OCR 为 Markdown。"
-            "保留题号、题干、选项、答案、解析、公式、表格和图片引用。"
-            "只输出 Markdown，不要额外说明。"
-        )
-        markdown = await self.gateway.complete_vision(
-            prompt,
-            image_data_url,
-            temperature=0.0,
-        )
-        return OcrDocument(
-            filename=file_path.name,
-            pages=[
+        pages: list[OcrPage] = []
+        if file_path.suffix.lower() == ".pdf":
+            rendered_pages = _render_pdf_pages(file_path)
+            for page_no, image_data_url in enumerate(rendered_pages, start=1):
+                prompt = (
+                    f"OCR page {page_no} completely to Markdown. "
+                    "Keep question numbers, stems, options, answers, explanations, "
+                    "formulas, tables, and image references. Output only Markdown."
+                )
+                markdown = await self.gateway.complete_vision(
+                    prompt,
+                    image_data_url,
+                    temperature=0.0,
+                )
+                pages.append(
+                    OcrPage(
+                        page_number=page_no,
+                        markdown=markdown,
+                        source_provider=self.name,
+                    )
+                )
+        else:
+            image_data_url = _data_url(file_path)
+            prompt = (
+                "OCR this image completely to Markdown. "
+                "Keep question numbers, stems, options, answers, explanations, "
+                "formulas, tables, and image references. Output only Markdown."
+            )
+            markdown = await self.gateway.complete_vision(
+                prompt,
+                image_data_url,
+                temperature=0.0,
+            )
+            pages.append(
                 OcrPage(
                     page_number=1,
                     markdown=markdown,
                     source_provider=self.name,
                 )
-            ],
+            )
+        return OcrDocument(
+            filename=file_path.name,
+            pages=pages,
             provider_used=self.name,
         )
+
+
+class QueuedPaddleOCRProvider:
+    """PaddleOCRQueue 的适配器，实现 OCRProvider 接口。
+
+    用于 VL 模型的并发控制：当 model 包含 "VL" 时，
+    用 PaddleOCRQueue 包装 client，限制并发为 1。
+    """
+
+    def __init__(self, client: PaddleOCRClient, max_concurrent: int = 1) -> None:
+        self._queue = PaddleOCRQueue(client, max_concurrent=max_concurrent)
+        self.name = client.name
+        self.model = client.model
+
+    async def extract(self, file_path: Path) -> OcrDocument:
+        """实现 OCRProvider.extract() 接口。"""
+        return await self._queue.submit(file_path, model=self.model)
+
+    def close(self) -> None:
+        """关闭底层队列，取消后台 worker。"""
+        self._queue.close()
 
 
 class OCRFallbackChain:
@@ -95,38 +147,62 @@ class OCRFallbackChain:
                 failures.append((provider.name, str(exc)))
                 logger.warning("ocr provider=%s failed: %s", provider.name, exc)
         detail = "; ".join(f"{name}: {message}" for name, message in failures)
-        raise OCRProviderError(f"all OCR providers failed ({detail or 'none configured'})")
+        raise OCRProviderError(
+            f"all OCR providers failed ({detail or 'none configured'})",
+            failures=failures,
+        )
+
+    def close(self) -> None:
+        """释放 provider 持有的后台资源（目前是 VL 队列 worker）。"""
+        for provider in self.providers:
+            close = getattr(provider, "close", None)
+            if callable(close):
+                close()
 
 
-def build_ocr_chain(*, mock: bool | None = None) -> OCRFallbackChain:
+def build_ocr_chain(
+    *,
+    mock: bool | None = None,
+    model: str | None = None,
+) -> OCRFallbackChain:
     use_mock = settings.ocr_mock_mode if mock is None else mock
     if use_mock:
         return OCRFallbackChain([MockOCRProvider()])
 
     providers: list[OCRProvider] = []
     if settings.paddleocr_vl_token:
-        providers.append(
-            PaddleOCRClient(
-                base_url=settings.paddleocr_api_base_url,
-                token=settings.paddleocr_vl_token,
-                timeout_seconds=settings.llm_request_timeout_seconds,
-                poll_interval_seconds=settings.paddleocr_poll_interval_seconds,
-                job_timeout_seconds=settings.paddleocr_job_timeout_seconds,
-            )
+        paddle_kwargs: dict = dict(
+            base_url=settings.paddleocr_api_base_url,
+            token=settings.paddleocr_vl_token,
+            timeout_seconds=settings.llm_request_timeout_seconds,
+            poll_interval_seconds=settings.paddleocr_poll_interval_seconds,
+            job_timeout_seconds=settings.paddleocr_job_timeout_seconds,
         )
+        if model is not None:
+            paddle_kwargs["model"] = model
 
-    if settings.mimo_api_key and settings.mimo_base_url and settings.mimo_model:
+        paddle_client = PaddleOCRClient(**paddle_kwargs)
+
+        # VL 模型需要并发控制（队列保护）
+        # 当 model 包含 "VL" 时，用 PaddleOCRQueue 包装，限制并发为 1
+        if model is not None and "VL" in model.upper():
+            logger.info("Using queued PaddleOCR provider for VL model: %s", model)
+            providers.append(QueuedPaddleOCRProvider(paddle_client, max_concurrent=1))
+        else:
+            providers.append(paddle_client)
+
+    if settings.mimo_api_key and settings.mimo_base_url and settings.mimo_vl_model:
         providers.append(
             LLMVisionOCRProvider(
-                name="mimo",
+                name="mimo-vl",
                 gateway=LLMGateway(
                     mode="live",
                     providers=[
                         HTTPLLMProvider(
-                            name="mimo",
+                            name="mimo-vl",
                             base_url=settings.mimo_base_url,
                             api_key=settings.mimo_api_key,
-                            model=settings.mimo_model,
+                            model=settings.mimo_vl_model,
                             timeout_seconds=settings.llm_request_timeout_seconds,
                         )
                     ],
@@ -134,18 +210,18 @@ def build_ocr_chain(*, mock: bool | None = None) -> OCRFallbackChain:
             )
         )
 
-    if settings.qwen_vl_api_key and settings.qwen_vl_base_url and settings.qwen_vl_model:
+    if settings.deepseek_api_key and settings.deepseek_base_url and settings.deepseek_vl_model:
         providers.append(
             LLMVisionOCRProvider(
-                name="qwen_vl",
+                name="deepseek-vl",
                 gateway=LLMGateway(
                     mode="live",
                     providers=[
                         HTTPLLMProvider(
-                            name="qwen_vl",
-                            base_url=settings.qwen_vl_base_url,
-                            api_key=settings.qwen_vl_api_key,
-                            model=settings.qwen_vl_model,
+                            name="deepseek-vl",
+                            base_url=settings.deepseek_base_url,
+                            api_key=settings.deepseek_api_key,
+                            model=settings.deepseek_vl_model,
                             timeout_seconds=settings.llm_request_timeout_seconds,
                         )
                     ],
@@ -160,3 +236,44 @@ def _data_url(path: Path) -> str:
     mime_type = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
     encoded = base64.b64encode(path.read_bytes()).decode("ascii")
     return f"data:{mime_type};base64,{encoded}"
+
+
+_VISION_PDF_ZOOM = 2.0
+_VISION_PDF_MAX_PAGES = 50
+
+
+def _render_pdf_pages(path: Path) -> list[str]:
+    """Render PDF pages to PNG data URLs for vision LLM OCR fallback."""
+    try:
+        import fitz  # PyMuPDF
+    except ImportError as exc:
+        raise OCRProviderError(
+            "PyMuPDF is required for PDF vision OCR fallback"
+        ) from exc
+
+    try:
+        doc = fitz.open(str(path))
+    except Exception as exc:
+        raise OCRProviderError(
+            f"failed to open PDF for vision OCR: {exc}"
+        ) from exc
+
+    try:
+        if doc.page_count < 1:
+            raise OCRProviderError("PDF has no pages")
+        if doc.page_count > _VISION_PDF_MAX_PAGES:
+            raise OCRProviderError(
+                f"PDF has {doc.page_count} pages, "
+                f"above vision OCR limit {_VISION_PDF_MAX_PAGES}"
+            )
+
+        matrix = fitz.Matrix(_VISION_PDF_ZOOM, _VISION_PDF_ZOOM)
+        pages: list[str] = []
+        for page in doc:
+            pixmap = page.get_pixmap(matrix=matrix, alpha=False)
+            png_bytes = pixmap.tobytes("png")
+            encoded = base64.b64encode(png_bytes).decode("ascii")
+            pages.append(f"data:image/png;base64,{encoded}")
+        return pages
+    finally:
+        doc.close()

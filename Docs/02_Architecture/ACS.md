@@ -1,4 +1,4 @@
-﻿# AI Tutor Personal Edition — API Contract Specification
+# AI Tutor Personal Edition — API Contract Specification
 
 Version: 3.2
 Status: 开发指引基线
@@ -264,6 +264,10 @@ Query:
 }
 ```
 
+#### GET /api/admin/documents/{document_id}/parse-result
+
+返回文档解析任务原始结果 JSON，包含 `task_id`、`document_id`、`status`、`progress`、`current_stage`、`error_message` 和 `result`。
+
 #### POST /api/admin/documents/{document_id}/retry
 
 重新进入解析队列。
@@ -271,6 +275,27 @@ Query:
 #### GET /api/admin/documents/{document_id}/logs
 
 返回处理日志列表。
+
+#### PUT /api/admin/documents/{document_id}/review
+
+保存解析结果的人工审核状态和修正内容。
+
+Request:
+
+```json
+{
+  "question_number": "Q1",
+  "status": "approved | rejected | pending",
+  "comment": "审核意见",
+  "overrides": {
+    "stem": "修正后的题干",
+    "answer": "B"
+  }
+}
+```
+
+审核状态写入 `result.review_decisions[question_number]`，修正内容写入
+`result.review_overrides[question_number]`，随 `GET parse-result` 返回。
 
 ### 5.2 审核队列
 
@@ -290,12 +315,14 @@ Request:
 
 ```json
 {
-  "status": "approved | rejected",
+  "status": "approved | rejected | pending",
+  "comment": "审核意见",
   "content_override": {},
   "metadata_override": {},
   "images": []
 }
 ```
+
 
 ### 5.3 题库管理
 
@@ -366,11 +393,14 @@ Response:
     "question_type_distribution": {},
     "knowledge_point_distribution": {},
     "difficulty_distribution": {},
-    "year_trend": []
+    "year_trend": [],
+    "kp_year_trend": []
   },
   "meta": {"request_id": "uuid", "latency_ms": 1234}
 }
 ```
+
+`kp_year_trend`：知识点×年份趋势（ROADMAP P4B #3「按年份看趋势」），数组元素为 `{"knowledge_point": "二次函数", "year": 2024, "count": 3}`，按知识点名 + 年份升序。受 `start_year`/`end_year` 过滤。
 
 #### GET /api/admin/statistics/wrong
 
@@ -603,6 +633,11 @@ Response:
 ---
 
 ## 8. 变更记录
+
+### 2026-08-22
+
+- `GET /api/admin/statistics` 响应新增 `kp_year_trend`（知识点×年份趋势，受 start_year/end_year 过滤）。
+- `GET /api/admin/questions/{question_id}` 响应补充配图 `images` 列表与 `occurrence_count` 派生值（实现与合约对齐，ACS §5.3 原文已定义）。
 
 ### 2026-08-11
 

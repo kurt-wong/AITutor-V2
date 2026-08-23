@@ -80,6 +80,34 @@ def test_decimal_no_split():
     assert "3.2x" in result.lines[0].text
 
 
+def test_table_line_skips_question_and_option_split():
+    """table block 不参与题号/选项行内拆分。"""
+    line = L1Line(
+        line_id="P1L001",
+        page_no=1,
+        line_no_in_page=1,
+        order=1,
+        text=(
+            "<table><tr><td>1. 材料</td><td>A. 甲</td>"
+            "<td>B. 乙</td></tr></table>"
+        ),
+        block_type="table",
+    )
+    doc = L1Document(
+        filename="test.pdf",
+        pages=[L1Page(page_no=1, lines=[line])],
+        lines=[line],
+        total_pages=1,
+    )
+
+    result = postprocess_l1(doc)
+
+    assert len(result.lines) == 1
+    assert result.lines[0].block_type == "table"
+    assert "<table>" in result.lines[0].text
+    assert "A. 甲" in result.lines[0].text
+
+
 def test_inline_options_split():
     """单行多选项切分为多行。"""
     doc = _make_doc([
@@ -225,3 +253,37 @@ def test_mixed_options_format():
     assert "（B）" in result.lines[1].text
     assert result.lines[2].text.startswith("C.")
     assert "（D）" in result.lines[3].text
+
+
+def test_native_source_uses_n_line_id_prefix():
+    """Native L1 无旧 P 前缀输入时，postprocess 使用 N 行号。"""
+    line = L1Line(
+        line_id="", page_no=1, line_no_in_page=1, order=1,
+        text="1. 测试题干", block_type="text", source="native",
+    )
+    doc = L1Document(
+        filename="test.pdf",
+        pages=[L1Page(page_no=1, lines=[line])],
+        lines=[line],
+        source="native",
+        total_pages=1,
+    )
+    result = postprocess_l1(doc)
+    assert result.lines[0].line_id == "N1L001"
+
+
+def test_ppsv3_source_uses_p_line_id_prefix():
+    """PP L1 无旧行号输入时，postprocess 使用 P 行号。"""
+    line = L1Line(
+        line_id="", page_no=1, line_no_in_page=1, order=1,
+        text="1. 测试题干", block_type="text", source="ppsv3",
+    )
+    doc = L1Document(
+        filename="test.pdf",
+        pages=[L1Page(page_no=1, lines=[line])],
+        lines=[line],
+        source="ppsv3",
+        total_pages=1,
+    )
+    result = postprocess_l1(doc)
+    assert result.lines[0].line_id == "P1L001"

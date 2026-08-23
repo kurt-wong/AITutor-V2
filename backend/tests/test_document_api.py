@@ -65,6 +65,33 @@ class FakeDocumentApplicationService:
     async def get_document_logs(self, document_id):
         return [self.log]
 
+    async def update_document_review(
+        self,
+        document_id,
+        *,
+        question_number,
+        status,
+        comment=None,
+        overrides=None,
+        question_id=None,
+    ):
+        if self.task.result_json is None:
+            return None, "REVIEW_NOT_READY"
+        decisions = dict(self.task.result_json.get("review_decisions") or {})
+        decisions[question_number] = {
+            "status": status,
+            "comment": comment or "",
+            "updated_at": "2026-08-17T00:00:00+00:00",
+        }
+        if question_id is not None:
+            decisions[question_number]["question_id"] = str(question_id)
+        self.task.result_json["review_decisions"] = decisions
+        if overrides is not None:
+            overrides_by_question = dict(self.task.result_json.get("review_overrides") or {})
+            overrides_by_question[question_number] = overrides
+            self.task.result_json["review_overrides"] = overrides_by_question
+        return self.task, None
+
 
 def _override_service(fake) -> None:
     app.dependency_overrides[get_document_application_service] = lambda: fake
@@ -95,6 +122,13 @@ def test_document_upload_and_query_endpoints() -> None:
     assert status_response.status_code == 200
     assert status_response.json()["data"]["status"] == "queued"
 
+    parse_result_response = client.get(
+        f"/api/admin/documents/{fake.document.id}/parse-result"
+    )
+    assert parse_result_response.status_code == 200
+    assert parse_result_response.json()["data"]["task_id"] == str(fake.task.id)
+    assert parse_result_response.json()["data"]["result"] is None
+
     retry_response = client.post(f"/api/admin/documents/{fake.document.id}/retry")
     assert retry_response.status_code == 200
     assert retry_response.json()["data"]["task_id"] == str(fake.task.id)
@@ -114,6 +148,92 @@ def test_document_upload_rejects_unsupported_file() -> None:
     response = client.post(
         "/api/admin/documents/upload",
         files=[("files", ("notes.txt", b"text", "text/plain"))],
+    )
+
+    assert response.status_code == 400
+    assert response.json()["error"]["code"] == "VALIDATION_ERROR"
+    app.dependency_overrides.clear()
+
+
+def test_document_review_persists_decision() -> None:
+    fake = FakeDocumentApplicationService()
+    fake.task.result_json = {"questions": [], "status": "succeeded"}
+    _override_service(fake)
+    client = TestClient(app)
+
+    response = client.put(
+        f"/api/admin/documents/{fake.document.id}/review",
+        json={
+            "question_number": "Q1",
+            "status": "approved",
+            "comment": "材料与子题完整",
+        },
+    )
+
+    assert response.status_code == 200
+    data = response.json()["data"]
+    assert data["question_number"] == "Q1"
+    assert data["status"] == "approved"
+    assert data["comment"] == "材料与子题完整"
+    assert fake.task.result_json["review_decisions"]["Q1"]["status"] == "approved"
+    app.dependency_overrides.clear()
+
+
+def test_document_review_requires_ready_result() -> None:
+    fake = FakeDocumentApplicationService()
+    _override_service(fake)
+    client = TestClient(app)
+
+    response = client.put(
+        f"/api/admin/documents/{fake.document.id}/review",
+        json={"question_number": "Q1", "status": "approved"},
+    )
+
+    assert response.status_code == 409
+    assert response.json()["error"]["code"] == "REVIEW_NOT_READY"
+    app.dependency_overrides.clear()
+
+
+def test_document_review_persists_overrides() -> None:
+    fake = FakeDocumentApplicationService()
+    fake.task.result_json = {"questions": [], "status": "succeeded"}
+    _override_service(fake)
+    client = TestClient(app)
+
+    response = client.put(
+        f"/api/admin/documents/{fake.document.id}/review",
+        json={
+            "question_number": "Q1",
+            "status": "approved",
+            "overrides": {
+                "stem": "修正后的题干",
+                "answer": "B",
+            },
+        },
+    )
+
+    assert response.status_code == 200
+    data = response.json()["data"]
+    assert data["status"] == "approved"
+    assert data["overrides"]["stem"] == "修正后的题干"
+    assert data["overrides"]["answer"] == "B"
+    assert fake.task.result_json["review_overrides"]["Q1"]["answer"] == "B"
+    app.dependency_overrides.clear()
+
+
+def test_document_review_rejects_non_object_overrides() -> None:
+    fake = FakeDocumentApplicationService()
+    fake.task.result_json = {"questions": [], "status": "succeeded"}
+    _override_service(fake)
+    client = TestClient(app)
+
+    response = client.put(
+        f"/api/admin/documents/{fake.document.id}/review",
+        json={
+            "question_number": "Q1",
+            "status": "approved",
+            "overrides": "not-an-object",
+        },
     )
 
     assert response.status_code == 400

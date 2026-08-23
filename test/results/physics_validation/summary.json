@@ -1,0 +1,35 @@
+[
+  {
+    "filename": "2026北京丰台高一（上）期末物理（教师版）.pdf",
+    "run": 1,
+    "status": "succeeded",
+    "question_count": 20,
+    "ingested": 17,
+    "discarded": 3,
+    "discard_rate": 0.15,
+    "elapsed_s": 622.1,
+    "path": "D:\\Project\\AITutors-v2\\test\\results\\physics_validation\\2026北京丰台高一（上）期末物理（教师版）_run1.json"
+  },
+  {
+    "filename": "2026北京丰台高一（上）期末物理（教师版）.pdf",
+    "run": 2,
+    "status": "succeeded",
+    "question_count": 20,
+    "ingested": 17,
+    "discarded": 3,
+    "discard_rate": 0.15,
+    "elapsed_s": 657.3,
+    "path": "D:\\Project\\AITutors-v2\\test\\results\\physics_validation\\2026北京丰台高一（上）期末物理（教师版）_run2.json"
+  },
+  {
+    "filename": "2026北京九中高一（上）期末物理（教师版）.pdf",
+    "run": 1,
+    "status": "succeeded",
+    "question_count": 20,
+    "ingested": 19,
+    "discarded": 1,
+    "discard_rate": 0.05,
+    "elapsed_s": 666.3,
+    "path": "D:\\Project\\AITutors-v2\\test\\results\\physics_validation\\2026北京九中高一（上）期末物理（教师版）_run1.json"
+  }
+]

@@ -1,0 +1,620 @@
+P0000: 绝密★本科目考试启用前
+P0001: 2025 年普通高等学校招生全国统一考试(北京卷)
+P0002: 英语
+P0003: 共 100 分。考试时长 90 分钟。
+P0004: 考生务必在答题卡指定区域作答, 在试卷上作答无效。
+P0005: 考试结束后, 将本试卷和答题卡一并交回。
+P0006: 第一部分知识运用(共两节,30 分)
+P0007: 第一节(共 10 小题;每小题 1.5 分,共 15 分)
+P0008: 阅读下面短文, 掌握其大意, 从每题所给的 A、B、C、D 四个选项中, 选出最佳选项, 并在答
+P0009: 题卡上将该项涂黑。
+P0010: At 15, I excelled academically yet felt overshadowed and unnoticed. The ____1____ to stand out consumed
+P0011: me, pushing me towards a regrettable decision.
+P0012: One day, during a class in the IT lab with my classmates, our teacher mentioned missing computer parts.
+P0013: ____2____ looks exchanged, everyone wondered how it could happen in a(n) ____3____ lab. “It’s possible to open
+P0014: that lock with another key,” I said. Instantly, eyes turned to me with newfound interest and curiosity. It was a rush I
+P0015: had never experienced before. Enjoying all the eyes on me, I ____4____ how to open the lock.
+P0016: Little did I realize that single moment would ruin everything.
+P0017: The following day, called to the headmaster’s office, I found myself accused of stealing the missing parts. “I
+P0018: didn’t do it, sir,” I argued, but suspicion ____5____ his eyes. His repeated ____6____ intensified, pushing me to
+P0019: the edge of fear and tears. In a desperate attempt to escape the mounting pressure, I ____7____ confessed (承认).
+P0020: The headmaster asked my father to come to school, whose shaky faith in me brought a mix of relief and
+P0021: ____8____. My father gently asked me if I understood the gravity of my actions. ____9____, I confessed my
+P0022: misguided longing for recognition. In the headmaster’s office, my father listened attentively, and then spoke with
+P0023: quiet authority: “I trust my son. He is not a thief.”
+P0024: With my father’s support, I learned a valuable lesson: ____10____ cannot be forced; true recognition comes
+P0025: from honourable acts.
+P0026: 1. A. promise B. competition C. desire D. hesitation
+P0027: 2. A. Curious B. Hopeful C. Distant D. Envious
+P0028: 3. A. expensive B. locked C. modern D. abandoned
+P0029: 第 1页/共 21页
+P0030: 4. A. discovered B. recommended C. demonstrated D. imagined
+P0031: 5. A. caught B. clouded C. hurt D. brightened
+P0032: 6. A. questioning B. reminding C. complaining D. requesting
+P0033: 7. A. warmly B. readily C. randomly D. falsely
+P0034: 8. A. pride B. patience C. shame D. surprise
+P0035: 9. A. Generously B. Tearfully C. Carelessly D. Strangely
+P0036: 10. A. tolerance B. gratitude C. sympathy D. attention
+P0037: 【答案】1. C 2. A 3. B 4. C 5. B 6. A 7. D 8. C 9. B 10. D
+P0038: 【解析】
+P0039: 【导语】本文是一篇夹叙夹议文。文章讲述了 15 岁的作者为了引起关注分享开锁方法，却被怀疑偷电脑零
+P0040: 件，在校长逼问下作者被迫承认，最后父亲表示相信作者，作者也明白了真正的认可来自高尚行为的道理。
+P0041: 【1 题详解】
+P0042: 考查名词词义辨析。句意：引起注意的欲望吞噬着我，促使我做出了一个令人遗憾的决定。A. promise 承诺；
+P0043: B. competition 竞争；C. desire 欲望；D. hesitation 犹豫。根据前文“At 15, I excelled academically yet felt
+P0044: overshadowed and unnoticed.”可知，作者学业优秀却感觉不被关注，所以有引起注意的欲望。故选 C 项。
+P0045: 【2 题详解】
+P0046: 考查形容词词义辨析。句意：大家交换着好奇的眼神，都想知道在一个锁着的实验室里怎么会发生这种事。
+P0047: A. Curious 好奇的；B. Hopeful 有希望的；C. Distant 遥远的；D. Envious 嫉妒的。根据后文“everyone wondered
+P0048: how it could happen”可知，大家对电脑零件丢失这件事感到好奇。故选 A 项。
+P0049: 【3 题详解】
+P0050: 考查形容词词义辨析。句意：大家交换着好奇的眼神，都想知道在一个锁着的实验室里怎么会发生这种事。
+P0051: A. expensive 昂贵的；B. locked 锁着的；C. modern 现代的；D. abandoned 废弃的。根据后文“It’s possible to
+P0052: open that lock with another key”可知，实验室是锁着的。故选 B 项。
+P0053: 【4 题详解】
+P0054: 考查动词词义辨析。句意：享受着所有人的目光，我演示了如何开锁。A. discovered 发现；B. recommended
+P0055: 推荐；C. demonstrated 演示；D. imagined 想象。根据前文作者的话“It’s possible to open that lock with another
+P0056: key”和“Instantly, eyes turned to me with newfound interest and curiosity.”可知，作者知道如何用其它钥匙开
+P0057: 锁，为了享受大家的关注，所以演示了开锁方法。故选 C 项。
+P0058: 【5 题详解】
+P0059: 考查动词词义辨析。句意：“我没做，先生，”我争辩道，但他的眼中充满了怀疑。A. caught 抓住；B. clouded
+P0060: 第 2页/共 21页
+P0061: 使模糊，笼罩，显得阴沉（或恐惧、愤怒等）；C. hurt 伤害；D. brightened 使明亮。根据前文“I found myself
+P0062: accused of stealing the missing parts.”可知，校长怀疑作者，怀疑的神色笼罩在他眼中，眼中显示出怀疑的神
+P0063: 色。故选 B 项。
+P0064: 【6 题详解】
+P0065: 考查名词词义辨析。句意：他反复的询问加剧了，把我逼到了恐惧和流泪的边缘。A. questioning 询问；B.
+P0066: reminding 提醒；C. complaining 抱怨；D. requesting 请求。根据前文“His repeated”和后文“pushing me to
+P0067: the edge of fear and tears”可知，校长反复询问作者，让作者感到害怕。故选 A 项。
+P0068: 【7 题详解】
+P0069: 考查副词词义辨析。句意：为了摆脱不断增加 压力，我谎称自己有罪。A. warmly 热情地；B. readily 乐意
+P0070: 地；C. randomly 随机地；D. falsely 错误地，不实地。根据前文“I didn’t do it, sir”可知，作者没偷东西，
+P0071: 结合“In a desperate attempt to escape the mounting pressure”可知，作者为了摆脱压力，所以虚假地承认。故
+P0072: 选 D 项。
+P0073: 【8 题详解】
+P0074: 考查名词词义辨析。句意：校长请父亲来学校一趟，他对我不太坚定的信任让我既感到一丝宽慰，又觉得
+P0075: 羞愧难当。A. pride 骄傲；B. patience 耐心；C. shame 羞愧；D. surprise 惊讶。根据前文“In a desperate attempt
+P0076: to escape the mounting pressure, I ___7____ confessed (承认).”和“The headmaster asked my father to come to
+P0077: school”可知，作者被迫承认偷了东西，现在校长请来了父亲。结合常识，父亲的到来会带给处于困境中的
+P0078: 作者一丝宽慰，但同时，作者也会因自己为了引起关注而犯下的错误感到羞愧。故选 C 项。
+P0079: 【9 题详解】
+P0080: 考查副词词义辨析。句意：我泪流满面地承认了自己对认可的错误渴望。A. Generously 慷慨地；B. Tearfully
+P0081: 含泪地；C. Carelessly 粗心地；D. Strangely 奇怪地。根据前文“pushing me to the edge of fear and tears”和“In
+P0082: a desperate attempt to escape the mounting pressure, I ___7___confessed (承认).”可知，作者因为害怕和委屈流
+P0083: 泪了，并被迫承认偷了东西。父亲来时，作者是含泪承认自己为了引起关注而犯下的错误。故选 B 项。
+P0084: 【10 题详解】
+P0085: 考查名词词义辨析。句意：有了父亲的支持，我学到了宝贵的一课：关注不能强求；真正的认可来自高尚
+P0086: 的行为。A. tolerance 容忍；B. gratitude 感激；C. sympathy 同情；D. attention 关注。根据前文“At 15, I excelled
+P0087: academically yet felt overshadowed and unnoticed.”可知，作者一直渴望得到关注，所以这里说关注不能强求。
+P0088: 故选 D 项。
+P0089: 第二节(共 10 小题;每小题 1.5 分,共 15 分)
+P0090: A
+P0091: 第 3页/共 21页
+P0092: 阅读下列短文，根据短文内容填空。在未给提示词的空白处仅填写 1 个恰当的单词，在给出提示词的空白
+P0093: 处用括号内所给词的正确形式填空。请在答题卡指定区域作答。
+P0094: Most days after school, I love walking in the forest with my dog Nick. It’s ____11____ (peace), especially
+P0095: around sunset. Nick has a fun time smelling the leaves and running after rabbits. When Nick runs ahead, I hear him
+P0096: barking excitedly. I sometimes call him back, worried that he might have someone ____12____ (scare). The truth,
+P0097: though, is ____13____ could be guessed — there’s never anyone else here. Just me, Nick, and the quiet forest.
+P0098: 【答案】11. peaceful
+P0099: 12. scared 13. what
+P0100: 【解析】
+P0101: 【导语】这是一篇记叙文。文章讲述了作者大多数放学后的时光。
+P0102: 【11 题详解】
+P0103: 考查形容词。句意：这里很宁静，尤其是在日落时分。“is”后接形容词作表语，“peace”的形容词形式是
+P0104: “peaceful”，意为“宁静的”。故填 peaceful。
+P0105: 【12 题详解】
+P0106: 考查非谓语动词。句意：我有时会把他叫回来，担心他可能会吓到别人。“have sb. done”表示 “使某人
+P0107: 被……”，“someone”与“scare”之间是被动关系，即某人被吓到，用过去分词作宾语补足语。故填 scared
+P0108: 。
+P0109: 【13 题详解】
+P0110: 考查表语从句引导词。句意：不过，真相正如所料 —— 这里从来没有其他人。“is”后接表语从句，从句
+P0111: 中缺少主语，指物，用 what 引导，what 在从句中作主语，意为“…… 的事情”。故填 what。
+P0112: B
+P0113: 阅读下列短文,根据短文内容填空。在未给提示词的空白处仅填写 1 个恰当的单词,在给出提示词的空白处用
+P0114: 括号内所给词的正确形式填空。请在答题卡指定区域作答。
+P0115: When was the last time you took on a tough choice? Maybe this morning you debated whether to get up or
+P0116: stay in bed slightly ____14____ (long). Making choices is part of life. By the time you brushed your teeth, you
+P0117: ____15____ (make) several decisions even without noticing. Some choices are quick, while others take more
+P0118: thought. Usually, better outcomes ____16____ (achieve) through a thorough understanding of strategies like risk
+P0119: tolerance.
+P0120: 【答案】14. longer
+P0121: 15. had made
+P0122: 第 4页/共 21页
+P0123: 16. are achieved
+P0124: 【解析】
+P0125: 【导语】本文是一篇说明文。文章主要讲述了做选择是生活的一部分及如何做出更好的选择。
+P0126: 【14 题详解】
+P0127: 考查比较级。句意：也许今天早上你还在纠结是起床还是多睡一会儿。此处表示“多睡一会儿”，应用比
+P0128: 较级 longer，表示“更久”。故填 longer。
+P0129: 【15 题详解】
+P0130: 考查时态。句意：当你刷牙的时候，你甚至在不知不觉中已经做了好几个决定。根据时间状语“By the time
+P0131: you brushed your teeth”可知，此处表示在过去某一时间点之前已经完成的动作，时态应用过去完成时，谓
+P0132: 语用 had made。故填 had made。
+P0133: 【16 题详解】
+P0134: 考查时态、语态和主谓一致。句意：通常，通过充分了解风险承受能力等策略，可以取得更好的结果。根
+P0135: 据时间状语“Usually”可知，此处表示经常性、习惯性的动作，时态应用一般现在时；主语 better outcomes
+P0136: 和动词 achieve“实现”之间是被动关系，应用一般现在时的被动语态；主语 better outcomes 是复数，be 动
+P0137: 词应用 are。故填 are achieved。
+P0138: C
+P0139: 阅读下列短文，根据短文内容填空。在未给提示词的空白处仅填写 1 个恰当的单词，在给出提示词的空白
+P0140: 处用括号内所给词的正确形式填空。请在答题卡指定区域作答。
+P0141: When ____17____ (travel), we engage with cultures and experiences. However, according to a report by the
+P0142: World Wildlife Fund, tourists ____18____ (leave) over 1.3 billion tons of food waste last year, ____19____
+P0143: accounted for about 8% of the total global gas release in 2024. To reduce our impact, we can take simple steps:
+P0144: empty the fridge before heading out, and choose sustainable dining options. These efforts help us travel more
+P0145: responsibly. After all, exploring the world shouldn’t come ____20____ the planet’s expense.
+P0146: 【答案】17. traveling
+P0147: 18. left 19. which
+P0148: 20. at
+P0149: 【解析】
+P0150: 【导语】这 一篇说明文。文章指出旅行时人们会接触不同文化和经历，但据世界野生动物基金会报告，
+P0151: 去年游客产生大量食物垃圾，对全球气体排放有影响。为减少影响，人们可采取如出发前清空冰箱、选择
+P0152: 可持续餐饮等简单措施，强调探索世界不应以牺牲地球为代价。
+P0153: 第 5页/共 21页
+P0154: 17 题详解】
+P0155: 考查非谓语动词。句意：旅行时，我们接触不同文化和体验不同经历。句子主语“we”与“travel”之间是
+P0156: 主动关系，用现在分词，构成“when+现在分词”的状语从句省略结构。故填 traveling。
+P0157: 【18 题详解】
+P0158: 考查时态。句意：然而，根据世界野生动物基金会的一份报告，去年游客产生了超过 13 亿吨的食物垃圾，
+P0159: 这约占2024年全球气体排放总量的8%。根据“last year”可知，描述过去发生的事情，用一般过去时，“leave
+P0160: ”的过去式是“left”。故填 left。
+P0161: 【19 题详解】
+P0162: 考查定语从句关系代词。句意：然而，根据世界野生动物基金会的一份报告，去年游客留下了超过 13 亿吨
+P0163: 的食物垃圾，约占 2024 年全球气体排放总量的 8%。此句为非限制性定语从句，先行词是“1.3 billion tons
+P0164: of food waste”，指物，关系词在从句中作主语，用 which 引导。故填 which。
+P0165: 【20 题详解】
+P0166: 考查固定搭配。句意：毕竟，探索世界不应以牺牲地球为代价。at one’s expense“以…… 为代价”是固定
+P0167: 搭配。故填 at。
+P0168: 第二部分 阅读理解(共两节, 38 分)
+P0169: 第一节(共 14 小题; 每小题 2 分, 共 28 分)
+P0170: 阅读下列短文, 从每题所给的 A、B、C、D 四个选项中, 选出最佳选项, 并在答题卡上将该项
+P0171: 涂黑。
+P0172: A
+P0173: Join us for TransForm, the interactive summer camp that helps you teens find your passion by participating in
+P0174: various activities and connecting with others.
+P0175: Experience TransForm
+P0176: TransForm allows you to get to focus on your chosen track through subject matter talks, hands-on workshops,
+P0177: and off-site experiences. However, if you are unsure what track you want, you still get to explore any workshop
+P0178: you want as part of our Explore Workshops. Besides, your parents will also be able to participate in workshops
+P0179: selected just for them to learn about cutting-edge science.
+P0180: Schedule of Programming
+P0181: 第 6页/共 21页
+P0182: 17 July 18 July
+P0183: Time Activities Time Activities
+P0184: 14:00-15:00 Lead to Change Kick-off 9:30-11:00 Career Fireside Chats
+P0185: 15:00-16:30 Programme Showcase 13:00-14:15 Youth Panel
+P0186: 16:30-18:00 Track Workshops 14:15-16:20 Track Keynotes
+P0187: 19 July 20 July
+P0188: Time Activities Time Activities
+P0189: 8:00-12:00 Off-site Experiences 9:00-11:15 Explore Workshops
+P0190: 13:00-15:00 Gallery Viewing 13:30-16:00 Keynote Speech
+P0191: 15:15-16:45 Adult Workshops 16:15-17:00 Celebration
+P0192: Programming Tracks
+P0193: ·Agricultural Science: Introducing you to areas such as biology, urban farming, and environmental science
+P0194: so that you can explore the field of agriculture
+P0195: ·Community Booster: Guiding you to develop innovative solutions for real-world challenges and create
+P0196: transformative progress to benefit all communities
+P0197: ·Healthy Living: Empowering you to make healthy decisions in such areas as nutrition and emotional
+P0198: well-being, and lead healthy lifestyles
+P0199: ·Science Lab: Leading you to explore the skills you need to succeed in life in key areas like computer
+P0200: science, robotics, and physics
+P0201: 21. TransForm allows the teens to____________.
+P0202: A. select workshops for their parents B. prepare track topics for the camp
+P0203: C. design programme activities D. attend hands-on sessions
+P0204: 22. According to the schedule, which activity can the teens participate in?
+P0205: A. Keynote Speech on 17 July. B. Youth Panel on 18 July.
+P0206: C. Celebration on 19 July. D. Programme Showcase on 20 July.
+P0207: 23. What can the teens do in the Programming Tracks?
+P0208: A. Build urban communities. B. Serve as guides on a farm.
+P0209: C. Learn about healthy living. D. Volunteer in a science lab.
+P0210: 【答案】21. D 22. B 23. C
+P0211: 第 7页/共 21页
+P0212: 【解析】
+P0213: 【导语】本文是一篇应用文，介绍了青少年互动夏令营 TransForm 的相关信息，包括活动体验、日程安排
+P0214: 以及课程方向等内容。
+P0215: 【21 题详解】
+P0216: 细节理解题。根据“Experience TransForm”部分“TransForm allows you to get to focus on your chosen track
+P0217: through subject matter talks, hands-on workshops, and off - site experiences.(TransForm 让你通过主题演讲、实践
+P0218: 工作坊和实地体验，专注于你选择的方向)” 可知，TransForm 允许青少年参加实践课程。故选 D。
+P0219: 【22 题详解】
+P0220: 细节理解题。根据“Schedule of Programming”中的安排，18 July 的活动安排里有“13:00 - 14:15 Youth Panel
+P0221: (13:00 - 14:15 青少年小组讨论)”，所以青少年可以在 18 日参加青少年小组讨论活动。故选 B。
+P0222: 【23 题详解】
+P0223: 细节理解题。根据“Programming Tracks”部分 “Healthy Living: Empowering you to make healthy decisions in
+P0224: such areas as nutrition and emotional well-being, and lead healthy lifestyles(健康生活：让你在营养和心理健康等
+P0225: 方面做出健康的决定，并引领健康的生活方式)” 可知，青少年在 Programming Tracks 中可以学习关于健康
+P0226: 生活的知识。故选 C。
+P0227: B
+P0228: Throughout our Junior year, my classmates and I have been worried about what colleges will see when they
+P0229: look at our whole life story reduced to a single 200-word essay. Will the golden word “success” form in their minds
+P0230: when they review our achievements? Or will they see the big word “fail” in red? The shadow of this mysterious (神
+P0231: 秘的) institution steals away what success means to us.
+P0232: My first step of redefining success began with course registrations. It is a well-known fact, especially in my
+P0233: school, that Junior year is the time of packing many AP classes into the schedule. When asked why they chose so
+P0234: many AP classes, my friends responded: “I don’t know.” They themselves don’t know why they are following the
+P0235: crowd and longing for the pressures of academic difficulty. Therefore, they do not feel the satisfaction of being
+P0236: academically challenged.
+P0237: Completing many courses no longer brings out the feeling of success because more than four AP classes per
+P0238: year is a norm set by top universities. Determined to follow my instincts (本能) on what I felt success means, I only
+P0239: chose two classes that I knew I would enjoy. The feeling of success was no longer attached to what grade I received
+P0240: but to the pure joy of learning.
+P0241: Even my failures are attached to a feeling of success; after I take a step back and look at the big picture, I see
+P0242: 第 8页/共 21页
+P0243: them as a launching pad (平台) for my next big achievement. In the ninth grade, I went in for my first group
+P0244: interview for a leadership position as a shy girl. Not standing a chance against competitive applicants, I came out of
+P0245: the interview with an upset look. Nevertheless, this interview wasn’t a wasted opportunity. I talked to one of the
+P0246: senior applicants who answered questions in a way that reflected the faith she had in herself.
+P0247: This year, with an open mind and new knowledge in mind, I walked into another group interview while telling
+P0248: myself I was that cool senior. I managed to secure a leadership position. Ultimately, success came little by little.
+P0249: 24. Throughout the Junior year, what was the author’s major concern?
+P0250: A. Pressure from choosing AP classes. B. Performance in group interviews.
+P0251: C. Competition with seniors. D. Recognition by colleges.
+P0252: 25. The author chose fewer AP classes because of _______.
+P0253: A. her own understanding of success B. her desire for academic challenges
+P0254: C. her strong urge to follow the crowd D. her dream of entering a top university
+P0255: 26. Which would best describe the author’s first group interview?
+P0256: A. Dignifying. B. Rewarding. C. Engaging. D. Relaxing.
+P0257: 27. What can we learn from this passage?
+P0258: A. Everyone is the maker of their own success.
+P0259: B. Success favours those with a golden heart.
+P0260: C. Success knocks at your door only once.
+P0261: D. A college holds the key to success.
+P0262: 【答案】24. D 25. A 26. B 27. A
+P0263: 【解析】
+P0264: 【导语】本文是一篇夹叙夹议文。文章主要讲述了作者在高三时对大学申请和成功定义的反思，不再盲目
+P0265: 追随他人选择大量 AP 课程，而是基于个人兴趣选课，并从失败的小组面试中学习，通过自我调整最终获得
+P0266: 领导职位。
+P0267: 【24 题详解】
+P0268: 推理判断题。根据第一段中“Throughout our Junior year, my classmates and I have been worried about what
+P0269: colleges will see when they look at our whole life story reduced to a single 200-word essay. Will the golden word
+P0270: “success” form in their minds when they review our achievements? Or will they see the big word “fail” in red? (在
+P0271: 整个高三期间，我和我的同学们一直担心，当大学将我们的整个人生故事浓缩成一篇 200 字的短文时，他
+P0272: 们会看到什么。当他们回顾我们的成就时，脑海中会浮现出‘成功’这个金灿灿的词汇吗？还是会看到用
+P0273: 第 9页/共 21页
+P0274: 红色标注的‘失败’这个醒目的大字？)”可知，作者在高三年级主要担心的是大学对他们的认可。故选 D。
+P0275: 【25 题详解】
+P0276: 细节理解题。根据第三段中“Determined to follow my instincts (本能) on what I felt success means, I only chose
+P0277: two classes that I knew I would enjoy. (我决心追随自己对成功的直觉理解，只选择了两门我确信自己会喜欢
+P0278: 的课程。)”可知，作者选择较少的 AP 课程是因为她自己对成功的理解。故选 A。
+P0279: 【26 题详解】
+P0280: 推理判断题。根据第四段中“Nevertheless, this interview wasn’t a wasted opportunity. I talked to one of the
+P0281: senior applicants who answered questions in a way that reflected the faith she had in herself. (然而，这次面试并不
+P0282: 是一次浪费的机会。我和一位高年级的申请者交谈，她回答问题的方式反映了她对自己的信心。)”以及最
+P0283: 后一段中“This year, with an open mind and new knowledge in mind, I walked into another group interview while
+P0284: telling myself I was that cool senior. I managed to secure a leadership position. Ultimately, success came little by
+P0285: little. (今年，我带着开放的心态和新的知识，再次走进集体面试的现场，告诉自己我就是那位自信满满的高
+P0286: 年级学生。最终，我成功获得了一个领导职位。成功，就这样一点点地向我走来。)”可知，作者认为第一
+P0287: 次面试是有收获的，因为它让作者从中学到了东西，并影响了她后来的面试表现。故选 B。
+P0288: 【27 题详解】
+P0289: 推理判断题。通读全文，尤其是由文章第三段中“Determined to follow my instincts (本能) on what I felt
+P0290: success means, I only chose two classes that I knew I would enjoy. (我决心追随自己对成功的直觉理解，只选择
+P0291: 了两门我确信自己会喜欢的课程。)”以及最后一段中“This year, with an open mind and new knowledge in
+P0292: mind, I walked into another group interview while telling myself I was that cool senior. I managed to secure a
+P0293: leadership position. Ultimately, success came little by little. (今年，我带着开放的心态和新的知识，再次走进集
+P0294: 体面试的现场，告诉自己我就是那位自信满满的高年级学生。最终，我成功获得了一个领导职位。成功，
+P0295: 就这样一点点地向我走来。)”可知，作者通过自己的经历表明，成功并非由大学或外界标准定义，而是源
+P0296: 于自我认知与努力。“Everyone is the maker of their own success. (每个人都是自己成功的创造者。)” 符合题
+P0297: 意。故选 A。
+P0298: C
+P0299: Not too long ago, on a cold winter night, there was a teenager who wanted more screen time and a parent who
+P0300: said no. The teenager was advocating for her right to scroll (翻屏) for an extra 30 minutes. The parent argued that
+P0301: none of her friends’ parents let them have screens after 9 o’clock. “I thought, in this family, we don’t compare
+P0302: ourselves with other people, Dad?” the teenager replied. The parent — who was me, by the way — just got
+P0303: served. Since they were young, I have told my kids not to compare themselves with other people. I have argued
+P0304: 第 10页/共 21页
+P0305: countless times that comparisons are the “thief of joy”.
+P0306: Although my daughter didn’t win, she did help expose one of the worst pieces of advice I have ever given. In
+P0307: my defence, I did what we’ve all done before, which is repeat received wisdom without exploring the nuances. But
+P0308: now is the time to set the record straight, which starts with questioning the idea that all social comparison is
+P0309: unhealthy.
+P0310: Social comparisons do, of course, often get us into emotional trouble. But they can be harnessed (利用) for our
+P0311: betterment if we understand how they work. The social comparisons we make — ones that lead us to feel good or
+P0312: bad about ourselves — are vital to our ability to thrive (成长). Science provides a guide we can use to harness the
+P0313: way we perform these comparisons to reduce their negative emotional impacts.
+P0314: Comparing yourself with someone who is outperforming you could result in feelings of envy if you focus on
+P0315: the things they have and you don’t, or it can be energizing and inspiring if you use these comparisons as a source of
+P0316: motivation, for example, “If they can achieve that, so can I.” Comparing yourself with someone who is doing worse
+P0317: than you could result in fear and worry if you think about how you could fall into similar circumstances, or it can
+P0318: draw out feelings of gratitude and appreciation if you use that comparison to broaden your views — for example,
+P0319: “Wow, things could be much worse; I’m doing great.”
+P0320: What I wish I taught my daughter earlier are these nuances. How we feel about ourselves rests not just on
+P0321: whom we compare ourselves with but also on how we think about that comparison. That’s something we all have
+P0322: control over.
+P0323: 28. How did the author feel about his daughter’s argument?
+P0324: A. Excited. B. Inspired. C. Energized. D. Relieved.
+P0325: 29. What does the word “nuances” underlined in Paragraph 2 most probably mean?
+P0326: A. Major achievements. B. Complex feelings.
+P0327: C. Significant impacts. D. Fine differences.
+P0328: 30. Which would be the best title for the passage?
+P0329: A. Comparing Ourselves with Others Can Become a Healthy Habit
+P0330: B. Comparing Ourselves with Others Can Strengthen Family Ties
+P0331: C. Social Comparisons Can Get Us into Emotional Trouble
+P0332: D. Social Comparisons Can Be Controlled by Science
+P0333: 【答案】28. B 29. D 30. A
+P0334: 【解析】
+P0335: 第 11页/共 21页
+P0336: 【导语】本文是一篇夹叙夹议文。作者通过讲述自己和女儿关于能否延长看屏幕时间的争论，引出对社会
+P0337: 比较这一观念的思考，指出并非所有社会比较都不健康，若理解其原理，可加以利用促进自我提升。
+P0338: 【28 题详解】
+P0339: 推理判断题。根据第二段“Although my daughter didn’t win, she did help expose one of the worst pieces of
+P0340: advice I have ever given. (虽然我女儿没有赢，但她确实帮助揭露了我曾经给出的最糟糕的建议之一。)” 以
+P0341: 及后文作者对社会比较的重新思考可知，作者从女儿的争论中得到了启发。故选 B。
+P0342: 【29 题详解】
+P0343: 词句猜测题。根据第二段“ In my defence, I did what we’ve all done before, which is repeat received wisdom
+P0344: without exploring the nuances. But now is the time to set the record straight, which starts with questioning the idea
+P0345: that all social comparison is unhealthy. (为自己辩护一下，我做了我们所有人都做过的事，就是重复那些大家
+P0346: 都认可的观点，却没有探究其中的____。但现在是时候纠正这个观点了，首先要质疑所有社会比较都是不
+P0347: 健康的这一想法。)” 可知，作者之前只是重复普遍观点，没有深入探究不同情况，现在要重新审视，所以
+P0348: “nuances”意思可能是 “细微差别”。故选 D。
+P0349: 【30 题详解】
+P0350: 主旨大意题。根据第三段“Social comparisons do, of course, often get us into emotional trouble. But they can be
+P0351: harnessed (利用) for our betterment if we understand how they work. (当然，社会比较常常会给我们带来情感困
+P0352: 扰。但如果我们了解其运作原理，就可以利用它们来提升自我。)”，以及第四段 “Comparing yourself with
+P0353: someone who is outperforming you could result in feelings of envy if you focus on the things they have and you
+P0354: don’t, or it can be energizing and inspiring if you use these comparisons as a source of motivation (如果你关注那
+P0355: 些比你表现出色的人所拥有而你没有的东西，与他们比较可能会导致嫉妒之情；但如果你将这些比较作为
+P0356: 动力来源，它也可以让你充满活力并受到鼓舞)” 等内容，表明了社会比较并非全然有害，若运用得当可成
+P0357: 为健康习惯，助力个人发展。所以选项 A“与他人比较可以成为一种健康的习惯”为最佳标题，故选 A。
+P0358: D
+P0359: The call to “know yourself” has been there since ancient times, but our sense of self doesn’t always match
+P0360: what others perceive. Considering the stories we tell about ourselves can help us to change our minds for better.
+P0361: For many years, psychologists saw identity as a combination of someone’s values, beliefs, goals and social
+P0362: roles. Then, in the 1980s, Bob Johnson created the life story model of identity, in which he proposes that, as we go
+P0363: through life, these core features are built in with our memories to create a personal story through which we
+P0364: understand our lives.
+P0365: Our life story is something that starts coming together in our teenage years, when we begin to organise our
+P0366: 第 12页/共 21页
+P0367: lives into chapters around key events or life changes, and begin to see ourselves as both the central character and, to
+P0368: a varying extent, the story’s author. People with more consistent stories tend to have a stronger sense of identity,
+P0369: and they feel their life has more meaning, direction and sense of purpose. Such people show greater overall life
+P0370: satisfaction, too.
+P0371: Johnson has also investigated the link between well-being and certain story themes. He discovered that
+P0372: whether someone describes having had some control over events in their past is an important predictor of a person’
+P0373: s mental health. Another key theme involves finding some kind of positive meaning after stressful events. “People
+P0374: could talk about gaining knowledge or personal growth,” says Johnson. His research shows that this is often
+P0375: missing for people with mental health conditions. The good news is that there is evidence we can learn to change
+P0376: our own story.
+P0377: Lisa Green, another researcher, sounds a few notes of caution (谨慎). For instance, hearing about the power of
+P0378: redemptive (拯救性的) stories, many people may feel forced to find a positive angle on horrible events. She says
+P0379: that Western culture already pushes people to look for the silver lining behind every cloud.
+P0380: If you want to turn over a new leaf, though, one top tip is that it helps to choose a significant date that signals
+P0381: the start of a new “chapter”. Contrary to popular doubt, resolutions made on I January are more effective for this
+P0382: reason. So, whether your goal is saving money or getting fit, there is no better time to become the author of our
+P0383: own destiny (命运).
+P0384: 31. What can be inferred about personal stories?
+P0385: A. They are unrelated to health. B. Consistent ones lead to stress.
+P0386: C. They are relevant to happiness. D. Thematic ones hold back change.
+P0387: 32. What can we learn from this passage?
+P0388: A. Talking about gains from failure is negative. B. New Year resolutions are well received.
+P0389: C. The West tends to overvalue optimism. D. Social roles fail to be highlighted.
+P0390: 33. What does the author mainly do in this passage?
+P0391: A. Clarify a goal. B. Analyse an event.
+P0392: C. Make a comparison. D. Illustrate an approach.
+P0393: 34. What is the passage mainly about?
+P0394: A. How self-identity works. B. How story-tellers are made.
+P0395: C. How personal stories raise doubts. D. How timing affects personal identity.
+P0396: 【答案】31. C 32. C 33. D 34. A
+P0397: 第 13页/共 21页
+P0398: 【解析】
+P0399: 【导语】本文是一篇说明文。文章主要讲述了个人故事与自我认同、幸福感之间的关系及如何改变个人故
+P0400: 事。
+P0401: 【31 题详解】
+P0402: 细节理解题。根据第三段中“People with more consistent stories tend to have a stronger sense of identity, and
+P0403: they feel their life has more meaning, direction and sense of purpose. Such people show greater overall life
+P0404: satisfaction, too. (拥有更一致故事的人往往有更强的身份认同感，他们觉得自己的生活更有意义、更有方向、
+P0405: 更有目标感。这样的人总体上对生活的满意度也更高。)”可知，个人故事与幸福感相关。故选 C。
+P0406: 【32 题详解】
+P0407: 推理判断题。根据第五段中“She says that Western culture already pushes people to look for the silver lining
+P0408: behind every cloud. (她说，西方文化已经促使人们在每一片乌云背后寻找一线希望。)”可知，西方倾向于
+P0409: 过度重视乐观主义。故选 C。
+P0410: 【33 题详解】
+P0411: 推理判断题。通读全文，尤其是由文章第一段“The call to “know yourself” has been there since ancient times,
+P0412: but our sense of self doesn’t always match what others perceive. Considering the stories we tell about ourselves can
+P0413: help us to change our minds for better. (“认识你自己”这一呼吁自古便有，但我们对自己的认知并不总是与
+P0414: 他人对我们的看法相吻合。思考我们讲述的关于自己的故事，能帮助我们以更好的方式改变自己的想法。)”
+P0415: 和第二段中“Then, in the 1980s, Bob Johnson created the life story model of identity, in which he proposes that,
+P0416: as we go through life, these core features are built in with our memories to create a personal story through which
+P0417: we understand our lives. (然后，在 20 世纪 80 年代，鲍勃·约翰逊创造了身份的生活故事模型，他提出，在
+P0418: 我们的一生中，这些核心特征与我们的记忆一起构建了一个个人故事，我们通过这个故事来理解我们的生
+P0419: 活。)”和第四段中“Johnson has also investigated the link between well-being and certain story themes. (约翰逊
+P0420: 还研究了幸福感与某些故事主题之间的联系。)”可知，文章主要阐述了个人故事与自我认同、幸福感之间
+P0421: 的关系，并举例说明了如何通过改变个人故事来影响自我认同和幸福感，因此作者主要是在阐述一种方法。
+P0422: 故选 D。
+P0423: 【34 题详解】
+P0424: 主旨大意题。根据尤其是由文章第一段“The call to “know yourself” has been there since ancient times, but our
+P0425: sense of self doesn’t always match what others perceive. Considering the stories we tell about ourselves can help us
+P0426: to change our minds for better. (“认识你自己”这一呼吁自古便有，但我们对自己 认知并不总是与他人对我
+P0427: 们的看法相吻合。思考我们讲述的关于自己的故事，能帮助我们以更好的方式改变自己的想法。)”和第二
+P0428: 第 14页/共 21页
+P0429: 段中“Then, in the 1980s, Bob Johnson created the life story model of identity, in which he proposes that, as we
+P0430: go through life, these core features are built in with our memories to create a personal story through which we
+P0431: understand our lives. (然后，在 20 世纪 80 年代，鲍勃·约翰逊创造了身份的生活故事模型，他提出，在我们
+P0432: 的一生中，这些核心特征与我们的记忆一起构建了一个个人故事，我们通过这个故事来理解我们的生活。)”
+P0433: 和第四段中“Johnson has also investigated the link between well-being and certain story themes. (约翰逊还研究
+P0434: 了幸福感与某些故事主题之间的联系。)”可知，全文围绕“个人生活故事如何构建自我认知并影响幸福感”
+P0435: 展开，分析了其形成、作用及相关研究。“How self-identity works. (自我认同是如何运作的。)”符合题意。
+P0436: 故选 A。
+P0437: 第二节(共 5 小题;每小题 2 分,共 10 分)
+P0438: 根据短文内容, 从短文后的七个选项中选出能填入空白处的最佳选项, 并在答题卡上将该项涂
+P0439: 黑。选项中有两项为多余选项。
+P0440: What is adulthood? Societies all over the world view the concept of an adult as self-supporting and
+P0441: self-directed, because it identifies a point in the life cycle.
+P0442: As Alice Black points out, today’s parents’ fear of letting kids do more housework has added to their inability
+P0443: to feel competent and, thus, confident in themselves. Psychologist Robert Turner wrote about this in his book, The
+P0444: Life Cycle, mentioning a stage when kids learn self-direction and mastery. ____35____
+P0445: But Turner’s other cycles are just as important. ____36____ If these life cycles are delayed, interrupted, or
+P0446: denied, you feel incapable of accessing your states of self, controlling unpleasant feelings, and manipulating (操控)
+P0447: the energy that puts together the fabric of your inner world.
+P0448: Turner wisely said that “doing well” psychologically is being able to roll with the flow of emotions, manage
+P0449: them, communicate clearly and well with others, and master various skills. This requires an internal locus (核心) of
+P0450: control, which implies self-control of your thoughts, feelings, and actions. ____37____ You’re self-directed and not
+P0451: reliant on the world to tell you who you are. And you know who you are within all this.
+P0452: So, being an adult isn’t just holding a job. Being an adult is about having a rooted sense of self while being
+P0453: capable of identifying and managing your emotions and actions. ____38____ We are a social species, so this is
+P0454: important.
+P0455: While raising an adult is a parent’s job, it’s also our responsibility as a society to ensure that we support
+P0456: schools that nurture (培养) emotional and identity development. ____39____
+P0457: A. It’s also our job to support adults who need help repairing incomplete life cycles.
+P0458: B. They talk about someone’s inability to support themselves through work.
+P0459: 第 15页/共 21页
+P0460: C. It’s being able to show understanding when communicating with others.
+P0461: D. In other words, you’re playing the game of life — life isn’t playing you.
+P0462: E. They teach emotional awareness and management as well as identity.
+P0463: F. You feel like an 18-year old, especially when playing 80s music.
+P0464: G. When this stage is denied it creates a sense of insecurity.
+P0465: 【答案】35. G 36. E 37. D 38. C 39. A
+P0466: 【解析】
+P0467: 【导语】本文是一篇议论文，文章主要探讨了成年人 定义及其所需具备的特质，并强调了社会在培养成
+P0468: 年人方面的责任。
+P0469: 【35 题详解】
+P0470: 由上文“As Alice Black points out, today’s parents’ fear of letting kids do more housework has added to their
+P0471: inability to feel competent and, thus, confident in themselves. Psychologist Robert Turner wrote about this in his
+P0472: book, The Life Cycle, mentioning a stage when kids learn self-direction and mastery. (正如 Alice Black 所指出的，
+P0473: 如今父母害怕让孩子做更多家务，这加剧了孩子们无法感受到自身的能力，进而也导致他们对自己缺乏自
+P0474: 信。心理学家 Robert Turner 在他的著作《生命周期》中提到了这一点，他提到了孩子们学习自我指导和掌
+P0475: 握技能的阶段。)”可知，本空应强调这个阶段的重要性或缺失这个阶段会带来什么影响。G 选项“When this
+P0476: stage is denied it creates a sense of insecurity. (当这个阶段被剥夺时，就会产生一种不安全感。)”符合题意，
+P0477: 承接上文，说明了这个阶段被剥夺的后果。故选 G。
+P0478: 【36 题详解】
+P0479: 由上文“But Turner’s other cycles are just as important. (但 Turner 的其他周期也同样重要。)”以及下文“If
+P0480: these life cycles are delayed, interrupted, or denied, you feel incapable of accessing your states of self, controlling
+P0481: unpleasant feelings, and manipulating (操控) the energy that puts together the fabric of your inner world. (如果这
+P0482: 些生命周期被延迟、中断或拒绝，你会觉得自己无法进入自我状态，无法控制不愉快的情绪，也无法操控
+P0483: 构成你内心世界结构的能量。)”可知，本空应解释它们的重要性体现在哪里。E 选项“They teach emotional
+P0484: awareness and management as well as identity. (它们教授情感意识和管理以及身份认同。)”能承上启下，符合
+P0485: 题意。故选 E。
+P0486: 【37 题详解】
+P0487: 由上文“Turner wisely said that “doing well” psychologically is being able to roll with the flow of emotions,
+P0488: manage them, communicate clearly and well with others, and master various skills. This requires an internal locus
+P0489: (核心) of control, which implies self-control of your thoughts, feelings, and actions. (Turner 明智地指出，从心理
+P0490: 第 16页/共 21页
+P0491: 上讲，“做得好”就是能够顺应情绪的流动，管理它们，与他人清晰而良好地沟通，并掌握各种技能。这需
+P0492: 要一个内部的控制点，这意味着对自己的思想、情感和行动进行自我控制。)”可知，本空应进一步解释这
+P0493: 种内部控制点或自我控制的意义。D 选项“In other words, you’re playing the game of life — life isn’t playing
+P0494: you. (换句话说，你是在玩人生的游戏——而不是人生在玩你。)”能承接上文，符合题意，用比喻的方式解
+P0495: 释了内部控制点的意义，即你能够掌控自己的人生，而不是被人生所掌控。故选 D。
+P0496: 【38 题详解】
+P0497: 由上文“So, being an adult isn’t just holding a job. Being an adult is about having a rooted sense of self while
+P0498: being capable of identifying and managing your emotions and actions. (所以，成为一个成年人不仅仅是拥有一份
+P0499: 工作。成为一个成年人意味着拥有一种根深蒂固的自我意识，同时能够识别和管理自己的情绪和行动。)”
+P0500: 可知，本空应进一步描述成年人的其他特质或能力。C 选项“It’s being able to show understanding when
+P0501: communicating with others. (它是在与他人交流时能够表现出理解。)”能承接上文，符合题意，补充了成年
+P0502: 人在与他人交流时应具备的能力，即表现出理解。故选 C。
+P0503: 【39 题详解】
+P0504: 由上文“While raising an adult is a parent’s job, it’s also our responsibility as a society to ensure that we support
+P0505: schools that nurture (培养) emotional and identity development. (虽然培养一个成年人是父母的工作，但作为社
+P0506: 会，我们也有责任确保我们支持那些培养情感和身份发展的学校。)”可知，本空应进一步描述社会在培养
+P0507: 成年人方面的其他责任。A 选项“It’s also our job to support adults who need help repairing incomplete life
+P0508: cycles. (支持那些需要帮助修复不完整生命周期的成年人也是我们的工作。)”能承接上文，符合题意，补充
+P0509: 了社会在培养成年人方面的另一项责任，即支持那些需要帮助修复不完整生命周期的成年人。故选 A。
+P0510: 第三部分 书面表达(共两节, 32 分)
+P0511: 第一节(共 4 小题; 第 40、41 题各 2 分, 第 42 题 3 分, 第 43 题 5 分, 共 12 分)
+P0512: 阅读下面短文, 根据题目要求用英文回答问题。请在答题卡指定区域作答。
+P0513: There’s something magical about the way imagination works. Around the world, kids are using imagination in
+P0514: ways that were once only found in science fiction.
+P0515: Take the story of Mark Lee. He loved biking around his neighbourhood but grew upset seeing that many
+P0516: plastic bottles littered the parks and sidewalks. Instead of simply complaining, he decided to do something about it.
+P0517: Using an old 3D printer, Mark started experimenting. He melted (熔化) plastic bottles down and tried shaping
+P0518: them into small bricks. At first, everything went wrong — the plastic broke, the printer jammed, and the pieces
+P0519: didn’t fit together. Friends laughed a little, and even Mark’s parents thought he should just give up.
+P0520: But Mark had a different idea. He redesigned the bricks to lock together like puzzle (拼图) pieces and adjusted
+P0521: 第 17页/共 21页
+P0522: the heating temperature carefully. After months of trial and error, he succeeded. With a little help from his school
+P0523: and the local community centre, Mark used his bricks to build a small bike shelter for his neighbourhood.
+P0524: And he’s not alone. Thirteen-year-old Sally Carter loved reading fantasy books. Inspired by magical maps in
+P0525: her stories, she wondered: what if we could build a real-world app that helps people explore hidden places in their
+P0526: own cities? She gathered friends, learned some basic programming, and together they created an app that maps
+P0527: small local parks and gardens few people knew about. Their app quickly grew popular in town and even won a
+P0528: local youth innovation award.
+P0529: Next time you see a young person lost in thought, don’t rush to pull them back. They might just be imagining
+P0530: the next great idea.
+P0531: 40. What upset Mark when he was biking around his neighbourhood?
+P0532: _____________________________________________________________
+P0533: 41. How does the app created by Sally and her friends help?
+P0534: _____________________________________________________________
+P0535: 42. Please decide which part is false in the following statement, then underline it and explain why.
+P0536: > With encouragement from his friends and parents, Mark built a small bike shelter for his neighbourhood after
+P0537: months of trial and error.
+P0538: _____________________________________________________________
+P0539: 43. How can you put your imagination into practice as Mark and Sally did?(In about 40 words)
+P0540: _____________________________________________________________
+P0541: 【答案】40. Seeing that many plastic bottles littered the parks and sidewalks.
+P0542: 41. It helps people explore hidden places like small local parks and gardens in their own cities.
+P0543: 42.
+P0544: According to the passage, friends laughed a little, and even Mark’s parents thought he should just give up；so this
+P0545: part With encouragement from his friends and parents is false.
+P0546: 43. First, identify a problem or an idea. Then, experiment bravely, learn relevant skills if needed, and keep trying
+P0547: despite difficulties.
+P0548: 【解析】
+P0549: 【导语】本文是一篇记叙文，主要讲述了 Mark Lee 和 Sally Carter 两位青少年发挥想象力并付诸实践的故
+P0550: 事，鼓励年轻人积极发挥想象力。
+P0551: 【40 题详解】
+P0552: 第 18页/共 21页
+P0553: 考查细节理解。根据第二段“He loved biking around his neighbourhood but grew upset seeing that many plastic
+P0554: bottles littered the parks and sidewalks. (他喜欢在社区里骑自行车，但看到公园和人行道上到处都是塑料瓶，
+P0555: 他很沮丧。)” 可知，让 Mark 沮丧的是看到公园和人行道上有很多塑料瓶。故填 Seeing that many plastic
+P0556: bottles littered the parks and sidewalks.
+P0557: 【41 题详解】
+P0558: 考查细节理解。根据第五段“what if we could build a real - world app that helps people explore hidden places in
+P0559: their own cities? She gathered friends, learned some basic programming, and together they created an app that
+P0560: maps small local parks and gardens few people knew about. (如果我们能开发一个现实世界的应用程序，帮助人
+P0561: 们探索他们自己城市里隐藏的地方会怎么样呢？她召集了朋友们，学习了一些基本的编程知识，然后他们
+P0562: 一起开发了一个应用程序，该程序可以绘制出很少有人知道的当地小公园和花园的地图。)” 可知，Sally 和
+P0563: 她朋友创建的应用程序帮助人们探索自己城市里像小公园和花园这样隐藏的地方。故填 It helps people
+P0564: explore hidden places like small local parks and gardens in their own cities.
+P0565: 【42 题详解】
+P0566: 考查细节理解。根据第三段“Friends laughed a little, and even Mark’s parents thought he should just give up. (朋
+P0567: 友们有点嘲笑，甚至 Mark 的父母都认为他应该放弃。)” 可知，Mark 并没有得到朋友和父母的鼓励，所
+P0568: 以“With encouragement from his friends and parents” 这部分是错误的。故填 According to the passage, friends
+P0569: laughed a little, and even Mark’s parents thought he should just give up.”；so this part With encouragement from
+P0570: his friends and parents is false.”
+P0571: 【43 题详解】
+P0572: 考查开放性试题。结合 Mark 和 Sally 故事，他们都是先发现问题或有想法，然后勇敢尝试，必要时学习相
+P0573: 关技能，面对困难坚持不懈。故填 First, identify a problem or an idea. Then, experiment bravely, learn relevant
+P0574: skills if needed, and keep trying despite difficulties.
+P0575: 第二节(20 分)
+P0576: 44. 假设你是红星中学高三学生李华。联合国正面向全球青少年开展倡议征集活动。你的外国好友 Jim
+P0577: 打算参加，为此发来邮件，就倡议内容询问你的建议。请你用英文给他回复，内容包括：
+P0578: 1. 提出的建议；
+P0579: 2. 建议的理由。
+P0580: 提示词：倡议 proposal
+P0581: 注意：1. 词数 100 左右；
+P0582: 2. 开头和结尾已给出，不计入总词数。
+P0583: 第 19页/共 21页
+P0584: Dear Jim,
+P0585: ____________________________________________________________________________________________
+P0586: ____________________________________________________________________________________________
+P0587: ____________________________________________________________________________________________
+P0588: ____________________________________________________________________________________________
+P0589: ____________________________________________________________________________________________
+P0590: Yours,
+P0591: Li Hua
+P0592: 【答案】
+P0593: Dear Jim,
+P0594: I’m glad to hear that you want to take part in the UN’s initiative for global teenagers. Here’s my advice.
+P0595: I suggest focusing on environmental protection. As we know, the environment is facing serious problems,
+P0596: which affect everyone’s life. If we can raise awareness about it and encourage more people to take action, it will
+P0597: make a big difference. Another idea is to promote cultural exchange. We live in a world where different cultures
+P0598: coexist. By sharing our cultures and learning from each other, we can build a more harmonious global community.
+P0599: I hope these suggestions help! Let me know if you need more ideas.
+P0600: Best wishes!
+P0601: Yours,
+P0602: Li Hua
+P0603: 【解析】
+P0604: 【导语】本篇书面表达属于应用文。要求考生针对外国好友 Jim 关于联合国全球青少年倡议征集活动的询
+P0605: 问进行回复，给出倡议内容的建议及理由。
+P0606: 【详解】1.词汇积累
+P0607: 高兴的：glad → delighted
+P0608: 建议：suggest→advise
+P0609: 关注：focus on → concentrate on
+P0610: 提高：raise→enhance
+P0611: 2.句式拓展
+P0612: 同义句转换
+P0613: 原句：I’m glad to hear that you want to take part in the UN’s initiative for global teenagers.
+P0614: 第 20页/共 21页
+P0615: 拓展句：Hearing that you want to take part in the UN’s initiative for global teenagers, I feel glad.
+P0616: 【点睛】【高分句型 1】We live in a world where different cultures coexist.（运用了 where 引导的限制性定语从
+P0617: 句）
+P0618: 【高分句型 2】Let me know if you need more ideas.（运用了 if 引导的条件状语从句）
+P0619: 第 21页/共 21页

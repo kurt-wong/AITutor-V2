@@ -51,6 +51,10 @@ def test_mimo_response_format_is_sent(monkeypatch) -> None:
     captured: dict = {}
 
     class FakeResponse:
+        status_code = 200
+        text = ""
+        request = httpx.Request("POST", "https://api.example/v1/chat/completions")
+
         def raise_for_status(self) -> None:
             return None
 
@@ -81,18 +85,25 @@ def test_mimo_response_format_is_sent(monkeypatch) -> None:
         api_key="key",
         model="mimo-v2.5",
         response_format={"type": "json_object"},
+        max_completion_tokens=131072,
     )
     text = asyncio.run(provider.complete("hello"))
 
     assert text == '{"ok": true}'
     assert captured["url"] == "https://api.example/v1/chat/completions"
     assert captured["payload"]["response_format"] == {"type": "json_object"}
+    assert captured["payload"]["max_completion_tokens"] == 131072
+    assert "max_tokens" not in captured["payload"]
 
 
 def test_response_format_is_omitted_by_default(monkeypatch) -> None:
     captured: dict = {}
 
     class FakeResponse:
+        status_code = 200
+        text = ""
+        request = httpx.Request("POST", "https://api.deepseek.com/chat/completions")
+
         def raise_for_status(self) -> None:
             return None
 

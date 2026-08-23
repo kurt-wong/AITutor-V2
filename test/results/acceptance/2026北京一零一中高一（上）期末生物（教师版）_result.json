@@ -1,0 +1,191 @@
+{
+  "filename": "2026北京一零一中高一（上）期末生物（教师版）.pdf",
+  "subject": "生物",
+  "ocr_model": "PP-StructureV3",
+  "stages": {
+    "pipeline": {
+      "status": "succeeded",
+      "elapsed_ms": 126127,
+      "question_count": 12,
+      "ingested": 12,
+      "discarded": 0,
+      "errors": []
+    },
+    "answer_extraction": {
+      "status": "success",
+      "subject": "生物",
+      "total": 45,
+      "verified": 43,
+      "with_answer": 40,
+      "elapsed_ms": 33550,
+      "error": null
+    },
+    "document_persist": {
+      "native_markdown_chars": 9519,
+      "ocr_markdown_chars": 10775,
+      "llm_annotated_chars": 738
+    },
+    "ingestion_preview": {
+      "total": 12,
+      "approved": 12,
+      "reviewing": 0,
+      "skipped": 0,
+      "answer_source_llm": 12,
+      "answer_source_pipeline": 0,
+      "answer_source_none": 0
+    },
+    "quality": {
+      "high_confidence": 12,
+      "low_confidence": 0,
+      "blocked": 0,
+      "answer_missing": 0
+    }
+  },
+  "errors": [],
+  "questions": [
+    {
+      "question_number": "1",
+      "question_type": "single_choice",
+      "stem_preview": "1.细胞学说揭示了（）",
+      "answer_preview": "B",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "2",
+      "question_type": "single_choice",
+      "stem_preview": "2.下列关于大肠杆菌和蓝细菌的说法错误的是（)",
+      "answer_preview": "C",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "3",
+      "question_type": "single_choice",
+      "stem_preview": "3.一般情况下，活细胞中含量最多的化合物是（）",
+      "answer_preview": "B",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "4",
+      "question_type": "single_choice",
+      "stem_preview": "4.水和无机盐是细胞的重要组成成分，下列说法正确的是（）",
+      "answer_preview": "C",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "5",
+      "question_type": "single_choice",
+      "stem_preview": "5.水稻和小麦的细胞中含有丰富的多糖，这些多糖是（）",
+      "answer_preview": "C",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "6",
+      "question_type": "single_choice",
+      "stem_preview": "6.泛素是一种由76个氨基酸构成的蛋白质，只含有一条多肽链。下列说法错误的是（",
+      "answer_preview": "A",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "7",
+      "question_type": "single_choice",
+      "stem_preview": "7.2024年诺贝尔生理学或医学奖，颁发给微小RNA的发现及其在DNA控制蛋白质合成过程调控作用的研究。下列关于RNA、DNA和蛋白质的说法正确的是（",
+      "answer_preview": "A",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "8",
+      "question_type": "single_choice",
+      "stem_preview": "8.成熟巨核细胞膜表面形成许多凹陷，相邻凹陷的细胞膜在深部融合，使巨核细胞的一部分脱离，形成数量众多的血小板。这一过程体现了细胞膜（）",
+      "answer_preview": "B",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "9",
+      "question_type": "single_choice",
+      "stem_preview": "9.ATP是细胞内的能量“货币”，细胞中不能合成ATP的场所是（）",
+      "answer_preview": "B",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "10",
+      "question_type": "single_choice",
+      "stem_preview": "10.真核细胞贮存和复制遗传物质的主要场所是（）",
+      "answer_preview": "C",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "11",
+      "question_type": "single_choice",
+      "stem_preview": "11.将紫色洋葱内表皮放在含红墨水的蔗糖溶液中，观察到原生质层为无色，原生质层与细胞壁之间为红色，根据该结果无法判断的是（）",
+      "answer_preview": "D",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "12",
+      "question_type": "single_choice",
+      "stem_preview": "12.胆固醇在血液中通过与磷脂和蛋白质结合形成低密度脂蛋白(LDL)运输，LDL进入细胞的过程如下图所示。胞内体中的酸性环境是LDL受体顺利返回细胞膜的必要条件",
+      "answer_preview": "A",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    }
+  ]
+}

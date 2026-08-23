@@ -1,0 +1,89 @@
+{
+  "subject": "english",
+  "source_file": "2026北京朝阳高一（上）期末英语（教师版）.pdf",
+  "sections": [
+    {
+      "name": "第一部分 听力",
+      "type": "single_choice",
+      "range": [
+        1,
+        20
+      ]
+    },
+    {
+      "name": "第二部分 阅读",
+      "type": "single_choice",
+      "range": [
+        21,
+        35
+      ]
+    },
+    {
+      "name": "第三部分 语言运用",
+      "type": "fill_in",
+      "range": [
+        36,
+        55
+      ]
+    },
+    {
+      "name": "第四部分 写作",
+      "type": "short_answer",
+      "range": [
+        56,
+        57
+      ]
+    }
+  ],
+  "composite_rules": [
+    {
+      "type": "cloze",
+      "shared_material_range": [
+        36,
+        55
+      ],
+      "description": "Passage for cloze"
+    },
+    {
+      "type": "reading_comprehension",
+      "passages": [
+        {
+          "id": "P1",
+          "questions": [
+            21,
+            22,
+            23,
+            24
+          ]
+        },
+        {
+          "id": "P2",
+          "questions": [
+            25,
+            26,
+            27,
+            28
+          ]
+        },
+        {
+          "id": "P3",
+          "questions": [
+            29,
+            30,
+            31
+          ]
+        },
+        {
+          "id": "P4",
+          "questions": [
+            32,
+            33,
+            34,
+            35
+          ]
+        }
+      ]
+    }
+  ],
+  "total_questions": 57
+}

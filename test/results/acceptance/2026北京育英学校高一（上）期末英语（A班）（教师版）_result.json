@@ -1,0 +1,155 @@
+{
+  "filename": "2026北京育英学校高一（上）期末英语（A班）（教师版）.pdf",
+  "subject": "英语",
+  "ocr_model": "PP-StructureV3",
+  "stages": {
+    "pipeline": {
+      "status": "succeeded",
+      "elapsed_ms": 293715,
+      "question_count": 9,
+      "ingested": 9,
+      "discarded": 0,
+      "errors": []
+    },
+    "answer_extraction": {
+      "status": "success",
+      "subject": "英语",
+      "total": 36,
+      "verified": 35,
+      "with_answer": 35,
+      "elapsed_ms": 36454,
+      "error": null
+    },
+    "document_persist": {
+      "native_markdown_chars": 19184,
+      "ocr_markdown_chars": 18417,
+      "llm_annotated_chars": 537
+    },
+    "ingestion_preview": {
+      "total": 9,
+      "approved": 9,
+      "reviewing": 0,
+      "skipped": 0,
+      "answer_source_llm": 8,
+      "answer_source_pipeline": 1,
+      "answer_source_none": 0
+    },
+    "quality": {
+      "high_confidence": 9,
+      "low_confidence": 0,
+      "blocked": 0,
+      "answer_missing": 0
+    }
+  },
+  "errors": [],
+  "questions": [
+    {
+      "question_number": "1",
+      "question_type": "fill_in",
+      "stem_preview": "On the morning of my first marathon, I woke up before my alarm and ate a classic",
+      "answer_preview": "A",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "11",
+      "question_type": "fill_in",
+      "stem_preview": "Nowadays, people can create their own avatars.11(use) avatars on social media, t",
+      "answer_preview": "Using",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "14",
+      "question_type": "fill_in",
+      "stem_preview": "The eight-day-long holiday of 2023 began with the Mid-Autumn Festival on Friday ",
+      "answer_preview": "what",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "17",
+      "question_type": "fill_in",
+      "stem_preview": "Billions of poor people around the world depend on the use of wood for cooking. ",
+      "answer_preview": "as##when",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "21",
+      "question_type": "single_choice",
+      "stem_preview": "21. What is the main purpose of the passage?",
+      "answer_preview": "D",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "24",
+      "question_type": "single_choice",
+      "stem_preview": "24. The writer decided to get himself tested as well because he",
+      "answer_preview": "A",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "28",
+      "question_type": "single_choice",
+      "stem_preview": "28. We can learn from Paragraph 2 that a mental athlete",
+      "answer_preview": "C",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "32",
+      "question_type": "short_answer",
+      "stem_preview": "32、33题各2分，第34题3分，第35题5分，共12分）阅读下面短文，根据题目要求用英文回答问题。\nComputers, smartphones, and a",
+      "answer_preview": "The problem is using their devices for purposes other than learning./ They are f",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "36",
+      "question_type": "short_answer",
+      "stem_preview": "36.假设你是红星中学学生会主席李华。你校将在春节期间举行中外学生联欢会。请你用英文写一封邮件通知交换生，内容包括：\n1.目的与安排；\n2.报名方式。\n注意：\n",
+      "answer_preview": "Dear friends,\nI am Li Hua, President of the Student Union. I am so glad to infor",
+      "answer_source": "pipeline_sliced",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    }
+  ]
+}

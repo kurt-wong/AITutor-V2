@@ -3,6 +3,7 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Any
 
+import sqlalchemy as sa
 from pgvector.sqlalchemy import Vector
 from sqlalchemy import (
     Boolean,
@@ -56,6 +57,10 @@ class Document(Base):
     upload_status: Mapped[str] = mapped_column(String(30), default="queued")
     processing_status: Mapped[str] = mapped_column(String(30), default="pending")
     error_message: Mapped[str | None] = mapped_column(Text)
+    # 三份文档持久化（原始文件在 MinIO 中，markdown 存 DB）
+    native_markdown: Mapped[str | None] = mapped_column(Text)  # PyMuPDF 提取的 native L1（图片bbox/答案表/上下标辅助）
+    ocr_markdown: Mapped[str | None] = mapped_column(Text)  # OCR 提取的原始 markdown（LLM 标注前）
+    llm_annotated_markdown: Mapped[str | None] = mapped_column(Text)  # LLM 标注后的版本（JSON 格式的 L2 标注数据）
     created_at: Mapped[datetime] = created_at_column()
     updated_at: Mapped[datetime] = updated_at_column()
 
@@ -117,8 +122,7 @@ class Question(Base):
         nullable=False,
     )
     grade: Mapped[str | None] = mapped_column(String(50))
-    year: Mapped[int | None] = mapped_column(Integer)
-    school: Mapped[str | None] = mapped_column(String(255))
+    # year / school 已迁移到 question_instances（Phase 2A）
     question_type_id: Mapped[uuid.UUID | None] = mapped_column(
         ForeignKey("question_types.id"),
         index=True,
@@ -133,14 +137,21 @@ class Question(Base):
     source_document_name: Mapped[str | None] = mapped_column(String(255))
     status: Mapped[str] = mapped_column(String(20), default="reviewing")
     confidence: Mapped[Decimal | None] = mapped_column(Numeric(4, 3))
-    occurrence_count: Mapped[int] = mapped_column(Integer, default=1)
+    occurrence_count: Mapped[int] = mapped_column(Integer, default=1)  # 缓存字段，由 Instance COUNT 驱动
+    content_hash: Mapped[str | None] = mapped_column(String(64))  # SHA256，Step 5 实现 hash 逻辑
+    # 综合题支持
+    is_composite: Mapped[bool] = mapped_column(Boolean, default=False)
+    sub_questions: Mapped[Any | None] = mapped_column(JSONB)
+    # 审核原因分类
+    review_reason: Mapped[str | None] = mapped_column(String(200))  # answer_missing/stem_empty/anchor_uncertain/options_anomaly/answer_suspicious
     created_at: Mapped[datetime] = created_at_column()
     updated_at: Mapped[datetime] = updated_at_column()
 
     __table_args__ = (
-        Index("ix_questions_subject_grade_year", "subject_id", "grade", "year"),
+        Index("ix_questions_subject_grade", "subject_id", "grade"),
         Index("ix_questions_status_confidence", "status", "confidence"),
         Index("ix_questions_source_type", "source_type"),
+        Index("ix_questions_content_hash", "content_hash"),
     )
 
 
@@ -157,6 +168,12 @@ class QuestionImage(Base):
     image_type: Mapped[str] = mapped_column(String(30), nullable=False)
     description: Mapped[str | None] = mapped_column(Text)
     image_order: Mapped[int] = mapped_column(Integer, default=0)
+    # DSD 4.6: 配图位置元数据
+    page_no: Mapped[int | None] = mapped_column(Integer)
+    bbox: Mapped[Any | None] = mapped_column(JSONB)
+    placement: Mapped[str | None] = mapped_column(String(30))  # stem/options/answer/explanation/page_context
+    source: Mapped[str | None] = mapped_column(String(30))  # native/paddleocr/vl/manual
+    figure_id: Mapped[str | None] = mapped_column(String(100))  # 文档级去重标识
     created_at: Mapped[datetime] = created_at_column()
 
 
@@ -166,6 +183,11 @@ class QuestionInstance(Base):
     id: Mapped[uuid.UUID] = uuid_pk()
     question_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("questions.id"),
+        nullable=False,
+    )
+    document_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("documents.id"),
+        index=True,
         nullable=False,
     )
     source_type: Mapped[str] = mapped_column(String(20), nullable=False)
@@ -179,6 +201,14 @@ class QuestionInstance(Base):
 
     __table_args__ = (
         Index("ix_question_instances_question_year", "question_id", "year"),
+        # 部分唯一索引：同一文档内同一题号不重复（source_question_number IS NOT NULL 时）
+        Index(
+            "ix_question_instances_doc_qno",
+            "document_id",
+            "source_question_number",
+            unique=True,
+            postgresql_where=sa.text("source_question_number IS NOT NULL"),
+        ),
     )
 
 
@@ -196,6 +226,8 @@ class QuestionKnowledge(Base):
     )
     confidence: Mapped[Decimal | None] = mapped_column(Numeric(4, 3))
     is_primary: Mapped[bool] = mapped_column(Boolean, default=False)
+    mapping_source: Mapped[str | None] = mapped_column(String(20))  # llm / rule / manual
+    review_status: Mapped[str] = mapped_column(String(20), default="approved")  # approved / pending / rejected
     created_at: Mapped[datetime] = created_at_column()
 
     __table_args__ = (
@@ -233,6 +265,33 @@ class BackgroundTask(Base):
 
     __table_args__ = (
         Index("ix_background_tasks_type_status", "task_type", "status"),
+    )
+
+
+class AnswerExtractionRetry(Base):
+    """答案提取重试队列。
+
+    答案提取失败时写入此表，支持：
+    - 后端 worker 自动重试（定时扫描 pending 记录）
+    - 人工通过 API 触发重试
+    """
+    __tablename__ = "answer_extraction_retries"
+
+    id: Mapped[uuid.UUID] = uuid_pk()
+    document_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("documents.id"), index=True, nullable=False,
+    )
+    task_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("background_tasks.id"))
+    error_detail: Mapped[str | None] = mapped_column(Text)
+    retry_count: Mapped[int] = mapped_column(Integer, default=0)
+    max_retries: Mapped[int] = mapped_column(Integer, default=3)
+    status: Mapped[str] = mapped_column(String(20), default="pending")  # pending / retrying / succeeded / failed
+    last_retry_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = created_at_column()
+    updated_at: Mapped[datetime] = updated_at_column()
+
+    __table_args__ = (
+        Index("ix_answer_retries_status", "status", "created_at"),
     )
 
 

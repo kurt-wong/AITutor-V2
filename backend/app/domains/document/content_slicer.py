@@ -383,8 +383,16 @@ def _slice_single_question(
     #         不剔除 shared_material_line_ids。
     shared_ids = set(question.shared_material_line_ids or [])
     if question.is_composite:
-        # 综合题：stem 包含材料和子题，不剔除
-        stem_ids = list(question.stem_line_ids or [])
+        # 综合题：stem 需要包含共享材料 + 子题题干。
+        # 材料行在前（展示顺序），stem_line_ids 在后，去重。
+        material_ids = list(question.shared_material_line_ids or [])
+        stem_only_ids = list(question.stem_line_ids or [])
+        seen: set[str] = set()
+        stem_ids: list[str] = []
+        for lid in material_ids + stem_only_ids:
+            if lid not in seen:
+                seen.add(lid)
+                stem_ids.append(lid)
     else:
         # 独立题：剔除共享材料行
         stem_ids = [

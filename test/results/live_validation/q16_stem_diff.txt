@@ -1,0 +1,13 @@
+Q16:
+  stem_line_ids: ['P6L015']
+  stem_content: 
+  options_line_ids: {}
+
+Q17:
+  stem_line_ids: ['P7L011', 'P7L012', 'P7L013', 'P7L014']
+  stem_content: 
+  options_line_ids: {}
+
+Q17 annotation:
+  stem_start_marker: 17.在空间站的失重环境下，需借助动力学方法测量质量。一种“质量测量仪”的工作原理如下：航天员被固定在一个能提供恒定拉力为14N的支架上，由静止开始运动。一套光栅测速系统监测到：航天员在2s 的时间内速度增加了0.4m/s。求该航天员：
+  stem_line_ids: ['P7L011', 'P7L012', 'P7L013', 'P7L014']

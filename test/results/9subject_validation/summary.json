@@ -1,0 +1,140 @@
+[
+  {
+    "filename": "2025北京东城高一（上）期末历史（教师版）.pdf",
+    "run": 1,
+    "status": "succeeded",
+    "question_count": 43,
+    "ingested": 40,
+    "discarded": 3,
+    "discard_rate": 0.0698,
+    "discard_reasons": {
+      "锚点不确定": 1,
+      "题干为空": 1,
+      "答案缺失": 2,
+      "答案依赖 LLM 兜底": 2
+    },
+    "elapsed_s": 772.3,
+    "path": "D:\\Project\\AITutors-v2\\test\\results\\9subject_validation\\2025北京东城高一（上）期末历史（教师版）_run1.json"
+  },
+  {
+    "filename": "2026北京东城高一（上）期末政治（教师版）.pdf",
+    "run": 1,
+    "status": "succeeded",
+    "question_count": 28,
+    "ingested": 27,
+    "discarded": 1,
+    "discard_rate": 0.0357,
+    "discard_reasons": {
+      "答案缺失": 1,
+      "答案依赖 LLM 兜底": 1
+    },
+    "elapsed_s": 689.1,
+    "path": "D:\\Project\\AITutors-v2\\test\\results\\9subject_validation\\2026北京东城高一（上）期末政治（教师版）_run1.json"
+  },
+  {
+    "filename": "2026北京东城高一（上）期末英语（教师版）.pdf",
+    "run": 1,
+    "status": "succeeded",
+    "question_count": 46,
+    "ingested": 31,
+    "discarded": 15,
+    "discard_rate": 0.3261,
+    "discard_reasons": {
+      "锚点不确定": 15,
+      "详解依赖 LLM 兜底": 15,
+      "题干为空": 15
+    },
+    "elapsed_s": 634.3,
+    "path": "D:\\Project\\AITutors-v2\\test\\results\\9subject_validation\\2026北京东城高一（上）期末英语（教师版）_run1.json"
+  },
+  {
+    "filename": "2026北京八十中高一（上）期末语文（教师版）.pdf",
+    "run": 1,
+    "status": "succeeded",
+    "question_count": 27,
+    "ingested": 27,
+    "discarded": 0,
+    "discard_rate": 0.0,
+    "discard_reasons": {},
+    "elapsed_s": 845.9,
+    "path": "D:\\Project\\AITutors-v2\\test\\results\\9subject_validation\\2026北京八十中高一（上）期末语文（教师版）_run1.json"
+  },
+  {
+    "filename": "2026北京朝阳高一（上）期末地理（教师版）.pdf",
+    "run": 1,
+    "status": "succeeded",
+    "question_count": 30,
+    "ingested": 26,
+    "discarded": 4,
+    "discard_rate": 0.1333,
+    "discard_reasons": {
+      "锚点不确定": 4,
+      "题干为空": 4,
+      "详解依赖 LLM 兜底": 3,
+      "答案缺失": 3,
+      "答案依赖 LLM 兜底": 3
+    },
+    "elapsed_s": 617.1,
+    "path": "D:\\Project\\AITutors-v2\\test\\results\\9subject_validation\\2026北京朝阳高一（上）期末地理（教师版）_run1.json"
+  },
+  {
+    "filename": "2026北京二中高一（上）期末数学（教师版）.pdf",
+    "run": 1,
+    "status": "succeeded",
+    "question_count": 23,
+    "ingested": 18,
+    "discarded": 5,
+    "discard_rate": 0.2174,
+    "discard_reasons": {
+      "锚点不确定": 5,
+      "题干为空": 5,
+      "答案缺失": 2,
+      "答案依赖 LLM 兜底": 2
+    },
+    "elapsed_s": 659.3,
+    "path": "D:\\Project\\AITutors-v2\\test\\results\\9subject_validation\\2026北京二中高一（上）期末数学（教师版）_run1.json"
+  },
+  {
+    "filename": "2026北京丰台高一（上）期末物理（教师版）.pdf",
+    "run": 1,
+    "status": "succeeded",
+    "question_count": 20,
+    "ingested": 19,
+    "discarded": 1,
+    "discard_rate": 0.05,
+    "discard_reasons": {
+      "锚点不确定": 1,
+      "详解依赖 LLM 兜底": 1
+    },
+    "elapsed_s": 727.8,
+    "path": "D:\\Project\\AITutors-v2\\test\\results\\9subject_validation\\2026北京丰台高一（上）期末物理（教师版）_run1.json"
+  },
+  {
+    "filename": "2026北京八一学校高一（上）期末化学（教师版）.pdf",
+    "run": 1,
+    "status": "succeeded",
+    "question_count": 26,
+    "ingested": 21,
+    "discarded": 5,
+    "discard_rate": 0.1923,
+    "discard_reasons": {
+      "锚点不确定": 4,
+      "详解依赖 LLM 兜底": 4,
+      "答案可疑": 1
+    },
+    "elapsed_s": 762.8,
+    "path": "D:\\Project\\AITutors-v2\\test\\results\\9subject_validation\\2026北京八一学校高一（上）期末化学（教师版）_run1.json"
+  },
+  {
+    "filename": "2026北京北师大附中高一（上）期末生物（教师版）.pdf",
+    "run": 1,
+    "status": "succeeded",
+    "question_count": 26,
+    "ingested": 26,
+    "discarded": 0,
+    "discard_rate": 0.0,
+    "discard_reasons": {},
+    "elapsed_s": 778.0,
+    "path": "D:\\Project\\AITutors-v2\\test\\results\\9subject_validation\\2026北京北师大附中高一（上）期末生物（教师版）_run1.json"
+  }
+]

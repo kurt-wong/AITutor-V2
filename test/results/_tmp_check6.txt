@@ -1,0 +1,30 @@
+﻿background_tasks columns:
+  id                        uuid
+  task_type                 character varying
+  status                    character varying
+  progress                  numeric
+  current_stage             character varying
+  error_detail              text
+  payload_json              jsonb
+  result_json               jsonb
+  created_at                timestamp with time zone
+  updated_at                timestamp with time zone
+
+=== tasks (10) ===
+  document_parse  | queued     | 
+  document_parse  | queued     | 
+  document_parse  | queued     | 
+  document_parse  | queued     | 
+  document_parse  | running    | 
+  document_parse  | succeeded  | {"errors": [], "images": [{"url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//8054f0c3-b1fc-4d9f-b0e9-cfb797a
+  document_parse  | succeeded  | {"errors": [], "images": [{"url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//757c8cb5-a32a-44e3-b549-1c502ea
+  document_parse  | succeeded  | {"errors": [], "images": [], "stages": [{"name": "native_l1", "lines": 795, "duration_ms": 114}, {"name": "ppsv3_l1", "lines": 467, "duration_ms": 253
+  document_parse  | succeeded  | {"errors": [], "images": [], "stages": [{"name": "native_l1", "lines": 767, "duration_ms": 219}, {"name": "ppsv3_l1", "lines": 414, "duration_ms": 323
+  document_parse  | succeeded  | {"errors": [], "images": [], "stages": [{"name": "native_l1", "lines": 302, "duration_ms": 115}, {"name": "ppsv3_l1", "lines": 192, "duration_ms": 274
+
+=== doc status ===
+  completed: 5
+  pending: 4
+  processing: 1
+
+questions: 76

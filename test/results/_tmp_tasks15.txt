@@ -1,0 +1,5 @@
+﻿=== tasks (4) ===
+  succeeded  | stage=question_images      | progress=1.000 | err=
+  succeeded  | stage=question_images      | progress=1.000 | err=
+  queued     | stage=                     | progress=None | err=
+  running    | stage=llm_annotation_retry | progress=0.450 | err=

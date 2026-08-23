@@ -1,8 +1,8 @@
 # AI Tutor Personal Edition — 项目字典
 
-Version: 0.8
-Status: 开发指引基线
-Date: 2026-08-11
+Version: 1.0
+Status: 开发指引基线（Phase 2 设计已冻结）
+Date: 2026-08-21
 
 ---
 
@@ -78,8 +78,18 @@ Question Aggregate
 | Practice Session | 一次练习批次 |
 | Mastery Level | 学生在某知识点上的掌握程度 |
 | Generation Task | AI 生成练习或试卷的任务 |
+| content_hash | 规范化文本的 SHA256，用于精确去重。覆盖题干+选项+题型。 |
+| mapping_source | 知识点映射来源：llm / rule / manual |
+| review_status | 映射审核状态：approved / pending / rejected |
+| Structure Signature | LLM 提取的题目结构特征（object/task/method/condition_text），是 Annotation 不是事实 |
+| Annotation ≠ 事实 | Question 是事实（不可变），LLM 输出的标注是对事实的解释（可能随 prompt 版本变化） |
+| Question Family | 一组结构/解法高度相似的题构成的族（Phase 2D 实现，暂不建表） |
+| Primary Family | 每道题唯一的统计归属 Family（Phase 2D 实现） |
+| 统计视图 ≠ Family | Knowledge Point × Question Type × Year 是统计视图，不是 Family |
+| Exact Duplicate | 文本 hash 完全相同的题，合并为同一 Question 的不同 Instance |
+| Similarity | 两道不同题之间的相似关系（Phase 2D 实现） |
 | Agent Interface | 供 Codex/Claude 等智能体调用的可选 MCP 接口层 |
-| L1Line | L1 行模型：带页码的稳定行 ID（P1L001 格式），L1 原文不可变 |
+| L1Line | L1 行模型：带页码的稳定行 ID（PP 用 P1L001，Native 用 N1L001，canonical 保留 PP 行号），L1 原文不可变 |
 | L1Document | L1 文档模型：Native/OCR 统一输出，LLM 只面对这一层 |
 | L2QuestionAnnotation | L2 单题标注：题号、题型、section、stem_line_ids、options_line_ids，不含答案行号 |
 | Quality Gate | 按题评估质量：切分完整、选项数量、答案匹配、anchor_status，失败不整批丢弃 |
@@ -122,8 +132,6 @@ Question Aggregate
 | id | 题目 ID |
 | subject_id | 学科 ID |
 | grade | 年级 |
-| year | 题目/来源年份 |
-| school | 来源学校 |
 | question_type_id | 题型 ID |
 | score | 分值 |
 | difficulty | 难度 1-5 |
@@ -131,13 +139,16 @@ Question Aggregate
 | options | 选项 |
 | answer | 标准答案 |
 | explanation | 详解 |
+| content_hash | 规范化文本 SHA256（Phase 2A 新增） |
 | source_type | 题目来源：document / generated / student |
 | source_document_name | 来源文档名 |
 | status | 题目状态 |
 | confidence | 置信度 0-1 |
-| occurrence_count | 出现次数 |
+| occurrence_count | 出现次数（Phase 2A 改为派生值） |
 | created_at | 创建时间 |
 | updated_at | 更新时间 |
+
+> Phase 2A：移除 year/school（移到 question_instances），新增 content_hash，occurrence_count 改为 COUNT(instances) 派生。
 
 ### 5.4 question_instances
 
@@ -145,13 +156,16 @@ Question Aggregate
 |---|---|
 | id | 出现实例 ID |
 | question_id | 关联题目 ID |
+| document_id | 来源文档 ID（Phase 2A 新增，替代 source_document_name） |
 | source_type | 来源类型 |
-| source_document_name | 来源文档名 |
+| source_document_name | 来源文档名（Phase 2A 后由 document_id 替代） |
 | source_page | 来源页码 |
 | source_question_number | 来源原始题号 |
 | year | 来源年份 |
 | school | 来源学校 |
 | occurrence_no | 同来源内出现序号 |
+
+> Phase 2A：新增 document_id FK，加 (document_id, source_question_number) 唯一约束。
 
 ### 5.5 question_images
 
@@ -190,6 +204,8 @@ Question Aggregate
 | knowledge_node_id | 知识点节点 ID |
 | confidence | 映射置信度 |
 | is_primary | 是否主知识点 |
+| mapping_source | 映射来源：llm / rule / manual（Phase 2A 新增） |
+| review_status | 审核状态：approved / pending / rejected（Phase 2A 新增） |
 
 ### 5.8 question_types
 

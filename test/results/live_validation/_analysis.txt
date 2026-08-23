@@ -1,0 +1,7 @@
+mode = live_pp
+overall = FAIL
+failures = ['reproducibility:math 6 differences', 'reproducibility:english 1 differences', 'reproducibility:physics 12 differences', 'question_images:math images=40 but question_images_count=0（有图片但无题-图关联）', 'question_images:english images=72 but question_images_count=0（有图片但无题-图关联）']
+
+math: answer_empty=0 answer_empty_ratio=0.0
+english: answer_empty=0 answer_empty_ratio=0.0
+physics: answer_empty=0 answer_empty_ratio=0.0

@@ -1,5 +1,6 @@
 from app.models.base import Base
 from app.models.tables import (
+    AnswerExtractionRetry,
     BackgroundTask,
     Document,
     DocumentProcessingLog,
@@ -25,6 +26,7 @@ from app.models.tables import (
 )
 
 __all__ = [
+    "AnswerExtractionRetry",
     "Base",
     "BackgroundTask",
     "Document",

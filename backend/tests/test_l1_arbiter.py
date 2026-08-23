@@ -112,8 +112,8 @@ class TestMergeDualSource:
             source="ppsv3", total_pages=1, text_coverage=1.0,
         )
         merged, _ = _merge_dual_source(native, pp)
-        # postprocess_l1 renumbers to P1L001 format, but source is ppsv3
-        assert merged.lines[0].line_id == "P1L001"
+        # H2 修复：_merge_dual_source 不再调用 postprocess_l1
+        # line_id 由上游 L1 生成阶段设置，merge 不修改
         assert merged.lines[0].source == "ppsv3"
 
     def test_merge_native_only_log(self, caplog):
@@ -150,6 +150,11 @@ class MockGateway:
 
     async def complete(self, prompt: str, **kwargs) -> str:
         return self._response
+
+
+class _FailingGateway:
+    async def complete(self, prompt: str, **kwargs) -> str:
+        raise AssertionError("LLM should not be called for deterministic line")
 
 
 class TestArbitrateLines:
@@ -204,13 +209,50 @@ class TestArbitrateLines:
     async def test_arbitrate_llm_parse_failure_fallback(self):
         """LLM returning invalid JSON should fallback to ppsv3."""
         doc = self._make_doc([
-            ("P1L001", "text", {"ppsv3": "text", "native": "text"}),
+            ("P1L001", "pp text", {"ppsv3": "pp text", "native": "native text"}),
         ])
         gateway = MockGateway("not valid json {{{")
         audits = await arbitrate_lines(doc, gateway)
         assert len(audits) == 1
         assert audits[0].selected_source == "ppsv3"
         assert audits[0].confidence == 0.5
+
+    @pytest.mark.asyncio
+    async def test_arbitrate_identical_text_deterministic_no_llm(self):
+        """归一化后等价的行不应调用 LLM，默认选 PP。"""
+        doc = self._make_doc([
+            ("P1L001", "text", {"ppsv3": "text", "native": "text"}),
+        ])
+        audits = await arbitrate_lines(doc, _FailingGateway())
+        assert len(audits) == 1
+        assert audits[0].selected_source == "ppsv3"
+        assert audits[0].conflict_type == "equivalent"
+        assert audits[0].confidence == 1.0
+        assert "归一化后等价" in audits[0].evidence
+
+    @pytest.mark.asyncio
+    async def test_arbitrate_native_superset_deterministic(self):
+        """native 是 PP 的确定性超集时，不调用 LLM 直接选 native。"""
+        doc = self._make_doc([
+            ("P1L001", "pp text", {"ppsv3": "pp text", "native": "pp text extra"}),
+        ])
+        audits = await arbitrate_lines(doc, _FailingGateway())
+        assert len(audits) == 1
+        assert audits[0].selected_source == "native"
+        assert audits[0].conflict_type == "complementary"
+        assert audits[0].confidence == 0.9
+
+    @pytest.mark.asyncio
+    async def test_arbitrate_pp_superset_deterministic(self):
+        """PP 是 native 的确定性超集时，不调用 LLM 直接选 PP。"""
+        doc = self._make_doc([
+            ("P1L001", "pp text extra", {"ppsv3": "pp text extra", "native": "pp text"}),
+        ])
+        audits = await arbitrate_lines(doc, _FailingGateway())
+        assert len(audits) == 1
+        assert audits[0].selected_source == "ppsv3"
+        assert audits[0].conflict_type == "partial"
+        assert audits[0].confidence == 0.95
 
 
 class TestApplyArbitration:

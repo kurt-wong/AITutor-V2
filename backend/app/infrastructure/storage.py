@@ -49,6 +49,18 @@ class MinIOStorage:
         except Exception as exc:
             raise StorageError(f"MinIO upload failed: {exc}") from exc
 
+    def get_object(self, object_key: str) -> bytes:
+        """从 MinIO 下载对象并返回 bytes。"""
+        try:
+            response = self.client.get_object(self.bucket, object_key)
+            try:
+                return response.read()
+            finally:
+                response.close()
+                response.release_conn()
+        except Exception as exc:
+            raise StorageError(f"MinIO download failed: {exc}") from exc
+
     def health_check(self) -> bool:
         try:
             self.ensure_bucket()

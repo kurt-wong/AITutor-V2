@@ -1,0 +1,40 @@
+﻿=== 物理+数学 PDF 上传验证 ===
+
+↑ 物理 doc=635ac7f7 task=5c7807be
+↑ 数学 doc=0a5e7d7d task=413b37d9
+
+等待管线完成...
+
+python : Traceback (most recent call last):
+At line:1 char:245
++ ... s-v2\backend'; python scripts/e2e_verify_physics_math.py 2>&1 | Out-F ...
++                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "D:\Project\AITutors-v2\backend\scripts\e2e_verify_physics_math.py", line 135, in <module>
+    asyncio.run(main())
+  File "C:\Users\Kurtw\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Kurtw\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kurtw\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 691, in run_until_comp
+lete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "D:\Project\AITutors-v2\backend\scripts\e2e_verify_physics_math.py", line 69, in main
+    results = await asyncio.gather(*tasks)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project\AITutors-v2\backend\scripts\e2e_verify_physics_math.py", line 45, in wait_for_completion
+    status, result = await check_status(session, task_id)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project\AITutors-v2\backend\scripts\e2e_verify_physics_math.py", line 36, in check_status
+    result = await resp.json()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kurtw\AppData\Local\Programs\Python\Python312\Lib\site-packages\aiohttp\client_reqrep.py", line 778, i
+n json
+    raise ContentTypeError(
+aiohttp.client_exceptions.ContentTypeError: 200, message='Attempt to decode JSON with unexpected mimetype: text/html; c
+harset=utf-8', url='http://localhost:8000/api/admin/tasks/5c7807be-48b9-409e-9f27-257eb1ba0b3a'

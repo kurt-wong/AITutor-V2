@@ -1,0 +1,377 @@
+{
+  "filename": "2026北京东城高一（上）期末政治（教师版）.pdf",
+  "subject": "政治",
+  "ocr_model": "PP-StructureV3",
+  "stages": {
+    "pipeline": {
+      "status": "succeeded",
+      "elapsed_ms": 273897,
+      "question_count": 28,
+      "ingested": 26,
+      "discarded": 2,
+      "errors": []
+    },
+    "answer_extraction": {
+      "status": "success",
+      "subject": "政治",
+      "total": 28,
+      "verified": 28,
+      "with_answer": 28,
+      "elapsed_ms": 57397,
+      "error": null
+    },
+    "document_persist": {
+      "native_markdown_chars": 11495,
+      "ocr_markdown_chars": 12660,
+      "llm_annotated_chars": 1710
+    },
+    "ingestion_preview": {
+      "total": 28,
+      "approved": 26,
+      "reviewing": 2,
+      "skipped": 0,
+      "answer_source_llm": 28,
+      "answer_source_pipeline": 0,
+      "answer_source_none": 0
+    },
+    "quality": {
+      "high_confidence": 26,
+      "low_confidence": 0,
+      "blocked": 2,
+      "answer_missing": 0
+    }
+  },
+  "errors": [],
+  "questions": [
+    {
+      "question_number": "1",
+      "question_type": "single_choice",
+      "stem_preview": "1．《校馆弦歌》系列节目带领北京东城区的中学生走进北大红楼，重回“觉醒年代”追溯信仰之源。北大红楼是展示新文化运动、五四运动、马克思主义早期传播、中国共产党北京",
+      "answer_preview": "C",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "2",
+      "question_type": "single_choice",
+      "stem_preview": "2．铭记伟大历史胜利，凝聚正义和平力量。2025年9月3日，纪念中国人民抗日战争暨世界反法西斯战争胜利80周年大会在北京天安门广场隆重举行。中国人民同世界人民一",
+      "answer_preview": "C",
+      "answer_source": "llm_extracted",
+      "confidence": 1.0,
+      "status": "approved",
+      "issues": []
+    },
+    {
+      "question_number": "3",
+      "question_type": "single_choice",
+      "stem_preview": "3．马克思说：“手工磨产生的是封建主为首的社会，蒸汽磨产生的是工业资本家为首的社会。”这句话主要揭示了（）",
+      "answer_preview": "C",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "4",
+      "question_type": "single_choice",
+      "stem_preview": "4．马克思对社会生产力发展进行分析后指出，“最发达的机器体系现在迫使工人比野蛮人劳\n动的时间还要长……”。但有观点认为，机器人的广泛运用意味着对工人的剥削减轻了",
+      "answer_preview": "A",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "5",
+      "question_type": "single_choice",
+      "stem_preview": "5．依据以下四张图片，拟定学习主题。\n《共产党宣言》\n巴黎公社宣告成立\n俄国十月革命\n圣西门\n最恰当的是（）",
+      "answer_preview": "B",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "6",
+      "question_type": "single_choice",
+      "stem_preview": "6．2025年是陈望道首译《共产党宣言》105周年。该著作在中国的翻译和出版，对此后中国共产党和中国革命产生了深远影响。《共产党宣言》（）\n①从理性、正义原则出",
+      "answer_preview": "C",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "7",
+      "question_type": "single_choice",
+      "stem_preview": "7．毛泽东把新民主主义革命和社会主义革命比喻为文章的上篇和下篇，“两篇文章，上篇和下篇，只有把上篇做好，下篇才能做好。”下列关于两者的关系表述正确的是（）",
+      "answer_preview": "D",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "8",
+      "question_type": "single_choice",
+      "stem_preview": "8．某班学生以“为什么说社会主义改造的完成是20世纪中国的一次历史性巨变，我国从此进入社会主义社会”为主题展开讨论。以下是几位同学的发言，其中符合主题的是（）\n",
+      "answer_preview": "D",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "9",
+      "question_type": "single_choice",
+      "stem_preview": "9．下表为1956——1976年中国社会主义建设时期取得的部分成就。\n<html><body><table><tr><td>成功发射第一枚运载火箭建立起独立的比",
+      "answer_preview": "D",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "10",
+      "question_type": "single_choice",
+      "stem_preview": "10．阅读下面材料\n小东的爸爸在一家国有企业工作，每月有工资，年终还有奖金。小东的妈妈是一家民营企业的员工，除工资外，持有的公司股票也有分红。家庭投资理财由妈妈",
+      "answer_preview": "D",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "11",
+      "question_type": "single_choice",
+      "stem_preview": "11．《中共中央关于制定国民经济和社会发展第十五个五年规划的建议》指出，我国发展环境面临深刻复杂变化，大国关系牵动国际形势，国际形势演变深刻影响国内发展，我国发",
+      "answer_preview": "A",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "12",
+      "question_type": "single_choice",
+      "stem_preview": "12．党的十八大以来，中国特色社会主义进入新时代。新时代蕴含着“变”与“不变”的辩证关系。科学把握这一关系，有助于我们更好地创造美好生活。以下理解正确的是（）\n",
+      "answer_preview": "B",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "13",
+      "question_type": "single_choice",
+      "stem_preview": "13．改革开放以来，中国共产党不断推进理论创新、实践创新、制度创新，成功开创、坚持和发展了中国特\n色社会主义。下列对中国特色社会主义理解正确的是（）\n①中国特色",
+      "answer_preview": "C",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "14",
+      "question_type": "single_choice",
+      "stem_preview": "14．习近平新时代中国特色社会主义思想，是时代的产物，是党和人民实践经验和集体智慧的结晶。习近平\n新时代中国特色社会主义思想（）\n①其产生标志着马克思主义中国化",
+      "answer_preview": "C",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "15",
+      "question_type": "single_choice",
+      "stem_preview": "15．《中华人民共和国民营经济促进法》是我国首部专门促进民营经济发展的基础性法律，于2025年4月30日经十四届全国人大常委会第十五次会议表决通过，自2025年",
+      "answer_preview": "B",
+      "answer_source": "llm_extracted",
+      "confidence": 0.5,
+      "status": "reviewing",
+      "issues": [
+        "锚点需重新标注，禁止自动发布",
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "16",
+      "question_type": "single_choice",
+      "stem_preview": "16．近年来，国务院国资委密集部署中央企业加快发展战略性新兴产业，将其作为发挥科技创新、产业控制、安全支撑作用的“牛鼻子”。\n央企加速布局战略性新兴产业（）\n“",
+      "answer_preview": "B",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "17",
+      "question_type": "single_choice",
+      "stem_preview": "17．“寸麦不怕尺水，尺麦但怕寸水。”这是出自《天工开物》的农谚，是农民在长期农业生产中得出的认识。如今各种各样的传感器深入农田，实时监测土壤，让农民对土壤的“",
+      "answer_preview": "B",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "18",
+      "question_type": "single_choice",
+      "stem_preview": "18．2025年12月召开的中央经济工作会议指出，明年经济工作要继续实施更加积极的财政政策和适度宽松\n的货币政策。下列做法与其相符的是（）①优化财政支出结构，加",
+      "answer_preview": "B",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "19",
+      "question_type": "single_choice",
+      "stem_preview": "19.2025年4月28日，庆祝中华全国总工会成立100周年暨全国劳动模范和先进工作者表彰大会隆重举行，回顾总结我国工人运动的光辉历程和伟大成就，表彰全国劳动模",
+      "answer_preview": "C",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "20",
+      "question_type": "single_choice",
+      "stem_preview": "20．2025年1月，我国企业职工基本养老保险全国统筹制度进一步落地，实现养老保险基金在全国范围内调剂使用，解决部分省份基金缺口问题；同时，城乡居民医保人均财政",
+      "answer_preview": "B",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "21",
+      "question_type": "single_choice",
+      "stem_preview": "21．实体经济是物质产品和精神产品的生产、销售及提供相关服务的经济活动，是一国经济的立身之本。下列促进实体经济发展的措施及其影响，传导正确的是（）",
+      "answer_preview": "A",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "22",
+      "question_type": "single_choice",
+      "stem_preview": "22．近年来，我国对铁路行业的市场准入逐步放宽了限制，鼓励民间资本参与铁路建设和经营。随着各种资本纷纷涌入，激烈的竞争迫使各家企业亮出“奇招”。某企业作为这次改",
+      "answer_preview": "C",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "23",
+      "question_type": "single_choice",
+      "stem_preview": "23．党的二十届四中全会审议通过的“十五五”规划建议中将“加大保障和改善民生力度，扎实推进全体人民共同富裕”单列一部分，通过实施城乡居民增收计划，扩大免费教育范",
+      "answer_preview": "D",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "24",
+      "question_type": "single_choice",
+      "stem_preview": "24．2024年，我国登记在册经营主体达1.89亿户；比2023年年底增长3.1%，形成了世界上最为庞大的市场活动群体。要充分调动市场主体活力，就必须建设高标准",
+      "answer_preview": "A",
+      "answer_source": "llm_extracted",
+      "confidence": 0.9,
+      "status": "approved",
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "25",
+      "question_type": "short_answer",
+      "stem_preview": "25．阅读材料，回答问题。\n风从南海来，开放的中国拥抱世界。\n海南是进入中国大市场的桥头堡。2025年12月18日，海南自由贸易港正式启动全岛封关。“零关税”商",
+      "answer_preview": "①彰显新时代改革开放决心，是中国特色社会主义优越性的生动体现，为中国式现代化提供实践范例，助力民族复兴。\n②践行以人民为中心的发展思想，通过开放发展不断满足人民",
+      "answer_source": "llm_extracted",
+      "confidence": 1.0,
+      "status": "approved",
+      "issues": []
+    },
+    {
+      "question_number": "26",
+      "question_type": "short_answer",
+      "stem_preview": "26．阅读材料，回答问题。\n绿水逶迤去，青山相向开。2025年是“绿水青山就是金山银山”的“两山”理念提出20周年。20年来，“两山”理念正持续转化为中国大地上",
+      "answer_preview": "①坚持绿色发展理念，推动产业生态化转型，促进生态资源价值转化，实现经济发展与环境保护协调统一。\n②发挥政府宏观调控作用，通过规划引导、政策激励和市场监管，优化要",
+      "answer_source": "llm_extracted",
+      "confidence": 1.0,
+      "status": "approved",
+      "issues": []
+    },
+    {
+      "question_number": "27",
+      "question_type": "short_answer",
+      "stem_preview": "27．实行什么样的经济制度，决定着一个国家的性质和发展方向，同人民的命运密切相关。\n数量/家我国国有企业入围世界500强企业情况\n10092\n90828283\n",
+      "answer_preview": "（1）①进入二十一世纪，我国国有企业入围世界500强企业数量逐年增加，国有企业竞争力不断增强。\n②人民出行交通更加便利，基础设施不断健全。国有经济是我国国民经济",
+      "answer_source": "llm_extracted",
+      "confidence": 0.5,
+      "status": "reviewing",
+      "issues": [
+        "答案依赖 LLM 兜底",
+        "答案缺失，禁止自动发布"
+      ]
+    },
+    {
+      "question_number": "28",
+      "question_type": "short_answer",
+      "stem_preview": "28．阅读材料，回答问题。\n方向决定道路，道路决定命运。\n习近平总书记在党的二十大报告中明确了前进道路上必须牢牢把握的“五个重大原则”，其中一个原则就是“坚持中",
+      "answer_preview": "①历史和现实都告诉我们，只有社会主义才能救中国，只有中国特色社会主义才能发展中国，实现民族复兴。②中国特色社会主义是改革开放以来党的全部理论和实践的主题，是实现",
+      "answer_source": "llm_extracted",
+      "confidence": 1.0,
+      "status": "approved",
+      "issues": []
+    }
+  ]
+}

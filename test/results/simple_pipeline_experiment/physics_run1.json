@@ -1,0 +1,3535 @@
+{
+  "status": "succeeded",
+  "stages": [
+    {
+      "name": "native_l1",
+      "duration_ms": 153,
+      "lines": 265
+    },
+    {
+      "name": "ppsv3_l1",
+      "duration_ms": 1337,
+      "lines": 224
+    },
+    {
+      "name": "pp_primary_l1",
+      "duration_ms": 0,
+      "lines": 224,
+      "empty_pp_filled_by_native": 0,
+      "native_lines_matched": 216,
+      "native_images": 22,
+      "native_answer_section_lines": 7
+    },
+    {
+      "name": "image_dedup",
+      "duration_ms": 0,
+      "original_count": 73,
+      "deduplicated_count": 73
+    },
+    {
+      "name": "llm_annotation",
+      "duration_ms": 277784,
+      "questions": 20
+    },
+    {
+      "name": "anchor_correction",
+      "duration_ms": 2,
+      "summary": {
+        "nearest": 4,
+        "exact": 16
+      }
+    },
+    {
+      "name": "content_slicing",
+      "duration_ms": 0,
+      "sliced": 20
+    },
+    {
+      "name": "answer_matching",
+      "duration_ms": 4,
+      "matched": 20
+    },
+    {
+      "name": "quality_gate",
+      "duration_ms": 0,
+      "high_confidence": 16,
+      "blocked": 4
+    },
+    {
+      "name": "question_images",
+      "duration_ms": 0
+    }
+  ],
+  "stage_errors": [],
+  "total_time_ms": 279285,
+  "errors": [],
+  "question_count": 20,
+  "images": [
+    {
+      "image_id": "P1IMG001",
+      "page_no": 1,
+      "bbox": {
+        "x1": 107.0,
+        "y1": 701.0,
+        "x2": 234.0,
+        "y2": 856.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG001",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//789430bb-3456-40e8-8007-74731704f47e/markdown_0/imgs/img_in_image_box_107_701_234_856.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A17Z%2F-1%2F%2Ff2877059c41bbf967640d4a12cdda7c46b22c4a633a2a90602ababc65bf234eb",
+      "xref": null
+    },
+    {
+      "image_id": "P1IMG002",
+      "page_no": 1,
+      "bbox": {
+        "x1": 107.0,
+        "y1": 1281.0,
+        "x2": 433.0,
+        "y2": 1375.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG002",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//789430bb-3456-40e8-8007-74731704f47e/markdown_0/imgs/img_in_image_box_107_1281_433_1375.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A17Z%2F-1%2F%2Faed7b8008f7defcfde2d4ecdbfb1b61e98225cf6d0f9f02c15ee2bada3a47e99",
+      "xref": null
+    },
+    {
+      "image_id": "P1IMG003",
+      "page_no": 1,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG003",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//789430bb-3456-40e8-8007-74731704f47e/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A19Z%2F-1%2F%2Faf89591b52e748ddd412b6365455af0061ef886588ffbeb71c14a913b5cc1846",
+      "xref": null
+    },
+    {
+      "image_id": "P1IMG004",
+      "page_no": 1,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG004",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//789430bb-3456-40e8-8007-74731704f47e/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A19Z%2F-1%2F%2F70e86b7ad87fd2db95378c8d7a84fe7e3aeeb12bd52ec80212c9b2cfbdc46eef",
+      "xref": null
+    },
+    {
+      "image_id": "P1IMG005",
+      "page_no": 1,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG005",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//789430bb-3456-40e8-8007-74731704f47e/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A20Z%2F-1%2F%2F5ce340b34e865bb7f49141eac7d5603b429832f74600f41f3f801b8f20c2ecca",
+      "xref": null
+    },
+    {
+      "image_id": "P1IMG006",
+      "page_no": 1,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG006",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//789430bb-3456-40e8-8007-74731704f47e/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A21Z%2F-1%2F%2F37bc8d33d383b7b159abbad736b87ef5c79684e790b8617cfd9b899b382fe16c",
+      "xref": null
+    },
+    {
+      "image_id": "P2IMG001",
+      "page_no": 2,
+      "bbox": {
+        "x1": 106.0,
+        "y1": 130.0,
+        "x2": 323.0,
+        "y2": 317.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG007",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//68a2d284-19b6-48c4-84d3-01fc4751dc13/markdown_0/imgs/img_in_image_box_106_130_323_317.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A11Z%2F-1%2F%2Ff6e7abe1f6637f61f73fe50b56d28d6c1e330bfe8a89f6f9471f18e393e6c0f3",
+      "xref": null
+    },
+    {
+      "image_id": "P2IMG002",
+      "page_no": 2,
+      "bbox": {
+        "x1": 105.0,
+        "y1": 717.0,
+        "x2": 261.0,
+        "y2": 871.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG008",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//68a2d284-19b6-48c4-84d3-01fc4751dc13/markdown_0/imgs/img_in_image_box_105_717_261_871.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A12Z%2F-1%2F%2Fb7bbe3419e900738610d7a19bfbbf5b4203928b813476d1b2779ebe30ff56ddd",
+      "xref": null
+    },
+    {
+      "image_id": "P2IMG003",
+      "page_no": 2,
+      "bbox": {
+        "x1": 114.0,
+        "y1": 1190.0,
+        "x2": 226.0,
+        "y2": 1333.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG009",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//68a2d284-19b6-48c4-84d3-01fc4751dc13/markdown_0/imgs/img_in_image_box_114_1190_226_1333.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A13Z%2F-1%2F%2F603ea7dff9a4dc15d937f2db2f1aea60eb97065dc8c0cccd33b1259e6bb89392",
+      "xref": null
+    },
+    {
+      "image_id": "P2IMG004",
+      "page_no": 2,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG010",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//68a2d284-19b6-48c4-84d3-01fc4751dc13/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A14Z%2F-1%2F%2F3fd058b1e246dd83303acfe15d4ff582e04271a8fd59c4a186cf93647dd98744",
+      "xref": null
+    },
+    {
+      "image_id": "P2IMG005",
+      "page_no": 2,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG011",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//68a2d284-19b6-48c4-84d3-01fc4751dc13/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A15Z%2F-1%2F%2F3d5e0148693c71dc581c6f2076212115d362a08af4cc7057ec69bf117e4dd050",
+      "xref": null
+    },
+    {
+      "image_id": "P2IMG006",
+      "page_no": 2,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG012",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//68a2d284-19b6-48c4-84d3-01fc4751dc13/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A16Z%2F-1%2F%2F66eb7c5b1f7a075199ac960093439c5d69b71bfef0b09b5b93e702f08a7404ab",
+      "xref": null
+    },
+    {
+      "image_id": "P2IMG007",
+      "page_no": 2,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG013",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//68a2d284-19b6-48c4-84d3-01fc4751dc13/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A16Z%2F-1%2F%2F3936fd166704ba4cf410a69429f31c5c8b1820e25b4035ce701304f882405694",
+      "xref": null
+    },
+    {
+      "image_id": "P3IMG001",
+      "page_no": 3,
+      "bbox": {
+        "x1": 107.0,
+        "y1": 88.0,
+        "x2": 399.0,
+        "y2": 229.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG014",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//51997c01-b5a2-4292-a79b-4fcfe202895e/markdown_0/imgs/img_in_image_box_107_88_399_229.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A33%3A17Z%2F-1%2F%2F58a30dd88002089c374b5d9765f03ad05c565312c5a1e3c0908822b4e1ab585e",
+      "xref": null
+    },
+    {
+      "image_id": "P3IMG002",
+      "page_no": 3,
+      "bbox": {
+        "x1": 107.0,
+        "y1": 579.0,
+        "x2": 832.0,
+        "y2": 975.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG015",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//51997c01-b5a2-4292-a79b-4fcfe202895e/markdown_0/imgs/img_in_table_box_107_579_832_975.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A33%3A18Z%2F-1%2F%2Fd7e623928d6a5cccc6d4043ffa288f8bd5935ce4dfbd165192fcad7cb0f82e17",
+      "xref": null
+    },
+    {
+      "image_id": "P3IMG003",
+      "page_no": 3,
+      "bbox": {
+        "x1": 104.0,
+        "y1": 1366.0,
+        "x2": 288.0,
+        "y2": 1450.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG016",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//51997c01-b5a2-4292-a79b-4fcfe202895e/markdown_0/imgs/img_in_image_box_104_1366_288_1450.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A33%3A18Z%2F-1%2F%2F9e6de80ebfb9ca5b7990dc1f12d1d25d52a9dcad5fb6c6b58d1eed49fd49665d",
+      "xref": null
+    },
+    {
+      "image_id": "P3IMG004",
+      "page_no": 3,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG017",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//51997c01-b5a2-4292-a79b-4fcfe202895e/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A33%3A19Z%2F-1%2F%2Fd26830d015d301b66a488f150bcc4571b2fe2268157267d633132e20e659aeb5",
+      "xref": null
+    },
+    {
+      "image_id": "P3IMG005",
+      "page_no": 3,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG018",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//51997c01-b5a2-4292-a79b-4fcfe202895e/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A33%3A20Z%2F-1%2F%2F7e538e4b349a1960ab45c7bdb7079d4dc114e96918b4d3fc21acfcbeed76ad37",
+      "xref": null
+    },
+    {
+      "image_id": "P3IMG006",
+      "page_no": 3,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG019",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//51997c01-b5a2-4292-a79b-4fcfe202895e/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A33%3A20Z%2F-1%2F%2Fb28ef09844947117c2f8645fa34ac41bcf6b9a8debd1bb46a8d4fc3a6ccd89d1",
+      "xref": null
+    },
+    {
+      "image_id": "P3IMG007",
+      "page_no": 3,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG020",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//51997c01-b5a2-4292-a79b-4fcfe202895e/table_cell_img_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A33%3A21Z%2F-1%2F%2F3f98d66589a0b849acc3f58e60eea4fd46e55dbdda12d4282cf54124c532e4ce",
+      "xref": null
+    },
+    {
+      "image_id": "P3IMG008",
+      "page_no": 3,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG021",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//51997c01-b5a2-4292-a79b-4fcfe202895e/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A33%3A21Z%2F-1%2F%2Fbf35b838ffd47fcae5958c0fbe6bf06543942f3d544786859e9ff835c4ed2438",
+      "xref": null
+    },
+    {
+      "image_id": "P4IMG001",
+      "page_no": 4,
+      "bbox": {
+        "x1": 265.0,
+        "y1": 211.0,
+        "x2": 544.0,
+        "y2": 334.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG022",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//02a2618e-d2df-42c0-ae4c-5bb7d922d0b3/markdown_0/imgs/img_in_chart_box_265_211_544_334.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A10Z%2F-1%2F%2F3a17744a6e3061851a438f83da1a9959483df9a99ac32ecd771e2358cba070b4",
+      "xref": null
+    },
+    {
+      "image_id": "P4IMG002",
+      "page_no": 4,
+      "bbox": {
+        "x1": 120.0,
+        "y1": 356.0,
+        "x2": 230.0,
+        "y2": 455.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG023",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//02a2618e-d2df-42c0-ae4c-5bb7d922d0b3/markdown_0/imgs/img_in_image_box_120_356_230_455.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A10Z%2F-1%2F%2F7e972ecc5db5c0afcc52d33da4ebb39ceb9f3a4f148974b2fbf8f31bd6a07dca",
+      "xref": null
+    },
+    {
+      "image_id": "P4IMG003",
+      "page_no": 4,
+      "bbox": {
+        "x1": 267.0,
+        "y1": 344.0,
+        "x2": 550.0,
+        "y2": 469.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG024",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//02a2618e-d2df-42c0-ae4c-5bb7d922d0b3/markdown_0/imgs/img_in_chart_box_267_344_550_469.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A11Z%2F-1%2F%2F5e0b95e78bd4671a0b6d7b1196711624ab2f25c208ce2e0864c5330eeccf91ac",
+      "xref": null
+    },
+    {
+      "image_id": "P4IMG004",
+      "page_no": 4,
+      "bbox": {
+        "x1": 255.0,
+        "y1": 478.0,
+        "x2": 574.0,
+        "y2": 606.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG025",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//02a2618e-d2df-42c0-ae4c-5bb7d922d0b3/markdown_0/imgs/img_in_chart_box_255_478_574_606.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A11Z%2F-1%2F%2Fe5c9e8c2ec26cb349adc29a5fff7b55c6780dae2190510128cf21f182ac56c49",
+      "xref": null
+    },
+    {
+      "image_id": "P4IMG005",
+      "page_no": 4,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG026",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//02a2618e-d2df-42c0-ae4c-5bb7d922d0b3/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A12Z%2F-1%2F%2Faa59cad877119f454af6575268056629e174e284f400930467f88cfe4c50f261",
+      "xref": null
+    },
+    {
+      "image_id": "P4IMG006",
+      "page_no": 4,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG027",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//02a2618e-d2df-42c0-ae4c-5bb7d922d0b3/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A12Z%2F-1%2F%2Fbaa5b17722fc894e4a796bdb684bc3bdf480403ef63d4bc1d1adbe7ea8e71dea",
+      "xref": null
+    },
+    {
+      "image_id": "P4IMG007",
+      "page_no": 4,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG028",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//02a2618e-d2df-42c0-ae4c-5bb7d922d0b3/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A13Z%2F-1%2F%2F5e0518e2b0d626781553c7ffdb7671b02b45e5c6516981009e86d0faf2f43abc",
+      "xref": null
+    },
+    {
+      "image_id": "P4IMG008",
+      "page_no": 4,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG029",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//02a2618e-d2df-42c0-ae4c-5bb7d922d0b3/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A13Z%2F-1%2F%2Fbe260f4a3945dae60786c9fc2e6533aec335db1d539b791ce25a7123f5b6cb5c",
+      "xref": null
+    },
+    {
+      "image_id": "P5IMG001",
+      "page_no": 5,
+      "bbox": {
+        "x1": 119.0,
+        "y1": 94.0,
+        "x2": 247.0,
+        "y2": 382.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG030",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//28e21e19-a85b-4d08-843c-fbe1a5dd1933/markdown_0/imgs/img_in_image_box_119_94_247_382.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A25Z%2F-1%2F%2Fa8448100ccb350ab6224b759bb1ec786013051aa1fd1c80c4f6f00f24a51545d",
+      "xref": null
+    },
+    {
+      "image_id": "P5IMG002",
+      "page_no": 5,
+      "bbox": {
+        "x1": 107.0,
+        "y1": 749.0,
+        "x2": 246.0,
+        "y2": 1011.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG031",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//28e21e19-a85b-4d08-843c-fbe1a5dd1933/markdown_0/imgs/img_in_image_box_107_749_246_1011.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A26Z%2F-1%2F%2F212a33f2bb7ced11aab491620259e1db16c4dd84b04a4fcc1feaf6031be68639",
+      "xref": null
+    },
+    {
+      "image_id": "P5IMG003",
+      "page_no": 5,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG032",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//28e21e19-a85b-4d08-843c-fbe1a5dd1933/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A27Z%2F-1%2F%2Fbfe525aabe3c84f748cc21d0af9964ccc1542a3a0b7d43cb95243459cf1b09b0",
+      "xref": null
+    },
+    {
+      "image_id": "P5IMG004",
+      "page_no": 5,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG033",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//28e21e19-a85b-4d08-843c-fbe1a5dd1933/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A27Z%2F-1%2F%2F2356fec485e39ecf2b87be22ccaa2a315010dd4ffd00077d809452c2aa14dd4f",
+      "xref": null
+    },
+    {
+      "image_id": "P5IMG005",
+      "page_no": 5,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG034",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//28e21e19-a85b-4d08-843c-fbe1a5dd1933/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A28Z%2F-1%2F%2F347575eb8d27b7a7e761002a64430abf0bc25191f3f0804f8432df16c6447dd1",
+      "xref": null
+    },
+    {
+      "image_id": "P5IMG006",
+      "page_no": 5,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG035",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//28e21e19-a85b-4d08-843c-fbe1a5dd1933/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A28Z%2F-1%2F%2F1e94cc4d8c63013cadf17a10016a2abf815ace7162fcd90d4ae382fba5782354",
+      "xref": null
+    },
+    {
+      "image_id": "P6IMG001",
+      "page_no": 6,
+      "bbox": {
+        "x1": 126.0,
+        "y1": 91.0,
+        "x2": 517.0,
+        "y2": 397.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG036",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//f1554906-7ffd-4817-835d-184028b1232b/markdown_0/imgs/img_in_chart_box_126_91_517_397.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A32%3A39Z%2F-1%2F%2Fc1bcba5c958a6d44462c53d24ba3b2b0a1a63fec316c1af84f1ac17302bc678d",
+      "xref": null
+    },
+    {
+      "image_id": "P6IMG002",
+      "page_no": 6,
+      "bbox": {
+        "x1": 105.0,
+        "y1": 741.0,
+        "x2": 480.0,
+        "y2": 886.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG037",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//f1554906-7ffd-4817-835d-184028b1232b/markdown_0/imgs/img_in_image_box_105_741_480_886.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A32%3A40Z%2F-1%2F%2F746ece2e337ef68e8c8a7447efdf4d3ddfe9077538fa881da34588b6a0b15c89",
+      "xref": null
+    },
+    {
+      "image_id": "P6IMG003",
+      "page_no": 6,
+      "bbox": {
+        "x1": 104.0,
+        "y1": 1231.0,
+        "x2": 636.0,
+        "y2": 1382.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG038",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//f1554906-7ffd-4817-835d-184028b1232b/markdown_0/imgs/img_in_image_box_104_1231_636_1382.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A32%3A41Z%2F-1%2F%2Fa58976cb17a170d2b3ab0b9791802fd1ebced34ff197e303703d098d91a2e7d4",
+      "xref": null
+    },
+    {
+      "image_id": "P6IMG004",
+      "page_no": 6,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG039",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//f1554906-7ffd-4817-835d-184028b1232b/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A32%3A43Z%2F-1%2F%2Fae64afa67e9c84077120bb5051b148a2959c3f8867d160f08024823b0af50d95",
+      "xref": null
+    },
+    {
+      "image_id": "P6IMG005",
+      "page_no": 6,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG040",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//f1554906-7ffd-4817-835d-184028b1232b/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A32%3A44Z%2F-1%2F%2F3237d7e75d18b6e64e4205606fa3cea96c3a2f1c0c2f2464fe1fdbf57e56f8a1",
+      "xref": null
+    },
+    {
+      "image_id": "P6IMG006",
+      "page_no": 6,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG041",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//f1554906-7ffd-4817-835d-184028b1232b/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A32%3A45Z%2F-1%2F%2F6f8280e58d0384282a2d133015a977cf57d10cc32b9457134c65bd7adc3b9c39",
+      "xref": null
+    },
+    {
+      "image_id": "P6IMG007",
+      "page_no": 6,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG042",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//f1554906-7ffd-4817-835d-184028b1232b/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A32%3A46Z%2F-1%2F%2F6e8470a898b9821021d6fc06911c8daafa942b36281ef5940de3794aade51d63",
+      "xref": null
+    },
+    {
+      "image_id": "P7IMG001",
+      "page_no": 7,
+      "bbox": {
+        "x1": 102.0,
+        "y1": 88.0,
+        "x2": 883.0,
+        "y2": 387.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG043",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//029b2cb4-cfd1-4845-9b89-5b68884f005c/markdown_0/imgs/img_in_image_box_102_88_883_387.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A11Z%2F-1%2F%2Fd73f0cae86d743118ff79118d5353f425df74cb13893379ff06897fb1197faf5",
+      "xref": null
+    },
+    {
+      "image_id": "P7IMG002",
+      "page_no": 7,
+      "bbox": {
+        "x1": 106.0,
+        "y1": 822.0,
+        "x2": 267.0,
+        "y2": 993.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG044",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//029b2cb4-cfd1-4845-9b89-5b68884f005c/markdown_0/imgs/img_in_image_box_106_822_267_993.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A12Z%2F-1%2F%2Ff732d64355993a23efd0cee7736d415b7f36c140dceeb601206f53dc1a0e53c1",
+      "xref": null
+    },
+    {
+      "image_id": "P7IMG003",
+      "page_no": 7,
+      "bbox": {
+        "x1": 109.0,
+        "y1": 1306.0,
+        "x2": 806.0,
+        "y2": 1378.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG045",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//029b2cb4-cfd1-4845-9b89-5b68884f005c/markdown_0/imgs/img_in_image_box_109_1306_806_1378.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A13Z%2F-1%2F%2Fe2a492431c812d2c65049c38b56625c85cd2bacbee6d70d75f460cd41b03ee3d",
+      "xref": null
+    },
+    {
+      "image_id": "P7IMG004",
+      "page_no": 7,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG046",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//029b2cb4-cfd1-4845-9b89-5b68884f005c/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A15Z%2F-1%2F%2F6dd172884f58c6c706a0f410104cf52f40c6efe1066efd69b248b23c90e629ad",
+      "xref": null
+    },
+    {
+      "image_id": "P7IMG005",
+      "page_no": 7,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG047",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//029b2cb4-cfd1-4845-9b89-5b68884f005c/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A15Z%2F-1%2F%2F301362d0a713861769c024a691e06ac487e8ad0e037f1d8717ffe2503c683ebb",
+      "xref": null
+    },
+    {
+      "image_id": "P7IMG006",
+      "page_no": 7,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG048",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//029b2cb4-cfd1-4845-9b89-5b68884f005c/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A16Z%2F-1%2F%2Fbf74107c944a1ea14aead395e31079aced975110ae736a279057304d29dd337e",
+      "xref": null
+    },
+    {
+      "image_id": "P7IMG007",
+      "page_no": 7,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG049",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//029b2cb4-cfd1-4845-9b89-5b68884f005c/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A17Z%2F-1%2F%2F4535a8e1d4d9c0427479562dcff180a20d052f497d6f0f9c3c2734d95c6aae9c",
+      "xref": null
+    },
+    {
+      "image_id": "P8IMG001",
+      "page_no": 8,
+      "bbox": {
+        "x1": 109.0,
+        "y1": 300.0,
+        "x2": 927.0,
+        "y2": 453.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG050",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2723106d-67d8-4397-9ad6-60824a258993/markdown_0/imgs/img_in_image_box_109_300_927_453.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A10Z%2F-1%2F%2F07995e39c2ef5982c25715e73f5a08373e45b7713a695528aac68f5fd33e1a90",
+      "xref": null
+    },
+    {
+      "image_id": "P8IMG002",
+      "page_no": 8,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG051",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2723106d-67d8-4397-9ad6-60824a258993/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A11Z%2F-1%2F%2F2cdc27313d21757a2fa94a891f9376a5c8caa6e7560225214c1deb19220ef03d",
+      "xref": null
+    },
+    {
+      "image_id": "P8IMG003",
+      "page_no": 8,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG052",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2723106d-67d8-4397-9ad6-60824a258993/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A12Z%2F-1%2F%2F39b7fb1236f18931185faefc5a9d4b264764aafb505427c9c91d387c4d994758",
+      "xref": null
+    },
+    {
+      "image_id": "P8IMG004",
+      "page_no": 8,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG053",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2723106d-67d8-4397-9ad6-60824a258993/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A12Z%2F-1%2F%2F691c7b8ad0892f16567e4d01156091339021b543edf04fa68a01683d44d2f126",
+      "xref": null
+    },
+    {
+      "image_id": "P8IMG005",
+      "page_no": 8,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG054",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2723106d-67d8-4397-9ad6-60824a258993/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A12Z%2F-1%2F%2Fe709fd2a2b7599164da47a3a20413299dd04d24979a55ac401ed6d21a58d0c2d",
+      "xref": null
+    },
+    {
+      "image_id": "P9IMG001",
+      "page_no": 9,
+      "bbox": {
+        "x1": 201.0,
+        "y1": 199.0,
+        "x2": 994.0,
+        "y2": 285.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG055",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//9e1084c6-4efd-4000-b87a-8220120e273f/markdown_0/imgs/img_in_table_box_201_199_994_285.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A32%3A24Z%2F-1%2F%2F7af8b0d37c2987b9d8a958187da408bad2b8dc2895f02f05ab66cf377b09ce85",
+      "xref": null
+    },
+    {
+      "image_id": "P9IMG002",
+      "page_no": 9,
+      "bbox": {
+        "x1": 195.0,
+        "y1": 368.0,
+        "x2": 656.0,
+        "y2": 454.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG056",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//9e1084c6-4efd-4000-b87a-8220120e273f/markdown_0/imgs/img_in_table_box_195_368_656_454.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A32%3A24Z%2F-1%2F%2F024874113e3fb75eb604b8e0d5a293e605268b69e55e22c7c0160fa8b8a8ffda",
+      "xref": null
+    },
+    {
+      "image_id": "P9IMG003",
+      "page_no": 9,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG057",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//9e1084c6-4efd-4000-b87a-8220120e273f/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A32%3A27Z%2F-1%2F%2F87209518cb651eea66003fb8149649109b369634389eba1ed45df7eb7745bed1",
+      "xref": null
+    },
+    {
+      "image_id": "P9IMG004",
+      "page_no": 9,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG058",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//9e1084c6-4efd-4000-b87a-8220120e273f/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A32%3A28Z%2F-1%2F%2Fad7485ff6cf91a9a927f0b4d85b201680885e6776c7896e1cc00f32ea7d01731",
+      "xref": null
+    },
+    {
+      "image_id": "P9IMG005",
+      "page_no": 9,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG059",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//9e1084c6-4efd-4000-b87a-8220120e273f/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A32%3A29Z%2F-1%2F%2F02ef479256cc34e9ae712d28c301cfc62acd5c128b15a0fa098d89222858d2e6",
+      "xref": null
+    },
+    {
+      "image_id": "P9IMG006",
+      "page_no": 9,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG060",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//9e1084c6-4efd-4000-b87a-8220120e273f/table_cell_img_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A32%3A30Z%2F-1%2F%2F3dbd587fd5b15a96e68a911402b4006bd532842ecba138c2ffcb6b1877f765af",
+      "xref": null
+    },
+    {
+      "image_id": "P9IMG007",
+      "page_no": 9,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG061",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//9e1084c6-4efd-4000-b87a-8220120e273f/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A32%3A31Z%2F-1%2F%2F3254849821897c8e830e8f13a5839274cee6aed3d0ae5a47bb114894e87dee54",
+      "xref": null
+    },
+    {
+      "image_id": "P10IMG001",
+      "page_no": 10,
+      "bbox": {
+        "x1": 158.0,
+        "y1": 87.0,
+        "x2": 335.0,
+        "y2": 293.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG062",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2e7cf07e-be30-4b17-8f93-a634436f4c6f/markdown_0/imgs/img_in_image_box_158_87_335_293.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A17Z%2F-1%2F%2Ffe7457f111c7fe390231405280b725351aaa422f978ced4634f35dff27e8e859",
+      "xref": null
+    },
+    {
+      "image_id": "P10IMG002",
+      "page_no": 10,
+      "bbox": {
+        "x1": 126.0,
+        "y1": 986.0,
+        "x2": 287.0,
+        "y2": 1032.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG063",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2e7cf07e-be30-4b17-8f93-a634436f4c6f/markdown_0/imgs/img_in_formula_box_126_986_287_1032.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A18Z%2F-1%2F%2F7d622666c1c8be00e11e908cce376bb48fc999250d9bd8d3ad0b8297d3af36cf",
+      "xref": null
+    },
+    {
+      "image_id": "P10IMG003",
+      "page_no": 10,
+      "bbox": {
+        "x1": 189.0,
+        "y1": 1096.0,
+        "x2": 391.0,
+        "y2": 1143.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG064",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2e7cf07e-be30-4b17-8f93-a634436f4c6f/markdown_0/imgs/img_in_formula_box_189_1096_391_1143.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A18Z%2F-1%2F%2F53a30ccd1f8ad6fed7ff11c1d83cfbeffedcc00cdec6e07097d92b6709d999bb",
+      "xref": null
+    },
+    {
+      "image_id": "P10IMG004",
+      "page_no": 10,
+      "bbox": {
+        "x1": 126.0,
+        "y1": 1245.0,
+        "x2": 254.0,
+        "y2": 1295.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG065",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2e7cf07e-be30-4b17-8f93-a634436f4c6f/markdown_0/imgs/img_in_formula_box_126_1245_254_1295.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A19Z%2F-1%2F%2Fdf33e124d41c6f5f29e6ede1c0673f2d6114a6aa2d798627439c7952c0cb0a3f",
+      "xref": null
+    },
+    {
+      "image_id": "P10IMG005",
+      "page_no": 10,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG066",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2e7cf07e-be30-4b17-8f93-a634436f4c6f/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A21Z%2F-1%2F%2Fb472fb1ad055fb1ed765aa4d7b98582de85d40cc5c9ab34cd02714f862521c1a",
+      "xref": null
+    },
+    {
+      "image_id": "P10IMG006",
+      "page_no": 10,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG067",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2e7cf07e-be30-4b17-8f93-a634436f4c6f/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A21Z%2F-1%2F%2Fc777a8c5d307127c7436236cf90018ac816c0bfa91bd2cdcb4ea82deb3d5879b",
+      "xref": null
+    },
+    {
+      "image_id": "P10IMG007",
+      "page_no": 10,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG068",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2e7cf07e-be30-4b17-8f93-a634436f4c6f/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A22Z%2F-1%2F%2F9876be924b517112131a7f1129f67d6bdeb84a8ad2f6f00a5986c0d0d2d886e9",
+      "xref": null
+    },
+    {
+      "image_id": "P10IMG008",
+      "page_no": 10,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG069",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2e7cf07e-be30-4b17-8f93-a634436f4c6f/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A31%3A22Z%2F-1%2F%2Fe5e86dabc2cf90dabfcce5d5521b6a1842244512721a180680bc066a3f9c3ba0",
+      "xref": null
+    },
+    {
+      "image_id": "P11IMG001",
+      "page_no": 11,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG070",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//0029f93b-2208-4870-91c5-dea81311860b/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A33%3A26Z%2F-1%2F%2F1af5fba532598bd17ab3f542010cc2df292c129d566c39dc97d7916141c75cc2",
+      "xref": null
+    },
+    {
+      "image_id": "P11IMG002",
+      "page_no": 11,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG071",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//0029f93b-2208-4870-91c5-dea81311860b/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A33%3A27Z%2F-1%2F%2F29424cb8fd2fd5d5c08f7d5d3e67cdbad5e0331f9ebb5078e9abbc557448f6b0",
+      "xref": null
+    },
+    {
+      "image_id": "P11IMG003",
+      "page_no": 11,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG072",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//0029f93b-2208-4870-91c5-dea81311860b/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A33%3A28Z%2F-1%2F%2F598f1b8e6d1267499af43d0df7e6a03444f1fb4ebd1e5475af133939d05dfbf2",
+      "xref": null
+    },
+    {
+      "image_id": "P11IMG004",
+      "page_no": 11,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG073",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//0029f93b-2208-4870-91c5-dea81311860b/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-14T12%3A33%3A29Z%2F-1%2F%2F0b4b3e56075eb423f8acbc06a08f0b95dc3edbce315f726d3de3c850b88ff7f1",
+      "xref": null
+    }
+  ],
+  "question_images": [
+    {
+      "question_number": "1",
+      "image_id": "P1IMG001",
+      "placement": "stem"
+    },
+    {
+      "question_number": "1",
+      "image_id": "P1IMG002",
+      "placement": "stem"
+    },
+    {
+      "question_number": "9",
+      "image_id": "P2IMG001",
+      "placement": "options"
+    },
+    {
+      "question_number": "7",
+      "image_id": "P2IMG002",
+      "placement": "stem"
+    },
+    {
+      "question_number": "12",
+      "image_id": "P3IMG001",
+      "placement": "stem"
+    },
+    {
+      "question_number": "10",
+      "image_id": "P3IMG002",
+      "placement": "stem"
+    },
+    {
+      "question_number": "11",
+      "image_id": "P3IMG003",
+      "placement": "stem"
+    },
+    {
+      "question_number": "14",
+      "image_id": "P4IMG001",
+      "placement": "options"
+    },
+    {
+      "question_number": "14",
+      "image_id": "P4IMG002",
+      "placement": "options"
+    },
+    {
+      "question_number": "14",
+      "image_id": "P4IMG003",
+      "placement": "options"
+    },
+    {
+      "question_number": "14",
+      "image_id": "P4IMG004",
+      "placement": "options"
+    },
+    {
+      "question_number": "15",
+      "image_id": "P5IMG001",
+      "placement": "stem"
+    },
+    {
+      "question_number": "15",
+      "image_id": "P5IMG002",
+      "placement": "stem"
+    },
+    {
+      "question_number": "16",
+      "image_id": "P6IMG001",
+      "placement": "stem"
+    },
+    {
+      "question_number": "16",
+      "image_id": "P6IMG002",
+      "placement": "stem"
+    },
+    {
+      "question_number": "16",
+      "image_id": "P6IMG003",
+      "placement": "stem"
+    },
+    {
+      "question_number": "19",
+      "image_id": "P7IMG001",
+      "placement": "stem"
+    },
+    {
+      "question_number": "18",
+      "image_id": "P7IMG002",
+      "placement": "stem"
+    },
+    {
+      "question_number": "19",
+      "image_id": "P7IMG003",
+      "placement": "stem"
+    },
+    {
+      "question_number": "20",
+      "image_id": "P8IMG001",
+      "placement": "stem"
+    }
+  ],
+  "questions": [
+    {
+      "question_number": "1",
+      "question_type": "single_choice",
+      "section_id": "单项选择",
+      "stem": "1、\n2、\n3、\n4、5为计数点，可以判断纸带的（填“左”或\n“右”）端与小车相连。每相邻两个计数点间有四个点未画出，电源的频率为50Hz，小车运动的加速度a \n=$\\mathrm{m}/\\mathrm{s}^{2}$ （结果保留两位有效数字）。\n12345\n5.83\n\n←\n12.09↑\n\n→\n18.81\n25.98单位:cm\n图2\n（4）如图3，某同学为了进一步探究细线对小车的拉力与沙和沙桶重力之间的关系，在小车和细线的连接处安装了拉力传感器，测出不同m对应的细线拉力F，作出$F-m g$ 图像最接近下图中的哪一个（）\n第6页/共11页\n滑轮\n\n纸带\n\n沙桶图3\n\nF F  F↑",
+      "stem_line_ids": [
+        "P6L019",
+        "P6L020",
+        "P6L021",
+        "P6L022",
+        "P6L023",
+        "P6L024",
+        "P6L025",
+        "P6L026",
+        "P6L027",
+        "P6L028",
+        "P6L029",
+        "P7L001"
+      ],
+      "options": [
+        {
+          "label": "A",
+          "text": "路程"
+        },
+        {
+          "label": "B",
+          "text": "质量"
+        },
+        {
+          "label": "C",
+          "text": "加速度D时间"
+        },
+        {
+          "label": "D",
+          "text": "C.加速度D时间"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L006"
+        ],
+        "B": [
+          "P1L007"
+        ],
+        "C": [
+          "P1L008"
+        ],
+        "D": [
+          "P1L008"
+        ]
+      },
+      "answer": "C",
+      "explanation": null,
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 1,
+      "answer_line_ids": [
+        "P9L003"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L003]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P1L005"
+          ],
+          "corrected_line_ids": [
+            "P6L019",
+            "P6L020",
+            "P6L021",
+            "P6L022",
+            "P6L023",
+            "P6L024",
+            "P6L025",
+            "P6L026",
+            "P6L027",
+            "P6L028",
+            "P6L029",
+            "P7L001"
+          ],
+          "anchor_status": "nearest",
+          "validation_passed": true,
+          "evidence": "修正到题目 1 起始行: 1、; 选择题范围收敛至选项起点（12 行）"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P1L006"
+          ],
+          "corrected_line_ids": [
+            "P1L006"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 A 无匹配的选项标记行"
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P1L007"
+          ],
+          "corrected_line_ids": [
+            "P1L007"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 B 无匹配的选项标记行"
+        },
+        {
+          "field": "option_C",
+          "llm_line_ids": [
+            "P1L008"
+          ],
+          "corrected_line_ids": [
+            "P1L008"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 C 无匹配的选项标记行"
+        },
+        {
+          "field": "option_D",
+          "llm_line_ids": [
+            "P1L008"
+          ],
+          "corrected_line_ids": [
+            "P1L008"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 D 无匹配的选项标记行"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": [
+        "锚点需重新标注，禁止自动发布",
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "2",
+      "question_type": "single_choice",
+      "section_id": "单项选择",
+      "stem": "2、\n3、\n4、5为计数点，可以判断纸带的（填“左”或\n“右”）端与小车相连。每相邻两个计数点间有四个点未画出，电源的频率为50Hz，小车运动的加速度a \n=$\\mathrm{m}/\\mathrm{s}^{2}$ （结果保留两位有效数字）。\n12345\n5.83\n\n←\n12.09↑\n\n→\n18.81\n25.98单位:cm\n图2\n（4）如图3，某同学为了进一步探究细线对小车的拉力与沙和沙桶重力之间的关系，在小车和细线的连接处安装了拉力传感器，测出不同m对应的细线拉力F，作出$F-m g$ 图像最接近下图中的哪一个（）\n第6页/共11页\n滑轮\n\n纸带\n\n沙桶图3\n\nF F  F↑",
+      "stem_line_ids": [
+        "P6L020",
+        "P6L021",
+        "P6L022",
+        "P6L023",
+        "P6L024",
+        "P6L025",
+        "P6L026",
+        "P6L027",
+        "P6L028",
+        "P6L029",
+        "P7L001"
+      ],
+      "options": [
+        {
+          "label": "A",
+          "text": "$10\\mathrm{m}/\\mathrm{s}^{2}$"
+        },
+        {
+          "label": "B",
+          "text": "$5\\mathrm{m}/\\mathrm{s}^{2}$"
+        },
+        {
+          "label": "C",
+          "text": "$2.5\\mathrm{m}/\\mathrm{s}^{2}$"
+        },
+        {
+          "label": "D",
+          "text": "$2\\mathrm{m}/\\mathrm{s}^{2}$"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L010"
+        ],
+        "B": [
+          "P1L011"
+        ],
+        "C": [
+          "P1L012"
+        ],
+        "D": [
+          "P1L013"
+        ]
+      },
+      "answer": "B",
+      "explanation": null,
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 1,
+      "answer_line_ids": [
+        "P9L003"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L003]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P1L009"
+          ],
+          "corrected_line_ids": [
+            "P6L020",
+            "P6L021",
+            "P6L022",
+            "P6L023",
+            "P6L024",
+            "P6L025",
+            "P6L026",
+            "P6L027",
+            "P6L028",
+            "P6L029",
+            "P7L001"
+          ],
+          "anchor_status": "nearest",
+          "validation_passed": true,
+          "evidence": "修正到题目 2 起始行: 2、; 选择题范围收敛至选项起点（11 行）"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P1L010"
+          ],
+          "corrected_line_ids": [
+            "P1L010"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 A 无匹配的选项标记行"
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P1L011"
+          ],
+          "corrected_line_ids": [
+            "P1L011"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 B 无匹配的选项标记行"
+        },
+        {
+          "field": "option_C",
+          "llm_line_ids": [
+            "P1L012"
+          ],
+          "corrected_line_ids": [
+            "P1L012"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 C 无匹配的选项标记行"
+        },
+        {
+          "field": "option_D",
+          "llm_line_ids": [
+            "P1L013"
+          ],
+          "corrected_line_ids": [
+            "P1L013"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 D 无匹配的选项标记行"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": [
+        "锚点需重新标注，禁止自动发布",
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "3",
+      "question_type": "single_choice",
+      "section_id": "单项选择",
+      "stem": "3、\n4、5为计数点，可以判断纸带的（填“左”或\n“右”）端与小车相连。每相邻两个计数点间有四个点未画出，电源的频率为50Hz，小车运动的加速度a \n=$\\mathrm{m}/\\mathrm{s}^{2}$ （结果保留两位有效数字）。\n12345\n5.83\n\n←\n12.09↑\n\n→\n18.81\n25.98单位:cm\n图2\n（4）如图3，某同学为了进一步探究细线对小车的拉力与沙和沙桶重力之间的关系，在小车和细线的连接处安装了拉力传感器，测出不同m对应的细线拉力F，作出$F-m g$ 图像最接近下图中的哪一个（）\n第6页/共11页\n滑轮\n\n纸带\n\n沙桶图3\n\nF F  F↑",
+      "stem_line_ids": [
+        "P6L021",
+        "P6L022",
+        "P6L023",
+        "P6L024",
+        "P6L025",
+        "P6L026",
+        "P6L027",
+        "P6L028",
+        "P6L029",
+        "P7L001"
+      ],
+      "options": [
+        {
+          "label": "A",
+          "text": "4.90N、4.90N"
+        },
+        {
+          "label": "B",
+          "text": "3.00N、4.00N"
+        },
+        {
+          "label": "C",
+          "text": "2.50N、3.50N"
+        },
+        {
+          "label": "D",
+          "text": "2.00N、2.50N"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L016"
+        ],
+        "B": [
+          "P1L017"
+        ],
+        "C": [
+          "P1L018"
+        ],
+        "D": [
+          "P1L019"
+        ]
+      },
+      "answer": "D",
+      "explanation": null,
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 1,
+      "answer_line_ids": [
+        "P9L003"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L003]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P1L014",
+            "P1L015"
+          ],
+          "corrected_line_ids": [
+            "P6L021",
+            "P6L022",
+            "P6L023",
+            "P6L024",
+            "P6L025",
+            "P6L026",
+            "P6L027",
+            "P6L028",
+            "P6L029",
+            "P7L001"
+          ],
+          "anchor_status": "nearest",
+          "validation_passed": true,
+          "evidence": "修正到题目 3 起始行: 3、; 选择题范围收敛至选项起点（10 行）"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P1L016"
+          ],
+          "corrected_line_ids": [
+            "P1L016"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 A 无匹配的选项标记行"
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P1L017"
+          ],
+          "corrected_line_ids": [
+            "P1L017"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 B 无匹配的选项标记行"
+        },
+        {
+          "field": "option_C",
+          "llm_line_ids": [
+            "P1L018"
+          ],
+          "corrected_line_ids": [
+            "P1L018"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 C 无匹配的选项标记行"
+        },
+        {
+          "field": "option_D",
+          "llm_line_ids": [
+            "P1L019"
+          ],
+          "corrected_line_ids": [
+            "P1L019"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 D 无匹配的选项标记行"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": [
+        "锚点需重新标注，禁止自动发布",
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "4",
+      "question_type": "single_choice",
+      "section_id": "单项选择",
+      "stem": "（4）如图3，某同学为了进一步探究细线对小车的拉力与沙和沙桶重力之间的关系，在小车和细线的连接处安装了拉力传感器，测出不同m对应的细线拉力F，作出$F-m g$ 图像最接近下图中的哪一个（）\n第6页/共11页\n滑轮\n\n纸带\n\n沙桶图3\n\nF F  F↑",
+      "stem_line_ids": [
+        "P6L028",
+        "P6L029",
+        "P7L001"
+      ],
+      "options": [
+        {
+          "label": "A",
+          "text": ""
+        },
+        {
+          "label": "B",
+          "text": ""
+        },
+        {
+          "label": "C",
+          "text": ""
+        },
+        {
+          "label": "D",
+          "text": "O $mg$O mg O $\\gg$0\\$"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "P7L002"
+        ],
+        "B": [
+          "P7L003"
+        ],
+        "C": [
+          "P7L004"
+        ],
+        "D": [
+          "P7L005"
+        ]
+      },
+      "answer": "A",
+      "explanation": null,
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 1,
+      "answer_line_ids": [
+        "P9L003"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L003]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P1L020"
+          ],
+          "corrected_line_ids": [
+            "P6L028",
+            "P6L029",
+            "P7L001"
+          ],
+          "anchor_status": "nearest",
+          "validation_passed": true,
+          "evidence": "修正到题目 4 起始行: （4）如图3，某同学为了进一步探究细线对小车的拉力与沙和沙桶; 选择题范围收敛至选项起点（3 行）"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P1L021"
+          ],
+          "corrected_line_ids": [
+            "P7L002"
+          ],
+          "anchor_status": "nearest",
+          "validation_passed": true,
+          "evidence": "吸附到选项 A: A."
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P1L022"
+          ],
+          "corrected_line_ids": [
+            "P7L003"
+          ],
+          "anchor_status": "nearest",
+          "validation_passed": true,
+          "evidence": "吸附到选项 B: B."
+        },
+        {
+          "field": "option_C",
+          "llm_line_ids": [
+            "P1L023"
+          ],
+          "corrected_line_ids": [
+            "P7L004"
+          ],
+          "anchor_status": "nearest",
+          "validation_passed": true,
+          "evidence": "吸附到选项 C: C."
+        },
+        {
+          "field": "option_D",
+          "llm_line_ids": [
+            "P1L024"
+          ],
+          "corrected_line_ids": [
+            "P7L005"
+          ],
+          "anchor_status": "nearest",
+          "validation_passed": true,
+          "evidence": "吸附到选项 D: D.\nO $mg$O mg O $\\gg$0\\$"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "5",
+      "question_type": "single_choice",
+      "section_id": "单项选择",
+      "stem": "5.如图所示，在固定斜面上不同位置同时由静止释放两个质量不同的滑块。若两滑块与斜面间动摩擦因数相同，则它们在下滑过程中（）",
+      "stem_line_ids": [
+        "P1L025"
+      ],
+      "options": [
+        {
+          "label": "A",
+          "text": "距离越来越近"
+        },
+        {
+          "label": "B",
+          "text": "距离越来越远"
+        },
+        {
+          "label": "C",
+          "text": "距离不变"
+        },
+        {
+          "label": "D",
+          "text": "质量大的滑块加速度大"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L026"
+        ],
+        "B": [
+          "P1L027"
+        ],
+        "C": [
+          "P1L028"
+        ],
+        "D": [
+          "P1L029"
+        ]
+      },
+      "answer": "C",
+      "explanation": null,
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 1,
+      "answer_line_ids": [
+        "P9L003"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L003]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P1L025"
+          ],
+          "corrected_line_ids": [
+            "P1L025"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 5.如图所示，在固定斜面上不同位置同时由静止释放两个质量不同"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P1L026"
+          ],
+          "corrected_line_ids": [
+            "P1L026"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 A: A.距离越来越近"
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P1L027"
+          ],
+          "corrected_line_ids": [
+            "P1L027"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 B: B.距离越来越远"
+        },
+        {
+          "field": "option_C",
+          "llm_line_ids": [
+            "P1L028"
+          ],
+          "corrected_line_ids": [
+            "P1L028"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 C: C.距离不变"
+        },
+        {
+          "field": "option_D",
+          "llm_line_ids": [
+            "P1L029"
+          ],
+          "corrected_line_ids": [
+            "P1L029"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 D: D.质量大的滑块加速度大"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "6",
+      "question_type": "single_choice",
+      "section_id": "单项选择",
+      "stem": "6.甲、乙两辆汽车分别在同一平直公路的两条车道上同向行驶，$t=0$ 时刻它们恰好经过同一路标。$0\\sim t_{2}$\n第1页/共11页\n时间内，两辆车的$v-t$ 图像如图所示，则（）\n↑\n\nV1\n\n甲\n\n乙\n\nV2\n\nO t1t21一",
+      "stem_line_ids": [
+        "P1L030",
+        "P1L031",
+        "P2L001",
+        "P2L002"
+      ],
+      "options": [
+        {
+          "label": "A",
+          "text": "$t_{2}$ 时刻两车位置相同"
+        },
+        {
+          "label": "B",
+          "text": "$0\\sim t_{2}$ 时间内乙车的加速度逐渐增大"
+        },
+        {
+          "label": "C",
+          "text": "$0\\sim t_{\\mathrm{{p}}}$ 时间内甲车位移大于乙车位移"
+        },
+        {
+          "label": "D",
+          "text": "$0\\sim t_{2}$ 时间内乙车的平均速度小于$\\frac{v_{_1}+v_{_2}}{2}$"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "P2L003"
+        ],
+        "B": [
+          "P2L004"
+        ],
+        "C": [
+          "P2L005"
+        ],
+        "D": [
+          "P2L006"
+        ]
+      },
+      "answer": "D",
+      "explanation": null,
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 1,
+      "answer_line_ids": [
+        "P9L003"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L003]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P1L030",
+            "P2L001",
+            "P2L002"
+          ],
+          "corrected_line_ids": [
+            "P1L030",
+            "P1L031",
+            "P2L001",
+            "P2L002"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 6.甲、乙两辆汽车分别在同一平直公路的两条车道上同向行驶，$; 选择题范围收敛至选项起点（4 行）"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P2L003"
+          ],
+          "corrected_line_ids": [
+            "P2L003"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 A: A.$t_{2}$ 时刻两车位置相同"
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P2L004"
+          ],
+          "corrected_line_ids": [
+            "P2L004"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 B: B.$0\\sim t_{2}$ 时间内乙车的加速度逐渐增大"
+        },
+        {
+          "field": "option_C",
+          "llm_line_ids": [
+            "P2L005"
+          ],
+          "corrected_line_ids": [
+            "P2L005"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 C: C.$0\\sim t_{\\mathrm{{p}}}$ 时间内"
+        },
+        {
+          "field": "option_D",
+          "llm_line_ids": [
+            "P2L006"
+          ],
+          "corrected_line_ids": [
+            "P2L006"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 D: D.$0\\sim t_{2}$ 时间内乙车的平均速度小于$\\"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "7",
+      "question_type": "single_choice",
+      "section_id": "单项选择",
+      "stem": "7.随着中国航母事业的发展，舰载机着舰这一“刀尖上的舞蹈”已被我们的飞行员熟练掌握，其关键之一在于成功钩住阻拦索后的减速过程。设想一个简化模型（如图）：航母甲板为水平面，阻拦索两端固定且与甲板平行，舰载机从正中央钩住阻拦索（钩住瞬间绳索即绷紧）。下列关于该减速过程的说法正确的是(\nO \n\n步\nO",
+      "stem_line_ids": [
+        "P2L007",
+        "P2L008"
+      ],
+      "options": [
+        {
+          "label": "A",
+          "text": "舰载机钩住阻拦索继续向前运动的过程中，阻拦索对舰载机的弹力不变"
+        },
+        {
+          "label": "B",
+          "text": "阻拦索对舰载机的作用力与舰载机对阻拦索的作用力大小相等"
+        },
+        {
+          "label": "C",
+          "text": "舰载机钩住阻拦索继续向前运动的过程中，舰载机受到向前的冲力"
+        },
+        {
+          "label": "D",
+          "text": "舰载机落在航母上钩住阻拦索后，只受重力、阻拦索的拉力和航母平面的摩擦力三个力作用"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "P2L009"
+        ],
+        "B": [
+          "P2L010"
+        ],
+        "C": [
+          "P2L011"
+        ],
+        "D": [
+          "P2L012"
+        ]
+      },
+      "answer": "B",
+      "explanation": null,
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 2,
+      "answer_line_ids": [
+        "P9L003"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L003]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P2L007",
+            "P2L008"
+          ],
+          "corrected_line_ids": [
+            "P2L007",
+            "P2L008"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 7.随着中国航母事业的发展，舰载机着舰这一“刀尖上的舞蹈”已"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P2L009"
+          ],
+          "corrected_line_ids": [
+            "P2L009"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 A: A.舰载机钩住阻拦索继续向前运动的过程中，阻拦索对舰载机的弹"
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P2L010"
+          ],
+          "corrected_line_ids": [
+            "P2L010"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 B: B.阻拦索对舰载机的作用力与舰载机对阻拦索的作用力大小相等"
+        },
+        {
+          "field": "option_C",
+          "llm_line_ids": [
+            "P2L011"
+          ],
+          "corrected_line_ids": [
+            "P2L011"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 C: C.舰载机钩住阻拦索继续向前运动的过程中，舰载机受到向前的冲"
+        },
+        {
+          "field": "option_D",
+          "llm_line_ids": [
+            "P2L012"
+          ],
+          "corrected_line_ids": [
+            "P2L012"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 D: D.舰载机落在航母上钩住阻拦索后，只受重力、阻拦索的拉力和航"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "8",
+      "question_type": "single_choice",
+      "section_id": "单项选择",
+      "stem": "8.无人机运输脐橙，有效降低了农产品运出大山的成本。在一次运输中，无人机匀速吊运一筐总质量为\n30kg的脐橙，果筐四角由四根相同的轻绳连接，绳与竖直方向夹角均为45°，且空气阻力可忽略。重力加\n速度g取$10\\mathrm{m}/\\mathrm{s}^{2}$ ，则每根绳的拉力大小为（）",
+      "stem_line_ids": [
+        "P2L013"
+      ],
+      "options": [
+        {
+          "label": "A",
+          "text": "75N"
+        },
+        {
+          "label": "B",
+          "text": "$75{\\sqrt{2}}\\mathrm{N}$"
+        },
+        {
+          "label": "C",
+          "text": "300N"
+        },
+        {
+          "label": "D",
+          "text": "$150\\sqrt{2}\\mathrm{N}$"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "P2L014"
+        ],
+        "B": [
+          "P2L015"
+        ],
+        "C": [
+          "P2L016"
+        ],
+        "D": [
+          "P2L017"
+        ]
+      },
+      "answer": "B",
+      "explanation": null,
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 2,
+      "answer_line_ids": [
+        "P9L003"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L003]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P2L013"
+          ],
+          "corrected_line_ids": [
+            "P2L013"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 8.无人机运输脐橙，有效降低了农产品运出大山的成本。在一次运"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P2L014"
+          ],
+          "corrected_line_ids": [
+            "P2L014"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 A: A.75N"
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P2L015"
+          ],
+          "corrected_line_ids": [
+            "P2L015"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 B: B.$75{\\sqrt{2}}\\mathrm{N}$"
+        },
+        {
+          "field": "option_C",
+          "llm_line_ids": [
+            "P2L016"
+          ],
+          "corrected_line_ids": [
+            "P2L016"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 C: C.300N"
+        },
+        {
+          "field": "option_D",
+          "llm_line_ids": [
+            "P2L017"
+          ],
+          "corrected_line_ids": [
+            "P2L017"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 D: D.$150\\sqrt{2}\\mathrm{N}$"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "9",
+      "question_type": "single_choice",
+      "section_id": "单项选择",
+      "stem": "9.一辆货车运载着相同规格的圆柱形光滑油桶。在车厢底层油桶平整排列，相互紧贴并被牢牢固定，上层只有一只桶C自由摆放在桶A、B间，随车一起在平直公路上匀速行驶。空桶C的质量为m，重力加速度为g。下列说法正确的是（）\n第2页/共11页",
+      "stem_line_ids": [
+        "P2L018",
+        "P2L019"
+      ],
+      "options": [
+        {
+          "label": "A",
+          "text": "A B"
+        },
+        {
+          "label": "B",
+          "text": "桶C装满油与装半桶油时所受桶B的支持力方向不同"
+        },
+        {
+          "label": "C",
+          "text": "若货车以大小为a的加速度向前加速运动，且空桶C相对于桶 A、B的位置未发生改变，则桶B对空桶C的支持力大小为$m\\sqrt{a^{2}+g^{2}}$"
+        },
+        {
+          "label": "D",
+          "text": "若货车刹车的加速度大小为${\\frac{2}{3}}g$ ·，则空桶C一定会与桶B分离滚向桶A顶端"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "P3L001"
+        ],
+        "B": [
+          "P3L003"
+        ],
+        "C": [
+          "P3L004",
+          "P3L005"
+        ],
+        "D": [
+          "P3L006"
+        ]
+      },
+      "answer": "D",
+      "explanation": null,
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 2,
+      "answer_line_ids": [
+        "P9L003"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L003]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P2L018",
+            "P3L001"
+          ],
+          "corrected_line_ids": [
+            "P2L018",
+            "P2L019"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 9.一辆货车运载着相同规格的圆柱形光滑油桶。在车厢底层油桶平; 选择题范围收敛至选项起点（2 行）"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P3L002"
+          ],
+          "corrected_line_ids": [
+            "P3L001"
+          ],
+          "anchor_status": "nearest",
+          "validation_passed": true,
+          "evidence": "吸附到选项 A: A B"
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P3L003"
+          ],
+          "corrected_line_ids": [
+            "P3L003"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 B: B.桶C装满油与装半桶油时所受桶B的支持力方向不同"
+        },
+        {
+          "field": "option_C",
+          "llm_line_ids": [
+            "P3L004",
+            "P3L005"
+          ],
+          "corrected_line_ids": [
+            "P3L004",
+            "P3L005"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 C: C.若货车以大小为a的加速度向前加速运动，且空桶C相对于桶"
+        },
+        {
+          "field": "option_D",
+          "llm_line_ids": [
+            "P3L006"
+          ],
+          "corrected_line_ids": [
+            "P3L006"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 D: D.若货车刹车的加速度大小为${\\frac{2}{3}}g$"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "10",
+      "question_type": "single_choice",
+      "section_id": "单项选择",
+      "stem": "10.动车组列车是我国高端装备制造的代表，其技术水平体现了我国强大的综合国力。下表所示为CRH5型动车组的部分技术参数：\n<html><body><table><tr><td>参数</td><td>数值</td></tr><tr><td>最高运营速度</td><td>200km/h（约56m/s)</td></tr><tr><td>最高试验速度</td><td>250km/h（约70m/s）</td></tr><tr><td>编组质量</td><td>450t（即 - $4.5\\times10^{5}\\mathrm{k g}$</td></tr><tr><td>启动加速度</td><td>$0.5\\mathrm{m}/\\mathrm{s}^{2}$</td></tr><tr><td>紧急制动距离（制动初速度 200km/h)</td><td>$\\le2000\\mathrm{m}$</td></tr></table></body></html>\n根据以上信息，下列说法错误的是（）",
+      "stem_line_ids": [
+        "P3L007",
+        "P3L008",
+        "P3L009"
+      ],
+      "options": [
+        {
+          "label": "A",
+          "text": "动车组启动时，合力大小为$2.25\\times10^{5}\\mathrm{N}$"
+        },
+        {
+          "label": "B",
+          "text": "动车组以最高运营速度紧急制动时，平均加速度大小最小值约为$0.78\\mathrm{m}/\\mathrm{s}^{2}$"
+        },
+        {
+          "label": "C",
+          "text": "若动车组以相同的制动力刹车，制动初速度加倍时，制动距离也加倍"
+        },
+        {
+          "label": "D",
+          "text": "若动车组以启动加速度从静止匀加速至最高试验速度，所需时间约为140s"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "P3L010"
+        ],
+        "B": [
+          "P3L011"
+        ],
+        "C": [
+          "P3L012"
+        ],
+        "D": [
+          "P3L013"
+        ]
+      },
+      "answer": "C",
+      "explanation": null,
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 3,
+      "answer_line_ids": [
+        "P9L003"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L003]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P3L007",
+            "P3L008",
+            "P3L009"
+          ],
+          "corrected_line_ids": [
+            "P3L007",
+            "P3L008",
+            "P3L009"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 10.动车组列车是我国高端装备制造的代表，其技术水平体现了我"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P3L010"
+          ],
+          "corrected_line_ids": [
+            "P3L010"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 A: A.动车组启动时，合力大小为$2.25\\times10^{5"
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P3L011"
+          ],
+          "corrected_line_ids": [
+            "P3L011"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 B: B.动车组以最高运营速度紧急制动时，平均加速度大小最小值约为"
+        },
+        {
+          "field": "option_C",
+          "llm_line_ids": [
+            "P3L012"
+          ],
+          "corrected_line_ids": [
+            "P3L012"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 C: C.若动车组以相同的制动力刹车，制动初速度加倍时，制动距离也"
+        },
+        {
+          "field": "option_D",
+          "llm_line_ids": [
+            "P3L013"
+          ],
+          "corrected_line_ids": [
+            "P3L013"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 D: D.若动车组以启动加速度从静止匀加速至最高试验速度，所需时间"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "11",
+      "question_type": "multiple_choice",
+      "section_id": "多项选择",
+      "stem": "11.如图所示，长方体物块受到一个沿斜面向上的拉力F静止于固定的斜面上，物块受力的个数可能为()\nF □",
+      "stem_line_ids": [
+        "P3L015",
+        "P3L016"
+      ],
+      "options": [
+        {
+          "label": "A",
+          "text": "2"
+        },
+        {
+          "label": "B",
+          "text": "3"
+        },
+        {
+          "label": "C",
+          "text": "4"
+        },
+        {
+          "label": "D",
+          "text": "5"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "P3L017"
+        ],
+        "B": [
+          "P3L018"
+        ],
+        "C": [
+          "P3L019"
+        ],
+        "D": [
+          "P3L020"
+        ]
+      },
+      "answer": "BC",
+      "explanation": null,
+      "difficulty": null,
+      "score": 4.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 3,
+      "answer_line_ids": [
+        "P9L005"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L005]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P3L015",
+            "P3L016"
+          ],
+          "corrected_line_ids": [
+            "P3L015",
+            "P3L016"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 11.如图所示，长方体物块受到一个沿斜面向上的拉力F静止于固"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P3L017"
+          ],
+          "corrected_line_ids": [
+            "P3L017"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 A: A.2"
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P3L018"
+          ],
+          "corrected_line_ids": [
+            "P3L018"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 B: B.3"
+        },
+        {
+          "field": "option_C",
+          "llm_line_ids": [
+            "P3L019"
+          ],
+          "corrected_line_ids": [
+            "P3L019"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 C: C.4"
+        },
+        {
+          "field": "option_D",
+          "llm_line_ids": [
+            "P3L020"
+          ],
+          "corrected_line_ids": [
+            "P3L020"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 D: D.5"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "12",
+      "question_type": "multiple_choice",
+      "section_id": "多项选择",
+      "stem": "12.物理课上老师介绍，手机上的phyphox软件可以调用手机全部的传感器，轻松记录高度、速度、加速度\n第3页/共11页\n等参数。放学后，小明同学利用phyphox软件对电梯运行情况进行了实验探究。实验过程中，手机水平放置，屏幕朝上，以竖直向上为正方向，软件记录下了电梯运行过程中的三组图像，如图所示。由图像可知下列说法正确的是（）\n高度\n\nh(m)802\n\n0000\n(）回\nz \ny \nx\n草垂\n\n2.0\n\n(s/)a 0.\n51.\n51.0\n\n20时间(秒)40\nz轴加速度\n\n0\n\na/(m/s2)00\n\n00040\n时间(秒)",
+      "stem_line_ids": [
+        "P3L021",
+        "P3L022",
+        "P4L001",
+        "P4L002",
+        "P4L003",
+        "P4L004",
+        "P4L005",
+        "P4L006",
+        "P4L007"
+      ],
+      "options": [
+        {
+          "label": "A",
+          "text": "由$h-t$ 图像可知电梯正在上升"
+        },
+        {
+          "label": "B",
+          "text": "由$v-t$ 图像可估算，$20\\mathrm{s}\\sim40\\mathrm{s}$ 内电梯的上升高度大于40m"
+        },
+        {
+          "label": "C",
+          "text": "电梯加速过程中$a-t$ 图像面积与减速过程中$a-t$ 图像面积的绝对值相等"
+        },
+        {
+          "label": "D",
+          "text": "实验过程中，电梯加速的距离约为$20\\mathrm{m}$"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "P4L008"
+        ],
+        "B": [
+          "P4L009"
+        ],
+        "C": [
+          "P4L010"
+        ],
+        "D": [
+          "P4L011"
+        ]
+      },
+      "answer": "AC",
+      "explanation": null,
+      "difficulty": null,
+      "score": 4.0,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 3,
+      "answer_line_ids": [
+        "P9L005"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L005]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P3L021",
+            "P4L001",
+            "P4L002",
+            "P4L003",
+            "P4L004",
+            "P4L005",
+            "P4L006",
+            "P4L007"
+          ],
+          "corrected_line_ids": [
+            "P3L021",
+            "P3L022",
+            "P4L001",
+            "P4L002",
+            "P4L003",
+            "P4L004",
+            "P4L005",
+            "P4L006",
+            "P4L007"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 12.物理课上老师介绍，手机上的phyphox软件可以调用手; 选择题范围收敛至选项起点（9 行）"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P4L008"
+          ],
+          "corrected_line_ids": [
+            "P4L008"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 A 无匹配的选项标记行"
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P4L009"
+          ],
+          "corrected_line_ids": [
+            "P4L009"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 B 无匹配的选项标记行"
+        },
+        {
+          "field": "option_C",
+          "llm_line_ids": [
+            "P4L010"
+          ],
+          "corrected_line_ids": [
+            "P4L010"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 C 无匹配的选项标记行"
+        },
+        {
+          "field": "option_D",
+          "llm_line_ids": [
+            "P4L011"
+          ],
+          "corrected_line_ids": [
+            "P4L011"
+          ],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 D 无匹配的选项标记行"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": [
+        "锚点需重新标注，禁止自动发布",
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "13",
+      "question_type": "multiple_choice",
+      "section_id": "多项选择",
+      "stem": "13.雨滴从数千米的高空落下，为何不会对人造成伤害？因为雨滴在空气中竖直下落的速度较大时，受到的空气阻力$f$ 与雨滴（可看成球形）的最大横截面积S成正比，与下落速度V的平方成正比，即\n$f=k S v^{2}$ ，其中k为比例系数，当阻力增大到跟雨滴的重力平衡时，雨滴匀速下落。已知水的密度为ρ，重力加速度为g，球体的体积公式$V=\\frac{4}{3}\\pi r^{3}$ ，r为球体半径，雨滴间无相互作用且质量不变。下列说法正确的是（）",
+      "stem_line_ids": [
+        "P4L012",
+        "P4L013"
+      ],
+      "options": [
+        {
+          "label": "A",
+          "text": "比例系数k的单位是$\\mathrm{k g/m}^{3}$"
+        },
+        {
+          "label": "B",
+          "text": "若两个雨滴半径r之比为1:2，则它们匀速下落的速度之比为1:2"
+        },
+        {
+          "label": "C",
+          "text": "雨滴匀速下落过程中，速度大小与雨滴的密度无关"
+        },
+        {
+          "label": "D",
+          "text": "雨滴从开始下落到匀速过程中，加速度逐渐减小至零"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "P4L014"
+        ],
+        "B": [
+          "P4L015"
+        ],
+        "C": [
+          "P4L016"
+        ],
+        "D": [
+          "P4L017"
+        ]
+      },
+      "answer": "AD",
+      "explanation": null,
+      "difficulty": null,
+      "score": 4.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 4,
+      "answer_line_ids": [
+        "P9L005"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L005]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P4L012",
+            "P4L013"
+          ],
+          "corrected_line_ids": [
+            "P4L012",
+            "P4L013"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 13.雨滴从数千米的高空落下，为何不会对人造成伤害？因为雨滴"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P4L014"
+          ],
+          "corrected_line_ids": [
+            "P4L014"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 A: A.比例系数k的单位是$\\mathrm{k g/m}^{3}"
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P4L015"
+          ],
+          "corrected_line_ids": [
+            "P4L015"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 B: B.若两个雨滴半径r之比为1:2，则它们匀速下落的速度之比为"
+        },
+        {
+          "field": "option_C",
+          "llm_line_ids": [
+            "P4L016"
+          ],
+          "corrected_line_ids": [
+            "P4L016"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 C: C.雨滴匀速下落过程中，速度大小与雨滴的密度无关"
+        },
+        {
+          "field": "option_D",
+          "llm_line_ids": [
+            "P4L017"
+          ],
+          "corrected_line_ids": [
+            "P4L017"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 D: D.雨滴从开始下落到匀速过程中，加速度逐渐减小至零"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "14",
+      "question_type": "multiple_choice",
+      "section_id": "多项选择",
+      "stem": "14.如图所示，两位同学在教学楼上做自由落体实验，甲同学在三、四楼交接处先将小球A释放，当下落距离为h时，乙同学在二、三楼交接处将小球B释放，小球B释放时间t后，两球恰好同时落地。小球A、B不在同一条竖直线上，每层楼高度相等，不计空气阻力，重力加速度为g。下列说法中正确的是（)\n第4页/共11页",
+      "stem_line_ids": [
+        "P4L018",
+        "P4L019"
+      ],
+      "options": [
+        {
+          "label": "A",
+          "text": "A B"
+        },
+        {
+          "label": "B",
+          "text": "甲同学释放点离地高度为$\\frac{1}{2}gt^{2}+\\sqrt{2ght^{2}}+h$"
+        },
+        {
+          "label": "C",
+          "text": "在下落的过程中， A、B间高度差随时间均匀变化"
+        },
+        {
+          "label": "D",
+          "text": "若两位同学均各上一层楼重做以上实验，需要增大h，两小球才能同时落地"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "P5L001"
+        ],
+        "B": [
+          "P5L003"
+        ],
+        "C": [
+          "P5L004",
+          "P5L005"
+        ],
+        "D": [
+          "P5L006"
+        ]
+      },
+      "answer": "BC",
+      "explanation": null,
+      "difficulty": null,
+      "score": 4.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 4,
+      "answer_line_ids": [
+        "P9L005"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L005]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P4L018",
+            "P5L001"
+          ],
+          "corrected_line_ids": [
+            "P4L018",
+            "P4L019"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 14.如图所示，两位同学在教学楼上做自由落体实验，甲同学在三; 选择题范围收敛至选项起点（2 行）"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P5L002"
+          ],
+          "corrected_line_ids": [
+            "P5L001"
+          ],
+          "anchor_status": "nearest",
+          "validation_passed": true,
+          "evidence": "吸附到选项 A: A B"
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P5L003"
+          ],
+          "corrected_line_ids": [
+            "P5L003"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 B: B.甲同学释放点离地高度为$\\frac{1}{2}gt^{2"
+        },
+        {
+          "field": "option_C",
+          "llm_line_ids": [
+            "P5L004",
+            "P5L005"
+          ],
+          "corrected_line_ids": [
+            "P5L004",
+            "P5L005"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 C: C.在下落的过程中，"
+        },
+        {
+          "field": "option_D",
+          "llm_line_ids": [
+            "P5L006"
+          ],
+          "corrected_line_ids": [
+            "P5L006"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配选项 D: D.若两位同学均各上一层楼重做以上实验，需要增大h，两小球才"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "15",
+      "question_type": "short_answer",
+      "section_id": "实验题",
+      "stem": "15.实验小组利用如图1所示的实验装置来测量橡皮绳的劲度系数k。将手机悬挂在橡皮绳下，用手机软件中的位移传感器，可以测量手机在竖直方向上的位移。该实验小组进行了如下主要的实验步骤：\n2\n图1\na.将橡皮绳分别与手机和铁架台相连接，使手机重心和橡皮绳在同一竖直线上。\nb.用手掌托着手机，使橡皮绳处于原长状态，打开手机中的位移传感器软件。\nc.缓慢释放手机，当手机平衡时记录手机下降的高度$x_{0}$ 。\nd.在手机正下方悬挂不同个数的钩码，每个钩码的质量$m=50\\mathrm{g}$ _，缓慢释放，当钩码平衡时，记录下从橡皮绳原长开始下降的伸长量x。\ne.重复上述d步操作。\nf.作出悬挂钩码数量n和对应的伸长量x的关系图像，如图2所示。\n第5页/共11页\n↑n/个\n\n3\n\n2\n\n1\n\n→/cm\n00.\n51.\n01.5 2.0 2.\n53.0 3.5 4.0\n图2\n根据$n-x$ 图像，回答以下问题：\n（1）不挂钩码时，橡皮绳的伸长量为$x_{0}=\\underline{\\hspace{1cm}}cm$\n（2）为了测量更多的数据，（选填“能\"或“不能”）任意增加钩码个数。\n（3）每增加一个钩码，橡皮绳的形变量增加cm。若取$g=10\\mathrm{m}/\\mathrm{s}^{2}$ ，代入相关数据，计算出该橡皮绳的劲度系数$k=\\frac{\\sum\\sum N/m}{\\sum}$ 0",
+      "stem_line_ids": [
+        "P5L008",
+        "P5L009",
+        "P5L010",
+        "P5L011",
+        "P5L012",
+        "P5L013",
+        "P5L014",
+        "P5L015",
+        "P5L016",
+        "P5L017",
+        "P6L001",
+        "P6L002",
+        "P6L003",
+        "P6L004",
+        "P6L005",
+        "P6L006",
+        "P6L007",
+        "P6L008",
+        "P6L009",
+        "P6L010"
+      ],
+      "options": [],
+      "options_line_ids": {},
+      "answer": "(1）1.50 (2分)(2）不能 (2分）（3）0.50(2分）100(2分)",
+      "explanation": null,
+      "difficulty": null,
+      "score": 8.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 5,
+      "answer_line_ids": [
+        "P9L007"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "document_answer_table",
+        "confidence": 0.95,
+        "evidence": "文末答案表第15题 [P9L007=15.(1）1.50 (2分)(2）不能 (2分）（3）0.50(2分）100(]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P5L008",
+            "P5L009",
+            "P5L010",
+            "P5L011",
+            "P5L012",
+            "P5L013",
+            "P5L014",
+            "P5L015",
+            "P5L016",
+            "P6L001",
+            "P6L002",
+            "P6L003",
+            "P6L004",
+            "P6L005",
+            "P6L006",
+            "P6L007",
+            "P6L008",
+            "P6L009",
+            "P6L010"
+          ],
+          "corrected_line_ids": [
+            "P5L008",
+            "P5L009",
+            "P5L010",
+            "P5L011",
+            "P5L012",
+            "P5L013",
+            "P5L014",
+            "P5L015",
+            "P5L016",
+            "P5L017",
+            "P6L001",
+            "P6L002",
+            "P6L003",
+            "P6L004",
+            "P6L005",
+            "P6L006",
+            "P6L007",
+            "P6L008",
+            "P6L009",
+            "P6L010"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 15.实验小组利用如图1所示的实验装置来测量橡皮绳的劲度系数; 解答题范围扩展至下一题起点（20 行）"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": [
+        "详解依赖 LLM 兜底"
+      ]
+    },
+    {
+      "question_number": "16",
+      "question_type": "short_answer",
+      "section_id": "实验题",
+      "stem": "16.图1为“验证牛顿第二定律”的实验装置，小桶和桶内沙子总质量记为m，小桶通过细线拉动小车在长木板上做匀加速直线运动，验证小车质量M一定时，其加速度与合外力成正比。重力加速度为$g$ 。\n滑轮细线小车打点计时器Q 纸带沙桶图1\n（1）下列实验操作正确的是（\nA.先释放小车后接通电源\nB.调整定滑轮使细线与长木板平行\nC.让小桶和桶内沙子总质量远大于小车的质量\n（2）本实验需要调整长木板倾斜角度以平衡小车受到的阻力，目的是：\n（3）图2是实验中得到的一段纸带，\n1、\n2、\n3、\n4、5为计数点，可以判断纸带的（填“左”或\n“右”）端与小车相连。每相邻两个计数点间有四个点未画出，电源的频率为50Hz，小车运动的加速度a \n=$\\mathrm{m}/\\mathrm{s}^{2}$ （结果保留两位有效数字）。\n12345\n5.83\n\n←\n12.09↑\n\n→\n18.81\n25.98单位:cm\n图2\n（4）如图3，某同学为了进一步探究细线对小车的拉力与沙和沙桶重力之间的关系，在小车和细线的连接处安装了拉力传感器，测出不同m对应的细线拉力F，作出$F-m g$ 图像最接近下图中的哪一个（）\n第6页/共11页\n滑轮\n\n纸带\n\n沙桶图3\n\nF F  F↑\nA.\nB.\nC.\nD.\nO $mg$O mg O $\\gg$0\\$",
+      "stem_line_ids": [
+        "P6L011",
+        "P6L012",
+        "P6L013",
+        "P6L014",
+        "P6L015",
+        "P6L016",
+        "P6L017",
+        "P6L018",
+        "P6L019",
+        "P6L020",
+        "P6L021",
+        "P6L022",
+        "P6L023",
+        "P6L024",
+        "P6L025",
+        "P6L026",
+        "P6L027",
+        "P6L028",
+        "P6L029",
+        "P7L001",
+        "P7L002",
+        "P7L003",
+        "P7L004",
+        "P7L005"
+      ],
+      "options": [],
+      "options_line_ids": {},
+      "answer": "（2）使小车所受合力大小等于绳上的拉力大小（2分）\n(3）左 (1分)0.45（0.43~0.46均可）（2分）\n(4)C",
+      "explanation": "分析：小车未被拉动时：$F=m g$\n小车被拉动时：对M列方程$F-f=M a$\n对m列方程$mg-F=ma$\n解方程组得$F=\\frac{m}{m+M}(Mg+f)$\n当$M\\gg\\geq m$ 时，$F=m g$\n当$M<<m$ 时，$F=M g+f$ 、（为定值）",
+      "difficulty": null,
+      "score": 10.0,
+      "knowledge_points": [],
+      "confidence": 1.0,
+      "source_page": 6,
+      "answer_line_ids": [
+        "P9L008",
+        "P9L009",
+        "P9L010",
+        "P9L011"
+      ],
+      "explanation_line_ids": [
+        "P9L012",
+        "P9L013",
+        "P9L014",
+        "P9L015",
+        "P9L016",
+        "P9L017"
+      ],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L008, P9L009, P9L010, P9L011]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取详解行号切片 [P9L012, P9L013, P9L014, P9L015, P9L016]"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P6L011",
+            "P6L012",
+            "P6L013",
+            "P6L014",
+            "P6L015",
+            "P6L016",
+            "P6L017",
+            "P6L018",
+            "P6L019",
+            "P6L020",
+            "P6L021",
+            "P6L022",
+            "P6L023",
+            "P6L024",
+            "P6L025",
+            "P6L026",
+            "P6L027",
+            "P6L028",
+            "P6L029",
+            "P7L001",
+            "P7L002",
+            "P7L003",
+            "P7L004",
+            "P7L005"
+          ],
+          "corrected_line_ids": [
+            "P6L011",
+            "P6L012",
+            "P6L013",
+            "P6L014",
+            "P6L015",
+            "P6L016",
+            "P6L017",
+            "P6L018",
+            "P6L019",
+            "P6L020",
+            "P6L021",
+            "P6L022",
+            "P6L023",
+            "P6L024",
+            "P6L025",
+            "P6L026",
+            "P6L027",
+            "P6L028",
+            "P6L029",
+            "P7L001",
+            "P7L002",
+            "P7L003",
+            "P7L004",
+            "P7L005"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 16.图1为“验证牛顿第二定律”的实验装置，小桶和桶内沙子总"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": []
+    },
+    {
+      "question_number": "17",
+      "question_type": "short_answer",
+      "section_id": "解答题",
+      "stem": "17.在空间站的失重环境下，需借助动力学方法测量质量。一种“质量测量仪”的工作原理如下：航天员被固定在一个能提供恒定拉力为14N的支架上，由静止开始运动。一套光栅测速系统监测到：航天员在2s 的时间内速度增加了0.4m/s。求该航天员：\n（1）在此过程中加速度的大小a：\n(2）质量m;\n（3）由静止开始运动，在2s内的位移大小x。",
+      "stem_line_ids": [
+        "P7L007",
+        "P7L008",
+        "P7L009",
+        "P7L010"
+      ],
+      "options": [],
+      "options_line_ids": {},
+      "answer": "(1)$a=\\frac{\\Delta v}{\\Delta t}=0.2m/s^2$ （2分公式1分结果1分）\n（2）由$F=m a$ 得$m=\\frac{F}{a}=70kg$ （2分公式1分结果1分）\n(3)$x=\\frac{1}{2}at^{2}$ 得$x=0.4m$ （3分公式2分结果1分）",
+      "explanation": "17.（7分）解：\n(1)$a=\\frac{\\Delta v}{\\Delta t}=0.2m/s^2$ （2分公式1分结果1分）\n（2）由$F=m a$ 得$m=\\frac{F}{a}=70kg$ （2分公式1分结果1分）\n(3)$x=\\frac{1}{2}at^{2}$ 得$x=0.4m$ （3分公式2分结果1分）",
+      "difficulty": null,
+      "score": 7.0,
+      "knowledge_points": [],
+      "confidence": 1.0,
+      "source_page": 7,
+      "answer_line_ids": [
+        "P9L020",
+        "P9L021",
+        "P9L022"
+      ],
+      "explanation_line_ids": [
+        "P9L019",
+        "P9L020",
+        "P9L021",
+        "P9L022"
+      ],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P9L020, P9L021, P9L022]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取详解行号切片 [P9L019, P9L020, P9L021, P9L022]"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P7L007",
+            "P7L008",
+            "P7L009",
+            "P7L010"
+          ],
+          "corrected_line_ids": [
+            "P7L007",
+            "P7L008",
+            "P7L009",
+            "P7L010"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 17.在空间站的失重环境下，需借助动力学方法测量质量。一种“"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": []
+    },
+    {
+      "question_number": "18",
+      "question_type": "short_answer",
+      "section_id": "解答题",
+      "stem": "18.如图所示，质量为0.2kg的小灯笼用轻绳连接，并悬挂于0点，在稳定水平风力作用下发生倾斜，悬绳与竖直方向的夹角为37°，$\\cos37^{\\circ}=0.8$ $\\sin37^{\\circ}=0.6$ ，重力加速度$g=10\\mathrm{m}/\\mathrm{s}^{2}$ 0\n1O 37°\n（1）画出灯笼的受力示意图；\n（2）求风力的大小F；\n（3）若风力增大，试分析轻绳与竖直方向夹角、轻绳拉力大小分别会怎样变化。",
+      "stem_line_ids": [
+        "P7L011",
+        "P7L012",
+        "P7L013",
+        "P7L014",
+        "P7L015"
+      ],
+      "options": [],
+      "options_line_ids": {},
+      "answer": "(1)mg (3分)\n(2)$F=m g\\tan37^{\\circ}=1.5N$ (2分)\nF增大，θ增大，轻绳与竖直方向夹角增大，轻绳拉力T增大",
+      "explanation": "18.（9分）解：\nO \n37T \nF\n(1)mg (3分)\n(2)$F=m g\\tan37^{\\circ}=1.5N$ (2分)\n（3）由力的合成分解可知$F=mg\\tan\\theta,\\quad T=\\frac{mg}{\\cos\\theta}$\nF增大，θ增大，轻绳与竖直方向夹角增大，轻绳拉力T增大(4分）",
+      "difficulty": null,
+      "score": 9.0,
+      "knowledge_points": [],
+      "confidence": 1.0,
+      "source_page": 7,
+      "answer_line_ids": [
+        "P10L002",
+        "P10L003",
+        "P10L005"
+      ],
+      "explanation_line_ids": [
+        "P9L023",
+        "P10L001",
+        "P10L002",
+        "P10L003",
+        "P10L004",
+        "P10L005"
+      ],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P10L002, P10L003, P10L005]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取详解行号切片 [P9L023, P10L001, P10L002, P10L003, P10L004]"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P7L011",
+            "P7L012",
+            "P7L013",
+            "P7L014",
+            "P7L015"
+          ],
+          "corrected_line_ids": [
+            "P7L011",
+            "P7L012",
+            "P7L013",
+            "P7L014",
+            "P7L015"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 18.如图所示，质量为0.2kg的小灯笼用轻绳连接，并悬挂于"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": []
+    },
+    {
+      "question_number": "19",
+      "question_type": "short_answer",
+      "section_id": "解答题",
+      "stem": "19.在一段限速为40km/h（约11m/s）的水平城市道路上，发生了一起汽车与行人的碰撞事故。汽车运动过程如图所示。交警在现场勘测发现：汽车在紧急刹车阶段留下了一段长度为5.4m的刹车痕，汽车受到的制动力（汽车制动时所受到的全部阻力）为$1.5\\times10^{4}\\mathrm{N}$ ，汽车质量约为2000kg，重力加速度$g=10\\mathrm{m}/\\mathrm{s}^{2}$ 0\n匝道下坡阶段轻踩刹车阶段紧急刹车阶段8***©*\n（1）通过计算判断紧急刹车阶段汽车是否超速；\n（2）司机叙述，他在水平路段先轻踩刹车，然后紧急刹车，才留下的刹车痕，经调查取证，汽车轻踩刹车过程中前进的距离为24m，车内行车记录仪显示车内挂件与竖直方向夹角始终为17°，通过计算判断轻\n第7页/共11页\n踩刹车阶段汽车是否超速（$\\tan17^{\\circ}\\approx0.3$ );\n（3）与轻踩刹车路段相接的是一段长约30m、倾角约为$6^{\\circ}$ 的下坡匝道。司机称因下坡时刹车故障，制动力不够，导致了事故的发生。坡顶固定测速仪显示车速为80km/h（约22m/s），厂家提供数据显示：刹车正常时，汽车制动力范围为8000N~15000N。通过计算判断下坡阶段刹车是否出现故障（$\\sin6^{\\circ}\\approx0.1$ )。",
+      "stem_line_ids": [
+        "P7L016",
+        "P7L017",
+        "P7L018",
+        "P7L019",
+        "P7L020",
+        "P8L001",
+        "P8L002"
+      ],
+      "options": [],
+      "options_line_ids": {},
+      "answer": "解得_$v_{1}=9\\mathrm{m/s}=\n32.4\\mathrm{km/h}$ ，可知没有超速。(3分)\n解得_$v_{2}=15\\mathrm{m/s}=54\\mathrm{km/h}$ ，可知已超速。(3分)\n（3）由牛顿第二定律及运动学规律$f-mg\\sin6^{\\circ}=ma_{3},\\quad v_{2}^{2}-v_{3}^{2}=-2a_{3}x_{3}$ 解得$f=10633\\mathrm{N}$ ，可知刹车正常",
+      "explanation": "19.（9分）解：\n（1）由牛顿第二定律及运动学规律$a_{1}=\\mu g,\\quad0-v_{1}^{2}=-2a_{1}x_{1}$\n解得_$v_{1}=9\\mathrm{m/s}=\n32.4\\mathrm{km/h}$ ，可知没有超速。(3分)\n（2）由牛顿第二定律及运动学规律$a_{2}=g\\tan17^{\\circ},\\quad v_{1}^{2}-v_{2}^{2}=-2a_{2}x_{2}$\n解得_$v_{2}=15\\mathrm{m/s}=54\\mathrm{km/h}$ ，可知已超速。(3分)\n（3）由牛顿第二定律及运动学规律$f-mg\\sin6^{\\circ}=ma_{3},\\quad v_{2}^{2}-v_{3}^{2}=-2a_{3}x_{3}$ 解得$f=10633\\mathrm{N}$ ，可知刹车正常。(3分)",
+      "difficulty": null,
+      "score": 9.0,
+      "knowledge_points": [],
+      "confidence": 1.0,
+      "source_page": 7,
+      "answer_line_ids": [
+        "P10L008",
+        "P10L009",
+        "P10L011",
+        "P10L012"
+      ],
+      "explanation_line_ids": [
+        "P10L006",
+        "P10L007",
+        "P10L008",
+        "P10L009",
+        "P10L010",
+        "P10L011",
+        "P10L012"
+      ],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P10L008, P10L009, P10L011, P10L012]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取详解行号切片 [P10L006, P10L007, P10L008, P10L009, P10L010]"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P7L016",
+            "P7L017",
+            "P7L018",
+            "P7L019",
+            "P8L001",
+            "P8L002"
+          ],
+          "corrected_line_ids": [
+            "P7L016",
+            "P7L017",
+            "P7L018",
+            "P7L019",
+            "P7L020",
+            "P8L001",
+            "P8L002"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 19.在一段限速为40km/h（约11m/s）的水平城市道路; 解答题范围扩展至下一题起点（7 行）"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": []
+    },
+    {
+      "question_number": "20",
+      "question_type": "short_answer",
+      "section_id": "解答题",
+      "stem": "20.摩擦现象中蕴藏着丰富的力学原理，对其规律的探索是解决众多生活与工程问题的关键。\n书脊\n\n字典字典\n图1\n图3\n图4\n图5\n（1）如图1所示，拖把是生活中常用的清洁工具，由拖杆（可视为轻杆）和拖把头构成。沿拖杆方向施加大小为F的力推动拖把在水平地板上匀速移动，拖杆与竖直方向的夹角为θ。求拖把受到地面的摩擦力大小$f$ ;\n（2）机场地勤工作人员利用传送带从飞机上卸行李。如图2所示，以恒定速率$v_{1}=0.6m/s$ 运行的传送带与水平面间的夹角$\\theta=37^{\\circ}$ ，两转轴间距$L=3.95m$ i。工作人员沿传送方向以速度$v_{2}=1.6\\mathrm{m/s}$ 从传送带顶端推下一件小包裹（可视为质点）。小包裹与传送带间的动摩擦因数$\\mu{=}0.8$ 。重力加速度$g=10\\mathrm{m}/\\mathrm{s}^{2}$ ,$\\sin37^{\\circ}=0.6,\\quad\\cos37^{\\circ}=0.8$ 。求小包裹通过传送带所需的时间t；\n（3）在传动装置中，用三角皮带（截面如图3）较普通皮带更不易打滑，小明为了探究其中蕴含的物理原理，进行了相关的实验模拟：先将字典按图4方式平放在倾斜的平板上，再将字典按图5方式两侧对称放在截面为等腰梯形的倾斜长柱体上，平板及长柱体底面与水平面的夹角相同且固定。已知等腰梯形的底角为θ，两种情况字典都处于静止状态，字典与平板及长柱体表面间的动摩擦因数相同。假设最大静摩擦力等于滑动摩擦力，垂直于书脊方向的摩擦力远小于书的重力，可忽略。求两种情况下字典的最大静摩擦力之比。\n第8页/共11页",
+      "stem_line_ids": [
+        "P8L003",
+        "P8L004",
+        "P8L005",
+        "P8L006",
+        "P8L007",
+        "P8L008",
+        "P8L009",
+        "P8L010",
+        "P8L011",
+        "P8L012"
+      ],
+      "options": [],
+      "options_line_ids": {},
+      "answer": "（1）由平衡条件可得$f=F\\sin\\theta$ (2分)\n所以小包裹通过传送带的时间为$t=t_{1}+t_{2}=4.5s$ (1分)\n可得$\\frac{f_{1}}{f_{2}}=\\cos\\theta$ （1分）（或得出$\\frac{f_{2}}{f_{1}}=\\frac{1}{\\cos\\theta}$ 亦可）",
+      "explanation": "20.（11分）解：\n（1）由平衡条件可得$f=F\\sin\\theta$ (2分)\n（2）小包裹的速度$v_{2}$ 大于传送带的速度$v_{1}$ ，所以小包裹受到传送带的摩擦力方向沿传送带向上，根据牛顿第二定律可知$\\mu mg\\cos\\theta-mg\\sin\\theta=ma$ ，解得$a=0.4m/s^{2}$ (1分)\n小包裹开始阶段在传送带上做匀减速直线运动，所用时间\nt_{1}=\\frac{v_{2}-v_{1}}{a}=2.5\\mathrm{s}\n(1分)\n在传送带上滑动的距离为\nx_{1}=\\frac{v_{1}+v_{2}}{2}t_{1}=2.75m\n(1分)\n因为小包裹所受滑动摩擦力大于重力沿传送带方向上的分力，即$\\mu m g\\cos\\theta>m g\\sin\\theta$ 所以小包裹与传送带共速后做匀速直线运动至传送带底端，匀速运动的时间为\nt_{2}=\\frac{L-x_{1}}{v_{1}}=2\\mathrm{s}\n(1分)\n所以小包裹通过传送带的时间为$t=t_{1}+t_{2}=4.5s$ (1分)\n（3）设平板及长柱底面与水平面的夹角为，字典在平板上受到的最大静摩擦力$f_{1}=\\mu m g\\cos\\varphi$ (1分)长柱体侧面给字典的支持力的合力$F_{\\mathrm{N}}=mg\\cos\\varphi$\n长柱体两侧面给字典的支持力相等$F_{\\mathrm{N}1}=F_{\\mathrm{N}2},2F_{\\mathrm{N}1}\\cos\\theta=F_{\\mathrm{N}}$ (1分)\n字典受到长柱体的最大静摩擦力$f_{2}=2\\mu F_{\\mathrm{N l}}$ (1分)\n可得$\\frac{f_{1}}{f_{2}}=\\cos\\theta$ （1分）（或得出$\\frac{f_{2}}{f_{1}}=\\frac{1}{\\cos\\theta}$ 亦可）(1分)",
+      "difficulty": null,
+      "score": 11.0,
+      "knowledge_points": [],
+      "confidence": 1.0,
+      "source_page": 8,
+      "answer_line_ids": [
+        "P10L014",
+        "P10L025",
+        "P11L001"
+      ],
+      "explanation_line_ids": [
+        "P10L013",
+        "P10L014",
+        "P10L015",
+        "P10L016",
+        "P10L017",
+        "P10L018",
+        "P10L019",
+        "P10L020",
+        "P10L021",
+        "P10L022",
+        "P10L023",
+        "P10L024",
+        "P10L025",
+        "P10L026",
+        "P10L027",
+        "P10L028",
+        "P11L001"
+      ],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取答案行号切片 [P10L014, P10L025, P11L001]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_annotation",
+        "confidence": 0.9,
+        "evidence": "LLM 语义提取详解行号切片 [P10L013, P10L014, P10L015, P10L016, P10L017]"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P8L003",
+            "P8L004",
+            "P8L005",
+            "P8L006",
+            "P8L007",
+            "P8L008",
+            "P8L009",
+            "P8L010",
+            "P8L011"
+          ],
+          "corrected_line_ids": [
+            "P8L003",
+            "P8L004",
+            "P8L005",
+            "P8L006",
+            "P8L007",
+            "P8L008",
+            "P8L009",
+            "P8L010",
+            "P8L011",
+            "P8L012"
+          ],
+          "anchor_status": "exact",
+          "validation_passed": true,
+          "evidence": "精确匹配题号标记: 20.摩擦现象中蕴藏着丰富的力学原理，对其规律的探索是解决众; 解答题范围扩展至下一题起点（10 行）"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "issues": []
+    }
+  ],
+  "_label": "simple:physics:run1",
+  "_elapsed_s": 279.3
+}

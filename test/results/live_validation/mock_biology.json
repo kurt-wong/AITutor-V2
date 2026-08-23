@@ -1,0 +1,351 @@
+{
+  "status": "succeeded",
+  "stages": [
+    {
+      "name": "pp_primary_l1",
+      "duration_ms": 0,
+      "lines": 409,
+      "empty_pp_filled_by_native": 0,
+      "native_lines_matched": 409,
+      "native_images": 9,
+      "native_answer_section_lines": 9
+    },
+    {
+      "name": "llm_annotation",
+      "duration_ms": 0,
+      "questions": 1,
+      "hint_count": 0,
+      "selected": true
+    },
+    {
+      "name": "anchor_correction",
+      "duration_ms": 0,
+      "summary": {
+        "retry": 1
+      },
+      "selected": true
+    },
+    {
+      "name": "content_slicing",
+      "duration_ms": 0,
+      "sliced": 1,
+      "selected": true
+    },
+    {
+      "name": "answer_matching",
+      "duration_ms": 1,
+      "matched": 1,
+      "selected": true
+    },
+    {
+      "name": "quality_gate",
+      "duration_ms": 0,
+      "high_confidence": 0,
+      "blocked": 1,
+      "selected": true
+    },
+    {
+      "name": "llm_annotation_retry",
+      "duration_ms": 0,
+      "questions": 1,
+      "hint_count": 1
+    },
+    {
+      "name": "anchor_correction_retry",
+      "duration_ms": 0,
+      "summary": {
+        "retry": 1
+      }
+    },
+    {
+      "name": "content_slicing_retry",
+      "duration_ms": 0,
+      "sliced": 1
+    },
+    {
+      "name": "answer_matching_retry",
+      "duration_ms": 1,
+      "matched": 1
+    },
+    {
+      "name": "quality_gate_retry",
+      "duration_ms": 0,
+      "high_confidence": 0,
+      "blocked": 1
+    },
+    {
+      "name": "question_images",
+      "duration_ms": 0
+    }
+  ],
+  "stage_errors": [],
+  "total_time_ms": 6,
+  "errors": [],
+  "question_count": 1,
+  "images": [],
+  "question_images": [],
+  "questions": [
+    {
+      "question_number": "1",
+      "question_type": "single_choice",
+      "section_id": null,
+      "stem": "",
+      "stem_line_ids": [],
+      "options": [
+        {
+          "label": "A",
+          "text": ""
+        },
+        {
+          "label": "B",
+          "text": ""
+        }
+      ],
+      "options_line_ids": {
+        "A": [],
+        "B": []
+      },
+      "answer": "B",
+      "explanation": null,
+      "difficulty": "medium",
+      "score": 5,
+      "knowledge_points": [],
+      "confidence": 0.0,
+      "source_page": 1,
+      "answer_line_ids": [
+        "P10L016",
+        "P11L005",
+        "P11L032",
+        "P12L021"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "document_answer_table",
+        "confidence": 0.95,
+        "evidence": "文末答案表第1题 [P10L016=（1）    ①. 氨基酸    ②. 核糖体、内质网、高尔基体    ③. 线; P11L005=（1）    ①. 能量    ②. 催化; P11L032=（1）    ①. 复制    ②. 染色体的位置、形态、数目    ③. BD; P12L021=（1）    ①. 暗反应    ②. 叶绿体基质]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P1L001"
+          ],
+          "corrected_line_ids": [],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "题干首行不是题目 1 的题号行，需重新标注"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P1L002"
+          ],
+          "corrected_line_ids": [],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 A 首行不是匹配的选项标签行，需重新标注"
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P1L003"
+          ],
+          "corrected_line_ids": [],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 B 首行不是匹配的选项标签行，需重新标注"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "shared_material": "",
+      "is_composite": false,
+      "sub_questions": [],
+      "review_notes": [],
+      "issues": [
+        "锚点需重新标注，禁止自动发布",
+        "题干为空",
+        "选项数量不足: 2/4",
+        "详解依赖 LLM 兜底"
+      ],
+      "discard_categories": [
+        "anchor_mismatch",
+        "blocked",
+        "options_anomaly",
+        "stem_empty"
+      ],
+      "discard_details": [
+        "锚点需重新标注，禁止自动发布",
+        "题干为空",
+        "选项数量不足: 2/4",
+        "详解依赖 LLM 兜底"
+      ]
+    }
+  ],
+  "ingested_questions": [],
+  "discarded_questions": [
+    {
+      "question_number": "1",
+      "question_type": "single_choice",
+      "section_id": null,
+      "stem": "",
+      "stem_line_ids": [],
+      "options": [
+        {
+          "label": "A",
+          "text": ""
+        },
+        {
+          "label": "B",
+          "text": ""
+        }
+      ],
+      "options_line_ids": {
+        "A": [],
+        "B": []
+      },
+      "answer": "B",
+      "explanation": null,
+      "difficulty": "medium",
+      "score": 5,
+      "knowledge_points": [],
+      "confidence": 0.0,
+      "source_page": 1,
+      "answer_line_ids": [
+        "P10L016",
+        "P11L005",
+        "P11L032",
+        "P12L021"
+      ],
+      "explanation_line_ids": [],
+      "answer_provenance": {
+        "field": "answer",
+        "source": "document_answer_table",
+        "confidence": 0.95,
+        "evidence": "文末答案表第1题 [P10L016=（1）    ①. 氨基酸    ②. 核糖体、内质网、高尔基体    ③. 线; P11L005=（1）    ①. 能量    ②. 催化; P11L032=（1）    ①. 复制    ②. 染色体的位置、形态、数目    ③. BD; P12L021=（1）    ①. 暗反应    ②. 叶绿体基质]"
+      },
+      "explanation_provenance": {
+        "field": "explanation",
+        "source": "llm_fallback",
+        "confidence": 0.5,
+        "evidence": "无文档详解，需 LLM 推理"
+      },
+      "corrected_anchors": [
+        {
+          "field": "stem",
+          "llm_line_ids": [
+            "P1L001"
+          ],
+          "corrected_line_ids": [],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "题干首行不是题目 1 的题号行，需重新标注"
+        },
+        {
+          "field": "option_A",
+          "llm_line_ids": [
+            "P1L002"
+          ],
+          "corrected_line_ids": [],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 A 首行不是匹配的选项标签行，需重新标注"
+        },
+        {
+          "field": "option_B",
+          "llm_line_ids": [
+            "P1L003"
+          ],
+          "corrected_line_ids": [],
+          "anchor_status": "retry",
+          "validation_passed": false,
+          "evidence": "选项 B 首行不是匹配的选项标签行，需重新标注"
+        }
+      ],
+      "shared_material_line_ids": [],
+      "shared_material": "",
+      "is_composite": false,
+      "sub_questions": [],
+      "review_notes": [],
+      "issues": [
+        "锚点需重新标注，禁止自动发布",
+        "题干为空",
+        "选项数量不足: 2/4",
+        "详解依赖 LLM 兜底"
+      ],
+      "discard_categories": [
+        "anchor_mismatch",
+        "blocked",
+        "options_anomaly",
+        "stem_empty"
+      ],
+      "discard_details": [
+        "锚点需重新标注，禁止自动发布",
+        "题干为空",
+        "选项数量不足: 2/4",
+        "详解依赖 LLM 兜底"
+      ]
+    }
+  ],
+  "ingest_summary": {
+    "total": 1,
+    "ingested": 0,
+    "discarded": 1,
+    "discard_reasons": {
+      "选项异常": 1,
+      "题干为空": 1,
+      "锚点不确定": 1,
+      "详解依赖 LLM 兜底": 1
+    }
+  },
+  "llm_annotation": {
+    "filename": "2026北京大兴高一（上）期末生物（教师版）.pdf",
+    "subject": "unknown",
+    "metadata_confidence": 0.5,
+    "questions": [
+      {
+        "question_number": "1",
+        "question_type": "single_choice",
+        "section_id": null,
+        "stem_start_marker": null,
+        "stem_end_marker": null,
+        "stem_line_ids": [],
+        "options_line_ids": {
+          "A": [],
+          "B": []
+        },
+        "answer_line_ids": [],
+        "explanation_line_ids": [],
+        "stem_anchor": {
+          "anchor_status": "retry",
+          "evidence": "题干首行不是题目 1 的题号行，需重新标注",
+          "corrected_line_ids": []
+        },
+        "option_anchors": {
+          "option_A": {
+            "anchor_status": "retry",
+            "evidence": "选项 A 首行不是匹配的选项标签行，需重新标注",
+            "corrected_line_ids": []
+          },
+          "option_B": {
+            "anchor_status": "retry",
+            "evidence": "选项 B 首行不是匹配的选项标签行，需重新标注",
+            "corrected_line_ids": []
+          }
+        }
+      }
+    ],
+    "anchor_status_summary": {
+      "retry": 1
+    },
+    "raw_response": "{\"filename\": \"mock\", \"subject\": \"unknown\", \"questions\": [{\"question_number\": \"1\", \"question_type\": \"single_choice\", \"stem_line_ids\": [\"P1L001\"], \"options_line_ids\": {\"A\": [\"P1L002\"], \"B\": [\"P1L003\"]}, \"answer\": \"A\", \"difficulty\": \"medium\", \"score\": 5, \"knowledge_points\": []}], \"metadata_confidence\": 0.5, \"warnings\": []}"
+  },
+  "_elapsed_s": 0.0,
+  "_label": "mock:biology"
+}

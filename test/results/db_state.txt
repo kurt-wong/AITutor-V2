@@ -1,0 +1,51 @@
+﻿=== 文档状态 ===
+  completed: 24
+  paused: 6
+  pending: 2
+
+=== 题目 ===
+  questions: 467
+  question_instances: 476
+
+=== 按学科(completed) ===
+  化学: 5 docs, 115 questions
+  地理: 2 docs, 29 questions
+  数学: 6 docs, 128 questions
+  物理: 3 docs, 55 questions
+  生物: 3 docs, 92 questions
+  英语: 2 docs, 30 questions
+  语文: 3 docs, 27 questions
+
+=== 全部文档(32) ===
+  化学     | completed  |  25q | 2026北京八一学校高一（上）期末化学（教师版）.pdf
+  化学     | completed  |  20q | 2026北京八十中高一（上）期末化学（教师版）.pdf
+  化学     | completed  |  19q | 2026北京北师大二附中高一（上）期末化学（教师版）.pdf
+  化学     | completed  |  26q | 2026北京北师大二附中高一（上）期末化学（选考班）（教师版）.pdf
+  化学     | completed  |  25q | 2026北京大兴高一（上）期末化学（教师版）.pdf
+  历史     | paused     |   0q | 2025北京东城高一（上）期末历史（教师版）.pdf
+  历史     | paused     |   0q | 2025北京海淀高一（上）期末历史（教师版）.pdf
+  地理     | completed  |  16q | 2026北京朝阳高一（上）期末地理（教师版）.pdf
+  地理     | completed  |  13q | 2026北京育英中学高一（上）期末地理（教师版）.pdf
+  政治     | paused     |   0q | 2026北京东城高一（上）期末政治（教师版）.pdf
+  数学     | pending    |   0q | 2026北京二中高一（上）期末数学（教师版）.pdf
+  数学     | completed  |  23q | 2026北京二中高一（上）期末数学（教师版）.pdf
+  数学     | pending    |   0q | 2026北京二中高一（上）期末数学（教师版）.pdf
+  数学     | completed  |  21q | 2026北京二十中高一（上）期末数学（教师版）.pdf
+  数学     | completed  |  21q | 2026北京八中高一（上）期末数学（教师版）.pdf
+  数学     | completed  |  21q | 2026北京北师大实验中学高一（上）期末数学（直升班）（教师版）.pdf
+  数学     | completed  |  21q | 2026北京大兴高一（上）期末数学（教师版）.pdf
+  数学     | completed  |  21q | 2026北京朝阳高一（上）期末数学（教师版）.pdf
+  物理     | paused     |   0q | 2026北京丰台高一（上）期末物理（教师版）.pdf
+  物理     | paused     |   0q | 2026北京九中高一（上）期末物理（教师版）.pdf
+  物理     | completed  |  20q | 2026北京八十中高一（上）期末物理（教师版）.pdf
+  物理     | completed  |  15q | 2026北京昌平高一（上）期末物理（教师版）.pdf
+  物理     | completed  |  20q | 2026北京朝阳高一（上）期末物理（教师版）.pdf
+  生物     | completed  |  26q | 2026北京北师大附中高一（上）期末生物（教师版）.pdf
+  生物     | completed  |  39q | 2026北京大兴高一（上）期末生物（教师版）.pdf
+  生物     | completed  |  27q | 2026北京昌平高一（上）期末生物（教师版）.pdf
+  英语     | paused     |   0q | 2026北京东城高一（上）期末英语（教师版）.pdf
+  英语     | completed  |  11q | 2026北京房山高一（上）期末英语（教师版）.pdf
+  英语     | completed  |  19q | 2026北京朝阳高一（上）期末英语（教师版）.pdf
+  语文     | completed  |  11q | 2026北京八十中高一（上）期末语文（教师版）.pdf
+  语文     | completed  |   8q | 2026北京大兴高一（上）期末语文（教师版）.pdf
+  语文     | completed  |   8q | 2026北京朝阳高一（上）期末语文（教师版）.pdf

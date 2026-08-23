@@ -1,6 +1,6 @@
 # AI Tutor V2 — V1 经验教训与强制约束
 
-Version: 2.0
+Version: 2.1
 Status: 权威约束
 Date: 2026-08-11 07:07:42
 Source: `D:\Project\AI Tutors\LOG.md`、`PROJECT_STATUS.md`、`RESTART_PROMPT.md`、`TASKS_F2_F3.md`、`question-quality-fix-plan.md`、`math-teacher-e2e-root-cause.md`
@@ -492,6 +492,49 @@ V1 最后停留在 Session #178：F2/F3 代码已改，但因旧进程抢队列�
 - `RESTART_PROMPT.md`
 - `PROJECT_STATUS.md`
 
+### 3.30 OCR 学科路由：公式密集科目用 PaddleOCR-VL，文本密集科目用 PP-StructureV3（P1）
+
+教训：
+
+- 2026-08-18 对照测试：化学/生物/地理/语文/数学各 1 份 PDF，分别用 PP-StructureV3 和 PaddleOCR-VL 跑 L1。
+- PP-StructureV3（PPS）对化学多行方程式选项的 B/C/D 标签全部丢失（只剩裸公式），VL 完整保留。
+- PPS 公式渲染有字母间空格（`$\mathrm{N a}_{2}\mathrm{S O}_{4}$`），VL 输出正确化学式（`$Na_{2}SO_{4}$`）。
+- PPS 在速度（1.4s vs 21.5s）和图片提取数量（85 vs 21）上显著优于 VL。
+- 文本密集科目（语文/数学/英语/历史/政治）两者质量接近，PPS 更快、图片更多。
+- 两者对表格选项（HTML table 结构）的处理都是短板。
+
+强制约束：
+
+1. **化学默认走 PaddleOCR-VL-1.6**——公式占比42.9%，VL 选项标签保留率和公式质量差距决定性。
+   2026-08-18 实测：VL 化学单独跑 0% 丢弃（25/25 入库），PPS 20%。
+2. **其余科目走 PP-StructureV3**——生物5.7%、地理0.3%、数学69.7%（但丢弃是解答题锚点问题非OCR），
+   PPS 已足够好，速度更快（1-3s vs 20-30s）、图片提取更多。
+3. VL API 不稳定时的降级策略：OCR 失败标记 `pending_retry`，PDF 存储后待重试。
+   `PaddleOCRClient._submit_with_retry` 覆盖队列满、5xx、网络超时等瞬态错误。
+4. 学科路由基于文件名中的科目名或上传时的元数据，不依赖 OCR 结果反推。
+5. 路由配置必须可覆盖（`ocr_model` 参数或 `OCR_MODEL_OVERRIDE` 环境变量），不硬编码。
+6. VL 的 L1 行结构跟 PPS 不同（行边界、内容分布），题号正则已兼容 VL 转义点（`16\.`）。
+7. 两者对表格选项（HTML table 结构）的处理都是短板。
+8. **地理综合题分组已验证正确**——11 组单选题组（一材料对应 2-3 题）+ 5 道材料分析题 = 16 综合题。
+   单选题组共享地图/图表材料，应作为一道综合题入库（材料+子题）。
+9. **图片选项是固有限制**——地理 Q19 选项是 4 幅图片，OCR 无法提取图片内容为文字，
+   选项锚点校验必然失败。此类题目需人工审核或图片识别兜底。
+10. **试卷缺失题需正确处理**——地理 Q23-Q25 试卷本身缺失，LLM 正确识别但无法提取答案，
+    丢弃是正确行为。管线应能区分"OCR/LLM 失败"和"试卷缺失"。
+11. **table block 必须整块保留**——`ocr_l1_converter` 不再按换行拆散 `<table>`，
+    `l1_postprocessor` 跳过 table 行拆分；否则 HTML 表格选项/答案表会被拆成片段，
+    下游正则和 LLM 都看不到完整表格。
+12. **VL 队列必须显式关闭**——`PaddleOCRQueue` 后台 worker 不会自退出；
+    `simple_pipeline` 在 OCR 链 `finally` 中调用 `close()`，防止 long-running
+    worker 中 pending task 累积。
+
+### 3.31 Native/PP 行号编码分离（2026-08-20）
+
+1. PP 行号使用 `P1L001`，Native 行号使用 `N1L001`，禁止双源共用同一行号前缀。
+2. canonical 双源 L1 保留 PP 行号；native 行号只写入 `raw_sources["native_line_id"]`，
+   LLM 标注阶段只暴露 canonical 行号。
+3. 双源合并按 `(page, line_no)` 加文本相似度对齐，不能假设 native 与 PP 共享 `line_id`。
+
 ---
 
 ## 7. 变更记录
@@ -522,3 +565,24 @@ V1 最后停留在 Session #178：F2/F3 代码已改，但因旧进程抢队列�
 - 版本升至 2.0：L1 改为双源证据路由。
 - PyMuPDF 降级为辅助源，PP-StructureV3 作为公式/复杂版面识别源。
 - 明确 LLM 只能做行级仲裁，不能生成或改写 L1 原文。
+
+### 2026-08-18
+
+- 版本升至 2.1：新增 3.30 OCR 学科路由约束。
+- 化学用 PaddleOCR-VL，文本密集科目用 PP-StructureV3。
+- 对照测试数据保存在 `test/results/ocr_comparison/`。
+
+### 2026-08-18 19:38:00
+
+- 3.30 新增第 11 条：table block 必须整块保留为单条 L1Line。
+- `ocr_l1_converter` 与 `l1_postprocessor` 已实现该约束。
+
+### 2026-08-18 19:46:43
+
+- 3.30 新增第 12 条：VL 队列必须显式关闭。
+- `PaddleOCRQueue.close()` / `QueuedPaddleOCRProvider.close()` / `OCRFallbackChain.close()` 已实现。
+
+### 2026-08-20 22:40:51
+
+- 新增 3.31：Native/PP 行号编码分离。
+- PP 用 `P1L001`，Native 用 `N1L001`；canonical 保留 PP 行号，native 行号只存 `raw_sources["native_line_id"]`。

@@ -1,0 +1,9 @@
+﻿=== 5科 PDF 上传 ===
+
+↑ 化学 doc=b6ca9f97 task=f7280a9a
+↑ 生物 doc=d67ce95f task=045a78f5
+↑ 地理 doc=6f5a2eac task=f1bd1edd
+↑ 历史 doc=de81a7f5 task=1aac0114
+↑ 政治 doc=125f99f3 task=10778cf1
+
+上传完成，等待管线处理...

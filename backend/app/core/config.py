@@ -18,14 +18,13 @@ class Settings(BaseSettings):
     llm_gateway_mode: str = "mock"
     deepseek_api_key: str | None = None
     mimo_api_key: str | None = None
-    qwen_vl_api_key: str | None = None
     paddleocr_vl_token: str | None = None
     deepseek_base_url: str = ""
     deepseek_model: str = ""
+    deepseek_vl_model: str = ""  # deepseek-v4-flash-vision-exp，VL 任务
     mimo_base_url: str = ""
     mimo_model: str = ""
-    qwen_vl_base_url: str = ""
-    qwen_vl_model: str = ""
+    mimo_vl_model: str = ""  # mimo-v2.5 多模态，用于 VL 任务
     ollama_base_url: str = ""
     ollama_model: str = ""
     llm_request_timeout_seconds: float = 60.0

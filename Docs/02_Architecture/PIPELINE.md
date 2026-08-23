@@ -76,10 +76,10 @@ Source of truth: `Docs/00_Requirements/REQUIREMENTS_AND_SOLUTION.md`
 
 PDF：
 
-- 生成两份 raw L1：PyMuPDF native 文本层、PP-StructureV3 OCR/Layout。
+- 生成两份 raw L1：PyMuPDF native 文本层（行号 `N1L001`）、PP-StructureV3 OCR/Layout（行号 `P1L001`）。
 - PyMuPDF 负责页面尺寸、图片 xref/bbox、答案表定位、上下标几何信息。
 - PP-StructureV3 负责公式符号、复杂版面、扫描页和视觉识别。
-- 代码按每行/每区块证据生成 canonical L1，保留 `raw_sources/selected_source/evidence/confidence`。
+- 代码按每行/每区块证据生成 canonical L1，保留 `raw_sources/selected_source/evidence/confidence`；canonical 保留 PP 行号体系，native 行号通过 `raw_sources["native_line_id"]` 溯源。
 - 上下标/化学式/计量单位默认双源校验；冲突时进入低置信度，禁止直接接受 PP。
 
 DOCX：
@@ -96,7 +96,7 @@ DOCX：
 - 表格块
 - 图片块
 - 题目编号和题型线索
-- 每页按行编号的 canonical L1（native/ppsv3 raw L1 保留为可追溯源）
+- 每页按行编号的 canonical L1（canonical 使用 PP 行号；native/ppsv3 raw L1 保留为可追溯源，native 行号写入 raw_sources）
 - 图片的 `page/bbox/placement/source` 元数据
 
 公式内部使用结构化表示，页面和导出时渲染为印刷体，不显示 LaTeX 源码。
@@ -244,9 +244,9 @@ DOCX：
 
 | 任务 | 模型/方式 |
 |---|---|
-| PDF 版面解析 | PyMuPDF native + PP-StructureV3 双源；canonical L1 按证据选择 |
+| PDF 版面解析 | PyMuPDF native + OCR 双源；canonical L1 按证据选择 |
 | DOCX 解析 | 本地解析 + LLM 结构化 |
-| OCR/VL | PaddleOCR-VL、MIMO、Qwen |
+| OCR（学科路由）| 化学 → PaddleOCR-VL；其余 → PP-StructureV3（见 V1_LESSONS 3.30） |
 | 题目切分 | LLM |
 | 配图截取 | 本地图像处理 + 文档结构 |
 | 答案匹配 | 文档结构 + LLM |
@@ -275,9 +275,8 @@ DOCX：
 | MIMO_API_KEY | MIMO API Key |
 | MIMO_BASE_URL | MIMO OpenAI 兼容地址 |
 | MIMO_MODEL | MIMO 模型名 |
-| QWEN_VL_API_KEY | Qwen VL API Key |
-| QWEN_VL_BASE_URL | Qwen VL OpenAI 兼容地址 |
-| QWEN_VL_MODEL | Qwen VL 模型名 |
+| DEEPSEEK_VL_MODEL | DeepSeek Vision 模型名（VL 回退） |
+| MIMO_VL_MODEL | MIMO 多模态模型名（VL 首选） |
 | EMBEDDING_PROVIDER | Ollama |
 | EMBEDDING_MODEL | qwen3-embedding:4b |
 | EMBEDDING_DIMENSION | 2560 |
@@ -317,7 +316,7 @@ backend/app/domains/document/
 └── tasks.py
 ```
 
-当前 P2 已落地部分：`ocr/paddle_client.py` 负责 PP-StructureV3 提交、轮询和 JSONL 解析；`ocr/providers.py` 提供 PP-StructureV3 → MIMO → Qwen 回退链；`question_extractor.py` 通过 LLM Gateway 输出 Question Aggregate JSON。
+当前 P2 已落地部分：`ocr/paddle_client.py` 负责 PP-StructureV3 提交、轮询和 JSONL 解析；`ocr/providers.py` 提供 PP-StructureV3 → MIMO → DeepSeek Vision 回退链；`question_extractor.py` 通过 LLM Gateway 输出 Question Aggregate JSON。
 
 注意：当前 `question_extractor.py` 仍是临时验证版，允许 LLM 直接输出内容文本。正式 T3 前必须改为“粗略行号标注 + 代码锚点校正”范式，禁止直接复用到正式入库链路。
 

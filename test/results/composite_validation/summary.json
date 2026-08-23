@@ -1,0 +1,56 @@
+[
+  {
+    "filename": "2026北京八一学校高一（上）期末化学（教师版）.pdf",
+    "run": 1,
+    "status": "succeeded",
+    "question_count": 25,
+    "composite_count": 3,
+    "sub_question_count": 9,
+    "ingested": 15,
+    "discarded": 10,
+    "discard_rate": 0.4,
+    "discard_reasons": {
+      "锚点不确定": 10,
+      "详解依赖 LLM 兜底": 10,
+      "题干为空": 5
+    },
+    "elapsed_s": 1372.3,
+    "warnings": [],
+    "path": "D:\\Project\\AITutors-v2\\test\\results\\composite_validation\\2026北京八一学校高一（上）期末化学（教师版）_run1.json"
+  },
+  {
+    "filename": "2026北京北师大附中高一（上）期末生物（教师版）.pdf",
+    "run": 1,
+    "status": "succeeded",
+    "question_count": 26,
+    "composite_count": 6,
+    "sub_question_count": 21,
+    "ingested": 26,
+    "discarded": 0,
+    "discard_rate": 0.0,
+    "discard_reasons": {},
+    "elapsed_s": 686.6,
+    "warnings": [],
+    "path": "D:\\Project\\AITutors-v2\\test\\results\\composite_validation\\2026北京北师大附中高一（上）期末生物（教师版）_run1.json"
+  },
+  {
+    "filename": "2026北京朝阳高一（上）期末地理（教师版）.pdf",
+    "run": 1,
+    "status": "succeeded",
+    "question_count": 16,
+    "composite_count": 16,
+    "sub_question_count": 39,
+    "ingested": 14,
+    "discarded": 2,
+    "discard_rate": 0.125,
+    "discard_reasons": {
+      "锚点不确定": 2,
+      "答案依赖 LLM 兜底": 1,
+      "答案缺失": 1,
+      "详解依赖 LLM 兜底": 1
+    },
+    "elapsed_s": 934.0,
+    "warnings": [],
+    "path": "D:\\Project\\AITutors-v2\\test\\results\\composite_validation\\2026北京朝阳高一（上）期末地理（教师版）_run1.json"
+  }
+]

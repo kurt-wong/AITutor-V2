@@ -1,9 +1,14 @@
 """
 L1 行模型 — 文档解析的统一中间表示。
 
-Native 和 OCR 输出必须统一为同一个 L1Document，LLM 只面对 L1，不关心来源。
+Native 和 OCR 输出必须统一为同一个 L1Document，LLM 只面对 canonical L1，不关心来源。
 
-行 ID 格式：P{page}L{line_in_page}（如 P1L001）
+行 ID 格式：
+- PP-StructureV3：P{page}L{line_in_page}（如 P1L001）
+- Native：N{page}L{line_in_page}（如 N1L001）
+
+canonical 双源 L1 保留 PP 行号体系；native 行号只写入 raw_sources 的
+`native_line_id`，不暴露给 LLM 标注阶段。
 L1 原文不可变，LLM 只输出行号引用，不输出题目内容文本。
 
 详见 Docs/01_Product/T3_IMPLEMENTATION.md §2。
@@ -18,17 +23,17 @@ from dataclasses import dataclass, field
 class L1Line:
     """L1 行模型：带页码的稳定行 ID。"""
 
-    line_id: str          # "P1L001" — 全局唯一，格式 P{page}L{line_in_page}
+    line_id: str          # "P1L001"/"N1L001" — 全局唯一，按来源区分前缀
     page_no: int          # 1-based 页码
     line_no_in_page: int  # 页内行号（1-based）
     order: int            # 全局排序序号（1-based，跨页连续）
     text: str             # 行文本（不可变）
     block_type: str       # text / formula / table / figure_placeholder
     bbox: dict | None = None     # {"x1": 0, "y1": 0, "x2": 100, "y2": 20}
-    source: str = "native"       # native / paddleocr / mimo / qwen（已选定来源）
+    source: str = "native"       # native / paddleocr / mimo / deepseek_vl（已选定来源）
     continuation: bool = False   # 是否跨页续行
     # 双源字段
-    raw_sources: dict = field(default_factory=dict)  # {"native": "...", "ppsv3": "..."}
+    raw_sources: dict = field(default_factory=dict)  # {"native": "...", "ppsv3": "...", "native_line_id": "N1L001"}
     selected_source: str = ""    # 最终选定来源（空=待仲裁）
     evidence: str = ""           # 选定依据
     confidence: float = 1.0      # 置信度

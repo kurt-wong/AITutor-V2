@@ -40,3 +40,9 @@ test/results/*_result.json
 test/results/phase1_*.json
 test/scripts/smoke_report.json
 *.tmp
+*.tsbuildinfo
+.npm-cache/
+.tmp-install/
+
+# Workspace temp artifacts
+tmp/

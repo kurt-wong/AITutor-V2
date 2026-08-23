@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from dataclasses import dataclass
 
 from app.ai.gateway import LLMGateway
@@ -51,11 +52,15 @@ Forbidden:
 
 
 async def arbitrate_lines(doc: L1Document, gateway: LLMGateway) -> list[L1LineAudit]:
-    """Arbitrate dual-source L1 lines to determine best source."""
-    audits: list[L1LineAudit] = []
-    dual_lines = [l for l in doc.lines if len(l.raw_sources) > 1]
+    """Arbitrate dual-source L1 lines to determine best source.
+
+    降级策略：优先用确定性比较选择 PP / native，只有归一化后无法判定
+    的真实冲突行才调用 LLM。避免对等价行、超集行做无意义的逐行 LLM 仲裁。
+    """
+    dual_lines = [l for l in doc.lines if _has_dual_sources(l)]
 
     if not dual_lines:
+        audits: list[L1LineAudit] = []
         for line in doc.lines:
             audits.append(L1LineAudit(
                 line_id=line.line_id, selected_source=line.source,
@@ -64,13 +69,27 @@ async def arbitrate_lines(doc: L1Document, gateway: LLMGateway) -> list[L1LineAu
             ))
         return audits
 
-    batch_size = 10
-    for i in range(0, len(dual_lines), batch_size):
-        batch = dual_lines[i:i + batch_size]
-        batch_audits = await _arbitrate_batch(batch, gateway)
-        audits.extend(batch_audits)
+    audits: list[L1LineAudit] = []
+    llm_lines: list[L1Line] = []
+    for line in dual_lines:
+        deterministic = _deterministic_audit(line)
+        if deterministic is not None:
+            audits.append(deterministic)
+        else:
+            llm_lines.append(line)
 
-    single_lines = [l for l in doc.lines if len(l.raw_sources) <= 1]
+    if llm_lines:
+        logger.info(
+            "l1_arbiter deterministic=%d llm=%d",
+            len(dual_lines) - len(llm_lines),
+            len(llm_lines),
+        )
+        batch_size = 20
+        for i in range(0, len(llm_lines), batch_size):
+            batch = llm_lines[i:i + batch_size]
+            audits.extend(await _arbitrate_batch(batch, gateway))
+
+    single_lines = [l for l in doc.lines if not _has_dual_sources(l)]
     for line in single_lines:
         audits.append(L1LineAudit(
             line_id=line.line_id, selected_source=line.source,
@@ -79,6 +98,104 @@ async def arbitrate_lines(doc: L1Document, gateway: LLMGateway) -> list[L1LineAu
         ))
 
     return audits
+
+
+def _has_dual_sources(line: L1Line) -> bool:
+    """判断是否同时持有 native/ppsv3 原始文本。
+
+    raw_sources 会额外携带 native_line_id 溯源键，不能用 len() 判断双源。
+    """
+    raw = line.raw_sources or {}
+    return "native" in raw and "ppsv3" in raw
+
+
+def _normalize_source_text(text: str | None) -> str:
+    """去除全部空白后比较双源文本，避免纯排版差异触发 LLM。"""
+    return re.sub(r"\s+", "", text or "")
+
+
+def _is_structure_or_formula(text: str | None) -> bool:
+    """判断行是否偏向 PP 结构化/公式识别（这类行默认信任 PP）。"""
+    return bool(re.search(
+        r"\\frac|\\sqrt|\\sum|\\int|\\sin|\\cos|\\tan|\\log|\\begin|"
+        r"\\left|\\big|\\cup|\\cap|\\in|\\pi|<table>|<html>",
+        text or "",
+    ))
+
+
+def _deterministic_audit(line: L1Line) -> L1LineAudit | None:
+    """对可确定性判定的双源行直接生成 audit；无法判定返回 None。"""
+    pp_text = line.raw_sources.get("ppsv3", "")
+    native_text = line.raw_sources.get("native", "")
+    pp_norm = _normalize_source_text(pp_text)
+    native_norm = _normalize_source_text(native_text)
+
+    if not pp_text.strip() and not native_text.strip():
+        return L1LineAudit(
+            line_id=line.line_id,
+            selected_source="ppsv3",
+            conflict_type="equivalent",
+            conflict=False,
+            evidence="双源均为空，默认采用 PP",
+            confidence=1.0,
+        )
+    if not pp_text.strip():
+        return L1LineAudit(
+            line_id=line.line_id,
+            selected_source="native",
+            conflict_type="complementary",
+            conflict=False,
+            evidence="PP 为空，确定性采用 native",
+            confidence=0.9,
+        )
+    if not native_text.strip():
+        return L1LineAudit(
+            line_id=line.line_id,
+            selected_source="ppsv3",
+            conflict_type="partial",
+            conflict=False,
+            evidence="native 为空，确定性采用 PP",
+            confidence=0.95,
+        )
+
+    if pp_norm == native_norm:
+        return L1LineAudit(
+            line_id=line.line_id,
+            selected_source="ppsv3",
+            conflict_type="equivalent",
+            conflict=False,
+            evidence="归一化后等价，默认采用 PP",
+            confidence=1.0,
+        )
+
+    structure_line = (
+        "formula" in (line.block_type or "").lower()
+        or "table" in (line.block_type or "").lower()
+        or _is_structure_or_formula(pp_text)
+        or _is_structure_or_formula(native_text)
+    )
+    if not structure_line and native_norm and pp_norm in native_norm:
+        if _coverage_check(pp_text, native_text, "complementary"):
+            return L1LineAudit(
+                line_id=line.line_id,
+                selected_source="native",
+                conflict_type="complementary",
+                conflict=False,
+                evidence="native 确定性超集，采用 native",
+                confidence=0.9,
+            )
+
+    if pp_norm and native_norm in pp_norm:
+        return L1LineAudit(
+            line_id=line.line_id,
+            selected_source="ppsv3",
+            conflict_type="partial",
+            conflict=False,
+            evidence="PP 确定性超集，采用 PP",
+            confidence=0.95,
+        )
+
+    return None
 
 
 async def _arbitrate_batch(lines: list[L1Line], gateway: LLMGateway) -> list[L1LineAudit]:

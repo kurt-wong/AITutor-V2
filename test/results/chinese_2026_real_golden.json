@@ -1,0 +1,589 @@
+{
+  "filename": "2026北京朝阳高一（上）期末语文（教师版）.pdf",
+  "l1_fixture": "l1_ppsv3_chinese_2026.json",
+  "created_at": "2026-08-20T01:38:20Z",
+  "annotator": "pipeline_draft",
+  "version": "1.0",
+  "status": "manual_review_draft",
+  "questions": [
+    {
+      "question_number": "1",
+      "question_type": "single_choice",
+      "is_composite": true,
+      "stem_line_ids": [],
+      "options_line_ids": {},
+      "answer": "B",
+      "answer_line_ids": [
+        "P10L004",
+        "P12L012",
+        "P14L007",
+        "P17L012",
+        "P17L023",
+        "P21L009",
+        "P23L005"
+      ],
+      "explanation_line_ids": [
+        "P10L012",
+        "P10L013",
+        "P10L014",
+        "P10L015",
+        "P10L016",
+        "P10L017"
+      ],
+      "shared_material_line_ids": [
+        "P1L007",
+        "P1L008",
+        "P1L009",
+        "P1L010",
+        "P1L011",
+        "P1L012",
+        "P1L013"
+      ],
+      "answer_source": null,
+      "explanation_source": null,
+      "sub_questions": [
+        {
+          "qno": "1",
+          "question_type": "single_choice",
+          "answer": null,
+          "score": null,
+          "knowledge_points": [
+            "信息筛选与整合"
+          ]
+        },
+        {
+          "qno": "2",
+          "question_type": "single_choice",
+          "answer": null,
+          "score": null,
+          "knowledge_points": [
+            "语言表达连贯"
+          ]
+        },
+        {
+          "qno": "3",
+          "question_type": "single_choice",
+          "answer": null,
+          "score": null,
+          "knowledge_points": [
+            "信息筛选与整合"
+          ]
+        },
+        {
+          "qno": "4",
+          "question_type": "single_choice",
+          "answer": null,
+          "score": null,
+          "knowledge_points": [
+            "信息筛选与整合"
+          ]
+        },
+        {
+          "qno": "5",
+          "question_type": "single_choice",
+          "answer": null,
+          "score": null,
+          "knowledge_points": [
+            "信息筛选与整合",
+            "逻辑推断"
+          ]
+        }
+      ]
+    },
+    {
+      "question_number": "6",
+      "question_type": "short_answer",
+      "is_composite": false,
+      "stem_line_ids": [],
+      "options_line_ids": {},
+      "answer": "①以叠山理水模仿自然山水意境，搭配亭台楼阁等建筑，运用框景手法营造诗画美感，楹联匾额则以雅致文字为景致注入文化气韵。\n②园林的整体布局、建筑命名化用诗词名句，融入文人的审美情趣与精神追求，让山水楼阁兼具自然之美与文心之韵。\n③在园林中开展雅集、节庆活动，将游园赏景与赋诗论道、亲友相聚结合，让自然景致成为文化活动的载体，承载文人情怀与生活乐趣",
+      "answer_line_ids": [
+        "P10L005",
+        "P10L006",
+        "P10L007"
+      ],
+      "explanation_line_ids": [
+        "P11L020",
+        "P11L021",
+        "P11L022",
+        "P11L023",
+        "P12L001"
+      ],
+      "shared_material_line_ids": [],
+      "answer_source": null,
+      "explanation_source": null,
+      "sub_questions": []
+    },
+    {
+      "question_number": "7",
+      "question_type": "short_answer",
+      "is_composite": false,
+      "stem_line_ids": [],
+      "options_line_ids": {},
+      "answer": "①大观园建筑命名含诗文意韵，如沁芳亭、潇湘馆，黛玉题联“绕堤柳借三篙翠”，以诗文造园，融自然景致与文人雅韵。\n②园中设海棠诗社，众人齐聚秋爽斋、芦雪庵，赏花联诗、品评诗作，以雅集抒怀，尽显文人的精神交流与高雅情怀。\n③中秋夜贾母率众人于凸碧山庄赏月听笛、联诗，元宵赏灯宴饮，将民俗传统与园林景致相融，承载亲友相聚的乐趣",
+      "answer_line_ids": [
+        "P10L008",
+        "P10L009",
+        "P10L010"
+      ],
+      "explanation_line_ids": [
+        "P12L002",
+        "P12L003",
+        "P12L004",
+        "P12L005",
+        "P12L006"
+      ],
+      "shared_material_line_ids": [],
+      "answer_source": null,
+      "explanation_source": null,
+      "sub_questions": []
+    },
+    {
+      "question_number": "8",
+      "question_type": "single_choice",
+      "is_composite": true,
+      "stem_line_ids": [],
+      "options_line_ids": {},
+      "answer": "D",
+      "answer_line_ids": [
+        "P12L009"
+      ],
+      "explanation_line_ids": [
+        "P12L015",
+        "P12L016",
+        "P12L017",
+        "P12L018",
+        "P12L019",
+        "P12L020",
+        "P12L021"
+      ],
+      "shared_material_line_ids": [
+        "P3L014",
+        "P3L015",
+        "P3L016",
+        "P3L017"
+      ],
+      "answer_source": null,
+      "explanation_source": null,
+      "sub_questions": [
+        {
+          "qno": "8",
+          "question_type": "single_choice",
+          "answer": null,
+          "score": null,
+          "knowledge_points": [
+            "文言实词"
+          ]
+        },
+        {
+          "qno": "9",
+          "question_type": "single_choice",
+          "answer": null,
+          "score": null,
+          "knowledge_points": [
+            "文言虚词"
+          ]
+        },
+        {
+          "qno": "10",
+          "question_type": "single_choice",
+          "answer": null,
+          "score": null,
+          "knowledge_points": [
+            "文言文翻译"
+          ]
+        },
+        {
+          "qno": "11",
+          "question_type": "single_choice",
+          "answer": null,
+          "score": null,
+          "knowledge_points": [
+            "内容理解与分析"
+          ]
+        }
+      ]
+    },
+    {
+      "question_number": "12",
+      "question_type": "fill_in",
+      "is_composite": false,
+      "stem_line_ids": [],
+      "options_line_ids": {},
+      "answer": "①.深谋远虑②.防患未然③.麻痹大意④.临渴掘井",
+      "answer_line_ids": [
+        "P12L010"
+      ],
+      "explanation_line_ids": [
+        "P13L017",
+        "P13L018",
+        "P13L019",
+        "P13L020",
+        "P13L021",
+        "P14L001",
+        "P14L002",
+        "P14L003"
+      ],
+      "shared_material_line_ids": [],
+      "answer_source": null,
+      "explanation_source": null,
+      "sub_questions": []
+    },
+    {
+      "question_number": "13",
+      "question_type": "short_answer",
+      "is_composite": false,
+      "stem_line_ids": [],
+      "options_line_ids": {},
+      "answer": "观点：唐朝衰亡源于天宝年间不得已依赖节度使制度，未能预先防备，导致后患无穷。\n（1）历史演变论证：第二段以节度使制度为例，叙述其从景云、开元年间仅用于边方控制，到天宝之乱后天子被迫依赖其平叛，导致权力下移、将军实权独揽，形成无法逆转的弊端，以此说明“不得已而为之”的决策如何埋下祸根。\n（2）因果根源论证：第三段通过因果分析，指出唐朝灭亡非僖宗、昭宗之过，而是天宝年间苟且依赖节度使的必然结果，强调大势已去时再补救为时已晚，突显预先防备的必要性",
+      "answer_line_ids": [
+        "P12L011",
+        "P12L012",
+        "P12L013"
+      ],
+      "explanation_line_ids": [
+        "P14L004",
+        "P14L005",
+        "P14L006",
+        "P14L007",
+        "P14L008"
+      ],
+      "shared_material_line_ids": [],
+      "answer_source": null,
+      "explanation_source": null,
+      "sub_questions": []
+    },
+    {
+      "question_number": "14",
+      "question_type": "single_choice",
+      "is_composite": true,
+      "stem_line_ids": [],
+      "options_line_ids": {},
+      "answer": "A",
+      "answer_line_ids": [
+        "P15L005"
+      ],
+      "explanation_line_ids": [
+        "P15L010",
+        "P15L011",
+        "P15L012",
+        "P15L013"
+      ],
+      "shared_material_line_ids": [
+        "P4L028",
+        "P4L029",
+        "P4L030",
+        "P5L001",
+        "P5L002"
+      ],
+      "answer_source": null,
+      "explanation_source": null,
+      "sub_questions": [
+        {
+          "qno": "14",
+          "question_type": "single_choice",
+          "answer": null,
+          "score": null,
+          "knowledge_points": [
+            "诗歌内容理解"
+          ]
+        },
+        {
+          "qno": "15",
+          "question_type": "single_choice",
+          "answer": null,
+          "score": null,
+          "knowledge_points": [
+            "诗歌表达技巧"
+          ]
+        }
+      ]
+    },
+    {
+      "question_number": "16",
+      "question_type": "short_answer",
+      "is_composite": false,
+      "stem_line_ids": [],
+      "options_line_ids": {},
+      "answer": "①由病橘起兴：诗人描写病橘果实小、味酸涩、生蠹虫的衰败之态，暗喻战乱下民生凋敝的现状，暗含对百姓疾苦的同情。\n②忆贡荔事抒慨：由病橘不堪进贡，联想到汉代贡荔“百马死山谷”的惨状，今昔对照，批判统治者劳民伤财的行径。\n③婉转寄讽：全诗托物言志，不直白抨击时政，于今昔勾连中寄寓对苛政的不满，慨叹深沉",
+      "answer_line_ids": [
+        "P15L006",
+        "P15L007",
+        "P15L008"
+      ],
+      "explanation_line_ids": [
+        "P16L003",
+        "P16L004",
+        "P16L005",
+        "P16L006",
+        "P16L007"
+      ],
+      "shared_material_line_ids": [],
+      "answer_source": null,
+      "explanation_source": null,
+      "sub_questions": []
+    },
+    {
+      "question_number": "17",
+      "question_type": "short_answer",
+      "is_composite": false,
+      "stem_line_ids": [],
+      "options_line_ids": {},
+      "answer": "①.何时可掇②.别时茫茫江浸月③.则天地曾不能以一瞬④.而又何羡乎⑤.人生如梦⑥.一尊还酹江月⑦.绛皓驳色⑧.而皆若偻",
+      "answer_line_ids": [
+        "P16L008"
+      ],
+      "explanation_line_ids": [
+        "P16L009",
+        "P16L010"
+      ],
+      "shared_material_line_ids": [],
+      "answer_source": null,
+      "explanation_source": null,
+      "sub_questions": []
+    },
+    {
+      "question_number": "18",
+      "question_type": "single_choice",
+      "is_composite": true,
+      "stem_line_ids": [],
+      "options_line_ids": {},
+      "answer": "D",
+      "answer_line_ids": [
+        "P16L013"
+      ],
+      "explanation_line_ids": [
+        "P17L002",
+        "P17L003",
+        "P17L004",
+        "P17L005"
+      ],
+      "shared_material_line_ids": [
+        "P5L025",
+        "P5L026",
+        "P6L001",
+        "P6L002",
+        "P6L003",
+        "P6L004",
+        "P6L005",
+        "P6L006",
+        "P6L007",
+        "P7L001",
+        "P7L002",
+        "P7L003",
+        "P7L004"
+      ],
+      "answer_source": null,
+      "explanation_source": null,
+      "sub_questions": [
+        {
+          "qno": "18",
+          "question_type": "single_choice",
+          "answer": null,
+          "score": null,
+          "knowledge_points": [
+            "词语理解"
+          ]
+        },
+        {
+          "qno": "19",
+          "question_type": "single_choice",
+          "answer": null,
+          "score": null,
+          "knowledge_points": [
+            "内容理解与赏析"
+          ]
+        }
+      ]
+    },
+    {
+      "question_number": "20",
+      "question_type": "short_answer",
+      "is_composite": false,
+      "stem_line_ids": [],
+      "options_line_ids": {},
+      "answer": "①乡土人情亲切：方言、风物、习俗与作者老家相近，交流无障，让作者恍惚如归故乡。\n②自然与历史厚重：古汴河千年未改道，承载厚重历史；洪泽湖湿地广阔壮美，兼具自然野趣与红色记忆。\n③乡村文化兴盛：柳山乡村大讲堂作为浩大的乡村文学教育工程，延揽名家，吸引各阶层听众，氛围浓厚，意义重大。\n④人文底蕴深厚：是古徐国旧址、徐姓发源地，古徐阁等建筑承载寻根价值，登阁可思接千载，获得古今交汇的独特体验",
+      "answer_line_ids": [
+        "P16L014",
+        "P16L015",
+        "P16L016",
+        "P16L017"
+      ],
+      "explanation_line_ids": [
+        "P17L010",
+        "P17L011",
+        "P17L012",
+        "P17L013",
+        "P17L014",
+        "P17L015"
+      ],
+      "shared_material_line_ids": [],
+      "answer_source": null,
+      "explanation_source": null,
+      "sub_questions": []
+    },
+    {
+      "question_number": "21",
+      "question_type": "short_answer",
+      "is_composite": false,
+      "stem_line_ids": [],
+      "options_line_ids": {},
+      "answer": "①自我与当下观照：登阁俯瞰泗洪当下城市、自然与烟火，影子“看我”是自我审视，在具乡情与新意的土地上观照自身认知。\n②古今时空交汇：泗洪为古徐国都城，“祖先看子孙”将作者与先祖相连，登阁“古今相会”之感升华，实现当下与千年时光交融。\n③文化血脉共鸣：凝聚对泗洪自然、历史、人文的认同，暗含个体与土地、历史、文化的联结，凸显寻根后的归属感与敬畏",
+      "answer_line_ids": [
+        "P16L018",
+        "P16L019",
+        "P16L020"
+      ],
+      "explanation_line_ids": [
+        "P17L016",
+        "P17L017",
+        "P17L018",
+        "P17L019",
+        "P17L020"
+      ],
+      "shared_material_line_ids": [],
+      "answer_source": null,
+      "explanation_source": null,
+      "sub_questions": []
+    },
+    {
+      "question_number": "22",
+      "question_type": "short_answer",
+      "is_composite": false,
+      "stem_line_ids": [],
+      "options_line_ids": {},
+      "answer": "（1）B （2）B",
+      "answer_line_ids": [
+        "P17L023"
+      ],
+      "explanation_line_ids": [
+        "P18L001",
+        "P18L002",
+        "P18L003",
+        "P18L004",
+        "P18L005",
+        "P18L006",
+        "P18L007",
+        "P18L008",
+        "P18L009",
+        "P18L010",
+        "P18L011",
+        "P18L012",
+        "P18L013"
+      ],
+      "shared_material_line_ids": [],
+      "answer_source": null,
+      "explanation_source": null,
+      "sub_questions": []
+    },
+    {
+      "question_number": "23",
+      "question_type": "short_answer",
+      "is_composite": false,
+      "stem_line_ids": [],
+      "options_line_ids": {},
+      "answer": "例文：",
+      "answer_line_ids": [
+        "P18L014"
+      ],
+      "explanation_line_ids": [
+        "P18L014",
+        "P18L015",
+        "P18L016",
+        "P18L017",
+        "P18L018",
+        "P18L019",
+        "P18L020",
+        "P18L021",
+        "P18L022",
+        "P19L001",
+        "P19L002",
+        "P19L003",
+        "P19L004",
+        "P19L005",
+        "P19L006",
+        "P19L007",
+        "P19L008",
+        "P19L009",
+        "P19L010",
+        "P19L011",
+        "P19L012",
+        "P19L013",
+        "P19L014",
+        "P19L015",
+        "P19L016",
+        "P19L017",
+        "P19L018",
+        "P19L019",
+        "P20L001",
+        "P20L002",
+        "P20L003",
+        "P20L004",
+        "P20L005"
+      ],
+      "shared_material_line_ids": [],
+      "answer_source": null,
+      "explanation_source": null,
+      "sub_questions": []
+    },
+    {
+      "question_number": "24",
+      "question_type": "short_answer",
+      "is_composite": false,
+      "stem_line_ids": [],
+      "options_line_ids": {},
+      "answer": "例文：",
+      "answer_line_ids": [
+        "P20L006"
+      ],
+      "explanation_line_ids": [
+        "P20L006",
+        "P20L007",
+        "P20L008",
+        "P20L009",
+        "P20L010",
+        "P20L011",
+        "P21L001",
+        "P21L002",
+        "P21L003",
+        "P21L004",
+        "P21L005",
+        "P21L006",
+        "P21L007",
+        "P21L008",
+        "P21L009",
+        "P21L010",
+        "P21L011",
+        "P21L012",
+        "P21L013",
+        "P21L014",
+        "P22L001",
+        "P22L002",
+        "P22L003",
+        "P22L004",
+        "P22L005",
+        "P22L006",
+        "P22L007",
+        "P22L008",
+        "P22L009",
+        "P22L010",
+        "P22L011",
+        "P22L012",
+        "P22L013",
+        "P22L014",
+        "P23L001",
+        "P23L002",
+        "P23L003",
+        "P23L004",
+        "P23L005",
+        "P23L006",
+        "P23L007",
+        "P23L008"
+      ],
+      "shared_material_line_ids": [],
+      "answer_source": null,
+      "explanation_source": null,
+      "sub_questions": []
+    }
+  ]
+}

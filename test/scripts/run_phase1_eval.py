@@ -43,6 +43,68 @@ NATIVE_FIXTURE_PATH = ROOT / "test" / "fixtures" / "l1_snapshot_math_real.json"
 
 _Q_PREFIX_RE = re.compile(r"^[（(]\s*\d{1,3}\s*[）)]\s*")
 
+# Golden 比较前做语义级归一化：LaTeX、空格、分值后缀、常见符号差异
+# 不应把格式差异误判为答案错误。此函数保持纯文本转换，不改变原始字段。
+_LATEX_FRAC_RE = re.compile(
+    r"\\(?:frac|dfrac)\{((?:[^{}]|\{[^{}]*\})*)\}\{((?:[^{}]|\{[^{}]*\})*)\}"
+)
+_LATEX_SQRT_RE = re.compile(r"\\sqrt\{([^{}]+)\}")
+_LATEX_REMOVE_CMDS = (
+    "left", "right", "big", "Big", "bigg", "Bigg", "text", "mathbf", "mathbb",
+)
+_LATEX_SYMBOL_MAP = {
+    r"\bigcup": "U",
+    r"\cup": "U",
+    r"\cap": "n",
+    r"\infty": "inf",
+    r"\in": "in",
+    r"\geqslant": ">=",
+    r"\geq": ">=",
+    r"\leqslant": "<=",
+    r"\leq": "<=",
+    r"\neq": "!=",
+    r"\times": "*",
+    r"\cdot": "*",
+    r"\pi": "pi",
+    r"\cos": "cos",
+    r"\sin": "sin",
+    r"\tan": "tan",
+    r"\log": "log",
+    r"\lg": "lg",
+    r"\ln": "ln",
+    r"\{": "{",
+    r"\}": "}",
+    r"\mid": "|",
+}
+_SCORE_PAREN_RE = re.compile(r"[（(][^）)]*\d+\s*分[^）)]*[）)]\s*$")
+_SCORE_BARE_RE = re.compile(r"(?:…+\s*)?\d+\s*分\s*$")
+
+
+def normalize_answer_text(text: str | None) -> str:
+    """归一化答案文本用于 golden 比较。
+
+    - 去除 LaTeX 包裹符与常见命令
+    - 转换常见数学符号为可比较文本
+    - 剥离分值后缀（B (2分) → B）
+    - 去除全部空白
+    """
+    if not text:
+        return ""
+    s = str(text).strip()
+    s = s.replace("$", "")
+    # 简单分数优先转换，支持 \frac{a}{b} / \dfrac{a}{b}
+    for _ in range(3):
+        s = _LATEX_FRAC_RE.sub(r"\1/\2", s)
+    s = _LATEX_SQRT_RE.sub(r"sqrt(\1)", s)
+    for cmd in _LATEX_REMOVE_CMDS:
+        s = re.sub(rf"\\{cmd}\b", "", s)
+    for token, replacement in _LATEX_SYMBOL_MAP.items():
+        s = s.replace(token, replacement)
+    s = _SCORE_PAREN_RE.sub("", s)
+    s = _SCORE_BARE_RE.sub("", s)
+    s = re.sub(r"\s+", "", s)
+    return s.strip("。；;，,.")
+
 # Phase 1 验收阈值（默认模式：冻结 PP + MockLLM，行号 100% exact）
 THRESHOLDS_EXACT = {
     "question_number": 1.0, "question_type": 1.0, "answer": 1.0,
@@ -249,7 +311,7 @@ def evaluate_accuracy(result_questions, golden):
             e = gq.get(f)
             if f == "answer":
                 a = rq.get(f)
-                if (e or "").strip() == (a or "").strip():
+                if normalize_answer_text(e) == normalize_answer_text(a):
                     fields[f][0] += 1
             elif f == "options_line_ids":
                 qt = rq.get("question_type", "")

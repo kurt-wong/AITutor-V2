@@ -1,0 +1,320 @@
+{
+  "timestamp": "2026-08-20T08:22:59",
+  "mode": "live_pp",
+  "ocr_attempted": true,
+  "mock": {},
+  "live": {
+    "math": [
+      {
+        "run": 1,
+        "status": "succeeded",
+        "question_count": 21,
+        "errors": [],
+        "elapsed_s": 683.1
+      },
+      {
+        "run": 2,
+        "status": "succeeded",
+        "question_count": 21,
+        "errors": [],
+        "elapsed_s": 698.0
+      }
+    ],
+    "english": [
+      {
+        "run": 1,
+        "status": "succeeded",
+        "question_count": 19,
+        "errors": [],
+        "elapsed_s": 698.2
+      },
+      {
+        "run": 2,
+        "status": "succeeded",
+        "question_count": 19,
+        "errors": [],
+        "elapsed_s": 615.8
+      }
+    ],
+    "physics": [
+      {
+        "run": 1,
+        "status": "succeeded",
+        "question_count": 20,
+        "errors": [],
+        "elapsed_s": 877.0
+      },
+      {
+        "run": 2,
+        "status": "succeeded",
+        "question_count": 20,
+        "errors": [],
+        "elapsed_s": 781.5
+      }
+    ]
+  },
+  "quality": {
+    "math": {
+      "question_count": 21,
+      "answer_matched": 21,
+      "answer_empty": 0,
+      "answer_empty_ratio": 0.0,
+      "high_conf": 19,
+      "blocked": 2,
+      "questions_with_issues": 16,
+      "total_issues": 18,
+      "images_count": 4,
+      "question_images_count": 4,
+      "question_images_placements": [
+        "answer_area",
+        "stem"
+      ],
+      "composite_count": 0,
+      "sub_questions_count": 0
+    },
+    "english": {
+      "question_count": 19,
+      "answer_matched": 19,
+      "answer_empty": 0,
+      "answer_empty_ratio": 0.0,
+      "high_conf": 13,
+      "blocked": 6,
+      "questions_with_issues": 0,
+      "total_issues": 0,
+      "images_count": 0,
+      "question_images_count": 0,
+      "question_images_placements": [],
+      "composite_count": 8,
+      "sub_questions_count": 43
+    },
+    "physics": {
+      "question_count": 20,
+      "answer_matched": 20,
+      "answer_empty": 0,
+      "answer_empty_ratio": 0.0,
+      "high_conf": 19,
+      "blocked": 1,
+      "questions_with_issues": 15,
+      "total_issues": 16,
+      "images_count": 27,
+      "question_images_count": 27,
+      "question_images_placements": [
+        "answer_area",
+        "stem"
+      ],
+      "composite_count": 2,
+      "sub_questions_count": 7
+    }
+  },
+  "ppsv3_l1_source": {
+    "math": "real_ocr",
+    "english": "real_ocr",
+    "physics": "real_ocr"
+  },
+  "reproducibility": {
+    "math": {
+      "match": true,
+      "differences": []
+    },
+    "english": {
+      "match": true,
+      "differences": []
+    },
+    "physics": {
+      "match": true,
+      "differences": []
+    }
+  },
+  "golden_accuracy": {
+    "math": {
+      "question_number": {
+        "correct": 8,
+        "total": 8
+      },
+      "question_type": {
+        "correct": 8,
+        "total": 8
+      },
+      "answer": {
+        "correct": 8,
+        "total": 8
+      },
+      "stem_line_ids": {
+        "correct": 8,
+        "total": 8
+      },
+      "options_line_ids": {
+        "correct": 8,
+        "total": 8
+      },
+      "answer_line_ids": {
+        "correct": 7,
+        "total": 8
+      },
+      "stem_content": {
+        "correct": 8,
+        "total": 8
+      },
+      "options_content": {
+        "correct": 6,
+        "total": 6
+      }
+    },
+    "english": {
+      "question_number": {
+        "correct": 19,
+        "total": 19
+      },
+      "question_type": {
+        "correct": 19,
+        "total": 19
+      },
+      "answer": {
+        "correct": 10,
+        "total": 19
+      },
+      "stem_line_ids": {
+        "correct": 9,
+        "total": 19
+      },
+      "options_line_ids": {
+        "correct": 12,
+        "total": 19
+      },
+      "answer_line_ids": {
+        "correct": 14,
+        "total": 19
+      },
+      "stem_content": {
+        "correct": 12,
+        "total": 19
+      },
+      "options_content": {
+        "correct": 6,
+        "total": 6
+      }
+    },
+    "physics": {
+      "question_number": {
+        "correct": 20,
+        "total": 20
+      },
+      "question_type": {
+        "correct": 18,
+        "total": 20
+      },
+      "answer": {
+        "correct": 0,
+        "total": 20
+      },
+      "stem_line_ids": {
+        "correct": 4,
+        "total": 20
+      },
+      "options_line_ids": {
+        "correct": 3,
+        "total": 20
+      },
+      "answer_line_ids": {
+        "correct": 2,
+        "total": 20
+      },
+      "stem_content": {
+        "correct": 12,
+        "total": 20
+      },
+      "options_content": {
+        "correct": 10,
+        "total": 14
+      }
+    }
+  },
+  "paper_structure": {
+    "math": [
+      {
+        "valid": true,
+        "errors": [],
+        "stats": {
+          "top_level_count": 21,
+          "expected_top_level_count": 21,
+          "composite_count": 0,
+          "independent_count": 21,
+          "bottom_level_count": 21,
+          "expected_bottom_level_count": 21
+        },
+        "run": 1
+      },
+      {
+        "valid": true,
+        "errors": [],
+        "stats": {
+          "top_level_count": 21,
+          "expected_top_level_count": 21,
+          "composite_count": 0,
+          "independent_count": 21,
+          "bottom_level_count": 21,
+          "expected_bottom_level_count": 21
+        },
+        "run": 2
+      }
+    ],
+    "english": [
+      {
+        "valid": true,
+        "errors": [],
+        "stats": {
+          "top_level_count": 19,
+          "expected_top_level_count": 19,
+          "composite_count": 8,
+          "independent_count": 11,
+          "bottom_level_count": 54,
+          "expected_bottom_level_count": 54
+        },
+        "run": 1
+      },
+      {
+        "valid": true,
+        "errors": [],
+        "stats": {
+          "top_level_count": 19,
+          "expected_top_level_count": 19,
+          "composite_count": 8,
+          "independent_count": 11,
+          "bottom_level_count": 54,
+          "expected_bottom_level_count": 54
+        },
+        "run": 2
+      }
+    ],
+    "physics": [
+      {
+        "valid": true,
+        "errors": [],
+        "stats": {
+          "top_level_count": 20,
+          "expected_top_level_count": 20,
+          "composite_count": 2,
+          "independent_count": 18,
+          "bottom_level_count": 25,
+          "expected_bottom_level_count": 25
+        },
+        "run": 1
+      },
+      {
+        "valid": true,
+        "errors": [],
+        "stats": {
+          "top_level_count": 20,
+          "expected_top_level_count": 20,
+          "composite_count": 2,
+          "independent_count": 18,
+          "bottom_level_count": 25,
+          "expected_bottom_level_count": 25
+        },
+        "run": 2
+      }
+    ]
+  },
+  "overall": "PASS",
+  "failures": []
+}

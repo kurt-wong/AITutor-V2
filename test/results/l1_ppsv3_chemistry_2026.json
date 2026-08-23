@@ -1,0 +1,2744 @@
+{
+  "filename": "2026北京八十中高一（上）期末化学（教师版）.pdf",
+  "source": "ppsv3",
+  "total_pages": 14,
+  "text_coverage": 1.0,
+  "lines": [
+    {
+      "line_id": "P1L001",
+      "page_no": 1,
+      "line_no_in_page": 1,
+      "order": 1,
+      "text": "2026北京八十中高一（上）期末 化学",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L002",
+      "page_no": 1,
+      "line_no_in_page": 2,
+      "order": 2,
+      "text": "2026.1",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L003",
+      "page_no": 1,
+      "line_no_in_page": 3,
+      "order": 3,
+      "text": "（考试时间90分钟满分100分）",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L004",
+      "page_no": 1,
+      "line_no_in_page": 4,
+      "order": 4,
+      "text": "可能用到的相对原子质量：H1C12016Na23Cl35.5",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L005",
+      "page_no": 1,
+      "line_no_in_page": 5,
+      "order": 5,
+      "text": "第一部分",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L006",
+      "page_no": 1,
+      "line_no_in_page": 6,
+      "order": 6,
+      "text": "本部分共14小题，每小题3分，共42分。在每小题列出的四个选项中，选出最符合题目要求的一项。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L007",
+      "page_no": 1,
+      "line_no_in_page": 7,
+      "order": 7,
+      "text": "1.2026年新年伊始，“奋斗者”号载人潜水器已经出发，执行中国科学家主导的联合国海洋十年“全球深渊探索计划”的国际联合新航次。“奋斗者”号深海载人潜水器的耐压壳使用钛合金。钛合金属于",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L008",
+      "page_no": 1,
+      "line_no_in_page": 8,
+      "order": 8,
+      "text": "A.金属材料",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L009",
+      "page_no": 1,
+      "line_no_in_page": 9,
+      "order": 9,
+      "text": "B.单质",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L010",
+      "page_no": 1,
+      "line_no_in_page": 10,
+      "order": 10,
+      "text": "C.有机化合物",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L011",
+      "page_no": 1,
+      "line_no_in_page": 11,
+      "order": 11,
+      "text": "D.氧化物",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L012",
+      "page_no": 1,
+      "line_no_in_page": 12,
+      "order": 12,
+      "text": "2.下列物质中，不属于电解质的是",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L013",
+      "page_no": 1,
+      "line_no_in_page": 13,
+      "order": 13,
+      "text": "A.$\\mathrm{H N O}_{3}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L014",
+      "page_no": 1,
+      "line_no_in_page": 14,
+      "order": 14,
+      "text": "B. KOH",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L015",
+      "page_no": 1,
+      "line_no_in_page": 15,
+      "order": 15,
+      "text": "C.$\\mathrm{C\\tt u}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L016",
+      "page_no": 1,
+      "line_no_in_page": 16,
+      "order": 16,
+      "text": "D.$\\mathrm{N a}_{2}\\mathrm{S O}_{4}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L017",
+      "page_no": 1,
+      "line_no_in_page": 17,
+      "order": 17,
+      "text": "3.当光束通过下列分散系时，能观察到丁达尔效应的是",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L018",
+      "page_no": 1,
+      "line_no_in_page": 18,
+      "order": 18,
+      "text": "A.$\\mathrm{N a C l}$ 溶液",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L019",
+      "page_no": 1,
+      "line_no_in_page": 19,
+      "order": 19,
+      "text": "B.$\\mathrm{F e}\\big(\\mathrm{O H}\\big)_{3}$ 胶体",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L020",
+      "page_no": 1,
+      "line_no_in_page": 20,
+      "order": 20,
+      "text": "C.$\\mathrm{H}_{2}\\mathrm{S O}_{4}$ 溶液",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L021",
+      "page_no": 1,
+      "line_no_in_page": 21,
+      "order": 21,
+      "text": "D.蔗糖溶液",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L022",
+      "page_no": 1,
+      "line_no_in_page": 22,
+      "order": 22,
+      "text": "4.下列物质在水中的电离方程式书写不正确的是",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L023",
+      "page_no": 1,
+      "line_no_in_page": 23,
+      "order": 23,
+      "text": "A.$\\mathrm{H_{2}SO_{4}=H_{2}^{+}+SO_{4}^{2-}}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L024",
+      "page_no": 1,
+      "line_no_in_page": 24,
+      "order": 24,
+      "text": "C.",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L025",
+      "page_no": 1,
+      "line_no_in_page": 25,
+      "order": 25,
+      "text": "\\mathrm{CaCl}_{2}=\\mathrm{Ca}^{2+}+2\\mathrm{Cl}^{-}",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L026",
+      "page_no": 1,
+      "line_no_in_page": 26,
+      "order": 26,
+      "text": "5.下列物质中，酸性最强的是",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L027",
+      "page_no": 1,
+      "line_no_in_page": 27,
+      "order": 27,
+      "text": "B.",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L028",
+      "page_no": 1,
+      "line_no_in_page": 28,
+      "order": 28,
+      "text": "D.",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L029",
+      "page_no": 1,
+      "line_no_in_page": 29,
+      "order": 29,
+      "text": "\\mathrm{Ba}\\left(\\mathrm{OH}\\right)_{2}=\\mathrm{Ba}^{2+}+2\\mathrm{OH}^{-}",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L030",
+      "page_no": 1,
+      "line_no_in_page": 30,
+      "order": 30,
+      "text": "\\mathrm{K}_{2}\\mathrm{CO}_{3}=2\\mathrm{K}^{+}+\\mathrm{CO}_{3}^{2-}",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L031",
+      "page_no": 1,
+      "line_no_in_page": 31,
+      "order": 31,
+      "text": "A.$\\mathrm{H}_{2}\\mathrm{CO}_{3}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L032",
+      "page_no": 1,
+      "line_no_in_page": 32,
+      "order": 32,
+      "text": "B.$\\mathrm{H}_{3}\\mathrm{P O}_{4}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L033",
+      "page_no": 1,
+      "line_no_in_page": 33,
+      "order": 33,
+      "text": "C.$\\mathrm{H}_{2}\\mathrm{S O}_{4}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L034",
+      "page_no": 1,
+      "line_no_in_page": 34,
+      "order": 34,
+      "text": "D.$\\mathrm{H C l O}_{4}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L035",
+      "page_no": 1,
+      "line_no_in_page": 35,
+      "order": 35,
+      "text": "6.下列物质中，只含有非极性共价键的是",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L036",
+      "page_no": 1,
+      "line_no_in_page": 36,
+      "order": 36,
+      "text": "A.$\\mathrm{H}_{2}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L037",
+      "page_no": 1,
+      "line_no_in_page": 37,
+      "order": 37,
+      "text": "B.$\\mathrm{C O}_{2}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L038",
+      "page_no": 1,
+      "line_no_in_page": 38,
+      "order": 38,
+      "text": "C.$\\mathrm{M g C l}_{2}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L039",
+      "page_no": 1,
+      "line_no_in_page": 39,
+      "order": 39,
+      "text": "D.$\\mathrm{N a O H}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L040",
+      "page_no": 1,
+      "line_no_in_page": 40,
+      "order": 40,
+      "text": "7.稀土元素被称为“冶金工业的维生素”，稀土元素镝（Dy）常用于制造硬盘驱动器。下列关于$_{66}^{164}\\mathrm{D y}$ 说法不正确的是",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L041",
+      "page_no": 1,
+      "line_no_in_page": 41,
+      "order": 41,
+      "text": "A.质子数为66",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L042",
+      "page_no": 1,
+      "line_no_in_page": 42,
+      "order": 42,
+      "text": "B.中子数为98",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L043",
+      "page_no": 1,
+      "line_no_in_page": 43,
+      "order": 43,
+      "text": "C.质量数为230",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L044",
+      "page_no": 1,
+      "line_no_in_page": 44,
+      "order": 44,
+      "text": "D.核外电子数为66",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L045",
+      "page_no": 1,
+      "line_no_in_page": 45,
+      "order": 45,
+      "text": "8.下列反应或事实的离子方程式不正确的是",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L046",
+      "page_no": 1,
+      "line_no_in_page": 46,
+      "order": 46,
+      "text": "A.向$\\mathrm{F e C l}_{2}$ 溶液中滴加少量氯水：$2Fe^{2+}+Cl_{2}=2Fe^{3+}+2Cl^{-}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L047",
+      "page_no": 1,
+      "line_no_in_page": 47,
+      "order": 47,
+      "text": "B.用盐酸去除水垢中的$\\mathrm{CaCO}_{3}:\\mathrm{CO}_{3}^{2-}+2\\mathrm{H}^{+}=\\mathrm{H}_{2}\\mathrm{O}+\\mathrm{CO}_{2}$ ↑",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L048",
+      "page_no": 1,
+      "line_no_in_page": 48,
+      "order": 48,
+      "text": "C.稀硫酸与氢氧化钡溶液的反应：$2H^{+}+SO_{4}^{2-}+2OH^{-}+Ba^{2+}=2H_{2}O+BaSO_{4}\\downarrow$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P1L049",
+      "page_no": 1,
+      "line_no_in_page": 49,
+      "order": 49,
+      "text": "D.氧化铝溶于氢氧化钠溶液：$\\mathrm{Al}_{2}\\mathrm{O}_{3}+2\\mathrm{OH}^{-}+3\\mathrm{H}_{2}\\mathrm{O}=2\\left[\\mathrm{Al}\\left(\\mathrm{OH}\\right)_{4}\\right]^{-}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L001",
+      "page_no": 2,
+      "line_no_in_page": 1,
+      "order": 50,
+      "text": "9.钠及其化合物的部分转化关系如图。设$N_{\\mathrm{A}}$ 为阿伏加德罗常数的值，下列说法不正确的是",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L002",
+      "page_no": 2,
+      "line_no_in_page": 2,
+      "order": 51,
+      "text": "\\mathrm{{N a}}_{2}\\mathrm{{O}}",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L003",
+      "page_no": 2,
+      "line_no_in_page": 3,
+      "order": 52,
+      "text": "A.反应①中生成1molNaCl时消耗$\\mathrm{C l}_{2}$ 的体积为",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L004",
+      "page_no": 2,
+      "line_no_in_page": 4,
+      "order": 53,
+      "text": "11.2L（标准状况）",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L005",
+      "page_no": 2,
+      "line_no_in_page": 5,
+      "order": 54,
+      "text": "B.反应②中生成$1\\mathrm{m o l}\\mathrm{N a_{2}O}$ _时转移的电子数为$2N_{\\mathrm{A}}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L006",
+      "page_no": 2,
+      "line_no_in_page": 6,
+      "order": 55,
+      "text": "C.3$\\mathrm{.9g N a_{2}O_{2}}$ 中含非极性键的数目为$0.05N_{\\mathrm{A}}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L007",
+      "page_no": 2,
+      "line_no_in_page": 7,
+      "order": 56,
+      "text": "D.$\\mathrm{1m o l/L N a_{2}C O_{3}}$ 溶液中$\\mathrm{N a^{+}}$ 的物质的量为2mol",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L008",
+      "page_no": 2,
+      "line_no_in_page": 8,
+      "order": 57,
+      "text": "10.下列装置不可以用于相应实验的是",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L009",
+      "page_no": 2,
+      "line_no_in_page": 9,
+      "order": 58,
+      "text": "<html><body><table><tr><td>A.制备 胶体 $\\mathrm{F e(O H)_{3}}$</td><td>B．实验室制备 $\\mathrm{C O}_{2}$</td><td>C.向容量瓶中转移 溶液</td><td>D.验证 可以在 燃烧 $\\mathrm{H}_{2}$ $ Cl_{2} 中$</td></tr><tr><td>饱和 溶液 00 平 O $\\mathrm{F e C l}_{3}$</td><td>$\\mathrm{Na_{2}CO_{3}}$</td><td>Tu 0</td><td>$H_{2$ 2 $\\mathrm{C l}_{2}$</td></tr></table></body></html>",
+      "block_type": "table",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L010",
+      "page_no": 2,
+      "line_no_in_page": 10,
+      "order": 59,
+      "text": "A.A",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L011",
+      "page_no": 2,
+      "line_no_in_page": 11,
+      "order": 60,
+      "text": "B.B",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L012",
+      "page_no": 2,
+      "line_no_in_page": 12,
+      "order": 61,
+      "text": "C.C",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L013",
+      "page_no": 2,
+      "line_no_in_page": 13,
+      "order": 62,
+      "text": "D.D",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L014",
+      "page_no": 2,
+      "line_no_in_page": 14,
+      "order": 63,
+      "text": "11.化学小组用下图所示装置制备$\\mathrm{C l}_{2}$ 并进行相关实验，当关闭弹簧夹时，④中的红布条未见明显变化；打开弹簧夹后，④中的红布条逐渐褪色。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L015",
+      "page_no": 2,
+      "line_no_in_page": 15,
+      "order": 64,
+      "text": "\\mathrm{{\\bf\\cdot}M n O}_{2}",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L016",
+      "page_no": 2,
+      "line_no_in_page": 16,
+      "order": 65,
+      "text": "下列说法不正确的是",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L017",
+      "page_no": 2,
+      "line_no_in_page": 17,
+      "order": 66,
+      "text": "A.$\\textcircled{1} 中 \\mathrm{MnO_2}$ 作氧化剂",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L018",
+      "page_no": 2,
+      "line_no_in_page": 18,
+      "order": 67,
+      "text": "B.②中饱和食盐水的作用是除去$\\mathrm{C l}_{2}$ 中的HCl",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L019",
+      "page_no": 2,
+      "line_no_in_page": 19,
+      "order": 68,
+      "text": "C.关闭弹簧夹时，③中盛放的试剂只能选用浓$\\mathrm{H_{2}S O_{4}}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L020",
+      "page_no": 2,
+      "line_no_in_page": 20,
+      "order": 69,
+      "text": "D.打开弹簧夹后，⑤中反应的离子方程式：$\\mathrm{Cl}_{2}+2\\mathrm{OH}^{-}=\\mathrm{Cl}^{-}+\\mathrm{ClO}^{-}+\\mathrm{H}_{2}\\mathrm{O}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P2L021",
+      "page_no": 2,
+      "line_no_in_page": 21,
+      "order": 70,
+      "text": "12.下列“实验结论\"与“实验操作及现象\"相符的一组是",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L001",
+      "page_no": 3,
+      "line_no_in_page": 1,
+      "order": 71,
+      "text": "<html><body><table><tr><td>选项</td><td>实验操作及现象</td><td>实验结论</td></tr><tr><td>A</td><td>向某溶液中滴加几滴 溶液，有白色沉 淀生成 $\\mathrm{A g N O_{3}}$</td><td>原溶液中一定含有Cl</td></tr><tr><td>B</td><td>向 溶液中加入 溶液，再加入少量 KSCN溶液，溶液先变红，片刻后红色褪去 $\\mathrm{H}_{2}\\mathrm{O}_{2}$ $\\mathrm{F e C l}_{2}$</td><td>褪色后的溶液中一定不含 $\\mathrm{F}\\mathfrak{e}^{3+}$</td></tr><tr><td>C</td><td>向稀 溶液中滴加几滴KI溶液，再滴加 2滴淀粉溶液，溶液变为蓝色 $\\mathrm{F e C l}_{3}$</td><td>I具有还原性，被氧化为I2</td></tr><tr><td>D</td><td>在 溶液中插入电极并接通电源进行导电 性实验，灯泡变亮 $\\mathrm{N a C l}$</td><td>通电使NaCl发生电离，形成可 自由移动的离子</td></tr></table></body></html>",
+      "block_type": "table",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L002",
+      "page_no": 3,
+      "line_no_in_page": 2,
+      "order": 72,
+      "text": "A.A",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L003",
+      "page_no": 3,
+      "line_no_in_page": 3,
+      "order": 73,
+      "text": "B.B",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L004",
+      "page_no": 3,
+      "line_no_in_page": 4,
+      "order": 74,
+      "text": "C.C",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L005",
+      "page_no": 3,
+      "line_no_in_page": 5,
+      "order": 75,
+      "text": "D.D",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L006",
+      "page_no": 3,
+      "line_no_in_page": 6,
+      "order": 76,
+      "text": "13.氢化钠（NaH）可在野外用作生氢剂。一定温度下，利用足量重水$(\\mathbf{D}_{2}\\mathbf{O})$ 」与含NaH的Na反应，通过测定$n(D_2)/n(HD)$ 可以获知$n(Na)/n(NaH)$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L007",
+      "page_no": 3,
+      "line_no_in_page": 7,
+      "order": 77,
+      "text": "已知：$\\mathrm{Na}^{-1}+\\mathrm{H}_{2}\\mathrm{O}=\\mathrm{NaOH}+\\mathrm{H}_{2}$ ↑",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L008",
+      "page_no": 3,
+      "line_no_in_page": 8,
+      "order": 78,
+      "text": "下列说法不正确的是",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L009",
+      "page_no": 3,
+      "line_no_in_page": 9,
+      "order": 79,
+      "text": "A.LiH也可作为生氢剂",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L010",
+      "page_no": 3,
+      "line_no_in_page": 10,
+      "order": 80,
+      "text": "B.氘（D或$\\mathrm{_1^{2}H}$ ）与气$(\\mathbf\\Lambda_{1}^{1}\\mathrm{H})$ 」互为同位素，$\\mathbf{D}_{2}\\mathbf{O}$ 分子空间结构呈V形",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L011",
+      "page_no": 3,
+      "line_no_in_page": 11,
+      "order": 81,
+      "text": "C.$\\mathrm{N a H}$ $\\mathrm{H}_{2}\\mathrm{O}$ 的反应过程中有极性共价键的断裂与非极性共价键的形成",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L012",
+      "page_no": 3,
+      "line_no_in_page": 12,
+      "order": 82,
+      "text": "D.若$n(Na)/n(NaH)$ 越大，则$n(D_2)/n(HD)$ 越小",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L013",
+      "page_no": 3,
+      "line_no_in_page": 13,
+      "order": 83,
+      "text": "14.电子工业用$\\mathrm{F e C l}_{3}$ 溶液腐蚀绝缘板上的铜箔制造印刷电路板。一种从酸性腐蚀废液中回收铜并制备高铁酸钠$\\left(\\mathrm{Na}_{2}\\mathrm{FeO}_{4}\\right)$ 溶液的流程如下：",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L014",
+      "page_no": 3,
+      "line_no_in_page": 14,
+      "order": 84,
+      "text": "\\mathrm{F e C l}_{3} 溶液",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L015",
+      "page_no": 3,
+      "line_no_in_page": 15,
+      "order": 85,
+      "text": "\\mathrm{N a}_{2}\\mathrm{F e O}_{4} 溶液",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L016",
+      "page_no": 3,
+      "line_no_in_page": 16,
+      "order": 86,
+      "text": "上述过程I、I、Ⅲ中均有气体产生，下列说法正确的是",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L017",
+      "page_no": 3,
+      "line_no_in_page": 17,
+      "order": 87,
+      "text": "A.过程I中有$\\mathtt{C u}$ 生成，说明氧化性：$\\mathrm{F e}^{2+}>\\mathrm{C u}^{2+}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L018",
+      "page_no": 3,
+      "line_no_in_page": 18,
+      "order": 88,
+      "text": "B.过程Ⅱ中发生的反应有置换反应、化合反应",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L019",
+      "page_no": 3,
+      "line_no_in_page": 19,
+      "order": 89,
+      "text": "C.过程IⅢI中2$\\mathrm{m o l}\\mathrm{F e}^{2+}$ 转化为$\\mathrm{F e}^{3+}$ 时，仅有$1\\mathrm{m o l}~\\mathrm{H}_{2}\\mathrm{O}$ 生成",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L020",
+      "page_no": 3,
+      "line_no_in_page": 20,
+      "order": 90,
+      "text": "D.生成$\\mathrm{Na}_{2}\\mathrm{FeO}_{4}$ 的离子方程式：$3ClO^{-}+2Fe^{3+}+10OH^{-}=2FeO_{4}^{2-}+3Cl^{-}+5H_{2}O$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P3L021",
+      "page_no": 3,
+      "line_no_in_page": 21,
+      "order": 91,
+      "text": "第二部分",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L001",
+      "page_no": 4,
+      "line_no_in_page": 1,
+      "order": 92,
+      "text": "本部分共6题，共58分。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L002",
+      "page_no": 4,
+      "line_no_in_page": 2,
+      "order": 93,
+      "text": "15.现代信息技术是建立在半导体材料基础上的，元素周期律为半导体材料和新型导电合金的研发提供了理论依据。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L003",
+      "page_no": 4,
+      "line_no_in_page": 3,
+      "order": 94,
+      "text": "I．第一代半导体材料：半导体器件的研制开始于Ge（锗），发展到研制其同族的Si。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L004",
+      "page_no": 4,
+      "line_no_in_page": 4,
+      "order": 95,
+      "text": "（1）Si在元素周期表中的位置是o",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L005",
+      "page_no": 4,
+      "line_no_in_page": 5,
+      "order": 96,
+      "text": "II．第三代半导体材料：SiC（碳化硅）作为第三代半导体材料的典型代表之一，广泛应用于新能源汽车、5G通信等领域。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L006",
+      "page_no": 4,
+      "line_no_in_page": 6,
+      "order": 97,
+      "text": "（2）非金属性C强于Si。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L007",
+      "page_no": 4,
+      "line_no_in_page": 7,
+      "order": 98,
+      "text": "①用原子结构解释原因：C和Si位于同一主族，最外层电子数相同，电子层数C少于Si，原子半径，得电子能力C强于Si.",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L008",
+      "page_no": 4,
+      "line_no_in_page": 8,
+      "order": 99,
+      "text": "②气态氢化物的稳定性：$ CH_{4}\\_\\_\\_SiH_{4}$ （填$ \\text{\"}>\\text{\"}$ 或$ \\text{\"}<\\text{\"}$ ）。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L009",
+      "page_no": 4,
+      "line_no_in_page": 9,
+      "order": 100,
+      "text": "③下列事实能说明非金属性C强于Si的是（填序号）。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L010",
+      "page_no": 4,
+      "line_no_in_page": 10,
+      "order": 101,
+      "text": "a.酸性：$\\mathrm{H_{2}CO_{3}>H_{2}SiO_{3}}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L011",
+      "page_no": 4,
+      "line_no_in_page": 11,
+      "order": 102,
+      "text": "b．石英砂与焦炭高温下制备粗硅：$\\mathrm{SiO}_{2}+2\\mathrm{C}\\xlongequal{高温}\\mathrm{Si}+2\\mathrm{CO}\\uparrow$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L012",
+      "page_no": 4,
+      "line_no_in_page": 12,
+      "order": 103,
+      "text": "III．新型导电合金：铝-镁-硅合金是一种新型导电合金，可用于新能源汽车等。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L013",
+      "page_no": 4,
+      "line_no_in_page": 13,
+      "order": 104,
+      "text": "（3）实验表明，$\\mathrm{M g}\\big(\\mathrm{O H}\\big)_{2}$ ，只能与盐酸反应，而$\\mathrm{A l}\\big(\\mathrm{O H}\\big)_{3}$ 既能与盐酸反应，又能与$\\mathrm{N a O H}$ 溶液反应。由此说明$\\mathrm{A l}\\big(\\mathrm{O H}\\big)_{3}$ 是氢氧化物。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L014",
+      "page_no": 4,
+      "line_no_in_page": 14,
+      "order": 105,
+      "text": "（4）钡（Ba）在元素周期表中位于第六周期第IIA族。依据元素周期律推测，碱性：$\\mathrm{Ba}\\left(\\mathrm{OH}\\right)_{2}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L015",
+      "page_no": 4,
+      "line_no_in_page": 15,
+      "order": 106,
+      "text": "$\\mathrm{M g}\\big(\\mathrm{O H}\\big)_{2}$ 1（填$ \\text{\"}>\\text{\"}$ 或$ \\text{\"}<\\text{\"}$ )。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L016",
+      "page_no": 4,
+      "line_no_in_page": 16,
+      "order": 107,
+      "text": "16.研究金属$\\mathrm{N a}$ 及$\\mathrm{Na}_{2}\\mathrm{CO}_{3}、\\mathrm{NaHCO}_{3}$ 的性质。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L017",
+      "page_no": 4,
+      "line_no_in_page": 17,
+      "order": 108,
+      "text": "（1）钠的化学性质非常活泼，其原子结构示意图为",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L018",
+      "page_no": 4,
+      "line_no_in_page": 18,
+      "order": 109,
+      "text": "（2）在烧杯中加入少量水，滴入几滴酚酞溶液，把一块绿豆大的钠放入水中。可见钠熔成小球，四处游动，溶液变为红色。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L019",
+      "page_no": 4,
+      "line_no_in_page": 19,
+      "order": 110,
+      "text": "①钠与水反应的化学方程式为O",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L020",
+      "page_no": 4,
+      "line_no_in_page": 20,
+      "order": 111,
+      "text": "②推断反应时放出热量，依据的现象是o",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L021",
+      "page_no": 4,
+      "line_no_in_page": 21,
+      "order": 112,
+      "text": "③如果火灾现场存放有大量金属钠，则不能用水而需要用来灭火。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L022",
+      "page_no": 4,
+      "line_no_in_page": 22,
+      "order": 113,
+      "text": "（3）小组同学用传感器探究$\\mathrm{Na}_{2}\\mathrm{CO}_{3}$ $\\mathrm{N a H C O}_{3}$ 的性质，实验如下表。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L023",
+      "page_no": 4,
+      "line_no_in_page": 23,
+      "order": 114,
+      "text": "已知：$\\mathrm{p H}$ 越小，$c{\\left(\\mathrm{O H}^{-}\\right)}$ 越小",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P4L024",
+      "page_no": 4,
+      "line_no_in_page": 24,
+      "order": 115,
+      "text": "<html><body><table><tbody><tr><td>实验数据</td></tr><tr><td>实验操作</td></tr></tbody></table></body></html>",
+      "block_type": "table",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L001",
+      "page_no": 5,
+      "line_no_in_page": 1,
+      "order": 116,
+      "text": "\\mathrm{Na}_{2}\\mathrm{CO}_{3}",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L002",
+      "page_no": 5,
+      "line_no_in_page": 2,
+      "order": 117,
+      "text": "①依据实验数据分析，$\\mathrm{Na}_{2}\\mathrm{CO}_{3}$ 溶液和澄清石灰水反应的离子方程式为0",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L003",
+      "page_no": 5,
+      "line_no_in_page": 3,
+      "order": 118,
+      "text": "②滴加$\\mathrm{N a H C O}_{3}$ 溶液至5mL的过程中，参与反应的离子有",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L004",
+      "page_no": 5,
+      "line_no_in_page": 4,
+      "order": 119,
+      "text": "17.研究磁性材料四氧化三铁的制备方法。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L005",
+      "page_no": 5,
+      "line_no_in_page": 5,
+      "order": 120,
+      "text": "I．用铁粉与水蒸气反应制备$\\mathrm{F e}_{3}\\mathrm{O}_{4}$ ，，实验装置如图(经检验气密性良好)。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L006",
+      "page_no": 5,
+      "line_no_in_page": 6,
+      "order": 121,
+      "text": "湿棉花还原铁粉",
+      "block_type": "figure_placeholder",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L007",
+      "page_no": 5,
+      "line_no_in_page": 7,
+      "order": 122,
+      "text": "I",
+      "block_type": "figure_placeholder",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L008",
+      "page_no": 5,
+      "line_no_in_page": 8,
+      "order": 123,
+      "text": "肥皂液",
+      "block_type": "figure_placeholder",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L009",
+      "page_no": 5,
+      "line_no_in_page": 9,
+      "order": 124,
+      "text": "（1）加热湿棉花的目的是",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L010",
+      "page_no": 5,
+      "line_no_in_page": 10,
+      "order": 125,
+      "text": "（2）肥皂液中出现大量气泡，点燃气泡有爆鸣声，证明反应产生的气体是。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L011",
+      "page_no": 5,
+      "line_no_in_page": 11,
+      "order": 126,
+      "text": "（3）为检验反应后试管中黑色固体的成分，设计并完成如下实验。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L012",
+      "page_no": 5,
+      "line_no_in_page": 12,
+      "order": 127,
+      "text": "3{\\mathrm{m o l}}{\\cdot}\\mathrm{L}^{-1}\\mathrm{H}_{2}\\mathrm{S O}_{4} ;溶液",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L013",
+      "page_no": 5,
+      "line_no_in_page": 13,
+      "order": 128,
+      "text": "酸性$\\mathrm{K M n O_{4}}$ 溶液紫红色褪去",
+      "block_type": "figure_placeholder",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L014",
+      "page_no": 5,
+      "line_no_in_page": 14,
+      "order": 129,
+      "text": "①推断上层清液中含有$\\mathrm{F}\\mathfrak{e}^{3+}$ ，依据的实验现象是0",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L015",
+      "page_no": 5,
+      "line_no_in_page": 15,
+      "order": 130,
+      "text": "②仅依据实验1和实验2的现象，不能充分说明铁粉与水蒸气反应产物中含$\\mathrm{F e}_{3}\\mathrm{O}_{4}$ ，理由是。③经现代仪器分析证实了固体产物为$\\mathrm{F e}_{3}\\mathrm{O}_{4}$ 。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L016",
+      "page_no": 5,
+      "line_no_in_page": 16,
+      "order": 131,
+      "text": "II．共沉淀法制备磁性颗粒",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L017",
+      "page_no": 5,
+      "line_no_in_page": 17,
+      "order": 132,
+      "text": "将一定量的$\\mathrm{F e S O}_{4}$ 和$\\mathrm{F e C l}_{3}$ 置于反应器中，用蒸馏水混匀。水浴升温至80℃，快速搅拌并滴入NaOH溶液，充分反应后静置。用磁铁分离出颗粒，洗涤、真空干燥，得到磁性颗粒。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P5L018",
+      "page_no": 5,
+      "line_no_in_page": 18,
+      "order": 133,
+      "text": "（4）共沉淀法制备磁性$\\mathrm{F e}_{3}\\mathrm{O}_{4}$ 颗粒，反应的离子方程式为0",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L001",
+      "page_no": 6,
+      "line_no_in_page": 1,
+      "order": 134,
+      "text": "（5）改变$\\mathrm{F}\\ensuremath{\\mathfrak{e}}^{2+}$ 和$\\mathrm{F}\\mathfrak{e}^{3+}$ 的投料比，研究其对所得颗粒磁性大小的影响，结果如下表。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L002",
+      "page_no": 6,
+      "line_no_in_page": 2,
+      "order": 135,
+      "text": "<html><body><table><tr><td>$\\mathrm{n}(\\mathrm{Fe^{2+}}):\\mathrm{n}(\\mathrm{Fe^{3+}})$</td><td>沉淀颜色</td><td>磁性</td></tr><tr><td>1：2.5</td><td>红棕色</td><td>95.3%</td></tr><tr><td>1:2</td><td>棕色</td><td>97.0%</td></tr><tr><td>1：1.85</td><td>黑色</td><td>100%</td></tr></table></body></html>",
+      "block_type": "table",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L003",
+      "page_no": 6,
+      "line_no_in_page": 3,
+      "order": 136,
+      "text": "$\\mathrm{n}(\\mathrm{Fe}^{2+}):\\mathrm{n}(\\mathrm{Fe}^{3+})=1$ ：1.85时，所得颗粒磁性最好，分析可能原因：o",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L004",
+      "page_no": 6,
+      "line_no_in_page": 4,
+      "order": 137,
+      "text": "18.化学小组在实验室模拟侯氏制碱法，以$\\mathrm{N a C l}$ 和$\\mathrm{N H}_{4}\\mathrm{H C O}_{3}$ 为反应物制备纯碱，步骤如下：",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L005",
+      "page_no": 6,
+      "line_no_in_page": 5,
+      "order": 138,
+      "text": "i．在水浴加热下，将一定量研细的$\\mathrm{N H}_{4}\\mathrm{H C O}_{3}$ 加入饱和食盐水中，搅拌，使$\\mathrm{N H}_{4}\\mathrm{H C O}_{3}$ 溶解，静置，析出$\\mathrm{NaHCO}_{3}$ 晶体；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L006",
+      "page_no": 6,
+      "line_no_in_page": 6,
+      "order": 139,
+      "text": "ii.将$\\mathrm{N a H C O}_{3}$ 晶体减压过滤、煅烧，得到产品。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L007",
+      "page_no": 6,
+      "line_no_in_page": 7,
+      "order": 140,
+      "text": "（1）步骤i中现象说明溶解度：$\\mathrm{N a H C O}_{3}$ $\\mathrm{N H}_{4}\\mathrm{C l}$ （填$ \\text{\"}>\\text{\"}$ 或“<”）。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L008",
+      "page_no": 6,
+      "line_no_in_page": 8,
+      "order": 141,
+      "text": "（2）步骤ii中发生反应的化学方程式是C",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L009",
+      "page_no": 6,
+      "line_no_in_page": 9,
+      "order": 142,
+      "text": "（3）测定产品的成分：将产品配制为溶液，量取一定体积的该溶液，向其中滴加已知浓度的盐酸，测定产品溶液的pH随滴加盐酸体积变化的曲线如下图所示。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L010",
+      "page_no": 6,
+      "line_no_in_page": 10,
+      "order": 143,
+      "text": "12A",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L011",
+      "page_no": 6,
+      "line_no_in_page": 11,
+      "order": 144,
+      "text": "B",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L012",
+      "page_no": 6,
+      "line_no_in_page": 12,
+      "order": 145,
+      "text": "8",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L013",
+      "page_no": 6,
+      "line_no_in_page": 13,
+      "order": 146,
+      "text": "H",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L014",
+      "page_no": 6,
+      "line_no_in_page": 14,
+      "order": 147,
+      "text": "4C",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L015",
+      "page_no": 6,
+      "line_no_in_page": 15,
+      "order": 148,
+      "text": "V$V",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L016",
+      "page_no": 6,
+      "line_no_in_page": 16,
+      "order": 149,
+      "text": "01020304050",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L017",
+      "page_no": 6,
+      "line_no_in_page": 17,
+      "order": 150,
+      "text": "体积/mL",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L018",
+      "page_no": 6,
+      "line_no_in_page": 18,
+      "order": 151,
+      "text": "实验测得滴加盐酸至B点时消耗盐酸$V_{1}\\mathrm{m L}$ ，继续滴加至C点时又消耗了盐酸$\\mathrm{V}_{2}\\mathrm{m I}$ ，且$V_{1}=V_{2}$ 。分析可知所得产品的成分为$\\mathrm{Na}_{2}\\mathrm{CO}_{3}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L019",
+      "page_no": 6,
+      "line_no_in_page": 19,
+      "order": 152,
+      "text": "①配制一定物质的量浓度的盐酸时，不需要使用的仪器有（填序号）。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L020",
+      "page_no": 6,
+      "line_no_in_page": 20,
+      "order": 153,
+      "text": "a.容量瓶b．烧杯c.坩埚d.玻璃棒e.漏斗",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L021",
+      "page_no": 6,
+      "line_no_in_page": 21,
+      "order": 154,
+      "text": "②$\\mathrm{A}\\rightarrow\\mathrm{B}$ 过程中发生反应的离子方程式是0",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L022",
+      "page_no": 6,
+      "line_no_in_page": 22,
+      "order": 155,
+      "text": "③若所得产品为$\\mathrm{Na}_{2}\\mathrm{CO}_{3} 和 \\mathrm{NaHCO}_{3}$ 的混合物，则$V_{1}\\text{\\text{\\text{\\text{\\text{\\ }}}}}V_{2}$ （填$ \\text{\"}>\\text{\"}\\quad\\text{\"}=\\text{\"}$ 或$ \\text{\"}<\\text{\"}$ ）。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L023",
+      "page_no": 6,
+      "line_no_in_page": 23,
+      "order": 156,
+      "text": "（4）已知25℃时$\\mathrm{Na}_{2}\\mathrm{CO}_{3}$ 和$\\mathrm{N a H C O}_{3}$ 的溶解度分别为",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L024",
+      "page_no": 6,
+      "line_no_in_page": 24,
+      "order": 157,
+      "text": "30.7g和$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L025",
+      "page_no": 6,
+      "line_no_in_page": 25,
+      "order": 158,
+      "text": "10.3\\mathrm{g}$ _。推测向饱和$\\mathrm{Na}_{2}\\mathrm{CO}_{3}$ 溶液中持续通入$\\mathrm{C O}_{2}$ 气体会产生$\\mathrm{N a H C O}_{3}$ 晶体。实验小组进行相应探究：",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P6L026",
+      "page_no": 6,
+      "line_no_in_page": 26,
+      "order": 159,
+      "text": "<html><body><table><tr><td>实</td><td>装置与试剂</td><td>操作</td><td>现象</td></tr></table></body></html>",
+      "block_type": "table",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L001",
+      "page_no": 7,
+      "line_no_in_page": 1,
+      "order": 160,
+      "text": "<html><body><table><tr><td>验</td><td></td><td></td><td></td></tr><tr><td>I</td><td>饱和 溶液 $\\mathrm{N a}_{2}\\mathrm{C O}_{3}$ $\\mathrm{C O}_{2}\\longrightarrow$ $20\\mathrm{m I}$</td><td>将 匀速通入饱和 溶液中，持续20 min $600\\mathrm{m L}\\mathrm{C O}_{2}$ $\\mathrm{Na}_{2}\\mathrm{CO}_{3}$</td><td>无明显现象</td></tr><tr><td>ⅡI</td><td>20mL饱和 溶液 充满 的塑料瓶 $\\mathrm{N a}_{2}\\mathrm{C O}_{3}$ $\\mathrm{C O}_{2}$ $500\\mathrm{m I}$</td><td>将饱和 溶液注入塑料 瓶中，密封后剧烈摇动塑料瓶 ，静置 $\\mathrm{Na}_{2}\\mathrm{CO}_{3}$ $1{\\sim}2\\;\\mathrm{m i n}$</td><td>塑料瓶变瘪， 3min 后开始 有白色晶体析 出</td></tr></table></body></html>",
+      "block_type": "table",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L002",
+      "page_no": 7,
+      "line_no_in_page": 2,
+      "order": 161,
+      "text": "实验I无白色晶体析出的原因是o",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L003",
+      "page_no": 7,
+      "line_no_in_page": 3,
+      "order": 162,
+      "text": "19.研究含氯消毒剂的制备与合理使用方法具有重要意义。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L004",
+      "page_no": 7,
+      "line_no_in_page": 4,
+      "order": 163,
+      "text": "（1）目前，很多自来水厂用氯气杀菌、消毒。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L005",
+      "page_no": 7,
+      "line_no_in_page": 5,
+      "order": 164,
+      "text": "①$\\mathrm{C l}_{2}$ 的电子式是0",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L006",
+      "page_no": 7,
+      "line_no_in_page": 6,
+      "order": 165,
+      "text": "②用化学方程式解释氯气溶于水能杀菌、消毒的原因O",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L007",
+      "page_no": 7,
+      "line_no_in_page": 7,
+      "order": 166,
+      "text": "（2）二氧化氯$\\left(\\mathrm{ClO}_{2}\\right)$ 具有强氧化性，是新的自来水消毒剂。实验室研究用过氧化氢与氯酸钠$\\left(\\mathrm{NaClO}_{3}\\right)$ 在酸性条件下制备$\\mathrm{C l O}_{2}$ _，结果如下。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L008",
+      "page_no": 7,
+      "line_no_in_page": 8,
+      "order": 167,
+      "text": "\\mathrm{N a C l O}_{3}",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L009",
+      "page_no": 7,
+      "line_no_in_page": 9,
+      "order": 168,
+      "text": "H {}_{2}\\mathrm{O}_{2}\\mathrm{^{\\cdot}} ,",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L010",
+      "page_no": 7,
+      "line_no_in_page": 10,
+      "order": 169,
+      "text": "\\mathrm{H}_{2}\\mathrm{S O}_{4}",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L011",
+      "page_no": 7,
+      "line_no_in_page": 11,
+      "order": 170,
+      "text": "\\mathrm{C l O}_{2} 溶液",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L012",
+      "page_no": 7,
+      "line_no_in_page": 12,
+      "order": 171,
+      "text": "已知：i．原料氯酸钠中一般总是含有少量$\\mathrm{C l^{-}}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L013",
+      "page_no": 7,
+      "line_no_in_page": 13,
+      "order": 172,
+      "text": "ii．常温常压下，$\\mathrm{C l O}_{2}$ 是黄绿色气体，易溶于水，受热、光照条件下分解。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L014",
+      "page_no": 7,
+      "line_no_in_page": 14,
+      "order": 173,
+      "text": "①$\\mathrm{H}_{2}\\mathrm{O}_{2}$ 在反应中作剂。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L015",
+      "page_no": 7,
+      "line_no_in_page": 15,
+      "order": 174,
+      "text": "②将制备$\\mathrm{C l O}_{2}$ 反应的离子方程式补充完整：O",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L016",
+      "page_no": 7,
+      "line_no_in_page": 16,
+      "order": 175,
+      "text": "\\square\\mathrm{ClO}_{3}^{-}+\\square\\mathrm{H}_{2}\\mathrm{O}_{2}+\\square\\mathrm{~\\underline{~\\quad}~}=\\square\\mathrm{ClO}_{2}\\uparrow+\\square\\mathrm{O}_{2}\\uparrow+\\square\\mathrm{H}_{2}\\mathrm{O}",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P7L017",
+      "page_no": 7,
+      "line_no_in_page": 17,
+      "order": 176,
+      "text": "（3）研究其他条件一定时温度对氯酸钠转化率和二氧化氯收率的影响，数据如下图。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L001",
+      "page_no": 8,
+      "line_no_in_page": 1,
+      "order": 177,
+      "text": "二氧化氯收率",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L002",
+      "page_no": 8,
+      "line_no_in_page": 2,
+      "order": 178,
+      "text": "100「1000%率08090020氯酸钠转化率■L 20080940二氧化氯收率%",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L003",
+      "page_no": 8,
+      "line_no_in_page": 3,
+      "order": 179,
+      "text": "00405060708090100",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L004",
+      "page_no": 8,
+      "line_no_in_page": 4,
+      "order": 180,
+      "text": "温度/℃",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L005",
+      "page_no": 8,
+      "line_no_in_page": 5,
+      "order": 181,
+      "text": "已知：",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L006",
+      "page_no": 8,
+      "line_no_in_page": 6,
+      "order": 182,
+      "text": "\\frac{ 氯酸钠总进料量 - 氯酸钠残余量 }{ 氯酸钠总进料量 }\\times100\\%",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L007",
+      "page_no": 8,
+      "line_no_in_page": 7,
+      "order": 183,
+      "text": "分析温度高于80℃后，二氧化氯收率明显下降的可能原因：o",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L008",
+      "page_no": 8,
+      "line_no_in_page": 8,
+      "order": 184,
+      "text": "（4）实验研究该反应机理时发现：CI对反应有较强的催化作用，反应是否伴有$\\mathrm{C l}_{2}$ 产生主要取决于$\\mathrm{H}_{2}\\mathrm{O}_{2}$ 的投加量。综合以上实验现象，制备$\\mathrm{C l O}_{2}$ 的反应机理可表示为以下反应步骤：",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L009",
+      "page_no": 8,
+      "line_no_in_page": 9,
+      "order": 185,
+      "text": "i.$\\mathrm{H^{+}+ClO_{3}^{-}\\rightleftharpoons HClO_{3}}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L010",
+      "page_no": 8,
+      "line_no_in_page": 10,
+      "order": 186,
+      "text": "\\mathrm{HClO}_{3}+2\\mathrm{H}^{+}+2\\mathrm{Cl}^{-}\\rightleftharpoons\\mathrm{Cl}_{2}+\\mathrm{HClO}_{2}+\\mathrm{H}_{2}\\mathrm{O}",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L011",
+      "page_no": 8,
+      "line_no_in_page": 11,
+      "order": 187,
+      "text": "ii.",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L012",
+      "page_no": 8,
+      "line_no_in_page": 12,
+      "order": 188,
+      "text": "iv.$\\mathrm{HClO}_{3}+\\mathrm{HClO}_{2}=2\\mathrm{ClO}_{2}+\\mathrm{H}_{2}\\mathrm{O}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L013",
+      "page_no": 8,
+      "line_no_in_page": 13,
+      "order": 189,
+      "text": "写出步骤iii对应反应的离子方程式0",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L014",
+      "page_no": 8,
+      "line_no_in_page": 14,
+      "order": 190,
+      "text": "20.实验小组探究$\\mathrm{M n O_{2}}$ 与卤化钾溶液在一定条件下的反应。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L015",
+      "page_no": 8,
+      "line_no_in_page": 15,
+      "order": 191,
+      "text": "（1）理论分析",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L016",
+      "page_no": 8,
+      "line_no_in_page": 16,
+      "order": 192,
+      "text": "①依据一定条件下$\\mathrm{M n O}_{2}$ 与浓盐酸反应生成$\\mathrm{C l}_{2}$ 推测；$\\mathrm{M n O}_{2}$ 和一定浓度的$\\mathrm{H}_{2}\\mathrm{S O}_{4}$ 溶液混合后，再分别加入$\\mathrm{K B r}$ 溶液、KI溶液，一定条件下可生成相应卤素单质。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L017",
+      "page_no": 8,
+      "line_no_in_page": 17,
+      "order": 193,
+      "text": "②依据氧化还原反应规律和元素周期律推测，$\\mathrm{M n O}_{2}$ 与的反应更容易发生。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L018",
+      "page_no": 8,
+      "line_no_in_page": 18,
+      "order": 194,
+      "text": "（2）探究一定条件下$\\mathrm{M n O_{2}}$ 与$\\mathrm{K B r}$ 溶液的反应，进行实验I：",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P8L019",
+      "page_no": 8,
+      "line_no_in_page": 19,
+      "order": 195,
+      "text": "\\mathrm{H}_{2}\\mathrm{S O}_{4} 溶液(调pH≈1)",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P9L001",
+      "page_no": 9,
+      "line_no_in_page": 1,
+      "order": 196,
+      "text": "①实验证实浅黄色溶液中存在$\\mathrm{B r}_{2}$ ：取少量浅黄色溶液，0",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P9L002",
+      "page_no": 9,
+      "line_no_in_page": 2,
+      "order": 197,
+      "text": "②进行实验排除了浅黄色溶液的生成是由于空气中的$\\mathbf{O}_{2}$ 氧化了$\\mathrm{B r}$ 。实验方法和现象为0③试管iii中发生反应的离子方程式为O",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P9L003",
+      "page_no": 9,
+      "line_no_in_page": 3,
+      "order": 198,
+      "text": "（3）探究一定条件下$\\mathrm{M n O_{2}}$ 与KI溶液的反应，进行实验ⅡI：",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P9L004",
+      "page_no": 9,
+      "line_no_in_page": 4,
+      "order": 199,
+      "text": "<html><body><table><tr><td>实验</td><td>iv $0.2\\mathrm{m o l}{\\cdot}\\mathrm{L}^{-1}$ $\\mathrm{{\\tt-M n O}}_{2}$ $ KI 溶液$</td><td>溶液 V $\\cdot\\mathrm{M n O}_{2}$ $\\mathrm{H}_{2}\\mathrm{S O}_{4}$ $0.2\\mathrm{m o l}{\\cdot}\\mathrm{L}^{-1}$ $( 调 \\mathrm{pH}\\approx1)$ $ KI 溶液$</td><td>KI溶液 溶液 vi - $\\mathrm{H}_{2}\\mathrm{S O}_{4}$ $1{\\mathrm{m o l}}{\\cdot}{\\mathrm{L}}^{-1}$ $( 调 pH\\approx1)$ $\\mathrm{M n O}_{2}$</td></tr><tr><td>现象</td><td>混合液呈现黄色</td><td>混合液呈现棕黄色</td><td>混合液迅速呈深棕色</td></tr></table></body></html>",
+      "block_type": "table",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P9L005",
+      "page_no": 9,
+      "line_no_in_page": 5,
+      "order": 200,
+      "text": "说明：$\\mathrm{i v{\\sim}v i}$ 均进行了该条件下c $\\mathbf{O}_{2}$ 不是氧化KI的主要物质的对比实验。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P9L006",
+      "page_no": 9,
+      "line_no_in_page": 6,
+      "order": 201,
+      "text": "分析实验I和实验I中，能作为还原性$\\scriptstyle\\mathrm{I}^{-}\\geq\\scriptstyle\\mathrm{B r}$ 的证据的是0",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P9L007",
+      "page_no": 9,
+      "line_no_in_page": 7,
+      "order": 202,
+      "text": "（4）综合上述实验，总结归纳：",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P9L008",
+      "page_no": 9,
+      "line_no_in_page": 8,
+      "order": 203,
+      "text": "①影响$\\mathrm{M n O_{2}}$ 与卤化钾溶液反应的因素有卤离子种类、0",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P9L009",
+      "page_no": 9,
+      "line_no_in_page": 9,
+      "order": 204,
+      "text": "②有利于$\\mathrm{M n O_{2}}$ 将卤化钾溶液氧化为卤素单质的条件有0",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L001",
+      "page_no": 10,
+      "line_no_in_page": 1,
+      "order": 205,
+      "text": "参考答案",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L002",
+      "page_no": 10,
+      "line_no_in_page": 2,
+      "order": 206,
+      "text": "第一部分",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L003",
+      "page_no": 10,
+      "line_no_in_page": 3,
+      "order": 207,
+      "text": "本部分共14小题，每小题3分，共42分。在每小题列出的四个选项中，选出最符合题目要求的一项。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L004",
+      "page_no": 10,
+      "line_no_in_page": 4,
+      "order": 208,
+      "text": "<html><body><table><tr><td>题号</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td></tr><tr><td>答案</td><td>A</td><td>C</td><td>B</td><td>A</td><td>D</td><td>A</td><td>C</td><td>B</td><td>D</td><td>B</td><td>C</td><td>C</td><td>D</td><td>D</td></tr></table></body></html>",
+      "block_type": "table",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L005",
+      "page_no": 10,
+      "line_no_in_page": 5,
+      "order": 209,
+      "text": "第二部分",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L006",
+      "page_no": 10,
+      "line_no_in_page": 6,
+      "order": 210,
+      "text": "本部分共6题，共58分。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L007",
+      "page_no": 10,
+      "line_no_in_page": 7,
+      "order": 211,
+      "text": "15.【答案】（1）第三周期IVA族（2）①.C小于 Si i ②.> ③.a （3）两性(4)>",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L008",
+      "page_no": 10,
+      "line_no_in_page": 8,
+      "order": 212,
+      "text": "【小问1详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L009",
+      "page_no": 10,
+      "line_no_in_page": 9,
+      "order": 213,
+      "text": "Si是14号元素，在元素周期表中的位置是第三周期IVA族。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L010",
+      "page_no": 10,
+      "line_no_in_page": 10,
+      "order": 214,
+      "text": "【小问2详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L011",
+      "page_no": 10,
+      "line_no_in_page": 11,
+      "order": 215,
+      "text": "①根据题目给出的信息，C和Si位于同一主族（第IVA族），最外层电子数相同，但C的电子层数少于Si。根据元素周期律，同主族元素从上到下，原子半径逐渐增大，得电子能力逐渐减弱。因此，C的原子半径小于Si，得电子能力更强；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L012",
+      "page_no": 10,
+      "line_no_in_page": 12,
+      "order": 216,
+      "text": "②非金属性越强，气态氢化物的稳定性越高。由于C的非金属性强于Si，气态氢化物的稳定性：$ CH_{4}>$ >$\\mathrm{S i H}_{4}$ ：",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L013",
+      "page_no": 10,
+      "line_no_in_page": 13,
+      "order": 217,
+      "text": "配售配",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L014",
+      "page_no": 10,
+      "line_no_in_page": 14,
+      "order": 218,
+      "text": "$\\mathrm{H_{2}CO_{3}>H_{2}SiO_{3}}$ 配",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L015",
+      "page_no": 10,
+      "line_no_in_page": 15,
+      "order": 219,
+      "text": "$\\mathrm{SiO}_{2}+2\\mathrm{C}\\xlongequal{高温}\\mathrm{Si}+2\\mathrm{CO}\\uparrow$ 原产物，则还原性：$\\mathrm{C}\\geq\\mathrm{S i}$ ，但不能说明C的非金属性强于Si，b错误；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L016",
+      "page_no": 10,
+      "line_no_in_page": 16,
+      "order": 220,
+      "text": "【小问3详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L017",
+      "page_no": 10,
+      "line_no_in_page": 17,
+      "order": 221,
+      "text": "根据题目描述，$\\mathrm{M g(O H)_{2}}$ 只能与盐酸反应，而$\\mathrm{A l(O H)_{3}}$ 既能与盐酸反应，又能与$\\mathrm{N a O H}$ 溶液反应，这表明$\\mathrm{A l(O H)_{3}}$ ；是两性氢氧化物。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L018",
+      "page_no": 10,
+      "line_no_in_page": 18,
+      "order": 222,
+      "text": "【小问4详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L019",
+      "page_no": 10,
+      "line_no_in_page": 19,
+      "order": 223,
+      "text": "钡（Ba）位于第六周期第IIA族，镁（Mg）位于第三周期第IIA族。根据元素周期律，同主族元素从上到下，金属性逐渐增强，最高价氧化物对应的水化物碱性也逐渐增强，因此，碱性：$\\mathrm{Ba(OH)_2}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L020",
+      "page_no": 10,
+      "line_no_in_page": 20,
+      "order": 224,
+      "text": "\\mathrm{Mg(OH)_2}",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L021",
+      "page_no": 10,
+      "line_no_in_page": 21,
+      "order": 225,
+      "text": "16.【答案】(1)+112 81(2)①.$2Na+2H_{2}O=2NaOH+H_{2}$ ↑②.钠熔成小球③.干燥",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P10L022",
+      "page_no": 10,
+      "line_no_in_page": 22,
+      "order": 226,
+      "text": "的沙土覆盖",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L001",
+      "page_no": 11,
+      "line_no_in_page": 1,
+      "order": 227,
+      "text": "(3)①$\\mathrm{Ca^{2+}+CO_{3}^{2-}=CaCO_{3}\\downarrow}$ ②.$\\mathrm{O H^{-}}$ $\\mathrm{H C O}_{3}^{-}$ $\\mathrm{C}\\mathtt{a}^{2+}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L002",
+      "page_no": 11,
+      "line_no_in_page": 2,
+      "order": 228,
+      "text": "【小问1详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L003",
+      "page_no": 11,
+      "line_no_in_page": 3,
+      "order": 229,
+      "text": "$\\mathrm{N a}$ 的原子序数为11，其原子结构示意图为$\\left.\\left(\\widehat{+11}\\right)_{2}\\right\\rangle_{8}\\Big\\rangle_{1}$ :",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L004",
+      "page_no": 11,
+      "line_no_in_page": 4,
+      "order": 230,
+      "text": "【小问2详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L005",
+      "page_no": 11,
+      "line_no_in_page": 5,
+      "order": 231,
+      "text": "①Na与水反应生成$\\mathrm{N a O H}$ 和氢气，反应的化学方程式为$2Na+2H_{2}O=2NaOH+H_{2}$ 2↑；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L006",
+      "page_no": 11,
+      "line_no_in_page": 6,
+      "order": 232,
+      "text": "②Na与水反应时，Na受热熔化成小球，说明反应放热；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L007",
+      "page_no": 11,
+      "line_no_in_page": 7,
+      "order": 233,
+      "text": "③如果火灾现场存放有大量金属钠，则不能用水而需要用干燥的沙土覆盖来灭火；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L008",
+      "page_no": 11,
+      "line_no_in_page": 8,
+      "order": 234,
+      "text": "【小问3详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L009",
+      "page_no": 11,
+      "line_no_in_page": 9,
+      "order": 235,
+      "text": "①由图可知，向澄清石灰水中滴加$\\mathrm{Na_{2}CO_{3}}$ 溶液时溶液的pH变化与向澄清石灰水中滴加蒸馏水时基本相同，说明溶液中$\\mathrm{O H^{-}}$ 浓度不变，故$\\mathrm{Na}_{2}\\mathrm{CO}_{3}$ 溶液和澄清石灰水反应的离子方程式为",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L010",
+      "page_no": 11,
+      "line_no_in_page": 10,
+      "order": 236,
+      "text": "\\mathrm{Ca^{2+}+CO_{3}^{2-}=CaCO_{3}\\downarrow} :",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L011",
+      "page_no": 11,
+      "line_no_in_page": 11,
+      "order": 237,
+      "text": "②向澄清石灰水中滴加$\\mathrm{N a H C O}_{3}$ 溶液至5mL的过程中，溶液$\\mathrm{p H}$ 明显减小，则$O H^{-}$ 被消耗，与$H C O_{3}^{-}$ 反应生成的$C O_{3}^{2-}$ ，会进一步和$C a^{2+}$ 结合生成$\\mathrm{C a C O}_{3}$ 沉淀，故参与反应的离子有$\\mathrm{O H}$ 一、$\\mathrm{H C O}_{3}^{-}$ $\\mathrm{C a}^{2+}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L012",
+      "page_no": 11,
+      "line_no_in_page": 12,
+      "order": 238,
+      "text": "17.【答案】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L013",
+      "page_no": 11,
+      "line_no_in_page": 13,
+      "order": 239,
+      "text": "（1）产生水蒸气",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L014",
+      "page_no": 11,
+      "line_no_in_page": 14,
+      "order": 240,
+      "text": "(2)H2(3)①.溶液变为血红色(或者红色）②.铁粉过量时，铁粉可与硫酸反应生成$\\mathrm{F}\\ensuremath{\\mathsf{e}}^{2+}$ ，也可以和$\\mathrm{F}\\ensuremath{\\mathrm{e}}^{3+}$ 反应生成$\\mathrm{F}\\mathfrak{e}^{2+}$ ，因此实验2中酸性高锰酸钾溶液褪色证明的J $\\mathrm{F}\\mathfrak{e}^{2+}$ ，不一定来自$\\mathrm{F e}_{3}\\mathrm{O}_{4}$ 与硫酸反应，无法充分说明产物中含有$\\mathrm{F e}_{3}\\mathrm{O}_{4}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L015",
+      "page_no": 11,
+      "line_no_in_page": 15,
+      "order": 241,
+      "text": "(4)$\\mathrm{Fe^{2+}+2Fe^{3+}+8OH^{-}=Fe_{3}O_{4}\\downarrow+4H_{2}O}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L016",
+      "page_no": 11,
+      "line_no_in_page": 16,
+      "order": 242,
+      "text": "（5）投料比$\\mathrm{n}(\\mathrm{F e}^{2+})$ :$\\mathrm{n}(\\mathrm{Fe}^{3+})=1$ ：1.85时，能够补偿反应过程中$\\mathrm{F}\\mathfrak{e}^{2+}$ 被氧化的损耗，是产物的组成最接近具有最佳磁性的J $\\mathrm{F e}_{3}\\mathrm{O}_{4}$ ，所得颗粒磁性最好",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L017",
+      "page_no": 11,
+      "line_no_in_page": 17,
+      "order": 243,
+      "text": "【分析】I．本实验探究铁粉与水蒸气反应即湿棉花团加热产生水蒸气，在高温下与还原性铁粉反应生成$\\mathrm{F e}_{3}\\mathrm{O}_{4}$ 和H2，将产生的气体通入到肥皂液中产生气泡，点燃气泡发出爆鸣声证明有$\\mathrm{H}_{2}$ 生成，Ⅱ．将一定量$\\mathrm{F e S O}_{4}$ $\\mathrm{F e C l}_{3}$ 置于反应器中，用蒸馏水混匀。水浴升温至80℃，快速搅拌并滴入$\\mathrm{N a O H}$ 溶液，充分反应后静置可制得$\\mathrm{F e}3\\mathrm{O}4$ 颗粒，通过调节$\\mathrm{F e}2+$ $\\mathrm{F e3+}$ 的投料比可得出当二者物质的量之比为1：1.85，",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L018",
+      "page_no": 11,
+      "line_no_in_page": 18,
+      "order": 244,
+      "text": "【小问1详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L019",
+      "page_no": 11,
+      "line_no_in_page": 19,
+      "order": 245,
+      "text": "由分析可知，加热湿棉花的目的是产生水蒸气；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L020",
+      "page_no": 11,
+      "line_no_in_page": 20,
+      "order": 246,
+      "text": "【小问2详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L021",
+      "page_no": 11,
+      "line_no_in_page": 21,
+      "order": 247,
+      "text": "由分析可知，肥皂液中出现大量气泡，点燃气泡有爆鸣声，证明反应产生的气体是$\\mathrm{H}_{2}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L022",
+      "page_no": 11,
+      "line_no_in_page": 22,
+      "order": 248,
+      "text": "【小问3详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L023",
+      "page_no": 11,
+      "line_no_in_page": 23,
+      "order": 249,
+      "text": "①已知SCN遇到$\\mathrm{F}\\ensuremath{\\mathfrak{e}}^{3+}$ 溶液先红色是$\\mathrm{F}\\mathfrak{e}^{3+}$ 的特征现象，推断上层清液中含有,i $\\mathrm{F}\\ensuremath{\\mathfrak{e}}^{3+}$ ，依据的实验现象是溶液变为血红色(或者红色)；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P11L024",
+      "page_no": 11,
+      "line_no_in_page": 24,
+      "order": 250,
+      "text": "②依据实验1的现象说明溶液中含有有$\\mathrm{F}\\mathfrak{e}^{3+}$ ，可以是$\\mathrm{F e}_{2}\\mathrm{O}_{3}$ 和$\\mathrm{H_{2}S O_{4}}$ 反应得到，也可以是$\\mathrm{F e}_{3}\\mathrm{O}_{4}$ 与$\\mathrm{H_{2}S O_{4}}$ 反",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L001",
+      "page_no": 12,
+      "line_no_in_page": 1,
+      "order": 251,
+      "text": "应得到，由实验2的现象说明溶液中含有具有还原性的J $\\mathrm{F}\\mathfrak{e}^{2+}$ ，这个亚铁离子可以是$\\mathrm{F e}_{3}\\mathrm{O}_{4}$ 和$\\mathrm{H}_{2}\\mathrm{S O}_{4}$ 反应得到的，也可能是$\\mathrm{F e}_{2}\\mathrm{O}_{3}$ 和$\\mathrm{H}_{2}\\mathrm{S O}_{4}$ 反应得到的$\\mathrm{F}\\ensuremath{\\mathfrak{e}}^{3+}$ 与过量的$\\mathrm{F e}$ 反应得到，故不能充分说明铁粉与水蒸气反应产物中含$\\mathrm{F e}_{3}\\mathrm{O}_{4}$ ，故答案为：铁粉过量时，铁粉可与硫酸反应生成$\\mathrm{F}\\mathfrak{e}^{2+}$ ，也可以和$\\mathrm{F}\\mathfrak{e}^{3+}$ 反应生成$\\mathrm{F}\\mathfrak{e}^{2+}$ ，因此实验2中酸性高锰酸钾溶液褪色证明有$\\mathrm{F}\\mathfrak{e}^{2+}$ ，不一定来自$\\mathrm{F e}_{3}\\mathrm{O}_{4}$ 与硫酸反应，无法充分说明产物中含有$\\mathrm{F e}_{3}\\mathrm{O}_{4};$ ;",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L002",
+      "page_no": 12,
+      "line_no_in_page": 2,
+      "order": 252,
+      "text": "【小问4详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L003",
+      "page_no": 12,
+      "line_no_in_page": 3,
+      "order": 253,
+      "text": "共沉淀法即将一定量的$\\mathrm{F e S O}_{4}$ 和$\\mathrm{F e C l}_{3}$ 置于反应器中，用蒸馏水混匀。水浴升温至80℃，快速搅拌并滴入$\\mathrm{N a O H}$ 溶液，充分反应制备磁性$\\mathrm{F e}_{3}\\mathrm{O}_{4}$ 颗粒，该反应的离子方程式为：$\\mathrm{Fe^{2+}+2Fe^{3+}+8OH^{-}=Fe_{3}O_{4}\\downarrow+4H_{2}O}$ ;",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L004",
+      "page_no": 12,
+      "line_no_in_page": 4,
+      "order": 254,
+      "text": "【小问5详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L005",
+      "page_no": 12,
+      "line_no_in_page": 5,
+      "order": 255,
+      "text": "已知$\\mathrm{Fe_{3}O_{4}} 中 \\mathrm{Fe^{2+}} 和 \\mathrm{Fe^{3+}}$ 的物质的量之比为1:2，但由于$\\mathrm{F}\\mathfrak{e}^{2+}$ 容易被氧化，故如果按1:2投料，部分$\\mathrm{F}\\mathfrak{e}^{2+}$ 被氧化后，实际体系中$\\mathrm{F}\\mathfrak{e}^{2+}$ 的占比会低于理论值，无法形成纯净的$\\mathrm{F e}_{3}\\mathrm{O}_{4}$ ，调整投料比为1:1.85即$\\mathrm{F e}^{3+}$ 投料略低于理论值，恰好弥补了$\\mathrm{F}\\ensuremath{\\mathfrak{e}}^{2+}$ 被氧化的损耗，使得反应后生成最接近纯净的$\\mathrm{F e}_{3}\\mathrm{O}_{4}$ ，因此磁性达到100%，故答案为：投料比$\\mathrm{n}(\\mathrm{Fe}^{2+}):\\mathrm{n}(\\mathrm{Fe}^{3+})=1$ ：1.85时，能够补偿反应过程中$\\mathrm{F}\\mathfrak{e}^{2+}$ 被氧化的损耗，使产物的组成最接近具有最佳磁性的$\\mathrm{F e}_{3}\\mathrm{O}_{4}$ ，所得颗粒磁性最好。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L006",
+      "page_no": 12,
+      "line_no_in_page": 6,
+      "order": 256,
+      "text": "18.【答案】$(1)<$ (2)$2NaHCO_{3}\\xlongequal{\\Delta}Na_{2}CO_{3}+CO_{2}\\uparrow+H_{2}O$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L007",
+      "page_no": 12,
+      "line_no_in_page": 7,
+      "order": 257,
+      "text": "(3)①.ce ②.$\\mathrm{CO}_{3}^{2-}+\\mathrm{H}^{+}=\\mathrm{HCO}_{3}^{-}$ ③.<",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L008",
+      "page_no": 12,
+      "line_no_in_page": 8,
+      "order": 258,
+      "text": "(4)$\\mathrm{C O}_{2}$ 在饱和$\\mathrm{Na_{2}CO_{3}}$ 溶液中的溶解速率小、溶解度小，二者发生反应的速率也较小，生成的$\\mathrm{NaHCO_{3}}$ 的量较少，$\\mathrm{NaHCO_{3}}$ 在该溶液中没有达到过饱和状态，故不能析出晶体",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L009",
+      "page_no": 12,
+      "line_no_in_page": 9,
+      "order": 259,
+      "text": "【分析】以$\\mathrm{N a C l}$ 和$\\mathrm{NH_{4}HCO_{3}}$ 为反应物，在实验室制备纯碱时，避免了气体的使用，使工艺变得简单易行，原料利用率较高，且对环境友好；滴定分析中碳酸钠与盐酸的反应分步进行：$\\mathrm{CO}_{3}^{2-}+\\mathrm{H}^{+}=\\mathrm{HCO}_{3}^{-}$ $\\mathrm{HCO_{3}^{-}+H^{+}=CO_{2}\\uparrow+H_{2}O}$ ，根据两个滴定终点所消耗的盐酸用量分析产品的成分；通过对比实验可以发现$\\mathrm{C O}_{2}$ 的充分溶解对$\\mathrm{NaHCO_{3}}$ 的生成有利；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L010",
+      "page_no": 12,
+      "line_no_in_page": 10,
+      "order": 260,
+      "text": "【小问1详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L011",
+      "page_no": 12,
+      "line_no_in_page": 11,
+      "order": 261,
+      "text": "步骤i发生反应的方程式为$\\mathrm{NaCl+NH_{4}HCO_{3}=NaHCO_{3}\\downarrow+NH_{4}Cl}$ ，生成等量的$\\mathrm{N a H C O}_{3}$ 和",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L012",
+      "page_no": 12,
+      "line_no_in_page": 12,
+      "order": 262,
+      "text": "$\\mathrm{N H}_{4}\\mathrm{C l},\\quad\\mathrm{N a H C O}_{3}$ 以沉淀的形式析出，而$\\mathrm{N H}_{4}\\mathrm{C l}$ 不析出，则相同条件下溶解度$\\mathrm{NaHCO_{3}<NH_{4}Cl}$ .#",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L013",
+      "page_no": 12,
+      "line_no_in_page": 13,
+      "order": 263,
+      "text": "【小问2详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L014",
+      "page_no": 12,
+      "line_no_in_page": 14,
+      "order": 264,
+      "text": "步骤ii中，$\\mathrm{N a H C O}_{3}$ 在加热条件下分解为$\\mathrm{Na}_{2}\\mathrm{CO}_{3}、\\mathrm{CO}_{2}$ 和$\\mathrm{H}_{2}\\mathrm{O}$ ，化学方程式为",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L015",
+      "page_no": 12,
+      "line_no_in_page": 15,
+      "order": 265,
+      "text": "2NaHCO_{3}\\overset{\\Delta}{=}Na_{2}CO_{3}+CO_{2}\\uparrow+H_{2}O",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L016",
+      "page_no": 12,
+      "line_no_in_page": 16,
+      "order": 266,
+      "text": "【小问3详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L017",
+      "page_no": 12,
+      "line_no_in_page": 17,
+      "order": 267,
+      "text": "①配制一定物质的量浓度的盐酸时，烧杯和玻璃棒用来稀释浓盐酸，容量瓶用来精确定容，因此不需要的仪器有坩埚和漏斗，故选ce：",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P12L018",
+      "page_no": 12,
+      "line_no_in_page": 18,
+      "order": 268,
+      "text": "②$\\mathrm{A}\\to\\mathrm{B}$ 过程中，$\\mathrm{Na}_{2}\\mathrm{CO}_{3}$ 与盐酸反应生成$\\mathrm{N a H C O}_{3}$ ，反应的离子方程式为$\\mathrm{CO}_{3}^{2-}+\\mathrm{H}^{+}=\\mathrm{HCO}_{3}^{-}$ ：",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L001",
+      "page_no": 13,
+      "line_no_in_page": 1,
+      "order": 269,
+      "text": "$\\textcircled{3} 产$ 品中只有$\\mathrm{Na}_{2}\\mathrm{CO}_{3}$ 时，$\\mathrm{Na}_{2}\\mathrm{CO}_{3}$ 与盐酸反应生成$\\mathrm{N a H C O}_{3}$ $\\mathrm{N a H C O}_{3}$ 与盐酸反应生成$\\mathrm{C O}_{2}$ 和",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L002",
+      "page_no": 13,
+      "line_no_in_page": 2,
+      "order": 270,
+      "text": "$\\mathrm{H}_{2}\\mathrm{O}$ ，两步反应消耗的盐酸的体积相等，若所得产品为$\\mathrm{Na}_{2}\\mathrm{CO}_{3}$ 和$\\mathrm{N a H C O}_{3}$ 的混合物，则第二步消耗的",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L003",
+      "page_no": 13,
+      "line_no_in_page": 3,
+      "order": 271,
+      "text": "盐酸的体积将增大，即$V_{1}<V_{2}$ ；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L004",
+      "page_no": 13,
+      "line_no_in_page": 4,
+      "order": 272,
+      "text": "【小问4详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L005",
+      "page_no": 13,
+      "line_no_in_page": 5,
+      "order": 273,
+      "text": "实验I无白色晶体析出的原因是：$\\mathrm{C O}_{2}$ 在饱和$\\mathrm{Na_{2}CO_{3}}$ 溶液中的溶解速率小、溶解度小，二者发生反应的速率也较小，生成的$\\mathrm{N a H C O}_{3}$ 的量较少，$\\mathrm{N a H C O}_{3}$ 在该溶液中没有达到过饱和状态，故不能析出晶体。",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L006",
+      "page_no": 13,
+      "line_no_in_page": 6,
+      "order": 274,
+      "text": "19.【答案】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L007",
+      "page_no": 13,
+      "line_no_in_page": 7,
+      "order": 275,
+      "text": "（1）①.$:\\stackrel{\\cdot}{\\mathrm{C l}}:\\stackrel{\\cdot}{\\mathrm{C l}}:$ : ②.$\\mathrm{Cl}_{2}+\\mathrm{H}_{2}\\mathrm{O}\\rightleftharpoons\\mathrm{HCl}+\\mathrm{HClO}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L008",
+      "page_no": 13,
+      "line_no_in_page": 8,
+      "order": 276,
+      "text": "(2)①.还原②.$2ClO_{3}^{-}+H_{2}O_{2}+2H^{+}=2ClO_{2}\\uparrow+O_{2}\\uparrow+2H_{2}O$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L009",
+      "page_no": 13,
+      "line_no_in_page": 9,
+      "order": 277,
+      "text": "（3）温度过高，$\\mathrm{C l O}_{2}$ 发生分解；或温度过高，$\\mathrm{H}_{2}\\mathrm{O}_{2}$ 还原性增强，$\\mathrm{N a C l O}_{3}$ 被还原为化合价更低的含氯产物(4)$\\mathrm{Cl}_{2}+\\mathrm{H}_{2}\\mathrm{O}_{2}=\\mathrm{O}_{2}+2\\mathrm{H}^{+}+2\\mathrm{Cl}^{-}$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L010",
+      "page_no": 13,
+      "line_no_in_page": 10,
+      "order": 278,
+      "text": "【小问1详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L011",
+      "page_no": 13,
+      "line_no_in_page": 11,
+      "order": 279,
+      "text": "(_$\\textcircled{1}Cl_2$ 的结构式为$\\mathrm{C l}-\\mathrm{C l}$ ，则电子式为：$\\underset{\\mathbf{C l}}{\\overset{\\mathbf{\\ddot{\\cdot}}}{\\mathbf{C l}}}\\mathbf{:}\\underset{\\mathbf{C l}}{\\overset{\\mathbf{\\ddot{\\cdot}}}{\\mathbf{C l}}}$ ：;",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L012",
+      "page_no": 13,
+      "line_no_in_page": 12,
+      "order": 280,
+      "text": "②氯气溶于水能杀菌、消毒，原因是氯气与水反应生成的$\\mathrm{H C l O}$ 具有强氧化性，反应的化学方程式为$\\mathrm{Cl}_{2}+\\mathrm{H}_{2}\\mathrm{O}\\rightleftharpoons\\mathrm{HCl}+\\mathrm{HClO}$ ##",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L013",
+      "page_no": 13,
+      "line_no_in_page": 13,
+      "order": 281,
+      "text": "【小问2详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L014",
+      "page_no": 13,
+      "line_no_in_page": 14,
+      "order": 282,
+      "text": "$\\textcircled{1}\\mathrm{NaClO}_{3}$ 与$\\mathrm{H}_{2}\\mathrm{O}_{2}$ 反应时，$\\mathrm{N a C l O}_{3}$ 转化为$\\mathrm{C l O}_{2}$ ，Cl的化合价降低，则$\\mathrm{N a C l O}_{3}$ 为氧化剂，故$\\mathrm{H}_{2}\\mathrm{O}_{2}$ 作还原剂；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L015",
+      "page_no": 13,
+      "line_no_in_page": 15,
+      "order": 283,
+      "text": "②$\\mathrm{C l O}_{3}^{-}$ 中$^{\\dagger+5}$ 价的C1还原为+4价的$\\mathrm{C l O}_{2}$ ，得到1个电子，$\\mathrm{H_{2}O_{2}} 中 -1$ 价的0氧化为0价的$\\mathrm{O}_{2}$ ，失去2个电子，根据得失电子守恒，则$\\mathrm{C l O}_{3}^{-}$ 与H $\\mathrm{I}_{2}\\mathrm{O}_{2}$ 的计量系数比为2：1，再根据电荷守恒、原子守恒配平方程式为$2ClO_{3}^{-}+H_{2}O_{2}+2H^{+}=2ClO_{2}\\uparrow+O_{2}\\uparrow+2H_{2}O$",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L016",
+      "page_no": 13,
+      "line_no_in_page": 16,
+      "order": 284,
+      "text": "【小问3详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L017",
+      "page_no": 13,
+      "line_no_in_page": 17,
+      "order": 285,
+      "text": "温度高于80℃后，$\\mathrm{N a C l O}_{3}$ 的转化率继续上升，但二氧化氯收率明显下降，原因可能是：温度过高，$\\mathrm{C l O}_{2}$ 发生分解；或温度过高，$\\mathrm{H}_{2}\\mathrm{O}_{2}$ 还原性增强，$\\mathrm{N a C l O}_{3}$ 被还原为化合价更低的含氯产物；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L018",
+      "page_no": 13,
+      "line_no_in_page": 18,
+      "order": 286,
+      "text": "【小问4详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L019",
+      "page_no": 13,
+      "line_no_in_page": 19,
+      "order": 287,
+      "text": "根据题意，CI为反应的催化剂，则步骤ii生成的$\\mathrm{C l}_{2}$ 在步骤iii又重新转化为$\\mathrm{C l^{-}}$ ，且$\\mathrm{H}_{2}\\mathrm{O}_{2}$ 作还原剂在步骤i中参与反应，则步骤iii对应反应的离子方程式为$\\mathrm{Cl}_{2}+\\mathrm{H}_{2}\\mathrm{O}_{2}=\\mathrm{O}_{2}+2\\mathrm{H}^{+}+2\\mathrm{Cl}$ 0",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L020",
+      "page_no": 13,
+      "line_no_in_page": 20,
+      "order": 288,
+      "text": "20.【答案】（1）KI（2）①.加入$\\mathrm{C C l}_{4}$ 振荡，下层溶液呈橙红色(或滴加淀粉-KI溶液，溶液变蓝；或滴加硫氰化钾溶液无现象，再滴加$\\mathrm{F e C l}_{2}$ 溶液变红等，核心利用$\\mathrm{B r}_{2}$ 的萃取性或氧化性）②.取与实验I中相同的$\\mathrm{K B r}$ 溶液，加入相同浓度的力$\\mathrm{H}_{2}\\mathrm{S O}_{4}$ 溶液，振荡、放置，溶液不变色(或无浅黄色出现）③.",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L021",
+      "page_no": 13,
+      "line_no_in_page": 21,
+      "order": 289,
+      "text": "\\mathrm{MnO_{2}+4H^{+}+2Br^{-}=Mn^{2+}+Br_{2}+2H_{2}O}",
+      "block_type": "formula",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P13L022",
+      "page_no": 13,
+      "line_no_in_page": 22,
+      "order": 290,
+      "text": "（3）实验I中$\\mathrm{M n O}_{2}$ 与KBr溶液混合无明显现象，而实验II中$\\mathrm{M n O}_{2}$ 与KI溶液混合直接出现黄色；相同酸",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P14L001",
+      "page_no": 14,
+      "line_no_in_page": 1,
+      "order": 291,
+      "text": "性条件下，$\\mathrm{M n O}_{2}$ 氧化I的反应更易发生(或现象更明显)",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P14L002",
+      "page_no": 14,
+      "line_no_in_page": 2,
+      "order": 292,
+      "text": "（4）①.卤素离子浓度和溶液酸碱性②.酸性环境和较大浓度的卤素离子",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P14L003",
+      "page_no": 14,
+      "line_no_in_page": 3,
+      "order": 293,
+      "text": "【小问1详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P14L004",
+      "page_no": 14,
+      "line_no_in_page": 4,
+      "order": 294,
+      "text": "已知Cl、Br、I为同一主族的元素，非金属性从上往下依次减弱，则单质的氧化性也依次减弱，故氧化性$\\mathrm{Cl}_{2}>\\mathrm{Br}_{2}>\\mathrm{I}_{2}$ ：，则离子的还原性依次增强，即$I^{-}\\geq Br^{-}\\geq Cl$ ，当相同的氧化剂遇到不同的还原剂时，还原性强的还原剂优先反应，则依据氧化还原反应规律和元素周期律推测，$\\mathrm{M n O_{2}}$ 与KI的反应更容易发生，故答案为：KI;",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P14L005",
+      "page_no": 14,
+      "line_no_in_page": 5,
+      "order": 295,
+      "text": "【小问2详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P14L006",
+      "page_no": 14,
+      "line_no_in_page": 6,
+      "order": 296,
+      "text": "$\\textcircled{i}\\mathrm{Br}_2$ 易溶于有机溶剂，与$\\mathrm{C C l}_{4}$ 混合后会分层，$\\mathrm{B r}_{2}$ 的$\\mathrm{C C l}_{4}$ 溶液呈橙红色，也可利用$\\mathrm{B r}_{2}$ 能氧化I生成I₂，使淀粉变蓝来检验浅黄色溶液中存在$\\mathrm{B r}_{2}$ ，或者故答案为：加入$\\mathrm{C C l}_{4}$ 振荡，下层溶液呈橙红色(或滴加淀粉-KI溶液，溶液变蓝，或滴加硫氰化钾溶液无现象，再滴加$\\mathrm{F e C l}_{2}$ 溶液变红等，核心利用$\\mathrm{B r}_{2}$ 的萃取性或氧化性);",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P14L007",
+      "page_no": 14,
+      "line_no_in_page": 7,
+      "order": 297,
+      "text": "②实验I中加入了$\\mathrm{H_{2}SO_{4}}$ ，需要控制变量，仅保留$\\mathrm{O}_{2}$ 、$\\mathrm{B r^{-}}$ 、$\\mathrm{H^{+}}$ 的条件，排除$\\mathrm{M n O_{2}}$ 的作用，观察是否有$\\mathrm{B r}_{2}$ 生成，以此证明I $\\mathrm{O_{2}}$ 不会氧化$\\mathrm{Br^-} 产$ 生浅黄色溶液，即可排除了浅黄色溶液的生成是由于空气中的$\\mathrm{O}_{2}$ 氧化了$\\mathrm{B r}$ ，故答案为：取与实验I中相同的$\\mathrm{K B r}$ 溶液，加入相同浓度的$\\mathrm{H_{2}S O_{4}}$ 溶液，振荡、放置，溶液不变色(或无浅黄色出现)；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P14L008",
+      "page_no": 14,
+      "line_no_in_page": 8,
+      "order": 298,
+      "text": "③酸性条件下，$\\mathrm{M n O}_{2}$ 作为氧化剂，将$\\mathrm{B r}$ 氧化为$\\mathrm{B r}_{2}$ ，自身被还原为$\\mathrm{M n}^{2+}$ ，结合电荷守恒和原子守恒配平可得试管iii中发生反应的离子方程式为：$\\mathrm{MnO_{2}+4H^{+}+2Br^{-}=Mn^{2+}+Br_{2}+2H_{2}O}$ ；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P14L009",
+      "page_no": 14,
+      "line_no_in_page": 9,
+      "order": 299,
+      "text": "【小问3详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P14L010",
+      "page_no": 14,
+      "line_no_in_page": 10,
+      "order": 300,
+      "text": "由题干信息可知，实验I：$\\mathrm{M n O_{2}}$ 与$\\mathrm{K B r}$ 溶液混合无现象，加$\\mathrm{H_2SO_4(pH\\approx1)}$ 后才出现浅黄色(即生成了$\\mathrm{B r}_{2})$ ,实验II：试管iv：$\\mathrm{M n O_{2}}$ .与KI溶液混合就呈黄色(即反应生成$ 了 I_2)$ ；试管v：加$\\mathrm{H_2SO_4(pH\\approx1)}$ 呈棕黄色；试管$\\mathrm{v\\dot{i}}\\colon$ 高浓度KI加酸后迅速呈深棕色；且实验ⅡI的对比实验已排除$\\mathrm{O}_{2}$ 氧化$\\mathrm{B r}$ 的干扰，由此可得出：分析实验I和实验I中，能作为还原性$\\scriptstyle\\mathrm{I}^{-}\\geq\\scriptstyle\\mathrm{B r}$ 的证据的是实验I中$\\mathrm{M n O}_{2}$ 与$\\mathrm{K B r}$ 溶液混合无明显现象，而实验Ⅱ中$\\mathrm{M n O_{2}}$ 与KI溶液混合直接出现黄色，相同酸性条件下，$\\mathrm{M n O}_{2}$ 氧化I的反应更易发生(或现象更明显)；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P14L011",
+      "page_no": 14,
+      "line_no_in_page": 11,
+      "order": 301,
+      "text": "【小问4详解】",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P14L012",
+      "page_no": 14,
+      "line_no_in_page": 12,
+      "order": 302,
+      "text": "①由实验I、实验Ⅱ的现象可知，实验I：$\\mathrm{M n O_{2}}$ 与$\\mathrm{K B r}$ 溶液混合无现象，加$\\mathrm{H_2SO_4(pH\\approx1)}$ 后才出现浅黄色(即生成了$\\mathrm{B r}_{2})$ ，实验ⅡI：试管iv:$\\mathrm{M n O_{2}}$ 与KI溶液混合就呈黄色(即反应生成了I2)；试管v：加$\\mathrm{H_2SO_4(pH\\approx1)}$ 呈棕黄色；试管vi：高浓度KI加酸后迅速呈深棕色可知，影响(cid:12)$\\mathrm{M n O_{2}}$ 与卤化钾溶液反应的因素有卤离子种类、卤素离子浓度和溶液酸碱性，故答案为：卤素离子浓度和溶液酸碱性；",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P14L013",
+      "page_no": 14,
+      "line_no_in_page": 13,
+      "order": 303,
+      "text": "$\\textcircled{2}$ 由上述分析可知，有利于*$\\mathrm{M n O}_{2}$ 将卤化钾溶液氧化为卤素单质的条件有酸性环境和较大浓度的卤素离(cid:1)",
+      "block_type": "text",
+      "source": "ppsv3"
+    },
+    {
+      "line_id": "P14L014",
+      "page_no": 14,
+      "line_no_in_page": 14,
+      "order": 304,
+      "text": "子。",
+      "block_type": "text",
+      "source": "ppsv3"
+    }
+  ]
+}

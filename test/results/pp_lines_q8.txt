@@ -1,7 +1,0 @@
-P1L030: 0.\end{aligned}\right.$ 若函数$g(x)=f(x)-a$ 有两个不相同的零点，则实数a
-P1L031: 的取值范围是
-P1L032: (A)(0,1]
-P1L033: (B)$(0,1]\bigcup\{2\}$
-P1L034: (C) [1,2]
-P1L035: (D)$\{1\}\bigcup[2,+\infty)$
-P1L036: (8）“$\varphi=-\frac{\pi}{2}+2k\pi(k\in\mathbf{Z})$ ’是“函数$f(x)=\sin(2x+\varphi)$ 在$[-\frac{\pi}{2},0]

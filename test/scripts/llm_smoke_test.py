@@ -142,12 +142,10 @@ def get_live_providers() -> list[tuple[str, str, str, str]]:
     if mimo_url and mimo_key:
         providers.append(("mimo", mimo_url, mimo_key, mimo_model))
 
-    # Qwen VL（注意：配置键是 QWEN_VL_BASE_URL，不是 QWEN_BASE_URL）
-    qwen_url = __import__("os").environ.get("QWEN_VL_BASE_URL")
-    qwen_key = __import__("os").environ.get("QWEN_VL_API_KEY")
-    qwen_model = __import__("os").environ.get("QWEN_VL_MODEL", "qwen-vl-max")
-    if qwen_url and qwen_key:
-        providers.append(("qwen_vl", qwen_url, qwen_key, qwen_model))
+    # DeepSeek Vision
+    deepseek_vl_model = __import__("os").environ.get("DEEPSEEK_VL_MODEL")
+    if deepseek_url and deepseek_key and deepseek_vl_model:
+        providers.append(("deepseek_vl", deepseek_url, deepseek_key, deepseek_vl_model))
 
     return providers
 
@@ -526,7 +524,7 @@ if __name__ == "__main__":
     if args.live:
         live_providers = get_live_providers()
         if not live_providers:
-            print("[SKIP] 未配置 Live Provider（需要 .env 中设置 DEEPSEEK/MIMO/QWEN_VL 的 BASE_URL 和 API_KEY）")
+            print("[SKIP] 未配置 Live Provider（需要 .env 中设置 DEEPSEEK/MIMO/DEEPSEEK_VL 的 BASE_URL 和 API_KEY）")
         else:
             for name, url, key, model in live_providers:
                 print(f"[INFO] 测试 Live Provider: {name} ({url}, model={model})")

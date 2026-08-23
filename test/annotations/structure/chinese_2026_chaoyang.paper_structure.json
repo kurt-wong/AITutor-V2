@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "subject": "chinese",
+  "source_file": "2026北京朝阳高一（上）期末语文（教师版）.pdf",
+  "bottom_question_numbers": [
+    "1", "2", "3", "4", "5", "6", "7",
+    "8", "9", "10", "11", "12", "13",
+    "14", "15", "16",
+    "17",
+    "18", "19", "20", "21",
+    "22",
+    "23",
+    "24"
+  ],
+  "groups": [
+    {
+      "question_number": "1",
+      "kind": "composite",
+      "question_types": ["single_choice", "short_answer"],
+      "sub_questions": ["1", "2", "3", "4", "5", "6", "7"],
+      "shared_material": "required",
+      "sub_question_numbering": "absolute",
+      "notes": "共享材料一/二，材料阅读7题，包含选择+简答"
+    },
+    {
+      "question_number": "8",
+      "kind": "composite",
+      "question_types": ["single_choice", "fill_in", "short_answer"],
+      "sub_questions": ["8", "9", "10", "11", "12", "13"],
+      "shared_material": "required",
+      "sub_question_numbering": "absolute",
+      "notes": "语言运用综合题6题"
+    },
+    {
+      "question_number": "14",
+      "kind": "composite",
+      "question_types": ["single_choice", "fill_in", "short_answer"],
+      "sub_questions": ["14", "15", "16"],
+      "shared_material": "required",
+      "sub_question_numbering": "absolute",
+      "notes": "文言文/古诗综合题3题"
+    },
+    {
+      "question_number": "17",
+      "kind": "independent",
+      "question_types": ["fill_in", "short_answer"],
+      "sub_questions": [],
+      "shared_material": "forbidden",
+      "notes": "默写，独立题"
+    },
+    {
+      "question_number": "18",
+      "kind": "composite",
+      "question_types": ["short_answer"],
+      "sub_questions": ["18", "19", "20", "21"],
+      "shared_material": "required",
+      "sub_question_numbering": "absolute",
+      "notes": "文学类/实用类阅读综合题4题"
+    },
+    {
+      "question_number": "22",
+      "kind": "independent",
+      "question_types": ["short_answer"],
+      "sub_questions": [],
+      "shared_material": "forbidden",
+      "notes": "语言基础运用，2小问但作为1个独立top-level题"
+    },
+    {
+      "question_number": "23",
+      "kind": "independent",
+      "question_types": ["short_answer"],
+      "sub_questions": [],
+      "shared_material": "forbidden",
+      "notes": "有三小文，阅读材料题"
+    },
+    {
+      "question_number": "24",
+      "kind": "independent",
+      "question_types": ["short_answer"],
+      "sub_questions": [],
+      "shared_material": "forbidden",
+      "notes": "写作，两个选题写一篇文章"
+    }
+  ]
+}

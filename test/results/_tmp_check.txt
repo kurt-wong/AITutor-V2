@@ -1,0 +1,29 @@
+﻿background_tasks columns:
+  id                        uuid
+  task_type                 character varying
+  status                    character varying
+  progress                  numeric
+  current_stage             character varying
+  error_detail              text
+  payload_json              jsonb
+  result_json               jsonb
+  created_at                timestamp with time zone
+  updated_at                timestamp with time zone
+
+=== tasks (10) ===
+  document_parse  | queued     | 
+  document_parse  | queued     | 
+  document_parse  | queued     | 
+  document_parse  | queued     | 
+  document_parse  | queued     | 
+  document_parse  | queued     | 
+  document_parse  | queued     | 
+  document_parse  | queued     | 
+  document_parse  | queued     | 
+  document_parse  | running    | 
+
+=== doc status ===
+  pending: 9
+  processing: 1
+
+questions: 0

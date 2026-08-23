@@ -40,7 +40,7 @@ L1 是文档解析的统一中间表示，Native 和 OCR 输出必须统一为�
 ```python
 @dataclass
 class L1Line:
-    line_id: str          # "P1L001" — 全局唯一，格式 P{page}L{line_in_page}
+    line_id: str          # "P1L001"/"N1L001" — PP/Native 按来源区分前缀
     page_no: int          # 1-based 页码
     line_no_in_page: int  # 页内行号（1-based）
     order: int            # 全局排序序号（1-based，跨页连续）
@@ -53,7 +53,7 @@ class L1Line:
 
 ### 2.2 跨页处理
 
-- 跨页行拆成两行：前页末行 `P1L999`（`continuation=true`）+ 后页首行 `P2L001`（`continuation=true`）
+- 跨页行拆成两行：前页末行（如 `P1L999`/`N1L999`，`continuation=true`）+ 后页首行（如 `P2L001`/`N2L001`，`continuation=true`）
 - 不创建跨页逻辑 ID
 - LLM 标注时可引用任一侧的 line_id，代码通过 continuation 关联两侧内容
 
@@ -119,7 +119,7 @@ class L2QuestionAnnotation:
     question_number: str
     question_type: str         # single_choice / multiple_choice / fill_blank / ...
     section_id: str | None     # 共享材料题的 section 标识（如 "cloze_1"）
-    stem_line_ids: list[str]   # ["P1L003", "P1L004", ...]
+    stem_line_ids: list[str]   # ["P1L003", "P1L004", ...]（canonical 保留 PP 行号）
     options_line_ids: dict[str, list[str]]  # {"A": ["P1L008"], "B": ["P1L009"], ...}
     # 注意：B 阶段不输出 answer_lines / explanation_lines
     difficulty: int | None     # 1-5
@@ -471,7 +471,7 @@ Phase 3（规模化）                                   │
 - 单任务制：同一时间只推进一个任务
 - 每任务不超过 4 小时，必须产出可运行结果
 - 阶段验收通过前，不进入下一阶段
-- 文档解析代码必须遵守 `V1_LESSONS.md` 全部 29 条约束
+- 文档解析代码必须遵守 `V1_LESSONS.md` 全部 31 条约束
 - 常规 pytest 使用 mock；live LLM/OCR 验证单独隔离
 - 表结构变更必须同步 Alembic migration
 - 完成后更新 `LOG.md`、`PROJECT_STATUS.md`，必要时更新权威文档
@@ -484,7 +484,7 @@ Phase 3（规模化）                                   │
 
 - 创建本文件，作为 T3 实施的执行基线。
 - 整合 V1 代码/日志分析、Codex 评审意见，确定 Annotation Paradigm 实施路线。
-- 定义 L1 行模型（P1L001）、L2 标注契约、锚点校正契约、Source Provenance 契约。
+- 定义 L1 行模型（PP 用 P1L001，Native 用 N1L001，canonical 保留 PP 行号）、L2 标注契约、锚点校正契约、Source Provenance 契约。
 - 建立 Phase 0-3 四阶段 Task 列表和依赖关系。
 
 ### 2026-08-11 23:49:10
@@ -493,3 +493,8 @@ Phase 3（规模化）                                   │
 - PyMuPDF 降级为辅助工具，不再作为整份正文 L1 基座。
 - LLM 只允许做行级仲裁，禁止输出或生成 L1 原文。
 - 上下标/化学式默认双源校验，禁止直接接受 PP 识别结果。
+
+### 2026-08-20 22:40:51
+
+- 明确 L1 行模型：PP 用 `P1L001`，Native 用 `N1L001`，canonical 保留 PP 行号。
+- native 行号通过 `raw_sources["native_line_id"]` 溯源，不暴露给 LLM 标注阶段。

@@ -1,0 +1,56 @@
+﻿=== 文档状态 ===
+  数学   | pending    | err= | 2026%E5%8C%97%E4%BA%AC%E4%BA%8C%E4%B8%AD%E9%AB%98%
+  数学   | pending    | err= | 2026%E5%8C%97%E4%BA%AC%E6%9C%9D%E9%98%B3%E9%AB%98%
+  物理   | pending    | err= | 2026%E5%8C%97%E4%BA%AC%E5%85%AB%E5%8D%81%E4%B8%AD%
+  物理   | pending    | err= | 2026%E5%8C%97%E4%BA%AC%E6%9C%9D%E9%98%B3%E9%AB%98%
+  化学   | pending    | err= | 2026%E5%8C%97%E4%BA%AC%E5%85%AB%E4%B8%80%E5%AD%A6%
+  化学   | pending    | err= | 2026%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%85%B4%E9%AB%98%
+  英语   | pending    | err= | 2026%E5%8C%97%E4%BA%AC%E6%88%BF%E5%B1%B1%E9%AB%98%
+  英语   | pending    | err= | 2026%E5%8C%97%E4%BA%AC%E6%9C%9D%E9%98%B3%E9%AB%98%
+  语文   | pending    | err= | 2026%E5%8C%97%E4%BA%AC%E5%85%AB%E5%8D%81%E4%B8%AD%
+  语文   | processing | err= | 2026%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%85%B4%E9%AB%98%
+python : Traceback (most recent call last):
+At line:1 char:195
++ ... ONIOENCODING='utf-8'; python scripts/e2e_check_status.py 2>&1 | Out-F ...
++                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "D:\Project\AITutors-v2\backend\scripts\e2e_check_status.py", line 59, in <module>
+    asyncio.run(main())
+  File "C:\Users\Kurtw\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Kurtw\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kurtw\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 691, in run_until_comp
+lete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "D:\Project\AITutors-v2\backend\scripts\e2e_check_status.py", line 25, in main
+    rows = await conn.fetch("""
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kurtw\AppData\Local\Programs\Python\Python312\Lib\site-packages\asyncpg\connection.py", line 694, in f
+etch
+    return await self._execute(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kurtw\AppData\Local\Programs\Python\Python312\Lib\site-packages\asyncpg\connection.py", line 1873, in 
+_execute
+    result, _ = await self.__execute(
+                ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kurtw\AppData\Local\Programs\Python\Python312\Lib\site-packages\asyncpg\connection.py", line 1970, in 
+__execute
+    result, stmt = await self._do_execute(
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kurtw\AppData\Local\Programs\Python\Python312\Lib\site-packages\asyncpg\connection.py", line 2013, in 
+_do_execute
+    stmt = await self._get_statement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kurtw\AppData\Local\Programs\Python\Python312\Lib\site-packages\asyncpg\connection.py", line 443, in _
+get_statement
+    statement = await self._protocol.prepare(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "asyncpg/protocol/protocol.pyx", line 165, in prepare
+    return await waiter
+asyncpg.exceptions.UndefinedColumnError: column bt.metadata_json does not exist

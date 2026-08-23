@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.application.services import (
     DocumentApplicationService,
+    QuestionApplicationService,
     TaskApplicationService,
 )
 from app.core.database import get_db_session
@@ -13,6 +14,8 @@ from app.domains.document.repository import (
 from app.domains.document.service import DocumentService
 from app.domains.event.repository import DomainEventRepository
 from app.domains.event.service import EventService
+from app.domains.question.repository import QuestionRepository
+from app.domains.question.service import QuestionService
 from app.domains.task.repository import BackgroundTaskRepository
 from app.domains.task.service import TaskService
 from app.infrastructure.storage import MinIOStorage
@@ -30,6 +33,7 @@ def get_document_application_service(
     log_repository = DocumentProcessingLogRepository(session)
     task_repository = BackgroundTaskRepository(session)
     event_repository = DomainEventRepository(session)
+    question_repository = QuestionRepository(session)
     return DocumentApplicationService(
         document_service=DocumentService(
             document_repository=document_repository,
@@ -38,6 +42,7 @@ def get_document_application_service(
         task_service=TaskService(repository=task_repository),
         event_service=EventService(repository=event_repository),
         storage=storage,
+        question_service=QuestionService(repository=question_repository),
     )
 
 
@@ -48,5 +53,17 @@ def get_task_application_service(
     event_repository = DomainEventRepository(session)
     return TaskApplicationService(
         task_service=TaskService(repository=task_repository),
+        event_service=EventService(repository=event_repository),
+    )
+
+
+def get_question_application_service(
+    session: AsyncSession = Depends(get_db_session),
+) -> QuestionApplicationService:
+    """Phase 2B：题库搜索/统计 Application Service。"""
+    question_repository = QuestionRepository(session)
+    event_repository = DomainEventRepository(session)
+    return QuestionApplicationService(
+        question_service=QuestionService(repository=question_repository),
         event_service=EventService(repository=event_repository),
     )

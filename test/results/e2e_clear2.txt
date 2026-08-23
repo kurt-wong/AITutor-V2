@@ -1,0 +1,13 @@
+﻿清除前: 10 docs, 165 questions, 165 instances, 120 images
+  DELETE FROM question_images: 120 rows
+  DELETE FROM question_knowledge: 238 rows
+  DELETE FROM domain_events: 175 rows
+  DELETE FROM question_instances: 165 rows
+  DELETE FROM questions: 165 rows
+  DELETE FROM document_processing_logs: 10 rows
+  answer_extraction_retries: already empty
+  DELETE FROM background_tasks: 10 rows
+  DELETE FROM documents: 10 rows
+
+清除后: 0 docs, 0 questions
+清除完成。

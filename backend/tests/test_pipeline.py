@@ -7,6 +7,7 @@ from pathlib import Path
 from app.ai.gateway import LLMGateway
 from app.ai.providers import MockLLMProvider
 from app.domains.document.pipeline import PipelineResult, run_pipeline
+from app.domains.document.schemas_l2 import SlicedQuestion
 
 TEST_PDF = (
     Path(__file__).resolve().parents[2]
@@ -50,6 +51,57 @@ def test_pipeline_result_structure():
     assert result.sliced_questions == []
     assert result.errors == []
     assert result.to_dict()["question_count"] == 0
+
+
+def test_pipeline_result_ingest_lists():
+    """PipelineResult 输出 ingested/discarded 双清单与 summary。"""
+    result = PipelineResult()
+    result.sliced_questions = [
+        SlicedQuestion(
+            question_number="1",
+            question_type="single_choice",
+            stem="s",
+            answer="A",
+            confidence=0.9,
+            issues=[],
+            structure_signature={
+                "object": "函数",
+                "task": "求值",
+                "method": "代入法",
+                "condition": "f(x)=x",
+            },
+        ),
+        SlicedQuestion(
+            question_number="2",
+            question_type="single_choice",
+            stem="",
+            answer=None,
+            confidence=0.6,
+            issues=[
+                "锚点需重新标注，禁止自动发布",
+                "答案缺失，禁止自动发布",
+            ],
+        ),
+    ]
+
+    d = result.to_dict()
+    assert d["ingest_summary"]["total"] == 2
+    assert d["ingest_summary"]["ingested"] == 1
+    assert d["ingest_summary"]["discarded"] == 1
+    assert len(d["ingested_questions"]) == 1
+    assert d["ingested_questions"][0]["structure_signature"] == {
+        "object": "函数",
+        "task": "求值",
+        "method": "代入法",
+        "condition": "f(x)=x",
+    }
+    assert len(d["discarded_questions"]) == 1
+    assert "锚点不确定" in d["ingest_summary"]["discard_reasons"]
+    assert "答案缺失" in d["ingest_summary"]["discard_reasons"]
+    assert d["ingest_summary"]["discard_reasons"]["锚点不确定"] == 1
+    assert d["ingest_summary"]["discard_reasons"]["答案缺失"] == 1
+    assert "anchor_mismatch" in d["discarded_questions"][0]["discard_categories"]
+    assert "answer_empty" in d["discarded_questions"][0]["discard_categories"]
 
 
 @pytest.mark.asyncio

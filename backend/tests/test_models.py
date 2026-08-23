@@ -2,6 +2,7 @@ from app.models import Base
 
 
 EXPECTED_TABLES = {
+    "answer_extraction_retries",
     "background_tasks",
     "document_processing_logs",
     "documents",

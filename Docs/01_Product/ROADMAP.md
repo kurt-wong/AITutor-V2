@@ -1,8 +1,8 @@
 # AI Tutor Personal Edition — 开发任务计划
 
-Version: 1.3
-Status: 执行基线
-Date: 2026-08-11
+Version: 2.0
+Status: 执行基线（Phase 2 设计已冻结，见 PLAN_QUESTION_FAMILY v2.0）
+Date: 2026-08-21
 Source of truth: `Docs/00_Requirements/REQUIREMENTS_AND_SOLUTION.md`
 
 ---
@@ -100,21 +100,88 @@ Source of truth: `Docs/00_Requirements/REQUIREMENTS_AND_SOLUTION.md`
 
 验收：解析 JSON 可进入审核队列，管理员审核后进入正式题库。
 
-### P4. 搜索、去重与 embedding
+### P4. 搜索、统计与知识点（Phase 2 设计基线：PLAN_QUESTION_FAMILY v2.0）
 
-目标：让题库可检索、可查重、可支撑统计。
+目标：建立可靠的数据底座，让题库可检索、知识点可统计、趋势可分析。
 
-交付：
+> **Phase 2 设计原则（冻结）：**
+> - Question = 事实，QuestionInstance = 出现事实，Similarity = 关系，Family = 分析结果
+> - Knowledge Point ≠ Family，统计视图（KP × Type × Year）不等于题族
+> - Family / Similarity / Embedding 暂不实现，进入 2D 的前置条件是样本量和 golden set，不是固定题数阈值
+> - Annotation 不是事实，LLM 输出的标注带 source/confidence/version
+> - Phase 2A 验收前，不新增 Family/Similarity/Annotation 表设计变更
 
-- 条件搜索：科目、题型、年级、年份、难度。
-- embedding 生成：`qwen3-embedding:4b`，2560 维，写入 `question_embeddings`。
-- 暴力余弦查重/相似题检索。
-- 知识点映射。
-- 题型频次、年份趋势、知识点占比、难度分布统计。
+#### P4A. 数据底座修复（最高优先级，按序号顺序执行）
 
-前置：知识树必须先初始化种子数据，禁止在空知识树上静默跳过映射。
+> 代码审计（2026-08-21）发现三项额外问题：审核不写回 DB、Worker 把失败当成功、L2 Annotation 被裁剪。
+> 这三项与原有 DSD 变更合并为 Phase 2A 六步，按依赖关系排序。Step 1 包含 migration + 最小入库适配，否则 migration 后测试不可能全绿。
+> 每项完成后跑 pytest。
+> 执行控制：DSH 必须遵守 `Docs/01_Product/PHASE_2A_EXECUTION_PLAN.md`；禁止用文档状态代替命令输出。
 
-验收：能对一道新题找到相似题，能生成基础统计报表；知识映射结果可追溯到已有知识树节点。
+| Step | 任务 | 说明 | 验收 |
+|---|---|---|---|
+| 1 | DSD 变更 + 最小入库适配 | content_hash 列、Instance.document_id 回填（先回填再加约束）、Question 移除 year/school、question_knowledge 新增 mapping_source/review_status、入库逻辑适配、修 test_models | migration 成功；DB 与 DSD §8 一致；Instance document_id 全部非 NULL；pytest 全量通过 |
+| 2 | 审核决定写回 DB | 审核通过/驳回更新 questions.status；review_overrides 写回题干/选项/答案；通过 question_instances(document_id, source_question_number) 定位 Question.id | DB 查询验证 status 和内容真实变化；更新的是正确题目 |
+| 3 | Worker 失败语义 + L2 完整持久化 | ingestion 异常 → task failed；答案提取失败 → 保留 retry queue；llm_annotated_markdown 保留完整 L2 字段；幂等重跑只清理未审核记录 | 异常时 task failed；答案失败走 retry；L2 完整 |
+| 4 | 答案重试关联修正 | 改用 document_id + question_instances 精确关联 | 同文档多道空答案题各自正确更新 |
+| 5 | 精确去重 content_hash | hash 覆盖题干+选项+题型；hash 相同但答案冲突 → 同一 Question 上生成审核冲突，不创建重复 Question；已有数据回填 | 同 PDF 两次上传只创建 Instance；答案冲突不产生重复 Question |
+| 6 | 知识点映射落库 | knowledge_points → knowledge_nodes 映射 → question_knowledge 写入；低置信度进审核；综合题子题级映射 | DB 查询验证题目关联到知识树节点 |
+
+**Phase 2A 总验收：** pytest 全量通过；同 PDF 两次上传只创建 Instance；知识点映射到知识树；审核后 status 真实变化；Worker 异常标 failed；答案失败走 retry；L2 完整持久化；答案冲突不产生重复 Question。
+
+#### P4B. 基础统计与搜索
+
+| # | 任务 | 说明 |
+|---|---|---|
+| 1 | 知识点 × 题型 × 年份统计 API | 基于 question_instances + question_knowledge + questions 的聚合查询 |
+| 2 | 条件搜索 | 按学科/题型/知识点/年份/学校筛选题目 |
+| 3 | 高频知识点排行 | 哪些知识点出现最多？按年份看趋势 |
+
+#### P4C. Annotation 原始积累
+
+| # | 任务 | 说明 |
+|---|---|---|
+| 1 | Structure Signature 采集 | 在现有 annotation prompt 里为数学/物理/化学增加可选 structure_signature 字段。只存到 llm_annotated_markdown JSON，不做 DB migration。 |
+| 2 | Annotation 版本标记 | 在 llm_annotated_markdown 中记录 prompt 版本号。 |
+
+#### P4D. Similarity / Family 研究（前置条件满足后启动）
+
+**启动前置条件：**
+- 目标学科有足够样本量
+- 建立了可验证的 Golden Dataset（每个结构化科目 50-100 条边界案例，owner + AI 辅助建立）
+- Structure Signature raw 数据有足够分布
+
+| # | 任务 | 说明 |
+|---|---|---|
+| 1 | Structure Signature 分布分析 | 从 raw 数据中统计 object/task/method 变体分布 |
+| 2 | Normalizer 实现 | 同义词映射 + LLM 兜底 |
+| 3 | Family 自动聚类 | 归一化后 object+task 相同的题归入同一 Family |
+| 4 | question_families 表 | 到这一步才建表 |
+| 5 | Similarity Engine | Embedding 召回 + 结构比较 |
+| 6 | Family × Year 频率统计 | 基于 Instance 聚合 |
+
+**暂不实现：** question_families 表、question_similarity 表、独立 question_annotations 表、Embedding 索引。
+
+#### P4E. 真实题库入库验收（当前最高优先级）
+
+> **背景（2026-08-22 全量审查结论）**：Phase 2A/2B/2C 的能力已全部实现并通过测试，
+> 但主库真实题目为 0 条 —— 所有验证都建立在集成测试的临时数据上（测试后回滚/清理）。
+> 搜索、统计、知识点映射、Structure Signature 目前是「能力已具备，但没有真实题库可服务」。
+> P4E 的目标是把数据底座变成可用的题库资产，为 Phase 3（错题）和 Phase 4（练习/掌握度）建立真实数据前提。
+
+| # | 任务 | 说明 | 验收标准 |
+|---|---|---|---|
+| 1 | 真实题库入库验收 | 用现有 PDF 集在真实 PostgreSQL 上跑完整流程（PDF→OCR→LLM 标注→ingestion），题目、配图、答案、知识点映射真正持久化 | 主库出现可查询的 approved 题目；`GET /api/admin/statistics` 返回非空、可解释的结果；不是「测试通过」而是「主库有数据」 |
+| 2 | 管理端审核闭环 | 在真实题目上使用审核接口：通过、驳回、修改题干/选项/答案、处理答案冲突、修正知识点映射 | 审核后 `SELECT status, stem, answer FROM questions` 真实变化；冲突题目进入 reviewing 且 review_reason 有详情 |
+| 3 | 题库质量 baseline | 生成可复现的题库质量快照：题目数、答案准确率、知识映射 pending 数、content_hash 冲突数、配图完整率 | baseline 脚本可重复执行，输出保存到 `test/results/`；后续每次改管线可对比，避免「测试绿但数据坏」 |
+| 4 | 前端页面搭建 | 搭建管理端 + 学生端前端页面，让 owner 能从页面用两种身份对后端业务流程质量做判定 | 页面能展示真实题库数据（搜索/统计/题目详情）、执行审核、查看质量指标 |
+
+**执行顺序**：1 → 2 → 3 → 4。P4E 完成前，Phase 3/4/7 与 P4D 不启动。
+
+**Phase 3/4 设计原则（P4E 完成后讨论）**：
+- Phase 3 学生错题：先做「切分 + 识别 + 新建草稿题 + 管理员确认」，题库匹配随后补（匹配依赖真实题库）
+- Phase 4 练习与掌握度：优先客观题（答案可确定性判分），主观题判分后续；知识映射和错题本必须有真实数据支撑，否则掌握度空转
+- Phase 7 AI 生成：依赖真实统计趋势和样本量，题库无真实量级前不启动
 
 ### P5. 学生错题
 
@@ -188,3 +255,11 @@ Source of truth: `Docs/00_Requirements/REQUIREMENTS_AND_SOLUTION.md`
 
 - P2 文档解析改为 L1 双源：PyMuPDF native + PP-StructureV3 ppsv3。
 - canonical L1 由代码按证据生成，LLM 只做行级仲裁。
+
+### 2026-08-21
+
+- 版本升至 2.0。
+- P4 重写为 Phase 2 四阶段（2A 数据底座 / 2B 统计搜索 / 2C Annotation 积累 / 2D Similarity/Family 研究）。
+- Phase 2 设计基线冻结为 PLAN_QUESTION_FAMILY v2.0。
+- Phase 2A 明确五项 P0：知识映射落库、Question/Instance 字段修正、Instance 关联 document_id、content_hash、occurrence_count 派生。
+- Family/Similarity/Embedding 暂不实现。

@@ -1,0 +1,1408 @@
+{
+  "status": "failed",
+  "stages": [
+    {
+      "name": "native_l1",
+      "duration_ms": 194,
+      "lines": 1109
+    },
+    {
+      "name": "ppsv3_l1",
+      "duration_ms": 8180,
+      "lines": 648
+    },
+    {
+      "name": "pp_primary_l1",
+      "duration_ms": 1,
+      "lines": 648,
+      "empty_pp_filled_by_native": 0,
+      "native_lines_matched": 630,
+      "native_images": 3,
+      "native_answer_section_lines": 8
+    },
+    {
+      "name": "image_dedup",
+      "duration_ms": 0,
+      "original_count": 131,
+      "deduplicated_count": 131
+    }
+  ],
+  "stage_errors": [],
+  "total_time_ms": 0,
+  "errors": [
+    "simple_pipeline llm_annotation failed: JSON object is invalid"
+  ],
+  "question_count": 0,
+  "images": [
+    {
+      "image_id": "P1IMG001",
+      "page_no": 1,
+      "bbox": {
+        "x1": 136.0,
+        "y1": 725.0,
+        "x2": 283.0,
+        "y2": 899.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG001",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//62b5607d-9d9a-4309-b849-a8994d29f16b/markdown_0/imgs/img_in_image_box_136_725_283_899.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A55Z%2F-1%2F%2Fd9214e0256b6d82a83b9edbcd949303cd8ab285036b42e9200ce1ccf07d2d351",
+      "xref": null
+    },
+    {
+      "image_id": "P1IMG002",
+      "page_no": 1,
+      "bbox": {
+        "x1": 440.0,
+        "y1": 724.0,
+        "x2": 611.0,
+        "y2": 899.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG002",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//62b5607d-9d9a-4309-b849-a8994d29f16b/markdown_0/imgs/img_in_image_box_440_724_611_899.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2F1ad97064f96cae6417bdbb7346730a3254546edc3ab867df727532eb54537218",
+      "xref": null
+    },
+    {
+      "image_id": "P1IMG003",
+      "page_no": 1,
+      "bbox": {
+        "x1": 767.0,
+        "y1": 720.0,
+        "x2": 895.0,
+        "y2": 900.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG003",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//62b5607d-9d9a-4309-b849-a8994d29f16b/markdown_0/imgs/img_in_image_box_767_720_895_900.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2F78dbe85053daa79183cd7903726b7523471884f8bf6b26c515a0db75bd51692c",
+      "xref": null
+    },
+    {
+      "image_id": "P1IMG004",
+      "page_no": 1,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG004",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//62b5607d-9d9a-4309-b849-a8994d29f16b/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2F44e3e2c79bcc0bb87656f7a4d5f3eeb75d459efdf3746e6d1261385fc5feb643",
+      "xref": null
+    },
+    {
+      "image_id": "P1IMG005",
+      "page_no": 1,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG005",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//62b5607d-9d9a-4309-b849-a8994d29f16b/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A58Z%2F-1%2F%2F45aa47f7edbc0c935eb1f9ad768d2e0ef1100da2097fc9b52b35747bcd09aa06",
+      "xref": null
+    },
+    {
+      "image_id": "P1IMG006",
+      "page_no": 1,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG006",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//62b5607d-9d9a-4309-b849-a8994d29f16b/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A58Z%2F-1%2F%2F81c1c3057d50687e6f5a353c18fb4cdcdb1b7b6d2d2f88d5125831ddd35fc9ec",
+      "xref": null
+    },
+    {
+      "image_id": "P1IMG007",
+      "page_no": 1,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG007",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//62b5607d-9d9a-4309-b849-a8994d29f16b/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A59Z%2F-1%2F%2Fbb937710bc40a1e42461fd59a730c1a7622fbb1c3edbf923640e6afee9bf8293",
+      "xref": null
+    },
+    {
+      "image_id": "P2IMG001",
+      "page_no": 2,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG008",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//b2a4d4bc-ab5c-4049-af64-dbb5ef0c79ee/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A01Z%2F-1%2F%2Fdd44f27f176007b28e26a62b8a35033d741d83c3279ba4e41f3e355eaee557cb",
+      "xref": null
+    },
+    {
+      "image_id": "P2IMG002",
+      "page_no": 2,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG009",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//b2a4d4bc-ab5c-4049-af64-dbb5ef0c79ee/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A02Z%2F-1%2F%2F3e07e76115fec0ae5f9339c1e85c59418a714081876fc32e4733f2c895423c8d",
+      "xref": null
+    },
+    {
+      "image_id": "P2IMG003",
+      "page_no": 2,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG010",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//b2a4d4bc-ab5c-4049-af64-dbb5ef0c79ee/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A03Z%2F-1%2F%2F43021be1487823a82d6448d8e4e64a3bf4cd002c0c7ac24fd15659a8c8d03021",
+      "xref": null
+    },
+    {
+      "image_id": "P2IMG004",
+      "page_no": 2,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG011",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//b2a4d4bc-ab5c-4049-af64-dbb5ef0c79ee/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A04Z%2F-1%2F%2Fb132154c82b916c744a31f200d4de162a5f11a9e88947dfc18eaf2b7bd2f257c",
+      "xref": null
+    },
+    {
+      "image_id": "P3IMG001",
+      "page_no": 3,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG012",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//a6d5e6b7-418e-4f65-aed8-a86e1656ba72/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A58Z%2F-1%2F%2Fa22923bbc82dd5edaa31d3dc6a438bcdd92438ba26a1ca1ff33fb0968da9b72b",
+      "xref": null
+    },
+    {
+      "image_id": "P3IMG002",
+      "page_no": 3,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG013",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//a6d5e6b7-418e-4f65-aed8-a86e1656ba72/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A59Z%2F-1%2F%2F75f99c8f23749f8d5e34bcf5eb33d736be477a9e435590dac667072cda80d0eb",
+      "xref": null
+    },
+    {
+      "image_id": "P3IMG003",
+      "page_no": 3,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG014",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//a6d5e6b7-418e-4f65-aed8-a86e1656ba72/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A59Z%2F-1%2F%2Fc535e7e11297510905119874469da7ae4cccee624a5cd96511aa4438f54b0332",
+      "xref": null
+    },
+    {
+      "image_id": "P3IMG004",
+      "page_no": 3,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG015",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//a6d5e6b7-418e-4f65-aed8-a86e1656ba72/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A59Z%2F-1%2F%2Fcf6a10fc0c18e0b109faafe233e61c6d3400434bef14626f82759e05d271e93b",
+      "xref": null
+    },
+    {
+      "image_id": "P4IMG001",
+      "page_no": 4,
+      "bbox": {
+        "x1": 106.0,
+        "y1": 1192.0,
+        "x2": 1082.0,
+        "y2": 1386.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG016",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//b37cd005-27ac-4ec9-b27a-6751f6f117ee/markdown_0/imgs/img_in_table_box_106_1192_1082_1386.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A55Z%2F-1%2F%2Fd4b2877ed81127228179a0fd48577e95b92853adf6386d6e629df730f7d581fc",
+      "xref": null
+    },
+    {
+      "image_id": "P4IMG002",
+      "page_no": 4,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG017",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//b37cd005-27ac-4ec9-b27a-6751f6f117ee/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2Fd26ecaab75569b0049eed07a80c07a803b5ac2d0589eb68dc443ba7d818e9804",
+      "xref": null
+    },
+    {
+      "image_id": "P4IMG003",
+      "page_no": 4,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG018",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//b37cd005-27ac-4ec9-b27a-6751f6f117ee/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2Ff7f6c77e08b240927d90e4cc1e35955aa943cbd937265e142d35020b614c5009",
+      "xref": null
+    },
+    {
+      "image_id": "P4IMG004",
+      "page_no": 4,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG019",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//b37cd005-27ac-4ec9-b27a-6751f6f117ee/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2F0519e3944e5b28ac8c7a9ecc4728d99863cb66f2ef3ce47f81400471b03c1d76",
+      "xref": null
+    },
+    {
+      "image_id": "P4IMG005",
+      "page_no": 4,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG020",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//b37cd005-27ac-4ec9-b27a-6751f6f117ee/table_cell_img_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2F2af393b515a2e5b4a43ad9ff18765f4e25a4368f616d725166111b3b87c1a8d7",
+      "xref": null
+    },
+    {
+      "image_id": "P4IMG006",
+      "page_no": 4,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG021",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//b37cd005-27ac-4ec9-b27a-6751f6f117ee/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2F5132b649228eba858b0aeceb374bbb30db0ce86d941b8bb23eae1d7c483afbad",
+      "xref": null
+    },
+    {
+      "image_id": "P5IMG001",
+      "page_no": 5,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG022",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//f9d8905e-1483-4a85-a405-619e94fa7ce0/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A55Z%2F-1%2F%2F1da04d82ed306a5f39d601f589d591e2ac257fc8949f1492a64eb35284ac2522",
+      "xref": null
+    },
+    {
+      "image_id": "P5IMG002",
+      "page_no": 5,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG023",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//f9d8905e-1483-4a85-a405-619e94fa7ce0/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2Fa720ffe283be4960655f732cc8b1973e22fe483d75d7d12020180c301ba145b7",
+      "xref": null
+    },
+    {
+      "image_id": "P5IMG003",
+      "page_no": 5,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG024",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//f9d8905e-1483-4a85-a405-619e94fa7ce0/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2F8e3d0babc232a37ca2decfa0f77dc734bb96cb1f26124329f3b96690fb5a8000",
+      "xref": null
+    },
+    {
+      "image_id": "P5IMG004",
+      "page_no": 5,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG025",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//f9d8905e-1483-4a85-a405-619e94fa7ce0/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2F042dfa6a4ab3a5e7e880925cacc8df131c05c6fa64ebeb1595d7b634cb7fbef3",
+      "xref": null
+    },
+    {
+      "image_id": "P6IMG001",
+      "page_no": 6,
+      "bbox": {
+        "x1": 138.0,
+        "y1": 583.0,
+        "x2": 799.0,
+        "y2": 1195.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG026",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2057ea06-8acc-4d74-92cb-070fc925c499/markdown_0/imgs/img_in_image_box_138_583_799_1195.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A55Z%2F-1%2F%2F461a2e86da5e1194a68aaca105c20b59f62843f368713de1c16055da8d67fe71",
+      "xref": null
+    },
+    {
+      "image_id": "P6IMG002",
+      "page_no": 6,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG027",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2057ea06-8acc-4d74-92cb-070fc925c499/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2F44d7ce104e3fb89980412da1ea194e62e549137390df1b8484684e753c08855a",
+      "xref": null
+    },
+    {
+      "image_id": "P6IMG003",
+      "page_no": 6,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG028",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2057ea06-8acc-4d74-92cb-070fc925c499/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2Ff0e442836aad47794a8ea67beeaefae059a4b5af86fe0288edc6d5f74546054b",
+      "xref": null
+    },
+    {
+      "image_id": "P6IMG004",
+      "page_no": 6,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG029",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2057ea06-8acc-4d74-92cb-070fc925c499/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2F2b5f3efad37838ea24ecfe12a68cdb2436702b6d1534618388c19c9ec20ef2d5",
+      "xref": null
+    },
+    {
+      "image_id": "P6IMG005",
+      "page_no": 6,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG030",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2057ea06-8acc-4d74-92cb-070fc925c499/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2Fcedc20d9c2109b648216a4bc8bbefea948dc88dbcf29dde1b4b33346b924059c",
+      "xref": null
+    },
+    {
+      "image_id": "P7IMG001",
+      "page_no": 7,
+      "bbox": {
+        "x1": 142.0,
+        "y1": 745.0,
+        "x2": 373.0,
+        "y2": 946.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG031",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//afbce8e7-0b55-47ce-9e98-a33bf68b48b9/markdown_0/imgs/img_in_image_box_142_745_373_946.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A04Z%2F-1%2F%2F66967a594b09a66c1b0e8974e4c43ace056bf7c8f0a3fadc3736a95f8c58cef7",
+      "xref": null
+    },
+    {
+      "image_id": "P7IMG002",
+      "page_no": 7,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG032",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//afbce8e7-0b55-47ce-9e98-a33bf68b48b9/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A05Z%2F-1%2F%2F0100e61330bd4da71fb6abb5ee89f88497be96dfc4ec942da40dd2a99efbdfd9",
+      "xref": null
+    },
+    {
+      "image_id": "P7IMG003",
+      "page_no": 7,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG033",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//afbce8e7-0b55-47ce-9e98-a33bf68b48b9/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A06Z%2F-1%2F%2F867e656223240bdefbf7d0213e61ed01a8b4bb127d4a6902cb5b3ac43e5bbac6",
+      "xref": null
+    },
+    {
+      "image_id": "P7IMG004",
+      "page_no": 7,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG034",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//afbce8e7-0b55-47ce-9e98-a33bf68b48b9/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A07Z%2F-1%2F%2F8d558bc49968a316a72f5ade205e069c59c2fd2b5e8a8c2fb1444c1c157716a3",
+      "xref": null
+    },
+    {
+      "image_id": "P7IMG005",
+      "page_no": 7,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG035",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//afbce8e7-0b55-47ce-9e98-a33bf68b48b9/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A08Z%2F-1%2F%2F52e9d8c82586f0f67eb0382a2dc7217602e59fedd0d8ca7177ca7ac7f05a0313",
+      "xref": null
+    },
+    {
+      "image_id": "P8IMG001",
+      "page_no": 8,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG036",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//b4c46697-3757-46cf-882a-2bf0bf158e4a/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A00Z%2F-1%2F%2F303ea679e6575c7b43f63f7594fff8d04ea574bf174ad383a2e0cdc933a1a87b",
+      "xref": null
+    },
+    {
+      "image_id": "P8IMG002",
+      "page_no": 8,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG037",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//b4c46697-3757-46cf-882a-2bf0bf158e4a/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A01Z%2F-1%2F%2Fb2a151a6c35183f161db13b02eb17d133563d705b87d21c8e1fe41cb341789a9",
+      "xref": null
+    },
+    {
+      "image_id": "P8IMG003",
+      "page_no": 8,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG038",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//b4c46697-3757-46cf-882a-2bf0bf158e4a/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A01Z%2F-1%2F%2F36bc3ddd7302c8dac82303f1847c038aa708a83152d7f45e267a8a0ffbf04631",
+      "xref": null
+    },
+    {
+      "image_id": "P8IMG004",
+      "page_no": 8,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG039",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//b4c46697-3757-46cf-882a-2bf0bf158e4a/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A02Z%2F-1%2F%2Fc06e0430b64754806de67fddfdc74ab45942fafbc975b8e8f38fbce731b41dc3",
+      "xref": null
+    },
+    {
+      "image_id": "P9IMG001",
+      "page_no": 9,
+      "bbox": {
+        "x1": 133.0,
+        "y1": 421.0,
+        "x2": 1081.0,
+        "y2": 1286.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG040",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//fd7d392b-f9ff-4821-bf9a-de57aa8543c5/markdown_0/imgs/img_in_table_box_133_421_1081_1286.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A55Z%2F-1%2F%2Fc43e264b73d1e53d671ccb4fad0ec1d54abe92430d603c6f131b50456a5c9df8",
+      "xref": null
+    },
+    {
+      "image_id": "P9IMG002",
+      "page_no": 9,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG041",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//fd7d392b-f9ff-4821-bf9a-de57aa8543c5/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2F37db6b0180295abb050e3fdbeca28c766e26edf42e14194ae3fc3cf14a1b3dbf",
+      "xref": null
+    },
+    {
+      "image_id": "P9IMG003",
+      "page_no": 9,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG042",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//fd7d392b-f9ff-4821-bf9a-de57aa8543c5/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2Fc301ededdcf1817ae7129421e29ef30de898e06c8a65c26287f641171b66e614",
+      "xref": null
+    },
+    {
+      "image_id": "P9IMG004",
+      "page_no": 9,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG043",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//fd7d392b-f9ff-4821-bf9a-de57aa8543c5/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2Feafa081d12da85768c7401c6bf77f40b6fcd53647fdb2650013fb1f4b321cb8e",
+      "xref": null
+    },
+    {
+      "image_id": "P9IMG005",
+      "page_no": 9,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG044",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//fd7d392b-f9ff-4821-bf9a-de57aa8543c5/table_cell_img_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2Fd1e34ee49555ff60a04d6342ad98945ed4b47f203955ee13f271229c78ba8a9c",
+      "xref": null
+    },
+    {
+      "image_id": "P9IMG006",
+      "page_no": 9,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG045",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//fd7d392b-f9ff-4821-bf9a-de57aa8543c5/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2F27863a17a9c65a724b84cf42ad7a5a2b3a8c401e56e28b2724f52d367797032d",
+      "xref": null
+    },
+    {
+      "image_id": "P10IMG001",
+      "page_no": 10,
+      "bbox": {
+        "x1": 134.0,
+        "y1": 211.0,
+        "x2": 1082.0,
+        "y2": 1200.0
+      },
+      "source": "ppsv3",
+      "figure_id": "FIG046",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//83cf3d71-c3dd-4cd7-8b34-5e88ebb7b213/markdown_0/imgs/img_in_table_box_134_211_1082_1200.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A55Z%2F-1%2F%2F8b36a4ece4ddc4f9e5f256ec4c917f81e8e1a2a32dcfec22d76835adfde3ce2c",
+      "xref": null
+    },
+    {
+      "image_id": "P10IMG002",
+      "page_no": 10,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG047",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//83cf3d71-c3dd-4cd7-8b34-5e88ebb7b213/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2Ffd375a75178512fcb75c36617d0b44363cae8568ce7b3d884770f7d989fb6eee",
+      "xref": null
+    },
+    {
+      "image_id": "P10IMG003",
+      "page_no": 10,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG048",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//83cf3d71-c3dd-4cd7-8b34-5e88ebb7b213/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2Ffaa9d784fa6a07203e38cc4d0c3aff29b41d2fb6ad8e0162d81cd6b552246549",
+      "xref": null
+    },
+    {
+      "image_id": "P10IMG004",
+      "page_no": 10,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG049",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//83cf3d71-c3dd-4cd7-8b34-5e88ebb7b213/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2F69c5e6ef43559a0e0d0eda12fd5f87f1fc69a5a05773427b190e989e2b26bf92",
+      "xref": null
+    },
+    {
+      "image_id": "P10IMG005",
+      "page_no": 10,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG050",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//83cf3d71-c3dd-4cd7-8b34-5e88ebb7b213/table_cell_img_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2Feec96a89e82adc3a5fa1e77aaf80b44aeb3f3674ebca8ab870ff6847b9d11af4",
+      "xref": null
+    },
+    {
+      "image_id": "P10IMG006",
+      "page_no": 10,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG051",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//83cf3d71-c3dd-4cd7-8b34-5e88ebb7b213/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A58Z%2F-1%2F%2F8f12fcfca85bd35df7152df279ab8a8bed1ff70a97bb3d2643f2f2173b039111",
+      "xref": null
+    },
+    {
+      "image_id": "P11IMG001",
+      "page_no": 11,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG052",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//34da9fbe-e9ff-4b76-ae6d-c99e0e0f8f09/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A58Z%2F-1%2F%2F6bf77c4f6b24a1e4a7bc79e7dd36f9fffd3c0d6cdf6a33c0572aa60245632b22",
+      "xref": null
+    },
+    {
+      "image_id": "P11IMG002",
+      "page_no": 11,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG053",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//34da9fbe-e9ff-4b76-ae6d-c99e0e0f8f09/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A59Z%2F-1%2F%2F8d57fd246041858ef227b8208b52936d5d6e5e128fdf47098bea482f946a573c",
+      "xref": null
+    },
+    {
+      "image_id": "P11IMG003",
+      "page_no": 11,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG054",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//34da9fbe-e9ff-4b76-ae6d-c99e0e0f8f09/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A59Z%2F-1%2F%2Ff996292e3762dc651f2ab32f943e8abeb5ae4753a45f3a7914ecf447ff2edc14",
+      "xref": null
+    },
+    {
+      "image_id": "P11IMG004",
+      "page_no": 11,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG055",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//34da9fbe-e9ff-4b76-ae6d-c99e0e0f8f09/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A00Z%2F-1%2F%2F629451313de670299c17a2ce569dbe3191158b926d57550efcee04de6faea9ad",
+      "xref": null
+    },
+    {
+      "image_id": "P12IMG001",
+      "page_no": 12,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG056",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//d3ad9347-99a0-4918-beb5-30d06c7b6641/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A33Z%2F-1%2F%2F825269ef2c97d81b0a69845260c98c190ab628296f2b64841423012241c52f89",
+      "xref": null
+    },
+    {
+      "image_id": "P12IMG002",
+      "page_no": 12,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG057",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//d3ad9347-99a0-4918-beb5-30d06c7b6641/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A35Z%2F-1%2F%2F50b079562c867f8613107e610d11615ec24f57e1be27b4fc481f99e5e6035ef7",
+      "xref": null
+    },
+    {
+      "image_id": "P12IMG003",
+      "page_no": 12,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG058",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//d3ad9347-99a0-4918-beb5-30d06c7b6641/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A36Z%2F-1%2F%2F0d95451173a2d6ac188c03ce2608d445240177fb88d42323e0227e85215c8577",
+      "xref": null
+    },
+    {
+      "image_id": "P12IMG004",
+      "page_no": 12,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG059",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//d3ad9347-99a0-4918-beb5-30d06c7b6641/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A37Z%2F-1%2F%2F33fc260bb09e37a9c6a540da14741400c0b4b14d8ccdfa5357d7edac476db7ff",
+      "xref": null
+    },
+    {
+      "image_id": "P13IMG001",
+      "page_no": 13,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG060",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//cb66e72e-86d7-4e45-92d2-1371314481bd/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A55Z%2F-1%2F%2Fa957fa3d76b5e1ea580e6ef1519244f2b7375d258d78647fe2d8d34e3c03779d",
+      "xref": null
+    },
+    {
+      "image_id": "P13IMG002",
+      "page_no": 13,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG061",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//cb66e72e-86d7-4e45-92d2-1371314481bd/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2F8412156832661d1912fe06b1eadb919fc746400ca4981e6a91e26fc86f87fe6c",
+      "xref": null
+    },
+    {
+      "image_id": "P13IMG003",
+      "page_no": 13,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG062",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//cb66e72e-86d7-4e45-92d2-1371314481bd/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2F5854f9a2738d4097cb7a34303725131bc259d1168784fe8bb5f1e05b30400656",
+      "xref": null
+    },
+    {
+      "image_id": "P13IMG004",
+      "page_no": 13,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG063",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//cb66e72e-86d7-4e45-92d2-1371314481bd/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2Ffc0f8399a6711e9bb9f09e8465aec02698520e4c9f99ca15a809270d520caebd",
+      "xref": null
+    },
+    {
+      "image_id": "P14IMG001",
+      "page_no": 14,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG064",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//a5e9a9c2-6f54-4f0d-b7ca-3dbfb4c98fbe/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A58Z%2F-1%2F%2Fbbeef2c282e34be4ce3fa3867799202446104b1908d1e5d16a8b037c855c521b",
+      "xref": null
+    },
+    {
+      "image_id": "P14IMG002",
+      "page_no": 14,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG065",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//a5e9a9c2-6f54-4f0d-b7ca-3dbfb4c98fbe/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A59Z%2F-1%2F%2Fa015ec5a0d380821eb30bc2dcd4f603d1790fb2f0b0bf1d1f8d6fec25a00232d",
+      "xref": null
+    },
+    {
+      "image_id": "P14IMG003",
+      "page_no": 14,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG066",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//a5e9a9c2-6f54-4f0d-b7ca-3dbfb4c98fbe/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A59Z%2F-1%2F%2Fd583f913db1fd04e54cc10b9aab9976e660577bc74d8e0f28366fd89de579c76",
+      "xref": null
+    },
+    {
+      "image_id": "P14IMG004",
+      "page_no": 14,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG067",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//a5e9a9c2-6f54-4f0d-b7ca-3dbfb4c98fbe/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A59Z%2F-1%2F%2F98f460788c945a6462496b7c2c4d7503aa8bebafecf5540f986d41ccf4e4d3bf",
+      "xref": null
+    },
+    {
+      "image_id": "P15IMG001",
+      "page_no": 15,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG068",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//427dd720-13b4-4796-9c35-a15a75efe634/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A55Z%2F-1%2F%2F35e33264c8f2d86b92db49049e437b6908b05573d3ce0e90a0454ab196fe6bc6",
+      "xref": null
+    },
+    {
+      "image_id": "P15IMG002",
+      "page_no": 15,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG069",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//427dd720-13b4-4796-9c35-a15a75efe634/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2Fbd6adfa93525017a09474901b1f9952e3c25c398280592172c1ca13c7bff817c",
+      "xref": null
+    },
+    {
+      "image_id": "P15IMG003",
+      "page_no": 15,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG070",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//427dd720-13b4-4796-9c35-a15a75efe634/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2F391156f8216260eaacde9aa7a638462dbe670b8490ea3b2a4322ad1b852d2e69",
+      "xref": null
+    },
+    {
+      "image_id": "P15IMG004",
+      "page_no": 15,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG071",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//427dd720-13b4-4796-9c35-a15a75efe634/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2Fdead760308ce5aef8c8b13245a0b9f72e73249a20ce5a52e39f474a6d3201d16",
+      "xref": null
+    },
+    {
+      "image_id": "P16IMG001",
+      "page_no": 16,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG072",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//90feacb2-3d0d-4885-8ffe-8dd82a73c8b2/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A25Z%2F-1%2F%2F04d06098b9e552c3269f703d986e2e6babbf59ef3507fdd85626161314613cb2",
+      "xref": null
+    },
+    {
+      "image_id": "P16IMG002",
+      "page_no": 16,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG073",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//90feacb2-3d0d-4885-8ffe-8dd82a73c8b2/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A27Z%2F-1%2F%2Fe34d0139e564629f9ffc717dce164809d806a7e84e5a2d8db2a89a299f76b562",
+      "xref": null
+    },
+    {
+      "image_id": "P16IMG003",
+      "page_no": 16,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG074",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//90feacb2-3d0d-4885-8ffe-8dd82a73c8b2/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A28Z%2F-1%2F%2Fe94800d51806b2d71810588969d8ad37a43cf1069e188616902e8b2607909ef7",
+      "xref": null
+    },
+    {
+      "image_id": "P16IMG004",
+      "page_no": 16,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG075",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//90feacb2-3d0d-4885-8ffe-8dd82a73c8b2/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A29Z%2F-1%2F%2F202887d91f29f4316d0bd55fca51cd906473e4a3d4c213d93f22e340590cd501",
+      "xref": null
+    },
+    {
+      "image_id": "P17IMG001",
+      "page_no": 17,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG076",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2cf1692d-c267-4aa9-a96c-fac16d6ffdff/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A00Z%2F-1%2F%2F5a55780c048df746336a368b4b67c9eeee8f63a883b072934d1e6fe159ce78ae",
+      "xref": null
+    },
+    {
+      "image_id": "P17IMG002",
+      "page_no": 17,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG077",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2cf1692d-c267-4aa9-a96c-fac16d6ffdff/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A00Z%2F-1%2F%2F4ca81ca2e5f898b3477ca72920d72fea22c4a50df708a218f33ed1c400a7ff23",
+      "xref": null
+    },
+    {
+      "image_id": "P17IMG003",
+      "page_no": 17,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG078",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2cf1692d-c267-4aa9-a96c-fac16d6ffdff/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A00Z%2F-1%2F%2F0af5a21f4de2c2cbf2030f0064f0e7b2c32a09948b076785b649709274c26ca7",
+      "xref": null
+    },
+    {
+      "image_id": "P17IMG004",
+      "page_no": 17,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG079",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//2cf1692d-c267-4aa9-a96c-fac16d6ffdff/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A01Z%2F-1%2F%2Fb4ddf2b7895f0ad8dc25729a6a96058112d81cfef9bbeb1ed973b94e5344cd97",
+      "xref": null
+    },
+    {
+      "image_id": "P18IMG001",
+      "page_no": 18,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG080",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//f9fa9585-0707-490e-be06-064d518c0d9b/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2F44e02a6b513bcc2249727927893db28b9da49a97c43d68d2c0458a843ea4ea19",
+      "xref": null
+    },
+    {
+      "image_id": "P18IMG002",
+      "page_no": 18,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG081",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//f9fa9585-0707-490e-be06-064d518c0d9b/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2F058be94e60dd947ba714c266d538f008df11e707dcf6a36df41288480fde4f24",
+      "xref": null
+    },
+    {
+      "image_id": "P18IMG003",
+      "page_no": 18,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG082",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//f9fa9585-0707-490e-be06-064d518c0d9b/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2Fd60d3b00ba584c291a76c9620b30d0500777449b17e20288847602b80f292158",
+      "xref": null
+    },
+    {
+      "image_id": "P18IMG004",
+      "page_no": 18,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG083",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//f9fa9585-0707-490e-be06-064d518c0d9b/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2F5a8f53eecb90437c9652f8c5f0e32fb8406e5dc61062aaf1951dfd84de8829c1",
+      "xref": null
+    },
+    {
+      "image_id": "P19IMG001",
+      "page_no": 19,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG084",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//e0747f37-748c-43d9-8bfb-ceb3aabcc4d3/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A33Z%2F-1%2F%2F57a3342de0ac813024d3b8103df914fe884bcf8fd533352d2786aa124614faee",
+      "xref": null
+    },
+    {
+      "image_id": "P19IMG002",
+      "page_no": 19,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG085",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//e0747f37-748c-43d9-8bfb-ceb3aabcc4d3/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A35Z%2F-1%2F%2F2dacfdbad7b390d279ac1dc64671a351ad439b13e6dd60bea81cf3b892861576",
+      "xref": null
+    },
+    {
+      "image_id": "P19IMG003",
+      "page_no": 19,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG086",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//e0747f37-748c-43d9-8bfb-ceb3aabcc4d3/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A36Z%2F-1%2F%2F358efaccb7669f11b559e8a12fab43eb5ab283da42f656f53585aa65f4b001ba",
+      "xref": null
+    },
+    {
+      "image_id": "P19IMG004",
+      "page_no": 19,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG087",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//e0747f37-748c-43d9-8bfb-ceb3aabcc4d3/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A37Z%2F-1%2F%2F6ed11a4378ac4f01ccf872c7ca00bbe1bda8d9c9708341e1989e4ef6bb6222f3",
+      "xref": null
+    },
+    {
+      "image_id": "P20IMG001",
+      "page_no": 20,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG088",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//d387bc83-87cb-4e9f-a12c-37da88b2abdd/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A12Z%2F-1%2F%2F82c32ee36d7d6cb1d3115f611595f0ba84b60ac812c553218b6c362a2571eaa0",
+      "xref": null
+    },
+    {
+      "image_id": "P20IMG002",
+      "page_no": 20,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG089",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//d387bc83-87cb-4e9f-a12c-37da88b2abdd/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A13Z%2F-1%2F%2F53e5dfcfa4e5a9c4ca25aeb8d2a0df7e6b56d66388712702502ebbdd7cc774c8",
+      "xref": null
+    },
+    {
+      "image_id": "P20IMG003",
+      "page_no": 20,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG090",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//d387bc83-87cb-4e9f-a12c-37da88b2abdd/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A14Z%2F-1%2F%2F1c4524c10613a692cf89eef30a5578ef250b5723596e5bdd9aeabbf525a59b13",
+      "xref": null
+    },
+    {
+      "image_id": "P20IMG004",
+      "page_no": 20,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG091",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//d387bc83-87cb-4e9f-a12c-37da88b2abdd/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A15Z%2F-1%2F%2Fd86782399b2cb2ec194eb17ea082db03eda7e2b64a44cb77b10462c49db58890",
+      "xref": null
+    },
+    {
+      "image_id": "P21IMG001",
+      "page_no": 21,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG092",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//d00a5017-30b8-4ce4-a166-5bcb1c391938/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A05Z%2F-1%2F%2Fc77bdf6088a873a3ef1d5274225d7016418111827544328525931a5404ecd187",
+      "xref": null
+    },
+    {
+      "image_id": "P21IMG002",
+      "page_no": 21,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG093",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//d00a5017-30b8-4ce4-a166-5bcb1c391938/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A06Z%2F-1%2F%2Fc23e6b95a20bfea7bc3342ed064ab897a8b49dc79ade0f42175c82f00f2cc4ef",
+      "xref": null
+    },
+    {
+      "image_id": "P21IMG003",
+      "page_no": 21,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG094",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//d00a5017-30b8-4ce4-a166-5bcb1c391938/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A07Z%2F-1%2F%2F71b6ccc6f4fa5402bc327bba298d51e42c23de195cc3c2537b5fbb36516e850c",
+      "xref": null
+    },
+    {
+      "image_id": "P21IMG004",
+      "page_no": 21,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG095",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//d00a5017-30b8-4ce4-a166-5bcb1c391938/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A07Z%2F-1%2F%2F230e866a0160d89af82c99a7fbc30b6de3c3a09d02a5cc9917e3d7bb3a314f54",
+      "xref": null
+    },
+    {
+      "image_id": "P22IMG001",
+      "page_no": 22,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG096",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//748e5299-4221-4905-ba52-394e3204cfd6/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2F56e636030fd01b288406001aacd6601797710b9f94fc8602c50d5f82a5cdce46",
+      "xref": null
+    },
+    {
+      "image_id": "P22IMG002",
+      "page_no": 22,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG097",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//748e5299-4221-4905-ba52-394e3204cfd6/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2Fddaa4bf1dc0449f0ac7a9828f14db9b7c458d7ff768612651e2495809da4e258",
+      "xref": null
+    },
+    {
+      "image_id": "P22IMG003",
+      "page_no": 22,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG098",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//748e5299-4221-4905-ba52-394e3204cfd6/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2F36130f2bdf9e91d73b4ce3aabf68da4a2b49f777b847e5b40a37c9ff9394a8ca",
+      "xref": null
+    },
+    {
+      "image_id": "P22IMG004",
+      "page_no": 22,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG099",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//748e5299-4221-4905-ba52-394e3204cfd6/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A58Z%2F-1%2F%2Fa8de09d780252ac424e5552226d3f8790c6847aa2c44913bbf4d470070e411e8",
+      "xref": null
+    },
+    {
+      "image_id": "P23IMG001",
+      "page_no": 23,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG100",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//448360d7-9395-4096-aa57-cd2fae5295f8/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A58Z%2F-1%2F%2F85b41c179e05f151a4fa972323679fbcfb94a14448901f6942beff5524d1ee5b",
+      "xref": null
+    },
+    {
+      "image_id": "P23IMG002",
+      "page_no": 23,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG101",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//448360d7-9395-4096-aa57-cd2fae5295f8/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A59Z%2F-1%2F%2F4938586ecf8e772b217a0cad2f55eb2053d330138ade6a0ab5a12be465ebd47d",
+      "xref": null
+    },
+    {
+      "image_id": "P23IMG003",
+      "page_no": 23,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG102",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//448360d7-9395-4096-aa57-cd2fae5295f8/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A59Z%2F-1%2F%2Fafc5ad9cedcf9f97b870f807efbb1dec78e1ae609d7d79d4c92f84b5969a4eb1",
+      "xref": null
+    },
+    {
+      "image_id": "P23IMG004",
+      "page_no": 23,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG103",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//448360d7-9395-4096-aa57-cd2fae5295f8/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A59Z%2F-1%2F%2F2c81a3d6cc957322d2726a4fd633b327ce5d98b8c671f8929ba146e1007431a6",
+      "xref": null
+    },
+    {
+      "image_id": "P24IMG001",
+      "page_no": 24,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG104",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//ff336556-4f58-4d27-9c19-d6beb7140cfd/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A55Z%2F-1%2F%2F108efb92678043c3d4034fdcbe8f05cb926dee986908ae4c9c37fc4627b845f1",
+      "xref": null
+    },
+    {
+      "image_id": "P24IMG002",
+      "page_no": 24,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG105",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//ff336556-4f58-4d27-9c19-d6beb7140cfd/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2Fbbce41d18e7d79bad65a286f931431f45055da9368bf0092aacd891e1f9a50d2",
+      "xref": null
+    },
+    {
+      "image_id": "P24IMG003",
+      "page_no": 24,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG106",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//ff336556-4f58-4d27-9c19-d6beb7140cfd/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2F86b60d61ebf7fb94a6ae475c93e99f6ebaae8f1b7af528f67aeb11dea6b20d16",
+      "xref": null
+    },
+    {
+      "image_id": "P24IMG004",
+      "page_no": 24,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG107",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//ff336556-4f58-4d27-9c19-d6beb7140cfd/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2Fdf713657a66ab19dc2cd30a41d57aa7dbe1ff690a723d4d781312c491845c4f8",
+      "xref": null
+    },
+    {
+      "image_id": "P25IMG001",
+      "page_no": 25,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG108",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//477823ab-9154-43cb-ba0f-19421e27343d/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A55Z%2F-1%2F%2Feea99a3b60aff7371f499a9ffbaf8a6d602a77f420cadf5382a705b4fb198145",
+      "xref": null
+    },
+    {
+      "image_id": "P25IMG002",
+      "page_no": 25,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG109",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//477823ab-9154-43cb-ba0f-19421e27343d/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2F81e11e79e81bc854202e596493b4b9636860a73f88527219e7194dff503e81a7",
+      "xref": null
+    },
+    {
+      "image_id": "P25IMG003",
+      "page_no": 25,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG110",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//477823ab-9154-43cb-ba0f-19421e27343d/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2F87a42eef391beb09953862227f45ecf0fcc0460d9b390d5cf95f3f6440891438",
+      "xref": null
+    },
+    {
+      "image_id": "P25IMG004",
+      "page_no": 25,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG111",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//477823ab-9154-43cb-ba0f-19421e27343d/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2Ff0149f46b07a9821880518654df66cd88f2524d0df6bfb908cdbecefe6fa79ac",
+      "xref": null
+    },
+    {
+      "image_id": "P26IMG001",
+      "page_no": 26,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG112",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//ec3004e4-e6e2-469e-8c5c-66a1483247f2/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A58Z%2F-1%2F%2Fcca5d17ce22f461300e3ba9920df0a277512ca3dcf3471092556a4344499cbbe",
+      "xref": null
+    },
+    {
+      "image_id": "P26IMG002",
+      "page_no": 26,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG113",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//ec3004e4-e6e2-469e-8c5c-66a1483247f2/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A59Z%2F-1%2F%2Ff510b10edaf15a52cc6f00817b609669f2c54612e3254d1cc310fcb9b5ad9a6f",
+      "xref": null
+    },
+    {
+      "image_id": "P26IMG003",
+      "page_no": 26,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG114",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//ec3004e4-e6e2-469e-8c5c-66a1483247f2/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A59Z%2F-1%2F%2Ff69718d40f992db3ccf9c0002e84a46cfb45bb60c12dccb89fd443baa9fe83c7",
+      "xref": null
+    },
+    {
+      "image_id": "P26IMG004",
+      "page_no": 26,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG115",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//ec3004e4-e6e2-469e-8c5c-66a1483247f2/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A59Z%2F-1%2F%2Fa6c5008ce8b474734483fbfffd17b0016704f597b2d48ce6ffa1c7791f363e32",
+      "xref": null
+    },
+    {
+      "image_id": "P27IMG001",
+      "page_no": 27,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG116",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//3612852f-8f9e-434e-b56b-ddc978d5ed86/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A06Z%2F-1%2F%2F6d8b597c9cdf0ba0d3e3fd21d87c27c1b5e386a4aac6682453d6332e786d1509",
+      "xref": null
+    },
+    {
+      "image_id": "P27IMG002",
+      "page_no": 27,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG117",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//3612852f-8f9e-434e-b56b-ddc978d5ed86/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A07Z%2F-1%2F%2F6dd53ae61a5b921cad23246a3063151c275b169675a02e6166a1802561eaee2a",
+      "xref": null
+    },
+    {
+      "image_id": "P27IMG003",
+      "page_no": 27,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG118",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//3612852f-8f9e-434e-b56b-ddc978d5ed86/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A09Z%2F-1%2F%2Fe5196a3aeb07b179dc07a41c58f9af2ddfedc07f5c626515a35107af2b1cddbf",
+      "xref": null
+    },
+    {
+      "image_id": "P27IMG004",
+      "page_no": 27,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG119",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//3612852f-8f9e-434e-b56b-ddc978d5ed86/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A11Z%2F-1%2F%2Fed446e15450237a8a581c86fbd232fde94f1a18cc536326f9ba5dac6d21d46b7",
+      "xref": null
+    },
+    {
+      "image_id": "P28IMG001",
+      "page_no": 28,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG120",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//7ecdfb33-7bd0-4b00-81ad-1299d26e023a/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A56Z%2F-1%2F%2Fd00ee8e85dc166f34f5adba085edf97ffbce90c8f62558f6f3bb4c210e252c1c",
+      "xref": null
+    },
+    {
+      "image_id": "P28IMG002",
+      "page_no": 28,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG121",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//7ecdfb33-7bd0-4b00-81ad-1299d26e023a/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2F5e580bd2f389b33d95703abaa4cb0c6990b41868b9723bf32a97a5b3da4fd97a",
+      "xref": null
+    },
+    {
+      "image_id": "P28IMG003",
+      "page_no": 28,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG122",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//7ecdfb33-7bd0-4b00-81ad-1299d26e023a/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2F1dc80ed10e3f99e6cf96faa5b68bafaa1ace61894ebf20ce59c6c05584e36e3c",
+      "xref": null
+    },
+    {
+      "image_id": "P28IMG004",
+      "page_no": 28,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG123",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//7ecdfb33-7bd0-4b00-81ad-1299d26e023a/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A56%3A57Z%2F-1%2F%2F32c8cc9c6be5c6cd260645b1b75f9cdef389a5a41e70bf682caae5999ca71ee2",
+      "xref": null
+    },
+    {
+      "image_id": "P29IMG001",
+      "page_no": 29,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG124",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//65b56d59-e906-427a-ad40-56e8c58ee635/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A00Z%2F-1%2F%2Fbb2561585e0340ce719c0f6bf4161205e776f7f9702047d951574651acc7464f",
+      "xref": null
+    },
+    {
+      "image_id": "P29IMG002",
+      "page_no": 29,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG125",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//65b56d59-e906-427a-ad40-56e8c58ee635/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A00Z%2F-1%2F%2F6db9ebb07c44a5e7847f01e8dfd1be64c97ad2e05f4d3e81d17f8223b4203e0f",
+      "xref": null
+    },
+    {
+      "image_id": "P29IMG003",
+      "page_no": 29,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG126",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//65b56d59-e906-427a-ad40-56e8c58ee635/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A01Z%2F-1%2F%2F8b69e238967fc0d9aa0ead3f0444a1eaed07c44a7419de14f6e1cc50c872637f",
+      "xref": null
+    },
+    {
+      "image_id": "P29IMG004",
+      "page_no": 29,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG127",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//65b56d59-e906-427a-ad40-56e8c58ee635/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A01Z%2F-1%2F%2F5be86069f78fe4dc666094175454155212ec3df7535018ca238ed36b11dd77c0",
+      "xref": null
+    },
+    {
+      "image_id": "P30IMG001",
+      "page_no": 30,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG128",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//fbf1b7d1-6edc-4434-b4d7-bd23e7f47f10/layout_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A01Z%2F-1%2F%2F30df61531b6864885b545a3a2a34b06224ecc7b7f0bdc22c22bced7b7ea1e80b",
+      "xref": null
+    },
+    {
+      "image_id": "P30IMG002",
+      "page_no": 30,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG129",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//fbf1b7d1-6edc-4434-b4d7-bd23e7f47f10/region_det_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A02Z%2F-1%2F%2F9166e90dfe1f269368368a6dd151f9c1f69def42102a601fcc56c7dbbb74499c",
+      "xref": null
+    },
+    {
+      "image_id": "P30IMG003",
+      "page_no": 30,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG130",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//fbf1b7d1-6edc-4434-b4d7-bd23e7f47f10/overall_ocr_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A03Z%2F-1%2F%2F9de5e6d77bad76ce8a94ef3fcff4726057376b0b25a3271ce3665c1bb818dd8d",
+      "xref": null
+    },
+    {
+      "image_id": "P30IMG004",
+      "page_no": 30,
+      "bbox": null,
+      "source": "ppsv3",
+      "figure_id": "FIG131",
+      "placement": "unknown",
+      "url": "https://pplines-online.bj.bcebos.com/deploy/official/paddleocr/structure-v3-online//fbf1b7d1-6edc-4434-b4d7-bd23e7f47f10/layout_order_res_0.jpg?authorization=bce-auth-v1%2FALTAKDN8mY5KlNI7zaRpLmOqrw%2F2026-08-16T06%3A57%3A04Z%2F-1%2F%2F6fdb9e8c4fb8ee34a8719caec4b22bcf2a80a03c6bf7ac0728efb38ce4b43b4c",
+      "xref": null
+    }
+  ],
+  "question_images": [],
+  "questions": [],
+  "ingested_questions": [],
+  "discarded_questions": [],
+  "ingest_summary": {
+    "total": 0,
+    "ingested": 0,
+    "discarded": 0,
+    "discard_reasons": {}
+  },
+  "llm_annotation": null,
+  "_label": "composite:2025北京东城高一（上）期末历史（教师版）:run1",
+  "_elapsed_s": 487.0,
+  "_composite_stats": {
+    "total_questions": 0,
+    "composite_count": 0,
+    "non_composite_count": 0,
+    "total_sub_questions": 0,
+    "shared_material_only_count": 0
+  }
+}

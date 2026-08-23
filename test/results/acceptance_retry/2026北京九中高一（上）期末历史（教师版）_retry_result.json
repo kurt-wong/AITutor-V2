@@ -1,0 +1,26 @@
+{
+  "filename": "2026北京九中高一（上）期末历史（教师版）.pdf",
+  "subject": "历史",
+  "stages": {
+    "pipeline": {
+      "status": "succeeded",
+      "elapsed_ms": 369644,
+      "question_count": 43,
+      "errors": []
+    },
+    "answer_extraction": {
+      "status": "success",
+      "subject": "历史",
+      "total": 16,
+      "verified": 16,
+      "elapsed_ms": 55859,
+      "error": null
+    },
+    "ingestion_preview": {
+      "total": 43,
+      "approved": 38,
+      "reviewing": 5
+    }
+  },
+  "errors": []
+}

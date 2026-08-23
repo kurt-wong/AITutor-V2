@@ -163,8 +163,6 @@ AI 只能把题目映射到已有节点，不能创建新节点。
 | id | UUID | PK |
 | subject_id | UUID | FK subjects |
 | grade | VARCHAR | 高一/高二/高三 |
-| year | INTEGER | 来源年份 |
-| school | VARCHAR | 来源学校 |
 | question_type_id | UUID | FK question_types |
 | score | NUMERIC | 分值，可为空 |
 | difficulty | INTEGER | 1-5 |
@@ -176,9 +174,19 @@ AI 只能把题目映射到已有节点，不能创建新节点。
 | source_document_name | VARCHAR | 来源文档名 |
 | status | VARCHAR | approved / reviewing / rejected |
 | confidence | NUMERIC | 0-1 |
-| occurrence_count | INTEGER | 默认 1 |
+| occurrence_count | INTEGER | 缓存字段，由 Instance COUNT 驱动 |
+| content_hash | VARCHAR(64) | SHA256，Step 5 实现 hash 逻辑，当前可为 NULL |
+| is_composite | BOOLEAN | 是否为综合题，默认 false |
+| sub_questions | JSONB | 综合题子题元数据 |
+| review_reason | VARCHAR(200) | 审核原因分类 |
 | created_at | TIMESTAMPTZ | |
 | updated_at | TIMESTAMPTZ | |
+
+说明：
+
+- year / school 已迁移到 question_instances（Phase 2A Step 1，2026-08-21）。
+- content_hash 本步只加列，Step 5 实现 hash 逻辑。
+- occurrence_count 为缓存字段，由 COUNT(question_instances) 驱动更新。
 
 ### 4.6 question_images
 
@@ -211,14 +219,21 @@ AI 只能把题目映射到已有节点，不能创建新节点。
 |---|---|---|
 | id | UUID | PK |
 | question_id | UUID | FK questions |
+| document_id | UUID | FK documents，NOT NULL（Phase 2A Step 1 新增） |
 | source_type | VARCHAR | document / generated / student |
-| source_document_name | VARCHAR | 来源文档名 |
+| source_document_name | VARCHAR | 来源文档名（冗余保留，便于查询） |
 | source_page | INTEGER | 来源页码，可为空 |
 | source_question_number | VARCHAR | 来源原始题号，可为空 |
-| year | INTEGER | |
-| school | VARCHAR | |
+| year | INTEGER | 从 questions 迁移（Phase 2A Step 1） |
+| school | VARCHAR | 从 questions 迁移（Phase 2A Step 1） |
 | occurrence_no | INTEGER | 同一来源内出现序号 |
 | created_at | TIMESTAMPTZ | |
+
+说明：
+
+- document_id 为 Phase 2A Step 1 新增，NOT NULL，替代 source_document_name 作为精确关联。
+- 唯一约束：`(document_id, source_question_number)` WHERE source_question_number IS NOT NULL。
+- year / school 从 questions 表迁移而来（Phase 2A Step 1）。
 
 ### 4.8 question_knowledge
 
@@ -229,6 +244,8 @@ AI 只能把题目映射到已有节点，不能创建新节点。
 | knowledge_node_id | UUID | FK knowledge_nodes |
 | confidence | NUMERIC | 0-1 |
 | is_primary | BOOLEAN | 是否主知识点 |
+| mapping_source | VARCHAR(20) | llm / rule / manual（Phase 2A Step 1 新增） |
+| review_status | VARCHAR(20) | approved / pending / rejected，默认 approved（Phase 2A Step 1 新增） |
 | created_at | TIMESTAMPTZ | |
 
 ### 4.9 knowledge_nodes
@@ -492,7 +509,60 @@ L1（行编号原文）和 L2（LLM 标注镜像）是文档解析的中间态�
 
 ---
 
-## 8. 一致性要求
+## 8. Phase 2A 设计冻结（待实现）
+
+> 以下变更为 PLAN_QUESTION_FAMILY v2.0 冻结的 DSD 方向，尚未实现。当前 DB 仍为旧结构。
+> 实现时需要 Alembic migration。content_hash 规范化规则、唯一约束边界、综合题子题映射的承载方式属于 2A 实现细节。
+> 代码审计（2026-08-21）补充：Phase 2A 还包含审核写回 DB、Worker 失败语义修正、L2 完整持久化三项代码修复，详见 PLAN §7.1 和 ROADMAP P4A。
+
+### 8.1 questions 表变更
+
+| 变更 | 类型 | 说明 |
+|---|---|---|
+| 新增 content_hash | VARCHAR(64) | 规范化文本 SHA256，用于 exact dedup。覆盖题干+选项+题型。答案/详解冲突进审核不静默覆盖。 |
+| 移除 year | — | 移到 question_instances。Question 只保留内容事实。 |
+| 移除 school | — | 移到 question_instances。 |
+| occurrence_count | — | 改为派生值：COUNT(question_instances)。可保留为缓存字段但由 Instance 驱动更新。 |
+
+### 8.2 question_instances 表变更
+
+| 变更 | 类型 | 说明 |
+|---|---|---|
+| 新增 document_id | UUID FK documents | 替代 source_document_name 文本字段。 |
+| 唯一约束 | — | (document_id, source_question_number) 不重复创建 instance。 |
+
+### 8.3 question_knowledge 表变更
+
+| 变更 | 类型 | 说明 |
+|---|---|---|
+| 新增 mapping_source | VARCHAR | llm / rule / manual，记录映射来源。 |
+| 新增 review_status | VARCHAR | approved / pending / rejected，低置信度映射进审核。 |
+
+综合题（is_composite=true）需要子题级知识点映射。具体承载方式（子题独立 Question vs 父题 sub_questions 字段关联）在 2A 实现时决定。
+
+### 8.4 暂不建的表
+
+以下表在 Phase 2D 之前不建：
+
+| 表 | 推迟原因 |
+|---|---|
+| question_families | Family 定义未确定，建表会锁死模型 |
+| question_similarity | Similarity 引擎未实现 |
+| question_annotations（独立表） | 当前 llm_annotated_markdown JSON 足够 |
+
+### 8.5 冻结的设计原则
+
+| 原则 | 说明 |
+|---|---|
+| Primary Family 唯一归属 | 每道题只有一个 Primary Family，用于统计报表（未来） |
+| Family Membership N:M | 一道题可以属于多个 Family，用于检索/分析（未来） |
+| Knowledge Point ≠ Family | 同知识点不同任务属于不同 Family |
+| Annotation ≠ 事实 | LLM 输出的标注都带 source/confidence/version |
+| Structure Signature 存 L2 JSON | 不进 questions 主表，存在 llm_annotated_markdown 中 |
+
+---
+
+## 9. 一致性要求
 
 DSD 必须与以下文档保持一致：
 
@@ -509,7 +579,7 @@ DSD 必须与以下文档保持一致：
 
 ---
 
-## 8. 变更记录
+## 10. 变更记录
 
 ### 2026-08-11
 
@@ -524,3 +594,20 @@ DSD 必须与以下文档保持一致：
 
 - 版本升至 4.5：`question_images` 多对多语义说明（物理图存储去重 + 题图关联多对多 + 无证据广播抑制）。
 - 新增 L1/L2 中间态说明（不落库，详见 T3_IMPLEMENTATION.md）。
+
+### 2026-08-21
+
+- 新增 §8 Phase 2A 设计冻结：questions 移除 year/school、新增 content_hash、occurrence_count 改派生；question_instances 新增 document_id FK（NOT NULL）+ 部分唯一索引（WHERE source_question_number IS NOT NULL）；question_knowledge 新增 mapping_source/review_status。
+- 明确暂不建 question_families、question_similarity、独立 question_annotations 表。
+- 冻结设计原则：Primary Family 唯一归属、KP ≠ Family、Annotation ≠ 事实、Structure Signature 存 L2 JSON。
+
+### 2026-08-21
+
+#### Phase 2A Step 1 实施
+
+- questions 表：移除 year/school 列，新增 content_hash VARCHAR(64)。
+- question_instances 表：新增 document_id UUID FK documents（nullable），部分唯一索引 ix_question_instances_doc_qno（WHERE document_id IS NOT NULL AND source_question_number IS NOT NULL）。
+- question_knowledge 表：新增 mapping_source VARCHAR(20)、review_status VARCHAR(20) DEFAULT 'approved'。
+- 索引变更：ix_questions_subject_grade_year → ix_questions_subject_grade（移除 year），新增 ix_questions_content_hash。
+- Alembic migration：20260821_0003_phase2a_data_foundation.py。
+- 版本升至 4.6。

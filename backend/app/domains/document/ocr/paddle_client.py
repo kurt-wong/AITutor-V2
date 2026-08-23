@@ -1,11 +1,16 @@
 import asyncio
 import json
+import logging
 import time
+from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
 import httpx
 
 from app.domains.document.schemas import OcrBlock, OcrDocument, OcrPage, ParsedImage
+
+logger = logging.getLogger(__name__)
 
 
 DEFAULT_OPTIONAL_PAYLOAD = {
@@ -17,6 +22,139 @@ DEFAULT_OPTIONAL_PAYLOAD = {
 
 class PaddleOCRClientError(RuntimeError):
     pass
+
+
+@dataclass(order=True)
+class _QueueItem:
+    """优先级队列元素：priority 越小越先执行。"""
+    priority: int
+    file_path: Path = field(compare=False)
+    model: str | None = field(compare=False, default=None)
+    future: asyncio.Future = field(compare=False, default=None)
+
+
+class PaddleOCRQueue:
+    """本地队列：控制 PaddleOCR 并发提交，支持优先级、重试、状态跟踪。
+
+    使用方式：
+        queue = PaddleOCRQueue(client, max_concurrent=1)
+        document = await queue.submit(file_path, priority=10)
+    """
+
+    def __init__(
+        self,
+        client: "PaddleOCRClient",
+        *,
+        max_concurrent: int = 1,
+    ) -> None:
+        self._client = client
+        self._semaphore = asyncio.Semaphore(max_concurrent)
+        self._queue: asyncio.PriorityQueue[_QueueItem] = asyncio.PriorityQueue()
+        self._in_flight = 0
+        self._total_submitted = 0
+        self._total_completed = 0
+        self._total_failed = 0
+        self._worker_task: asyncio.Task | None = None
+
+    async def submit(
+        self,
+        file_path: Path,
+        *,
+        model: str | None = None,
+        priority: int = 10,
+    ) -> OcrDocument:
+        """提交 OCR 任务到本地队列，等待完成后返回结果。
+
+        Args:
+            file_path: PDF 文件路径
+            model: OCR 模型（默认使用 client 配置）
+            priority: 优先级，越小越先执行（默认 10）
+
+        Returns:
+            OcrDocument: OCR 识别结果
+        """
+        future: asyncio.Future[OcrDocument] = asyncio.get_running_loop().create_future()
+        item = _QueueItem(
+            priority=priority,
+            file_path=file_path,
+            model=model,
+            future=future,
+        )
+        await self._queue.put(item)
+        self._total_submitted += 1
+        logger.info(
+            "paddle_queue: enqueued %s priority=%d queue_size=%d",
+            file_path.name,
+            priority,
+            self._queue.qsize(),
+        )
+
+        # 启动后台 worker（如果未运行）
+        self._ensure_worker()
+
+        # 等待结果
+        return await future
+
+    def _ensure_worker(self) -> None:
+        """确保后台 worker 正在运行。"""
+        if self._worker_task is None or self._worker_task.done():
+            self._worker_task = asyncio.ensure_future(self._worker_loop())
+
+    def close(self) -> None:
+        """取消后台 worker，防止 long-running 场景残留 pending task。"""
+        worker = self._worker_task
+        self._worker_task = None
+        if worker is not None and not worker.done():
+            worker.cancel()
+
+    async def _worker_loop(self) -> None:
+        """后台 worker：从队列取出任务，控制并发提交。"""
+        while True:
+            try:
+                item = await self._queue.get()
+            except asyncio.CancelledError:
+                break
+
+            # 等待信号量（控制并发）
+            await self._semaphore.acquire()
+            self._in_flight += 1
+
+            try:
+                # 提取 PDF
+                document = await self._client.extract(
+                    item.file_path,
+                    model=item.model,
+                )
+                item.future.set_result(document)
+                self._total_completed += 1
+                logger.info(
+                    "paddle_queue: completed %s in_flight=%d queue_size=%d",
+                    item.file_path.name,
+                    self._in_flight,
+                    self._queue.qsize(),
+                )
+            except Exception as exc:
+                item.future.set_exception(exc)
+                self._total_failed += 1
+                logger.warning(
+                    "paddle_queue: failed %s error=%s",
+                    item.file_path.name,
+                    exc,
+                )
+            finally:
+                self._in_flight -= 1
+                self._semaphore.release()
+
+    @property
+    def stats(self) -> dict[str, Any]:
+        """返回队列状态统计。"""
+        return {
+            "queue_size": self._queue.qsize(),
+            "in_flight": self._in_flight,
+            "total_submitted": self._total_submitted,
+            "total_completed": self._total_completed,
+            "total_failed": self._total_failed,
+        }
 
 
 class PaddleOCRClient:
@@ -31,6 +169,8 @@ class PaddleOCRClient:
         timeout_seconds: float = 60.0,
         poll_interval_seconds: float = 5.0,
         job_timeout_seconds: float = 600.0,
+        submit_max_retries: int = 5,
+        submit_retry_delay: float = 5.0,
         transport: httpx.AsyncBaseTransport | None = None,
     ) -> None:
         self.base_url = base_url.rstrip("/")
@@ -39,7 +179,24 @@ class PaddleOCRClient:
         self.timeout_seconds = timeout_seconds
         self.poll_interval_seconds = poll_interval_seconds
         self.job_timeout_seconds = job_timeout_seconds
+        self.submit_max_retries = submit_max_retries
+        self.submit_retry_delay = submit_retry_delay
         self.transport = transport
+
+    @staticmethod
+    def _http_error(response: httpx.Response, context: str) -> PaddleOCRClientError:
+        """把 HTTP 状态码和响应体包装成可审计的 PaddleOCRClientError。
+
+        不能只抛 raise_for_status() 的通用错误：丢失 status/body 会导致
+        OCR 链路失败原因不可复现（"PaddleOCR 返回格式错误"必须可审计）。
+        """
+        try:
+            body = response.text[:500]
+        except Exception:
+            body = "<body unreadable>"
+        return PaddleOCRClientError(
+            f"paddle {context} HTTP {response.status_code}: {body}"
+        )
 
     async def extract(
         self,
@@ -47,6 +204,7 @@ class PaddleOCRClient:
         *,
         model: str | None = None,
     ) -> OcrDocument:
+        logger.info(f"Extracting structure from {file_path.name}...")
         if not self.token:
             raise PaddleOCRClientError("PADDLEOCR_VL_TOKEN is not configured")
 
@@ -61,20 +219,12 @@ class PaddleOCRClient:
             timeout=self.timeout_seconds,
             transport=self.transport,
         ) as client:
-            with file_path.open("rb") as file_handle:
-                response = await client.post(
-                    self.base_url,
-                    headers=headers,
-                    data=data,
-                    files={
-                        "file": (
-                            file_path.name,
-                            file_handle,
-                            _content_type(file_path),
-                        )
-                    },
-                )
-            response.raise_for_status()
+            response = await self._submit_with_retry(
+                client,
+                file_path=file_path,
+                headers=headers,
+                data=data,
+            )
             job_id = response.json().get("data", {}).get("jobId")
             if not job_id:
                 raise PaddleOCRClientError("paddle job response missing jobId")
@@ -85,12 +235,83 @@ class PaddleOCRClient:
                 raise PaddleOCRClientError("paddle job result missing jsonUrl")
 
             jsonl_response = await client.get(jsonl_url)
-            jsonl_response.raise_for_status()
-            return self._parse_jsonl(
+            if jsonl_response.status_code >= 400:
+                raise self._http_error(jsonl_response, "download")
+            document = self._parse_jsonl(
                 jsonl_response.text,
                 filename=file_path.name,
                 provider=selected_model,
             )
+            document.provider_used = selected_model
+            return document
+
+    async def _submit_with_retry(
+        self,
+        client: httpx.AsyncClient,
+        *,
+        file_path: Path,
+        headers: dict[str, str],
+        data: dict,
+    ) -> httpx.Response:
+        last_error: PaddleOCRClientError | None = None
+        for attempt in range(self.submit_max_retries + 1):
+            try:
+                with file_path.open("rb") as file_handle:
+                    response = await client.post(
+                        self.base_url,
+                        headers=headers,
+                        data=data,
+                        files={
+                            "file": (
+                                file_path.name,
+                                file_handle,
+                                _content_type(file_path),
+                            )
+                        },
+                    )
+                if response.status_code < 400:
+                    return response
+
+                error = self._http_error(response, "submit")
+                if self._is_transient_error(response) and attempt < self.submit_max_retries:
+                    delay = self.submit_retry_delay * (2 ** attempt)
+                    logger.warning(
+                        "paddle submit transient error %d, attempt=%d/%d retrying in %.1fs",
+                        response.status_code,
+                        attempt + 1,
+                        self.submit_max_retries + 1,
+                        delay,
+                    )
+                    await asyncio.sleep(delay)
+                    last_error = error
+                    continue
+                raise error
+            except (httpx.TimeoutException, httpx.ConnectError, OSError) as exc:
+                if attempt < self.submit_max_retries:
+                    delay = self.submit_retry_delay * (2 ** attempt)
+                    logger.warning(
+                        "paddle submit network error: %s, attempt=%d/%d retrying in %.1fs",
+                        exc,
+                        attempt + 1,
+                        self.submit_max_retries + 1,
+                        delay,
+                    )
+                    last_error = PaddleOCRClientError(f"paddle submit network error: {exc}")
+                    await asyncio.sleep(delay)
+                    continue
+                raise PaddleOCRClientError(f"paddle submit network error after {attempt + 1} attempts: {exc}")
+        raise last_error  # pragma: no cover - defensive path
+
+    @staticmethod
+    def _is_transient_error(response: httpx.Response) -> bool:
+        """判断是否为可重试的瞬态错误（队列满、5xx、429）。"""
+        if response.status_code in (429, 502, 503, 504):
+            return True
+        if response.status_code == 400:
+            body = response.text or ""
+            if "10010" in body or "queue full" in body.lower():
+                return True
+        return False
 
     async def _poll(
         self,
@@ -105,10 +326,35 @@ class PaddleOCRClient:
                 f"{self.base_url}/{job_id}",
                 headers=headers,
             )
-            response.raise_for_status()
+            if response.status_code >= 400:
+                raise self._http_error(response, "poll")
             data = response.json().get("data", {})
             state = str(data.get("state", "")).lower()
             if state == "done":
+                # C1 修复：校验 extractProgress，确保所有页面已提取
+                extract_progress = data.get("extractProgress")
+                if not extract_progress or not isinstance(extract_progress, dict):
+                    raise PaddleOCRClientError(
+                        "paddle extraction missing extractProgress; "
+                        f"raw data={_safe_preview(data)}"
+                    )
+                total = extract_progress.get("totalPages")
+                extracted = extract_progress.get("extractedPages")
+                if type(total) is not int or total < 1:
+                    raise PaddleOCRClientError(
+                        f"paddle extraction invalid totalPages: {total!r}; "
+                        f"raw data={_safe_preview(data)}"
+                    )
+                if type(extracted) is not int or extracted < 1:
+                    raise PaddleOCRClientError(
+                        f"paddle extraction invalid extractedPages: {extracted!r}; "
+                        f"raw data={_safe_preview(data)}"
+                    )
+                if extracted != total:
+                    raise PaddleOCRClientError(
+                        f"paddle extraction incomplete: {extracted}/{total} pages; "
+                        f"raw data={_safe_preview(data)}"
+                    )
                 return data
             if state == "failed":
                 error = data.get("errorMsg") or data.get("error_msg") or "unknown"
@@ -124,15 +370,43 @@ class PaddleOCRClient:
         filename: str,
         provider: str,
     ) -> OcrDocument:
+        """解析 PP-StructureV3 JSONL 为 OcrDocument。
+
+        页号来源（兼容真实 API 两种格式）：
+        1. JSONL 行顶层 `page` 字段（部分 API 提供）；
+        2. 无 `page` 字段时，按 layoutParsingResults 元素顺序递增编号
+           （PaddleOCR 官方示例行为：每个元素对应一页）。
+        """
         pages: list[OcrPage] = []
-        for line in text.splitlines():
-            line = line.strip()
+        page_counter = 0
+        for line_idx, raw_line in enumerate(text.splitlines()):
+            line = raw_line.strip()
             if not line:
                 continue
-            item = json.loads(line)
+            try:
+                item = json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise PaddleOCRClientError(
+                    f"JSONL line {line_idx} is not valid JSON: {exc}; "
+                    f"raw={line[:200]!r}"
+                ) from exc
+            # C2 修复：优先使用显式 page 字段
+            explicit_page = item.get("page")
+            if explicit_page is not None:
+                if not isinstance(explicit_page, int) or explicit_page < 1:
+                    raise PaddleOCRClientError(
+                        f"JSONL line {line_idx} has invalid 'page' value: {explicit_page!r}; "
+                        f"raw={line[:200]!r}"
+                    )
             result = item.get("result", {})
-            for layout in result.get("layoutParsingResults", []):
-                page_number = len(pages) + 1
+            layouts = result.get("layoutParsingResults", [])
+            for layout in layouts:
+                if explicit_page is not None:
+                    page_number = explicit_page
+                else:
+                    # 真实 PP API 不返回 page 字段：按元素顺序编号（每元素一页）
+                    page_counter += 1
+                    page_number = page_counter
                 markdown = (layout.get("markdown") or {}).get("text", "")
                 images = self._collect_images(
                     layout,
@@ -242,3 +516,12 @@ def _parse_image_bbox(image_id: str) -> dict | None:
         x1, y1, x2, y2 = (float(v) for v in m.groups())
         return {"x1": x1, "y1": y1, "x2": x2, "y2": y2}
     return None
+
+
+def _safe_preview(data: dict, limit: int = 300) -> str:
+    """把原始响应 data 转成可审计的短文本片段（不打印密钥/超长内容）。"""
+    try:
+        text = json.dumps(data, ensure_ascii=False)[:limit]
+    except Exception:
+        text = f"<unserializable: {type(data).__name__}>"
+    return text
