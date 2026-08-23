@@ -328,6 +328,9 @@ def _serialize_l2_for_persistence(l2_annotation) -> dict:
                 "confidence": q.confidence,
                 "source_page": q.source_page,
                 "is_composite": q.is_composite,
+                "shared_material_line_ids": q.shared_material_line_ids,
+                "stem_start_marker": q.stem_start_marker,
+                "stem_end_marker": q.stem_end_marker,
                 "structure_signature": _serialize_signature(q),
                 "sub_questions": [
                     {
