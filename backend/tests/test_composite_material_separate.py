@@ -166,3 +166,135 @@ class TestMergeQuestionGroupMaterialExcluded:
         # 综合题 stem 包含材料
         assert "共享材料" in (result[0].stem or "")
         assert "第一道子题题干" in (result[0].stem or "")
+
+
+class TestMergeQuestionGroupOptionsPreserved:
+    """P0-G-2 测试：_merge_question_group 合并时保留子题选项。"""
+
+    def _sub_q_with_options(self, qno: str, stem_lids: list[str], options: list[dict]) -> SlicedQuestion:
+        anchor = CorrectedAnchor(
+            field="stem", llm_line_ids=list(stem_lids),
+            corrected_line_ids=list(stem_lids),
+            anchor_status="exact", validation_passed=True,
+        )
+        return SlicedQuestion(
+            question_number=qno, question_type="single_choice",
+            stem="", options=options, confidence=0.9,
+            stem_anchor=anchor, corrected_anchors=[anchor],
+            shared_material_line_ids=["P1L001", "P1L002"],
+        )
+
+    def test_options_aggregated_from_sub_questions(self):
+        """子题有选项时，合并后 options 应包含这些选项。"""
+        doc = _doc()
+        line_by_id = {l.line_id: l for l in doc.lines}
+        group = [
+            self._sub_q_with_options("1", ["P1L003"], [
+                {"label": "A", "text": "选项1"},
+                {"label": "B", "text": "选项2"},
+            ]),
+            self._sub_q_with_options("2", ["P1L008"], [
+                {"label": "A", "text": "选项3"},
+                {"label": "B", "text": "选项4"},
+            ]),
+        ]
+        merged = _merge_question_group(group, line_by_id)
+
+        # 合并后应有选项
+        assert len(merged.options) > 0, "合并后 options 不应为空"
+        # 按 label 去重：A 和 B 各保留一个
+        labels = [opt["label"] for opt in merged.options]
+        assert labels == ["A", "B"], f"label 去重后应为 ['A', 'B']，实际 {labels}"
+
+    def test_options_empty_when_sub_questions_have_no_options(self):
+        """子题无选项时，合并后 options 为空。"""
+        doc = _doc()
+        line_by_id = {l.line_id: l for l in doc.lines}
+        group = [
+            self._sub_q_with_options("1", ["P1L003"], []),
+            self._sub_q_with_options("2", ["P1L008"], []),
+        ]
+        merged = _merge_question_group(group, line_by_id)
+        assert merged.options == [], "子题无选项时合并后 options 应为空"
+
+    def test_options_dedup_by_label(self):
+        """子题选项有重复 label 时，去重正确。"""
+        doc = _doc()
+        line_by_id = {l.line_id: l for l in doc.lines}
+        group = [
+            self._sub_q_with_options("1", ["P1L003"], [
+                {"label": "A", "text": "选项1"},
+                {"label": "B", "text": "选项2"},
+                {"label": "C", "text": "选项3"},
+            ]),
+            self._sub_q_with_options("2", ["P1L008"], [
+                {"label": "A", "text": "选项4"},  # 重复 A
+                {"label": "B", "text": "选项5"},  # 重复 B
+                {"label": "D", "text": "选项6"},  # 新增 D
+            ]),
+        ]
+        merged = _merge_question_group(group, line_by_id)
+
+        labels = [opt["label"] for opt in merged.options]
+        assert labels == ["A", "B", "C", "D"], f"去重后应为 ['A','B','C','D']，实际 {labels}"
+        # A 保留第一个子题的值
+        a_opt = next(opt for opt in merged.options if opt["label"] == "A")
+        assert a_opt["text"] == "选项1", f"A 保留第一个子题的值，实际 {a_opt['text']}"
+
+
+class TestL2PersistenceFields:
+    """P0-G-3 测试：L2 持久化包含 shared_material_line_ids 和 stem_markers。"""
+
+    def test_serialization_includes_shared_material(self):
+        """序列化后 JSON 包含 shared_material_line_ids。"""
+        from app.worker.document_worker import _serialize_l2_for_persistence
+        from app.domains.document.schemas_l2 import L2DocumentAnnotation, L2SubQuestion
+
+        l2 = L2DocumentAnnotation(
+            filename="test.pdf",
+            questions=[
+                L2QuestionAnnotation(
+                    question_number="1",
+                    question_type="single_choice",
+                    stem_line_ids=["P1L001", "P1L002"],
+                    options_line_ids={"A": ["P1L003"]},
+                    shared_material_line_ids=["P1L001"],
+                    is_composite=True,
+                    sub_questions=[
+                        L2SubQuestion(qno="1", question_type="single_choice", answer="A"),
+                    ],
+                ),
+            ],
+        )
+
+        result = _serialize_l2_for_persistence(l2)
+        q = result["questions"][0]
+
+        assert "shared_material_line_ids" in q, "序列化应包含 shared_material_line_ids"
+        assert q["shared_material_line_ids"] == ["P1L001"], f"值应为 ['P1L001']，实际 {q['shared_material_line_ids']}"
+
+    def test_serialization_includes_stem_markers(self):
+        """序列化后 JSON 包含 stem_start_marker 和 stem_end_marker。"""
+        from app.worker.document_worker import _serialize_l2_for_persistence
+
+        l2 = L2DocumentAnnotation(
+            filename="test.pdf",
+            questions=[
+                L2QuestionAnnotation(
+                    question_number="1",
+                    question_type="single_choice",
+                    stem_line_ids=["P1L001"],
+                    options_line_ids={},
+                    stem_start_marker="1. 题目开始",
+                    stem_end_marker="D. 选项结束",
+                ),
+            ],
+        )
+
+        result = _serialize_l2_for_persistence(l2)
+        q = result["questions"][0]
+
+        assert "stem_start_marker" in q, "序列化应包含 stem_start_marker"
+        assert "stem_end_marker" in q, "序列化应包含 stem_end_marker"
+        assert q["stem_start_marker"] == "1. 题目开始"
+        assert q["stem_end_marker"] == "D. 选项结束"
