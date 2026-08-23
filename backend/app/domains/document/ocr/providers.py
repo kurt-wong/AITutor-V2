@@ -59,6 +59,14 @@ class MockOCRProvider:
 
 
 class LLMVisionOCRProvider:
+    """LLM 视觉 OCR provider（mimo-vl / deepseek-vl）。
+
+    快速失败：任一页失败（gateway 内部已重试 3 次）→ 抛异常放弃该 provider，
+    让 OCRFallbackChain 立即降级到下一个 VL provider。
+    原因：VL API 服务端间歇性不稳定（如 mimo-vl 断连），
+    逐页重试 3 次 × 多页会浪费大量时间，快速降级更可靠。
+    """
+
     def __init__(self, *, name: str, gateway: LLMGateway) -> None:
         self.name = name
         self.gateway = gateway
@@ -73,11 +81,20 @@ class LLMVisionOCRProvider:
                     "Keep question numbers, stems, options, answers, explanations, "
                     "formulas, tables, and image references. Output only Markdown."
                 )
-                markdown = await self.gateway.complete_vision(
-                    prompt,
-                    image_data_url,
-                    temperature=0.0,
-                )
+                try:
+                    markdown = await self.gateway.complete_vision(
+                        prompt,
+                        image_data_url,
+                        temperature=0.0,
+                    )
+                except Exception as exc:
+                    # gateway 内部已重试 3 次仍失败 → 放弃本 provider，降级下一个
+                    logger.warning(
+                        "vl provider=%s page=%d failed after gateway retries, "
+                        "falling back to next provider: %s",
+                        self.name, page_no, exc,
+                    )
+                    raise
                 pages.append(
                     OcrPage(
                         page_number=page_no,
