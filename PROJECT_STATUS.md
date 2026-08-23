@@ -4,7 +4,7 @@
 
 ## 当前状态
 
-**Phase 2A 总验收通过；Phase 2B/2C 已实现；入库管线 P0-A/P0-B/P0-G 止血补丁完成；9 科 e2e 语义验收基准报告完成；答案验证器独立化完成（以原始 PDF 为主判据）；9 科答案基线已建立（严格通过率 75%）；架构方向决策：先量化再止血再单科原型再逐科推广（2026-08-24，版本 6.8）。**
+**Phase 2A 总验收通过；Phase 2B/2C 已实现；入库管线 P0-A/P0-B/P0-C/P0-G 止血补丁完成；答案验证器独立化完成（以原始 PDF 为主判据）；9 科答案基线已建立（答案 mismatch=0，严格通过率 76%）；英语 P0-A 材料合并验证通过（11/11 材料进 stem）；OCR 链加固完成（PPS 排队 + paddle 10010 熔断 + mimo 短超时降级）；架构方向决策：先量化再止血再单科原型再逐科推广（2026-08-25，版本 6.10）。**
 
 > **全量回归确认（2026-08-22 00:39）**：修复收集错误（`run_pipeline` 恢复至 pipeline.py，4 个引用方零改动）+ 4 项测试与生产代码不同步（processor 已迁移 `run_simple_pipeline`，patch 目标同步）+ DB 历史题清理（9 道英语卷题，stats 测试恢复干净库前提）+ 沙箱 temp 权限根治（`backend/tests/conftest.py` 固定 temp 根到工作区 `tmp/pytest`，`processor._download_pdf` 改工作区 tmp，新增 `test_temp_root.py`）。全量 pytest（用户本机，注入 backend/.env DATABASE_URL）**549 passed，0 failed，9 warnings**（546 → 549，+3 temp 根测试；收集错误与 temp 权限间歇失败均已消除）。
 > **已知记录口径修正**：此前 LOG 中 534/537/539/542/546 等数字与当前工作树不一致（processor 迁移后测试未同步、收集错误被隐藏），本次全量 549 passed 为权威基线。
@@ -206,6 +206,46 @@ T3 Phase 0 状态：L1/L2 Schema、fixture（数学 38 行 postprocessed + 英�
 - `missing_db_question`: 11 题（不在 DB 中，无法验证）
 - `composite_subquestion`: 1 题（英语综合题子题未完全映射）
 
+### 9 科答案基线更新（2026-08-25，P0-C 收敛 + composite 回退后）
+
+> P0-C 修复：答案表来源感知（native 优先，OCR 冲突保留 LLM），生物 Q6/Q7 mismatch 2→0；
+> composite 子题映射回退父题 free_text，生物 Q21-Q26 unverifiable→matched。
+> 全 9 科：matched 193、unverifiable 16、**mismatched 0**、严格通过 **158/209 (76%)**。
+> 报告：`test/results/e2e_semantic_report_9subjects_p0c_v4.txt`
+
+### 英语 P0-A 材料合并验证（2026-08-25）
+
+> 重跑英语入库（deepseek-vl OCR，task fb994ca9 succeeded）：
+> - **composite 材料 11/11 (100%) 进 stem**（修复前 12/23，Q26 stem 63→1731 字符）
+> - stem 核心 10/11 (91%)、位置 7/11 (64%)、选项 7/11 (64%)、答案 10/11 (91%)
+> - 注意：重跑后 LLM 合并为 11 个大综合题（覆盖 Q1-Q46），与之前 23 题结构不同，严格通过率 3/11 不可直接对比
+> - 剩余问题：选项归属 64%（综合题选项跨 section）、位置 64%（stem 越界串题）、Q46 作文缺库
+
+### OCR 链加固（2026-08-25，paddle/mimo 故障不再卡死管线）
+
+> 诊断结论（实测）：
+> - **paddle**：服务端"任务提交队列已满"（HTTP 400 code 10010，官方错误码表无此码）——共享队列状态，重试 155s 大概率仍满
+> - **mimo-vl**：服务端间歇性断连/挂起（同请求有时成功有时断连），8 页连续请求放大
+> - **deepseek-vl**：稳定可用
+>
+> 修复（4 个 commit）：
+> | Commit | 内容 |
+> |---|---|
+> | 5351f1e | PPS 也走 PaddleOCRQueue(max_concurrent=1) + fail_task session 毒化修复 |
+> | 8574109 | paddle 10010 熔断（连续 2 次 → 熔断 300s，15s 快速失败原 155s） |
+> | 38904c3 | VL provider 单页失败快速降级（不再 8 页 × 3 次重试） |
+> | 11ba7b2 | mimo-vl 短超时 45s + max_retries=1（挂起 90s 内降级 deepseek） |
+>
+> 测试：test_paddle_circuit_breaker.py 9 + test_vl_fast_fail.py 3 + test_vl_model_queue.py 12 = 24 passed
+
+### 安全问题（2026-08-25）
+
+> 诊断脚本硬编码 MIMO/DeepSeek/PaddleOCR API key（dacad48 引入），已修复（92a8c07）：
+> - 9 个脚本改从 backend/.env 读取（load_dotenv），缺失时 SystemExit
+> - 工作树无残留硬编码密钥
+> - ⚠️ 密钥已进入 git 历史（dacad48），**需要轮换** MIMO/DeepSeek/PaddleOCR 三个 key
+> - 可选：git filter-repo/BFG 重写历史彻底清除
+
 **答案验证器证据模式**：
 | 模式 | 适用场景 | 示例 |
 |---|---|---|
@@ -281,7 +321,7 @@ T3 Phase 0 状态：L1/L2 Schema、fixture（数学 38 行 postprocessed + 英�
 
 设计基线：`Docs/01_Product/PLAN_QUESTION_FAMILY.md` v2.0
 ROADMAP 基线：`Docs/01_Product/ROADMAP.md` v2.0 P4A
-执行控制：`Docs/01_Product/PHASE_2A_EXECUTION_PLAN.md` v1.1
+执行控制：`docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md` v1.1
 代码审计：2026-08-21，发现审核不写回 DB、Worker 失败语义错误、L2 Annotation 被裁剪
 
 | Step | 任务 | 状态 | 验收 |
@@ -308,7 +348,7 @@ ROADMAP 基线：`Docs/01_Product/ROADMAP.md` v2.0 P4A
 
 ### P0 — 入库管线数据质量修复（2026-08-22 审计驱动，进行中）
 
-> 背景：30 份教师版 PDF 真实入库验证（23 份完成、444 题）后，对管线做 4 模块深度审计（line_annotator / content_slicer / answer_matcher+quality_gate / ingestion+配图），发现 5 个 P0 + 4 个 P1 问题。完整审计报告：`Docs/05_Development/PIPELINE_AUDIT_2026_08_22.md`。
+> 背景：30 份教师版 PDF 真实入库验证（23 份完成、444 题）后，对管线做 4 模块深度审计（line_annotator / content_slicer / answer_matcher+quality_gate / ingestion+配图），发现 5 个 P0 + 4 个 P1 问题。完整审计结论已整合到 `bugs.md`。
 > 修复原则：每个修复必须配套严格测试并通过验证，绝不虚空通过。
 
 | # | 问题 | 根因 | 严重度 | 状态 |
@@ -325,9 +365,7 @@ ROADMAP 基线：`Docs/01_Product/ROADMAP.md` v2.0 P4A
 
 ### P0/P1 — 管线对抗性审查驱动修复（2026-08-23）
 
-> 背景：三方对抗性审查（Claude + Codex + MiMo）+ 真实 e2e 运行（10 份 PDF，9 成功 / 1 失败）。
-> 审查报告：`Docs/05_Development/ADVERSARIAL_REVIEW_PIPELINE_2026_08_22.md`
-> 修复审查：`Docs/05_Development/ADVERSARIAL_REVIEW_P0_FIXES_2026_08_22.md`
+> 背景：三方对抗性审查（Claude + Codex + MiMo）+ 真实 e2e 运行（10 份 PDF，9 成功 / 1 失败）。审查结论已整合到 `bugs.md`。
 
 | 编号 | 问题 | 状态 | 验收证据 |
 |---|---|---|---|
@@ -709,7 +747,7 @@ Phase 0 已完成（全部验收通过，详见更新记录 2026-08-11）。
   - document_id NOT NULL 约束（不提供时 DB 拒绝）
 - 数据库验证脚本 step0_db_verify.py 执行通过。
 - 全量 pytest 448 passed。
-- migration 已确认执行到 `20260821_0003`；当前 `question_instances=0` 行，真实数据回填证据需按 `Docs/01_Product/PHASE_2A_EXECUTION_PLAN.md` Step 0 补齐。
+- migration 已确认执行到 `20260821_0003`；当前 `question_instances=0` 行，真实数据回填证据需按 `docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md` Step 0 补齐。
 
 #### 2026-08-21 Step 0 复核修正
 
@@ -1084,3 +1122,25 @@ Phase 0 已完成（全部验收通过，详见更新记录 2026-08-11）。
 - `backend/tests/test_composite_material_separate.py`：17 项通过
 
 **版本升至 6.8。**
+
+### 2026-08-24 23:30:00
+
+#### 文档治理规则补充
+
+- 状态类文档更新必须按时间戳顺序在文末追加，禁止直接在文档头更新。
+- 本次同步更新 `rules.md`、`RESTART_PROMPT.md`、`bugs.md` 和本文档。
+
+### 2026-08-24 23:45:00
+
+#### Docs 规划文档精简
+
+- `Docs/ARCHIVE/` 移至根目录 `docs_archive/`。
+- 归档完成后的执行计划、实验管线、表选项提取、试卷结构门禁原文档。
+- 关键内容整合进 `TASK.md`、`PIPELINE.md`；规划文档内变更记录统一迁移到 `LOG.md`。
+
+### 2026-08-24 23:55:00
+
+#### 文档更新映射规则补充
+
+- `rules.md` 新增日常文档更新映射表。
+- `Docs/` 禁止创建状态类/执行记录类/审查报告类/临时方案类文档，新增 `Docs` 文档必须经用户确认。

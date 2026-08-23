@@ -1,8 +1,8 @@
 # AI Tutor Personal Edition — RESTART_PROMPT
 
-Version: 6.8
-Status: 重启恢复指引（答案验证器独立化完成，9 科答案基线建立，严格通过率 75%；下一步：修复生物 Q6/Q7 + 重跑英语入库）
-Date: 2026-08-24
+Version: 6.10
+Status: 重启恢复指引（9 科答案基线 mismatch=0、严格通过率 76%；英语 P0-A 材料合并 11/11 验证通过；OCR 链加固完成；下一步：处理 PPS/PVL 队列满载 + 英语 stem 位置/选项归属 + 轮换泄露 API key）
+Date: 2026-08-25
 
 ---
 
@@ -10,7 +10,7 @@ Date: 2026-08-24
 
 本文件用于 Codex/Claude 在重启后快速恢复工作状态。
 
-任何 Agent 进入项目后，应先读本文件，再按需读取 `rules.md`、`PROJECT_STATUS.md`、`LOG.md` 和相关权威文档。
+任何 Agent 进入项目后，应先读本文件，再按需读取 `rules.md`、`PROJECT_STATUS.md`、`LOG.md`、`bugs.md` 和相关权威文档。
 
 ---
 
@@ -30,7 +30,7 @@ Date: 2026-08-24
 
 ## 3. 系统现状
 
-当前阶段：**Phase 2A 总验收通过；Phase 2B/2C 已实现；入库管线 P0-A/P0-B/P0-G 止血补丁完成；答案验证器独立化完成（以原始 PDF 为主判据）；9 科答案基线已建立（严格通过率 75%）；架构方向决策：先量化再止血再单科原型再逐科推广（2026-08-24，版本 6.8）。**
+当前阶段：**Phase 2A 总验收通过；Phase 2B/2C 已实现；入库管线 P0-A/P0-B/P0-C/P0-G 止血补丁完成；答案验证器独立化完成（以原始 PDF 为主判据）；9 科答案基线 mismatch=0、严格通过率 76%；英语 P0-A 材料合并 11/11 验证通过；OCR 链加固完成（PPS 排队 + paddle 10010 熔断 + mimo 短超时降级）；架构方向决策：先量化再止血再单科原型再逐科推广（2026-08-25，版本 6.10）。**
 
 > **全量回归确认（2026-08-22 00:39）**：修复收集错误（`run_pipeline` 恢复至 pipeline.py，4 个引用方零改动）+ 4 项测试与生产代码不同步（processor 已迁移 `run_simple_pipeline`，patch 目标同步）+ DB 历史题清理（9 道英语卷题，stats 测试恢复干净库前提）+ 沙箱 temp 权限根治（`backend/tests/conftest.py` 固定 temp 根到工作区 `tmp/pytest`，`processor._download_pdf` 改工作区 tmp，新增 `test_temp_root.py`）。全量 pytest（用户本机，注入 backend/.env DATABASE_URL）**549 passed，0 failed，9 warnings**（546 → 549，+3 temp 根测试；收集错误与 temp 权限间歇失败均已消除）。
 > **已知记录口径修正**：此前 LOG/PROJECT_STATUS 中 534/537/539/542/546 等数字与当前工作树不一致（processor 迁移后测试未同步、收集错误被隐藏），本次全量 549 passed 为权威基线。
@@ -42,7 +42,7 @@ Date: 2026-08-24
 > **Phase 2C ✅ 已实现（两轮审查修复后）**：Structure Signature 采集（object/task/method/condition 四层，序列化附带 source/confidence/annotation_version 元数据）+ Annotation 版本标记（`ANNOTATION_PROMPT_VERSION`）；10 项测试。
 > 含 Phase 2B/2C 两轮修复后全量 pytest 540 passed（用户本机预期；沙箱 537 passed + 3 项 temp 权限）。
 > 高优先级遗留修复完成：answer_retry_worker 提取失败按 max_retries 恢复 pending/failed；综合题合并保留 structure_signature；全量 pytest 546 passed。
-> **入库管线 P0/P1 修复完成（2026-08-22）**：5 个 P0（配图属性名、题型 get-or-create、难度必填 prompt、膨胀检测、材料独立）+ 1 个 P1（子题答案 L2 层提取），共 40 项测试。e2e 可复现验收：数学 PDF 23 题题型/难度分布精确匹配（`test_e2e_ingestion_verification.py`，9 项，直接查 PostgreSQL）。跨学科题型行为固化（`QuestionType.code` 全局唯一，6 项）。P0 审计报告：`Docs/05_Development/PIPELINE_AUDIT_2026_08_22.md`。
+> **入库管线 P0/P1 修复完成（2026-08-22）**：5 个 P0（配图属性名、题型 get-or-create、难度必填 prompt、膨胀检测、材料独立）+ 1 个 P1（子题答案 L2 层提取），共 40 项测试。e2e 可复现验收：数学 PDF 23 题题型/难度分布精确匹配（`test_e2e_ingestion_verification.py`，9 项，直接查 PostgreSQL）。跨学科题型行为固化（`QuestionType.code` 全局唯一，6 项）。P0 审计结论已整合到 `bugs.md`。
 > 下一步：Phase 2D Similarity/Family 研究（前置条件：样本量 + golden set + Structure Signature raw 分布）。
 
 - Math: ✅ 管线通过（21 题全部正确）
@@ -85,17 +85,13 @@ Date: 2026-08-24
 | `Docs/01_Product/TASK.md` | 任务执行规范 |
 | `Docs/01_Product/PLAN_QUESTION_FAMILY.md` | **Phase 2 设计基线**（题目体系/题族/相似度/统计） |
 | `Docs/01_Product/ROADMAP.md` | 开发任务计划（Phase 2A/2B/2C/2D） |
-| `Docs/01_Product/PHASE_2A_EXECUTION_PLAN.md` | **DSH 执行控制**：每步目标、测试、DB 验证、汇报证据模板 |
 | `Docs/02_Architecture/SAD.md` | 系统架构 |
 | `Docs/02_Architecture/MIS.md` | MCP 工具规范，Agent 接口层 |
 | `Docs/02_Architecture/ACS.md` | API 合约 |
 | `Docs/02_Architecture/PIPELINE.md` | 文档入库管线 |
 | `Docs/05_Development/V1_LESSONS.md` | V1 经验教训与强制约束 |
-| `Docs/01_Product/ROADMAP.md` | 开发任务计划（严格执行基线） |
 | `Docs/02_Architecture/PADDLEOCR_API.md` | PaddleOCR-VL / PP-StructureV3 API 资料 |
-| `Docs/02_Architecture/SIMPLE_PIPELINE.md` | PP 主路径实验管线 |
 | `Docs/01_Product/T3_IMPLEMENTATION.md` | T3 Annotation Paradigm 实施基线 |
-| `Docs/01_Product/TASK_2.5_REPAIR_PLAN.md` | Task 2.5 修复执行基线 |
 | `Docs/02_Architecture/UI.md` | 前端页面规范 |
 | `Docs/03_Data/DSD.md` | 数据库结构 |
 | `backend/app/domains/document/answer_extractor.py` | LLM 答案提取模块 |
@@ -104,13 +100,23 @@ Date: 2026-08-24
 | `Docs/Design.md` | 前端视觉设计风格 |
 | `PROJECT_STATUS.md` | 当前状态和下一步 |
 | `LOG.md` | 变更历史 |
+| `bugs.md` | 已知问题 / Bug 跟踪 |
 | `rules.md` | 项目规则和约束 |
+| `docs_archive/` | 历史归档文档 |
 
 ---
 
 ## 5. 待办任务
 
 任务计划以 `Docs/01_Product/ROADMAP.md` 为准；T1-T10 为阶段内细化条目。
+
+### T0. 2026-08-25 当前焦点（按优先级）
+
+1. **处理 PPS/PVL 队列满载**（用户正在尝试）：paddle AIStudio API 返回 400 code 10010"任务提交队列已满"（官方错误码表无此码）。已做客户端排队（PPS 也走 PaddleOCRQueue）+ 10010 熔断（300s）+ mimo 短超时降级。若用户找到服务端方案（如提升配额/换 token/换 API），更新 .env 后重启后端验证。
+2. **轮换泄露 API key（安全）**：dacad48 提交把 MIMO/DeepSeek/PaddleOCR 密钥写进 git 历史，92a8c07 已从工作树移除硬编码。**必须轮换三个 key**，更新 backend/.env（.gitignore 中）。
+3. **英语 stem 位置/选项归属**：位置 7/11 (64%)、选项 7/11 (64%)。位置问题是 stem 越界串题（content_slicer 锚点），选项问题是综合题选项跨 section。与答案修复分开处理。
+4. **provider_used 落盘**：把 OCR 提供方写入 task result，让"哪个提供方完成"有 DB 证据（用户建议）。
+5. **Phase 2D Similarity/Family**（前置条件：样本量 + golden set + Structure Signature raw 分布）。
 
 ### T1. 建立真实文档测试集
 
@@ -255,7 +261,7 @@ Codex/Claude 启动后建议按以下顺序恢复：
 - mock：passed，1ms
 - deepseek：passed，12s，`json_valid=true`
 - mimo：**passed**，134s，`json_valid=true`（`response_format: json_object` 生效）
-- qwen_vl：**passed**，38s，`json_valid=true`
+- deepseek_vl：**passed**，38s，`json_valid=true`
 
 **Phase 0 验收通过。**
 
@@ -267,7 +273,7 @@ python test/scripts/llm_smoke_test.py --live
 
 若全部 passed，直接进入 Phase 1。
 
-若 `smoke_report.json` 中 deepseek/mimo/qwen_vl 全部 passed，再更新 `PROJECT_STATUS.md` 并进入 Phase 1。
+若 `smoke_report.json` 中 deepseek/mimo/deepseek_vl 全部 passed，再更新 `PROJECT_STATUS.md` 并进入 Phase 1。
 
 当前 Task 2.5 验收清单（需用户本机联网执行）：
 
@@ -543,7 +549,7 @@ python test/scripts/adversarial_check_live_validation.py --require-live-pp
 - Phase 2A Step 0 复核结论更新为「未验收」：现有 Step 0 集成测试只验证当前 schema 插入/约束，未执行 migration upgrade，不能证明旧数据回填；待补真实回填演练。
 - 稳定全量命令确认（根目录 + 注入 backend/.env 的 DATABASE_URL）：Step 2 前 453 passed 0 failed（用户本机）。
 - Phase 2A Step 2（审核写回 DB）代码已实现：`update_document_review` 同时更新 task.result_json 与 questions 表；定位规则 question_id 优先，否则 question_instances(document_id, source_question_number)；新增 11 项集成测试全部通过；DB 验证脚本 `backend/scripts/step2_db_verify.py` 输出 approved/修正内容证据；含 Step 2 全量 461 passed（沙箱，剩余 2 failed + 1 error 为 temp 权限）。
-- Step 2 正式验收待 Step 0/1 前置完成后按 PHASE_2A_EXECUTION_PLAN.md 确认。
+- Step 2 正式验收待 Step 0/1 前置完成后按 docs_archive/2026-08-24/PHASE_2A_EXECUTION_PLAN.md 确认。
 
 ### 2026-08-21 07:30:00
 
@@ -632,3 +638,21 @@ python test/scripts/adversarial_check_live_validation.py --require-live-pp
   4. 沙箱 temp 权限根治：`backend/tests/conftest.py` 固定 temp 根到工作区 `tmp/pytest` + `processor._download_pdf` 改工作区 tmp + 新增 `test_temp_root.py`。
 - **记录口径修正**：此前 534/537/539/542/546 等数字与当前工作树不一致（processor 迁移后测试未同步、收集错误被隐藏）；本次 549 passed 为权威基线。
 - 下一步：Phase 2D Similarity/Family 研究（前置条件：样本量 + golden set + Structure Signature raw 分布）。
+
+### 2026-08-24 23:30:00
+
+- 文档治理规则补充：状态类文档必须按时间戳顺序在文末追加，禁止直接在文档头更新。
+- 同步更新 `rules.md`、`PROJECT_STATUS.md`、`bugs.md`。
+
+### 2026-08-24 23:45:00
+
+- Docs 精简：历史归档移至根目录 `docs_archive/`；文档地图已移除已归档文件并补充归档目录。
+- 规划文档内变更记录统一迁移到 `LOG.md`。
+
+### 2026-08-24 23:50:00
+
+- 同步更新代码/测试中的文档路径引用，并将残留 `qwen_vl` 验证说明更新为 `deepseek_vl`。
+
+### 2026-08-24 23:55:00
+
+- `rules.md` 已明确日常文档更新映射，并禁止未经用户确认在 `Docs/` 新增状态类文档。

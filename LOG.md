@@ -1554,3 +1554,77 @@ python test/scripts/answer_verifier.py
 **报告**: `test/results/e2e_semantic_report_9subjects_p0c_v4.txt`
 
 **Git commit**: `2d472f4`（来源感知）、`67e5a83`（composite 回退）
+
+### 2026-08-24 00:00:00
+
+#### 文档治理整合与清理
+
+- 新建根目录 `bugs.md`，集中记录开发过程中发现/修复的 Bug。
+- 清理 `Docs/05_Development/` 下非规划类临时审查、审计、状态文档，关键结论整合进 `bugs.md`。
+- 删除 `Docs/01_Product/TASK_2.5_REPAIR_PLAN.md` 执行基线，相关内容归入 `bugs.md` 与 `LOG.md` 历史记录。
+- 更新 `rules.md`：`Docs/` 只允许存放规划/设计/契约类文档；执行记录、审查报告、临时方案不得随意新增；新增 `Docs` 文档必须先经用户审核。
+- 同步更新 `RESTART_PROMPT.md`、`PROJECT_STATUS.md` 的文档地图与当前状态。
+
+### 2026-08-24 23:30:00
+
+#### 状态文档流式更新规则
+
+- 在 `rules.md` 记录规范中明确：状态类文档必须按时间戳顺序在文末追加，禁止直接在文档头更新。
+- `PROJECT_STATUS.md`、`RESTART_PROMPT.md`、`bugs.md` 已补对应时间戳记录。
+
+### 2026-08-24 23:45:00
+
+#### Docs 规划文档整合精简
+
+- 将 `Docs/ARCHIVE/` 移出 `Docs/`，历史归档统一放在根目录 `docs_archive/`。
+- 归档 `PHASE_2A_EXECUTION_PLAN.md`、`PAPER_STRUCTURE_GATE.md`、`SIMPLE_PIPELINE.md`、`TABLE_OPTION_EXTRACTION.md` 到 `docs_archive/2026-08-24/`。
+- Paper Structure Gate 整合进 `Docs/01_Product/TASK.md`。
+- Table Option Extraction 与 PP 主路径结论整合进 `Docs/02_Architecture/PIPELINE.md`。
+- 移除 `ROADMAP/T3_IMPLEMENTATION/ACS/SAD/TASK/PIPELINE` 文档内变更记录，历史版本保留在 `docs_archive/2026-08-24/`，变更统一记录到根目录 `LOG.md`。
+- 更新代码/测试中的旧执行计划路径为归档路径，避免断链。
+
+### 2026-08-24 23:50:00
+
+#### 代码内文档路径同步
+
+- 更新 `document_worker.py`、`test_phase2a_step0_integration.py` 中的旧执行计划引用为归档路径。
+- 全量扫描 backend/frontend/scripts/test-scripts 中的 `Docs/`、归档路径和已删除文档引用，无已删除文档残留。
+
+### 2026-08-24 23:55:00
+
+#### 文档更新映射规则补充
+
+- 在 `rules.md` 明确日常更新对应文档：代码/测试变更写 `LOG.md`，当前状态写 `PROJECT_STATUS.md`，重启上下文写 `RESTART_PROMPT.md`，Bug 写 `bugs.md`，规划/设计/契约写 `Docs/`。
+- 禁止在 `Docs/` 创建状态类、执行记录类、审查报告类、临时方案类文档。
+- 未经用户确认，禁止在 `Docs/` 新增任何文档。
+
+### 2026-08-25 01:30:00
+
+#### 英语 P0-A 材料合并验证 + OCR 链加固（版本 6.10）
+
+**P0-A 验证通过**：
+- 重跑英语入库（deepseek-vl OCR，task fb994ca9 succeeded）
+- composite 材料 **11/11 (100%)** 进 stem（修复前 12/23；Q26 stem 63→1731、Q29 72→2440、Q33 69→2708 字符）
+- 重跑后 LLM 合并为 11 个大综合题（覆盖 Q1-Q46），与之前 23 题结构不同，严格通过率 3/11 不可直接对比
+- 剩余：位置 7/11 (64%)、选项 7/11 (64%)、Q46 作文缺库
+
+**OCR 链加固（4 个 commit）**：
+| Commit | 内容 |
+|---|---|
+| 5351f1e | PPS 也走 PaddleOCRQueue(max_concurrent=1) + fail_task session 毒化修复（异常后先 rollback） |
+| 8574109 | paddle 10010 熔断（连续 2 次 → 熔断 300s，15s 快速失败原 155s） |
+| 38904c3 | VL provider 单页失败快速降级（不再 8 页 × 3 次重试） |
+| 11ba7b2 | mimo-vl 短超时 45s + max_retries=1（挂起 90s 内降级 deepseek） |
+
+**诊断结论（实测）**：
+- paddle 服务端"队列满"（400 code 10010，官方错误码表无此码）——共享队列状态，非配额（429）
+- mimo-vl 服务端间歇性断连/挂起（同请求有时成功有时断连）
+- deepseek-vl 稳定可用
+
+**测试**：test_paddle_circuit_breaker.py 9 + test_vl_fast_fail.py 3 + test_vl_model_queue.py 12 = 24 passed
+
+**安全问题（92a8c07）**：
+- dacad48 引入诊断脚本硬编码 MIMO/DeepSeek/PaddleOCR key，已移除并改为从 backend/.env 读取
+- ⚠️ 密钥已进 git 历史，需轮换
+
+**版本升至 6.10。**
