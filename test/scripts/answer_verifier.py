@@ -297,6 +297,8 @@ def verify_one(
             subs = parsed if isinstance(parsed, list) else []
         except Exception:
             subs = []
+    sub_matched = 0
+    sub_total = 0
     if subs:
         sub_statuses = []
         for sub in subs:
@@ -306,9 +308,12 @@ def verify_one(
             if not sub_answer:
                 continue
             sub_qno = str(sub.get("qno") or "")
+            sub_total += 1
             if sub_qno:
                 ver = verify_one(sub_qno, sub_answer, None, evidence)
                 sub_statuses.append(ver.status)
+                if ver.status == MATCHED:
+                    sub_matched += 1
         if sub_statuses and MISMATCHED in sub_statuses:
             return AnswerVerification(
                 status=MISMATCHED,
@@ -319,8 +324,10 @@ def verify_one(
             )
         if sub_statuses and all(s == MATCHED for s in sub_statuses):
             return AnswerVerification(status=MATCHED, evidence_kind="composite")
-        if sub_statuses:
-            return AnswerVerification(reason="composite_subquestion")
+
+    # 子题无法全部映射（如 qno 为非数字的"（1）"、或子题答案无独立证据）时，
+    # 回退到父题整体答案的长文本匹配。生物 Q21-Q26 的子题号是"（1）（2）（3）"，
+    # 无法用 verify_one 验证，但父题 answer 与 PDF 答案块内容一致，应算 matched。
 
     # 长答案块。
     found, kind, source = _find_free_text(qn, answer, evidence)
@@ -330,6 +337,12 @@ def verify_one(
             evidence_kind=kind,
             evidence_source=source,
         )
+
+    # 子题有部分 matched 但未全部 → composite_subquestion（证据不完整，不可算通过）
+    if sub_total > 0 and sub_matched > 0 and sub_matched < sub_total:
+        return AnswerVerification(reason="composite_subquestion")
+    if sub_total > 0 and sub_matched == 0:
+        return AnswerVerification(reason="composite_subquestion")
 
     if not evidence.answer_sections:
         return AnswerVerification(reason="missing_answer_evidence")
