@@ -812,8 +812,16 @@ def _apply_llm_annotation_answers(
 
         # 优先级：answer_line_ids 切片 > q.answer 原文 > 文档匹配
         # 当 answer_ids 有效时，无条件从 L1 切片，确保同锚点 = 同答案
+        # 选择题特殊处理：如果 LLM 直接给了有效字母答案，直接用，不走切片。
+        # 原因：多题可能共享同一 answer_line_id（如答案表行），切片会取错答案。
         answer_text = None
-        if answer_ids:
+        is_choice = q.question_type in ("single_choice", "multiple_choice")
+        llm_direct_answer = (q.answer or "").strip() if q.answer else None
+        if is_choice and llm_direct_answer:
+            normalized_llm = llm_direct_answer.strip().upper().replace(" ", "")
+            if _CHOICE_ANSWER_RE.match(normalized_llm):
+                answer_text = llm_direct_answer
+        if not answer_text and answer_ids:
             answer_text = _clean_llm_sliced_answer(
                 sq.question_number,
                 _slice_llm_answer_lines(
