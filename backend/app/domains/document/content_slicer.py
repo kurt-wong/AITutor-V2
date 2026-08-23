@@ -205,18 +205,24 @@ def _merge_question_group(
 
     primary = group[0]
 
-    # 合并 stem_line_ids：只含所有子题行号（P0-5：材料行不并入 stem 文本）
-    # SlicedQuestion 的行号在 stem_anchor.corrected_line_ids 中；
-    # 若子题的锚点行号混入了共享材料行（LLM 错标），同样剔除。
+    # 合并 stem_line_ids：包含共享材料 + 所有子题行号
+    # 综合题的 stem 需要包含材料，前端展示时材料+题目+选项作为整体，保持连贯性。
     shared_ids = set(primary.shared_material_line_ids or [])
     all_stem_lines: list[str] = []
+
+    # 先加入共享材料行（保持顺序）
+    for lid in (primary.shared_material_line_ids or []):
+        if lid not in all_stem_lines:
+            all_stem_lines.append(lid)
+
+    # 再加入各子题的 stem 行（剔除已加入的材料行）
     for q in group:
         q_stem_ids = q.stem_anchor.corrected_line_ids if q.stem_anchor else []
         for lid in q_stem_ids:
-            if lid not in all_stem_lines and lid not in shared_ids:
+            if lid not in all_stem_lines:
                 all_stem_lines.append(lid)
 
-    # 切片合并后的 stem（只含子题，不含共享材料）
+    # 切片合并后的 stem（材料 + 子题）
     stem = _slice_lines(all_stem_lines, line_by_id)
 
     # 构建子题元数据（P1-6 修复：从 L2 子题提取答案，而非 SlicedQuestion.answer（永远 None））
@@ -363,13 +369,19 @@ def _slice_single_question(
 ) -> SlicedQuestion:
     """切片单个题目。"""
     # P0-5 修复（PIPELINE_AUDIT_2026_08_22.md §二 A）：
-    # 共享材料行不得并入题干 —— 即使 LLM 把材料行写进 stem_line_ids，
-    # 这里也按 shared_material_line_ids 剔除（双保险，防止材料整段并入 stem）。
+    # 独立题：共享材料行不得并入题干。
+    # 综合题：stem 应包含材料 + 子题内容（前端展示需要连贯性），
+    #         不剔除 shared_material_line_ids。
     shared_ids = set(question.shared_material_line_ids or [])
-    stem_ids = [
-        lid for lid in (question.stem_line_ids or [])
-        if lid not in shared_ids
-    ]
+    if question.is_composite:
+        # 综合题：stem 包含材料和子题，不剔除
+        stem_ids = list(question.stem_line_ids or [])
+    else:
+        # 独立题：剔除共享材料行
+        stem_ids = [
+            lid for lid in (question.stem_line_ids or [])
+            if lid not in shared_ids
+        ]
     stem = _slice_lines(stem_ids, line_by_id)
     options = _slice_options(question.options_line_ids, line_by_id)
 

@@ -58,23 +58,42 @@ class TestPromptCompositeMaterialSeparate:
 
 
 class TestSliceSingleQuestionMaterialExcluded:
-    def test_material_lines_removed_from_stem(self):
-        """即使 LLM 把材料行写进 stem_line_ids，切片时也按 shared 剔除。"""
+    def test_material_lines_kept_in_stem_for_composite(self):
+        """综合题：stem 包含材料行（前端展示需要连贯性）。"""
         doc = _doc()
         q = L2QuestionAnnotation(
             question_number="1",
             question_type="single_choice",
-            stem_line_ids=["P1L001", "P1L002", "P1L003"],  # LLM 错误地把材料行也放进来
+            stem_line_ids=["P1L001", "P1L002", "P1L003"],
             options_line_ids={},
             shared_material_line_ids=["P1L001", "P1L002"],
+            is_composite=True,
         )
         line_by_id = {l.line_id: l for l in doc.lines}
         sq = _slice_single_question(q, line_by_id, {})
 
-        # stem 不含材料行文本
+        # 综合题 stem 包含材料和子题
+        assert "共享材料" in (sq.stem or "")
+        assert "第一道子题题干" in (sq.stem or "")
+        assert sq.shared_material_line_ids == ["P1L001", "P1L002"]
+
+    def test_material_lines_removed_from_stem_for_independent(self):
+        """独立题：共享材料行从 stem 剔除。"""
+        doc = _doc()
+        q = L2QuestionAnnotation(
+            question_number="1",
+            question_type="single_choice",
+            stem_line_ids=["P1L001", "P1L002", "P1L003"],
+            options_line_ids={},
+            shared_material_line_ids=["P1L001", "P1L002"],
+            is_composite=False,
+        )
+        line_by_id = {l.line_id: l for l in doc.lines}
+        sq = _slice_single_question(q, line_by_id, {})
+
+        # 独立题 stem 不含材料行
         assert "共享材料" not in (sq.stem or "")
         assert "第一道子题题干" in (sq.stem or "")
-        # shared_material_line_ids 元数据保留
         assert sq.shared_material_line_ids == ["P1L001", "P1L002"]
 
     def test_no_material_question_unchanged(self):
@@ -106,20 +125,20 @@ class TestMergeQuestionGroupMaterialExcluded:
             shared_material_line_ids=["P1L001", "P1L002"],
         )
 
-    def test_merged_stem_contains_only_subquestions(self):
-        """合并综合题 stem 只含子题行，材料行不并入文本。"""
+    def test_merged_stem_contains_material_and_subquestions(self):
+        """合并综合题 stem 包含材料 + 子题行（前端展示需要连贯性）。"""
         doc = _doc()
         line_by_id = {l.line_id: l for l in doc.lines}
         group = [
-            self._sub_q("1", ["P1L001", "P1L002", "P1L003"]),  # 子题 1 的 stem 含材料（模拟 LLM 错误）
-            self._sub_q("2", ["P1L001", "P1L002", "P1L008"]),  # 子题 2 同
+            self._sub_q("1", ["P1L001", "P1L002", "P1L003"]),
+            self._sub_q("2", ["P1L001", "P1L002", "P1L008"]),
         ]
         merged = _merge_question_group(group, line_by_id)
 
         stem = merged.stem or ""
-        # 材料文本不进入合并 stem
-        assert "共享材料" not in stem
-        # 子题题干在
+        # 材料在 stem 中
+        assert "共享材料" in stem
+        # 子题题干在 stem 中
         assert "第一道子题题干" in stem
         assert "第二道子题题干" in stem
         # 元数据保留
@@ -127,7 +146,7 @@ class TestMergeQuestionGroupMaterialExcluded:
         assert merged.is_composite is True
 
     def test_merge_through_slice_questions_integration(self):
-        """端到端：slice_questions 对 LLM 错标材料进 stem 的综合题 → stem 不含材料。"""
+        """端到端：slice_questions 对综合题 → stem 包含材料 + 子题。"""
         doc = _doc()
         annotation = L2DocumentAnnotation(
             filename="test.pdf",
@@ -144,5 +163,6 @@ class TestMergeQuestionGroupMaterialExcluded:
         )
         result = slice_questions(annotation, doc)
         assert len(result) == 1
-        assert "共享材料" not in (result[0].stem or "")
+        # 综合题 stem 包含材料
+        assert "共享材料" in (result[0].stem or "")
         assert "第一道子题题干" in (result[0].stem or "")
