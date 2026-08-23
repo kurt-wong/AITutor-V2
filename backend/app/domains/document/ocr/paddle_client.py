@@ -19,6 +19,37 @@ DEFAULT_OPTIONAL_PAYLOAD = {
     "useChartRecognition": False,
 }
 
+# ---- 熔断状态（模块级，进程内所有 PaddleOCRClient 实例共享）----
+# paddle AIStudio API 服务端"任务提交队列已满"（HTTP 400 code 10010）是共享队列状态，
+# 不是本项目并发导致的瞬时故障。连续触发说明服务端队列持续满，重试只会浪费等待时间，
+# 应快速熔断并降级到 VL（mimo/deepseek），熔断到期后自动恢复尝试。
+_circuit_breaker: dict[str, float] = {"open_until": 0.0}  # time.monotonic() 截止时间
+_CIRCUIT_OPEN_SECONDS = 300.0  # 熔断打开 5 分钟
+_CIRCUIT_TRIGGER_COUNT = 2  # 连续 2 次 10010 触发熔断
+
+
+def _circuit_open() -> bool:
+    """判断 paddle 熔断是否打开。"""
+    return time.monotonic() < _circuit_breaker["open_until"]
+
+
+def _trip_circuit() -> None:
+    """打开熔断。"""
+    _circuit_breaker["open_until"] = time.monotonic() + _CIRCUIT_OPEN_SECONDS
+    logger.warning("paddle circuit breaker OPEN for %.0fs (queue full)", _CIRCUIT_OPEN_SECONDS)
+
+
+def _is_queue_full_error(response: httpx.Response) -> bool:
+    """判断是否为服务端"任务提交队列已满"（10010）。
+
+    官方错误码表无 10010；服务端返回 HTTP 400 + code 10010 表示共享队列满。
+    与 429（超出单日解析页数）不同，10010 是并发队列状态，不是配额。
+    """
+    if response.status_code != 400:
+        return False
+    body = response.text or ""
+    return "10010" in body or "queue full" in body.lower()
+
 
 class PaddleOCRClientError(RuntimeError):
     pass
@@ -219,6 +250,12 @@ class PaddleOCRClient:
             timeout=self.timeout_seconds,
             transport=self.transport,
         ) as client:
+            # 熔断检查：paddle 服务端队列持续满（10010）时直接跳过，
+            # 不浪费重试等待，让 OCRFallbackChain 立即降级到 VL。
+            if _circuit_open():
+                raise PaddleOCRClientError(
+                    "paddle circuit breaker open (queue full), skipping to VL fallback"
+                )
             response = await self._submit_with_retry(
                 client,
                 file_path=file_path,
@@ -254,6 +291,7 @@ class PaddleOCRClient:
         data: dict,
     ) -> httpx.Response:
         last_error: PaddleOCRClientError | None = None
+        queue_full_streak = 0
         for attempt in range(self.submit_max_retries + 1):
             try:
                 with file_path.open("rb") as file_handle:
@@ -273,6 +311,23 @@ class PaddleOCRClient:
                     return response
 
                 error = self._http_error(response, "submit")
+
+                # 队列满（10010）：快速重试 2 次后触发熔断，不按普通瞬态错误重试 6 次。
+                # 10010 是服务端共享队列状态，重试 155s 大概率仍满；熔断后直接降级 VL。
+                if _is_queue_full_error(response):
+                    queue_full_streak += 1
+                    if queue_full_streak < _CIRCUIT_TRIGGER_COUNT and attempt < self.submit_max_retries:
+                        delay = self.submit_retry_delay * (2 ** attempt)
+                        logger.warning(
+                            "paddle submit queue full (10010), attempt=%d/%d retrying in %.1fs",
+                            attempt + 1, _CIRCUIT_TRIGGER_COUNT, delay,
+                        )
+                        await asyncio.sleep(delay)
+                        last_error = error
+                        continue
+                    _trip_circuit()
+                    raise error
+
                 if self._is_transient_error(response) and attempt < self.submit_max_retries:
                     delay = self.submit_retry_delay * (2 ** attempt)
                     logger.warning(
