@@ -140,71 +140,47 @@
 
 ---
 
-## 根因总结（基于实测数据 + 设计标准）
+## 根因总结（基于真实 DB + task result 核验）
 
-### 核心问题 1：L2 标注数量正确，但切分逻辑完全背离设计
+### 核心问题 1：composite 的 stem 被 shared_material 清空（空 stem 直接根因）
 
-**语文 L2 标注 8 题是正确的**（按设计应为 8 道综合题/独立题），**英语 L2 标注 11 题也是正确的**。
+task result 显示语文 5 题、英语 8 题被 `stem_empty` 拦截。不是 quality_gate 误杀，而是切片后 stem 真的为空。
 
-问题不是 LLM 漏标，而是：
-1. **入库仅 3 题**（语文 8 题 → 3 题，英语 11 题 → 3 题）—— 5-8 题被 quality_gate 或 ingestion 拒绝
-2. **入库的题目质量极差**——题干丢失、选项丢失、子题数爆炸
+**代码机制**：`content_slicer._slice_single_question()` 会先剔除 `shared_material_line_ids`。当 `shared_material_line_ids == stem_line_ids` 时，stem 被整段清空。
 
-### 核心问题 2：composite 题 options_line_ids 全部为空
+### 核心问题 2：_merge_question_group() 合并时丢弃已有选项
 
-L2 标注中，所有 composite=True 的题目 `options_line_ids={}`。
+英语 L2 中 Q1/Q26/Q29/Q33/Q37 都有父题级 `options_line_ids`，但 `_merge_question_group()` 构造合并题时固定 `options=[]`，丢弃已有选项。
 
-OCR 原文显示选项存在（如英语 Q1: A. exercise B. exhibition C. competition D. exploration），但 LLM 没有标注选项行号。
+语文的 composite 确实缺选项（prompt 未要求 composite 的选项标在父题级别）。
 
-**根因**：prompt 对 composite 题的选项标注要求不明确。LLM 可能认为 composite 题的选项属于子题，不需要在父题级别标注。
+### 核心问题 3：L2 持久化缺失 shared_material_line_ids 和 stem_markers
 
-### 核心问题 3：子题数爆炸（130/186/257/191）
+`_serialize_l2_for_persistence()` 没有存 `shared_material_line_ids` 和 `stem_markers`，导致从 DB 无法追溯 LLM 原始标注，问题清单无法从 DB 验证。
 
-Q22 L2 标注实际只有 2 个子题，但入库后 `sub_questions` 字段显示 130。
+### 核心问题 4：前端/诊断对 sub_questions 的计数方式错误
 
-**根因**：`sub_questions` 字段在 DB 中存储的是 **JSON 字符串**（`[{"qno": "(1)", ...}]`），不是 JSON 数组。`len()` 计算的是字符数，不是子题数。
-
-这是序列化 bug——ingestion 写入时把 sub_questions 序列化了两次（一次生成 JSON 字符串，一次存入 JSONB 列）。
-
-### 核心问题 4：入库过滤过于激进
-
-L2 标注 8-11 题，入库仅 3 题。可能原因：
-1. composite 题 options_line_ids=0 → quality_gate 选项检查扣分 → confidence < 0.8
-2. stem 为空或过长 → ingestion 跳过
-3. 答案缺失 → reviewing 状态但不入库
+PostgreSQL JSONB 是 array 类型。英语实际子题数是 3/4/3，语文是 2。之前看到的 130/186/257 是 `sub_questions::text` 的字符长度，不是数组长度。问题在读取/统计字段的方式，不在 ingestion 序列化。
 
 ### 核心问题 5：科目标签关联错误（T-1）
 
-文件名 URL 编码导致 `documents.filename` 存储的是 `%E5%8C%97...`。前端按 subject 过滤时，如果依赖 filename 解析，会匹配失败。
+文件名 URL 编码真实存在，但 `subject` 是独立字段，后端 `/api/admin/questions` 按 `Subject.name/code` 过滤。前端点语文出数学更可能是前端把 subject 标签和实际请求参数接错了，或统计接口返回的 subject 键和 questions 的 subject 不一致。需要抓实际请求参数确认，不能直接归因到文件名。
+
+### 关于"LLM 漏标大量题目"的修正
+
+P0-G"LLM 漏标大量题目（8-11/24-46）"**不准确**。L2 已经是 8/11 道，数量正确。24-46 是卷面源题号，不是 L2 标注数。真正的问题是 composite 的 stem 和共享材料行号被同源化，导致切空。
 
 ---
 
-## 修复优先级（紧急）
+## 修复优先级（用户确认）
+
+**先修 slicing 和 persistence，再改 prompt。两阶段 prompt 不是当前空题干、丢选项的直接止血点。**
 
 | 优先级 | 问题 | 修复方向 |
 |---|---|---|
-| **P0-G** | LLM 漏标大量题目（8-11/24-46） | 两阶段 prompt，第一阶段只标核心锚点 |
-| **P0-H** | sub_questions 数量爆炸（130-257） | 检查 L2 标注解析和 content_slicer 合并逻辑 |
-| **P0-I** | composite 题 options_line_ids=0 | prompt 要求 composite 子题也标选项行号 |
-| **P1-E** | 文件名 URL 编码 | 上传脚本修复（P2-C 升级为 P1） |
-| **P1-F** | 管线效率（LLM 300-450s + 4/5 重试） | 两阶段 prompt + 减少重试 |
-
-### 第一阶段：核心入库字段
-- question_number, question_type, section_id, is_composite
-- shared_material_line_ids, stem_line_ids, stem_markers
-- options_line_ids, answer_line_ids, explanation_line_ids
-
-### 第二阶段：异步富化
-- difficulty, score, knowledge_points, structure_signature
-
-### 优势
-- prompt 从 5900 字降到核心字段，LLM 出错面变小
-- difficulty 不再第一轮强制默认 3
-- knowledge_points/structure_signature 失败不阻断入库
-
-### 注意事项
-1. 持久化原始 L1 和第一轮标注
-2. 富化任务幂等，不覆盖人工修改
-3. 统计 API 加"富化覆盖率"指标
-4. 复用 worker/task 模式，不阻塞入库 worker
-5. answer_line_ids/explanation_line_ids 可拆到 answer_extractor.py
+| **1** | composite 的 shared_material_line_ids 与 stem_line_ids 分离 | 不能把整个 stem 同时当成 shared，导致切片后为空 |
+| **2** | _merge_question_group() options=[] 丢弃已有选项 | 合并时保留/聚合子题选项 |
+| **3** | L2 持久化缺失 shared_material_line_ids 和 stem_markers | 补进 _serialize_l2_for_persistence() |
+| **4** | 前端/诊断对 sub_questions 的计数 | 不能对 JSON 文本用 length |
+| **5** | P0-C 综合题 e2e | 用真实语文/英语 PDF 覆盖"材料行+子题行+父题选项"完整链路 |
+| **后续** | 两阶段 prompt | 降低 LLM 复杂度，但不是当前止血点 |
