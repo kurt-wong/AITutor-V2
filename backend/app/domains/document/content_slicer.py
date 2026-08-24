@@ -376,29 +376,24 @@ def _slice_single_question(
     line_by_id: dict[str, L1Line],
     anchor_map: dict,
 ) -> SlicedQuestion:
-    """切片单个题目。"""
-    # P0-5 修复（bugs.md BUG-012 §二 A）：
-    # 独立题：共享材料行不得并入题干。
-    # 综合题：stem 应包含材料 + 子题内容（前端展示需要连贯性），
-    #         不剔除 shared_material_line_ids。
-    shared_ids = set(question.shared_material_line_ids or [])
-    if question.is_composite:
-        # 综合题：stem 需要包含共享材料 + 子题题干。
-        # 材料行在前（展示顺序），stem_line_ids 在后，去重。
-        material_ids = list(question.shared_material_line_ids or [])
-        stem_only_ids = list(question.stem_line_ids or [])
-        seen: set[str] = set()
-        stem_ids: list[str] = []
-        for lid in material_ids + stem_only_ids:
-            if lid not in seen:
-                seen.add(lid)
-                stem_ids.append(lid)
-    else:
-        # 独立题：剔除共享材料行
-        stem_ids = [
-            lid for lid in (question.stem_line_ids or [])
-            if lid not in shared_ids
-        ]
+    """切片单个题目。
+
+    共享材料并入规则（2026-08-25 修订）：
+    - 综合题：stem 应包含材料 + 子题内容（前端展示需要连贯性），
+      不剔除 shared_material_line_ids。
+    - 独立题带共享材料（语文材料阅读/文言文等 LLM 标为独立的共享材料题）：
+      P0-5 旧行为从 stem 剔除材料 → 题目失去材料上下文，无法独立使用
+      （报告材料覆盖 0%）。共享材料是题目的必要上下文，独立题同样并入。
+    - 无共享材料的题目：原样切片，不受影响。
+    """
+    material_ids = list(question.shared_material_line_ids or [])
+    stem_only_ids = list(question.stem_line_ids or [])
+    seen: set[str] = set()
+    stem_ids: list[str] = []
+    for lid in material_ids + stem_only_ids:
+        if lid not in seen:
+            seen.add(lid)
+            stem_ids.append(lid)
     stem = _slice_lines(stem_ids, line_by_id)
     options = _slice_options(question.options_line_ids, line_by_id)
 

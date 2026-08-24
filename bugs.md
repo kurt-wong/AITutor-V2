@@ -143,3 +143,10 @@
 - **BUG-018 subject 垃圾行（Resolved）**：ingestion `_get_or_create_subject` 查不到就创建，LLM 答案提取返回空/非规范 subject 时产生空名、生物学、英语(A班)、高一物理 4 个垃圾行；28 题（政治文档）subject_id 指向空名行，知识点被回退映射到 MATH-UNKNOWN（subject_code 回退 MATH）。修复：文档 subject 优先 + get-or-create 加固（空名回退"未知"、别名归一化、非 canonical 不创建）；数据侧 28 题改指政治、知识重映射 POLI、4 垃圾行删除。
 - **BUG-019 历史 Q38-43 位置误报（Resolved，验证脚本）**：`__q_*` 逐题回退 section（无共享材料）的 norm_text 解析为空，in_section 检查 0% 覆盖误报；DB stem 内容正确。修复：此类题跳过 in_section 检查（越界检查保留）。历史 位置 36/43 → 42/43。
 - **遗留**：历史 Q37 缺库（stem 为空）、Q41-43 题干膨胀标记；语文 Q1/Q8/Q17/Q18 stem 越界（与英语同根因，待重跑）。
+
+### 2026-08-25 05:30:00
+
+- **BUG-020 独立题共享材料丢失（Resolved）**：P0-5 旧行为对独立题从 stem 剔除 shared_material_line_ids；语文 LLM 将材料阅读/文言文题标为独立但提供共享材料 → 题目失去材料上下文（报告材料覆盖 0%，无法独立使用）。修复：`content_slicer._slice_single_question` 统一并入材料（材料在前去重）；20 题数据回填（`backfill_chinese_material.py`）。语文材料 4/24 → 24/24。
+- **语文重跑验收（2a）**：位置 3/8 → 19/24、严格 18/24、DB 24/24（T0-3 修复普适性验证通过）。
+- **遗留（语文）**：Q14-16 诗歌阅读 位置行覆盖 67%（section 边界未覆盖全部 stem 行）；Q17 题干膨胀 1840 字符（reviewing）；Q22 串题（散文阅读_1/四、本大题）。
+- **遗留（物理）**：严格 11/19（08-23 旧数据，答案 14/22、选项 16/22、缺库 3），待重跑。

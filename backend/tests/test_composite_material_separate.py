@@ -7,7 +7,9 @@
 
 修复（三层）：
 1. prompt：stem_line_ids 只含子题行号，材料只在 shared_material_line_ids
-2. _slice_single_question：从 stem_line_ids 剔除 shared_material_line_ids（双保险）
+2. _slice_single_question：材料行并入 stem（材料在前，去重；2026-08-25 修订为
+   综合题与带共享材料的独立题统一并入——旧 P0-5 独立题剔除材料导致语文
+   材料阅读/文言文题目失去材料上下文）
 3. _merge_question_group：合并 stem 不含材料行（材料保留为元数据）
 
 本测试断言 prompt 文本 + 两条切片路径的真实行为。
@@ -77,8 +79,14 @@ class TestSliceSingleQuestionMaterialExcluded:
         assert "第一道子题题干" in (sq.stem or "")
         assert sq.shared_material_line_ids == ["P1L001", "P1L002"]
 
-    def test_material_lines_removed_from_stem_for_independent(self):
-        """独立题：共享材料行从 stem 剔除。"""
+    def test_material_lines_kept_in_stem_for_independent(self):
+        """独立题带共享材料：材料行并入 stem（2026-08-25 修订）。
+
+        旧行为（P0-5）从独立题 stem 剔除材料 → 语文材料阅读/文言文等
+        LLM 标为独立的共享材料题失去材料上下文，题目无法独立使用
+        （报告材料覆盖 0%）。共享材料是题目的必要上下文，无论综合/独立
+        都应自包含。
+        """
         doc = _doc()
         q = L2QuestionAnnotation(
             question_number="1",
@@ -91,8 +99,8 @@ class TestSliceSingleQuestionMaterialExcluded:
         line_by_id = {l.line_id: l for l in doc.lines}
         sq = _slice_single_question(q, line_by_id, {})
 
-        # 独立题 stem 不含材料行
-        assert "共享材料" not in (sq.stem or "")
+        # 独立题 stem 包含材料 + 题干（材料在前）
+        assert "共享材料" in (sq.stem or "")
         assert "第一道子题题干" in (sq.stem or "")
         assert sq.shared_material_line_ids == ["P1L001", "P1L002"]
 
@@ -306,13 +314,16 @@ class TestCompositeMaterialMergedIntoStem:
         # 材料行不重复
         assert len(lines) == 3, f"应有3行（去重），实际 {len(lines)} 行: {lines}"
 
-    def test_independent_question_still_excludes_material(self):
-        """独立题不受影响：材料行仍从 stem 剔除。"""
+    def test_independent_question_with_material_merges_and_dedupes(self):
+        """独立题带共享材料：材料并入 stem 且去重（2026-08-25 修订）。
+
+        stem_line_ids 已含材料行时不得重复并入。
+        """
         doc = _doc()
         q = L2QuestionAnnotation(
             question_number="1",
             question_type="single_choice",
-            stem_line_ids=["P1L001", "P1L003"],  # stem 含材料行
+            stem_line_ids=["P1L001", "P1L003"],  # stem 含材料行 P1L001
             options_line_ids={},
             shared_material_line_ids=["P1L001"],
             is_composite=False,
@@ -320,8 +331,10 @@ class TestCompositeMaterialMergedIntoStem:
         line_by_id = {l.line_id: l for l in doc.lines}
         sq = _slice_single_question(q, line_by_id, {})
 
-        # 独立题：材料行被剔除
-        assert "共享材料" not in (sq.stem or "")
+        # 独立题：材料并入 stem（材料在前），去重不重复
+        lines = (sq.stem or "").split("\n")
+        assert lines[0] == "这是一段共享材料的第一行。", f"材料应在前，实际 {lines}"
+        assert len(lines) == 2, f"应有2行（材料+题干去重），实际 {len(lines)}: {lines}"
         assert "第一道子题题干" in (sq.stem or "")
 
     def test_end_to_end_slice_questions_material_merged(self):
