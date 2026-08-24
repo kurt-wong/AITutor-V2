@@ -75,3 +75,50 @@ def test_short_free_text_answer_stays_free_text():
     ver = av.verify_one("9", "x\u7684\u503c\u4e3a\u221a2", None, evidence)
     assert ver.status == av.UNVERIFIABLE
     assert ver.reason == "free_text_answer"
+
+
+def test_normalize_math_unifies_three_representations():
+    """DB/OCR/PDF 三路表示归一化到同一纯文本（数学二中卷 Q13 类）。
+
+    归一化保留空白，比对前由 compact_text 统一（_find_free_text 的实际用法）。
+    """
+    db = "①. $0$ ②. $\\frac{4}{3}$"
+    ocr = "①.$0\\quad\\textcircled{2}.\\;\\frac{4}{3}$"
+    assert av.compact_text(av.normalize_math(db)) == "①.0②.4/3"
+    assert av.compact_text(av.normalize_math(ocr)) == "①.0②.4/3"
+    # 非 LaTeX 文本原样返回
+    assert av.normalize_math("普通答案 A") == "普通答案 A"
+    assert av.normalize_math("") == ""
+
+
+def test_normalize_math_common_commands():
+    assert av.compact_text(av.normalize_math(r"$\frac{\pi}{4}$")) == "π/4"
+    assert av.compact_text(av.normalize_math(r"$6+6\sqrt{3}$")) == "6+6sqrt(3)"
+    assert av.compact_text(av.normalize_math(r"$\{x\mid x=\frac{\pi}{12}+k\pi,k\in Z\}$")) == "x|x=π/12+kπ,kinZ"
+    assert av.compact_text(av.normalize_math(r"$(-2,2)$")) == "(-2,2)"
+
+
+def test_latex_db_answer_matches_ocr_latex_evidence():
+    """DB LaTeX 答案 vs OCR LaTeX 答案区：归一化后 free_text 命中。"""
+    ocr = "参考答案 13. 【答案】①. $0\\quad\\textcircled{2}.\\;\\frac{4}{3}$"
+    evidence = av.build_evidence("", "", ocr)
+    ver = av.verify_one("13", "①. $0$ ②. $\\frac{4}{3}$", None, evidence)
+    assert ver.status == av.MATCHED
+    assert ver.evidence_kind == "free_text"
+
+
+def test_latex_answer_equality_via_table():
+    """DB `$0$` vs 答案区表格 `0`：归一化后相等算 matched。"""
+    evidence = av.DocumentAnswerEvidence(table={13: "0"})
+    ver = av.verify_one("13", "$0$", None, evidence)
+    assert ver.status == av.MATCHED
+    assert ver.evidence_kind == "table"
+
+
+def test_latex_missing_minus_not_false_positive():
+    """OCR 答案区丢失负号（`\\frac{7}{3}` 无 `-`）时不得误报 matched（Q15 类）。"""
+    ocr = "参考答案 15. 【答案】①. $6$ ②. $\\frac{7}{3}$"
+    evidence = av.build_evidence("", "", ocr)
+    ver = av.verify_one("15", "①. $6$ ②. $-\\frac{7}{3}$", None, evidence)
+    assert ver.status == av.UNVERIFIABLE
+    assert ver.reason == "free_text_answer"

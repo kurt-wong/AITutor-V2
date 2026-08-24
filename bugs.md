@@ -165,3 +165,16 @@
 - **3b e2e_ingestion 测试恢复（Resolved）**：重灌二中数学（23/23）；测试文档 ID 改按文件名动态解析（旧硬编码 042f5b90 随重灌失效）+ 难度断言放宽（LLM 标注波动）。9/9 通过。
 - **数学解答题 LaTeX 验证缺口（Open）**：DB 答案 `$0$`/`$\frac{4}{3}$` 与答案区 `0`/`4/3` 不匹配（验证器无 LaTeX 归一化），数学 7 题答U（Q13/Q15/Q16/Q19/Q20/Q21/Q22）中至少 Q13 类可修复。方案：answer_verifier 增加 LaTeX 归一化（`$` 剥离 + `\frac{a}{b}`→`a/b`）。
 - **phase2b 干净库冲突（Open，待决策）**：统计测试断言全局总数（total==3），与 DB 基线数据（200+ 题）互斥。方案：专用测试库（推荐，需知识树种子+迁移）／跑前清库（破坏基线，重灌恢复）／登记为环境前置。
+
+### 2026-08-25 08:30:00
+
+- **BUG-021 数学解答题 LaTeX 验证缺口（Resolved）**：DB 答案 `①. $0$ ②. $\frac{4}{3}$`（LaTeX 圈号+公式）
+  与答案区三路表示不匹配（OCR `①.$0\quad\textcircled{2}.\;\frac{4}{3}$`、PDF 竖排 `①.0②.43`）。修复：
+  `answer_verifier` 增加 `normalize_math()`（`$` 剥离、`\frac{a}{b}`→`a/b`、`\textcircled{n}`→①②、
+  `\pi`→π、`\mid`→|、去 `\left/\right/\quad/\,` 等、分组花括号移除），`verify_one` 相等与
+  `_find_free_text` 片段两侧同规。数学严格 16/23 → 22/23；9 科基线 198/231 → 204/231；测试 +5。
+- **遗留（数学）**：Q15 答案 U（free_text_answer）——OCR 答案区丢失负号（`\frac{7}{3}` 无 `-`）、
+  PDF 负号竖排错位（`73−`），证据源无机器可读形式；需人工核对或 OCR 重识别。
+- **T0-2 key 轮换（Deferred，用户决定 2026-08-25）**：用户明确暂不轮换三个泄露 key
+  （PADDLEOCR_VL_TOKEN / MIMO_API_KEY / DEEPSEEK_API_KEY，dacad48 泄露原值），风险已知并接受；
+  本项移出提醒清单，后续不再提示。`_verify_env_keys.py` 保留，需要轮换时可直接使用。

@@ -1,7 +1,7 @@
 # AI Tutor Personal Edition — RESTART_PROMPT
 
-Version: 6.16
-Status: 重启恢复指引（9 科答案基线 mismatch=0、严格通过率 187/213 (88%)；数学已重灌二中 23 题；pytest 640 passed，剩余 7 failed + 2 errors 全为环境性；待决策：phase2b 干净库方案 + 数学 LaTeX 验证归一化 + 物理重跑；T0-2 三个 key 未轮换待用户操作）
+Version: 6.17
+Status: 重启恢复指引（9 科答案基线 mismatch=0、严格通过率 204/231 (88%)，数学 LaTeX 归一化后 22/23；pytest 640 passed，剩余 7 failed + 2 errors 全为环境性；进行中：物理重跑（八十中，task 53d2c9f8）；待办：phase2b 专用测试库（已确认执行）、语文/历史遗留评估；T0-2 key 轮换用户决定暂缓，不再提醒）
 Date: 2026-08-25
 
 ---

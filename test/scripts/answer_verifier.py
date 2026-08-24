@@ -53,6 +53,70 @@ def compact_text(text: str | None) -> str:
     return "".join(out)
 
 
+# LaTeX 圈号映射：DB 答案用 ①/②，OCR 答案区用 \textcircled{1}/\textcircled{i}。
+_CIRCLED_MAP = {
+    "1": "\u2460",
+    "2": "\u2461",
+    "3": "\u2462",
+    "4": "\u2463",
+    "5": "\u2464",
+    "i": "\u2460",
+    "ii": "\u2461",
+    "iii": "\u2462",
+    "iv": "\u2463",
+    "v": "\u2464",
+}
+
+
+def _latex_frac(text: str) -> str:
+    r"""\frac/\dfrac/\tfrac{a}{b} → a/b，迭代处理嵌套（内层先转）。"""
+    pattern = re.compile(r"\\(?:dfrac|tfrac|frac)\{([^{}]*)\}\{([^{}]*)\}")
+    for _ in range(4):
+        new = pattern.sub(lambda m: f"{m.group(1)}/{m.group(2)}", text)
+        if new == text:
+            break
+        text = new
+    return text
+
+
+def normalize_math(text: str | None) -> str:
+    """LaTeX 数学答案 → 纯文本归一化（仅在含 `$` 或 `\\` 时生效，否则原样返回）。
+
+    2026-08-25 数学二中卷 7 题答U 的三路表示差异：
+    - 圈号：DB `②.` vs OCR `\\textcircled{2}.`
+    - 公式定界符：`$...$` / `\\(...\\)` / `\\[...\\]`
+    - 分数：`\\frac{4}{3}`（DB/OCR）vs PDF 竖排 `4\\n3`（提取即损坏，无法恢复）
+    - 间距/括号命令：`\\quad` `\\,` `\\;` `\\left` `\\right` `\\big` 等
+    - 常见符号：`\\pi`→π、`\\mid`→|、`\\{`→{、`\\in`→in（两侧同样处理）
+    - 纯分组花括号 `{}` 移除
+    归一化是确定性函数：两侧同规后做包含/相等比对。
+    """
+    if not text:
+        return ""
+    out = str(text)
+    if "$" not in out and "\\" not in out:
+        return out
+    out = re.sub(r"\$\$", "", out).replace("$", "")
+    out = out.replace(r"\(", "").replace(r"\)", "").replace(r"\[", "").replace(r"\]", "")
+    out = re.sub(
+        r"\\textcircled\s*\{([^{}]*)\}",
+        lambda m: _CIRCLED_MAP.get(m.group(1).strip().lower(), m.group(0)),
+        out,
+    )
+    out = _latex_frac(out)
+    out = re.sub(r"\\sqrt\s*\{([^{}]*)\}", r"sqrt(\1)", out)
+    out = re.sub(
+        r"\\(?:left|right|big|Big|bigg|Bigg|bigl|bigr|Bigl|Bigr|quad|qquad|;|,|!| )",
+        "",
+        out,
+    )
+    out = out.replace(r"\{", "{").replace(r"\}", "}")
+    out = out.replace(r"\mid", "|").replace(r"\pi", "\u03c0")
+    out = re.sub(r"\\([a-zA-Z]+)", r"\1", out)
+    out = out.replace("{", "").replace("}", "")
+    return out
+
+
 def answer_section(text: str | None) -> str:
     if not text:
         return ""
@@ -240,9 +304,16 @@ def _find_free_text(
     if not exp:
         return False, "", ""
     exp = re.sub(r"^[(（][0-9]+[)）]", "", exp)
+    # LaTeX 归一化（两侧同规）：DB `①. $0$ ②. $\frac{4}{3}$` 与
+    # OCR `①.$0\quad\textcircled{2}.\;\frac{4}{3}$` 归一后都是 `①.0②.4/3`。
+    if "$" in exp or "\\" in exp:
+        exp = compact_text(normalize_math(expected))
+        exp = re.sub(r"^[(（][0-9]+[)）]", "", exp)
     fragment = exp[:20]
     for section in evidence.answer_sections:
         compact_section = compact_text(section)
+        if "$" in compact_section or "\\" in compact_section:
+            compact_section = compact_text(normalize_math(section))
         for marker in (f"{qn}.\u3010\u7b54\u6848\u3011", f"{qn}\u3010\u7b54\u6848\u3011", f"{qn}.", f"{qn} "):
             pos = compact_section.find(marker)
             if pos < 0:
@@ -278,13 +349,25 @@ def verify_one(
         kind = "inline"
 
     if expected is not None:
-        if answer_text == compact_text(expected):
+        expected_text = compact_text(expected)
+        if answer_text == expected_text:
             return AnswerVerification(
                 status=MATCHED,
                 evidence_kind=kind,
                 evidence_source=source,
                 expected=expected,
             )
+        # LaTeX 归一化后相等也算 matched（如 DB `$0$` vs 答案区 `0`、`\frac{4}{3}` vs `4/3`）。
+        if "$" in answer_text or "\\" in answer_text or "$" in expected_text or "\\" in expected_text:
+            norm_a = compact_text(normalize_math(answer))
+            norm_e = compact_text(normalize_math(expected))
+            if norm_a and norm_e and norm_a == norm_e:
+                return AnswerVerification(
+                    status=MATCHED,
+                    evidence_kind=kind,
+                    evidence_source=source,
+                    expected=expected,
+                )
         return AnswerVerification(
             status=MISMATCHED,
             evidence_kind=kind,
