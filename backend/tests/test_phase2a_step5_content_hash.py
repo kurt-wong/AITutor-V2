@@ -280,6 +280,65 @@ async def test_ingestion_answer_conflict_creates_conflict_not_duplicate(db, subj
 
 
 @pytest.mark.asyncio
+async def test_ingestion_whitespace_only_answer_diff_no_conflict(db, subject_id):
+    """答案仅空白差异（"①.何时可掇" vs "①. 何时可掇"）→ 不产生冲突。
+
+    2026-08-25（BUG-026）：语文朝阳 Q17 两次重灌答案内容一致仅内部空格不同，
+    旧比较 .strip() 只去首尾空白 → 误标 answer_conflict 并降级 reviewing。
+    """
+    from app.domains.document.ingestion import ingest_pipeline_result
+    from app.models import Document, Question
+
+    stem = "空白差异题干"
+    options = [{"label": "A", "text": "选项A"}, {"label": "B", "text": "选项B"}]
+
+    doc_a = Document(filename=f"ws_a_{uuid.uuid4().hex[:6]}.pdf", file_type="pdf",
+                     object_key="test/ws_a.pdf", subject="数学")
+    db.add(doc_a)
+    await db.flush()
+    r1 = await ingest_pipeline_result(
+        db,
+        pipeline_result=_make_pipeline_result("1", stem, options),
+        answer_result=_make_answer_result("数学", "1", "①.何时可掇②.别时茫茫江浸月"),
+        document=doc_a,
+    )
+    qid = r1.question_ids[0]
+
+    # 第二次答案仅内部空格不同 → 视为同一答案，不冲突
+    doc_b = Document(filename=f"ws_b_{uuid.uuid4().hex[:6]}.pdf", file_type="pdf",
+                     object_key="test/ws_b.pdf", subject="数学")
+    db.add(doc_b)
+    await db.flush()
+    r2 = await ingest_pipeline_result(
+        db,
+        pipeline_result=_make_pipeline_result("1", stem, options),
+        answer_result=_make_answer_result("数学", "1", "①. 何时可掇 ②. 别时茫茫江浸月"),
+        document=doc_b,
+    )
+    assert r2.question_ids[0] == qid
+    q = await db.scalar(select(Question).where(Question.id == qid))
+    assert q.review_reason is None, f"空白差异不应产生冲突，实际: {q.review_reason}"
+    assert q.status == "approved"
+
+    # 第三次答案内容真的不同 → 仍产生冲突
+    doc_c = Document(filename=f"ws_c_{uuid.uuid4().hex[:6]}.pdf", file_type="pdf",
+                     object_key="test/ws_c.pdf", subject="数学")
+    db.add(doc_c)
+    await db.flush()
+    r3 = await ingest_pipeline_result(
+        db,
+        pipeline_result=_make_pipeline_result("1", stem, options),
+        answer_result=_make_answer_result("数学", "1", "①. 何时可掇 ②. 别时茫茫江浸月 ③. 错"),
+        document=doc_c,
+    )
+    assert r3.question_ids[0] == qid
+    q3 = await db.scalar(select(Question).where(Question.id == qid))
+    assert q3.review_reason is not None
+    assert q3.review_reason.startswith("answer_conflict:")
+    assert q3.status == "reviewing"
+
+
+@pytest.mark.asyncio
 async def test_ingestion_first_upload_creates_question_with_correct_fields(db, subject_id):
     """首次上传一道题：Question 正常创建，answer/status/content_hash/occurrence_count 字段正确。"""
     from app.domains.document.ingestion import ingest_pipeline_result

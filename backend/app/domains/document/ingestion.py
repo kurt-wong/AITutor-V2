@@ -256,7 +256,14 @@ async def _ingest_one_question(
         # 在该 Question 上标记审核冲突（review_reason 持久化冲突详情，降为 reviewing）
         existing_answer = (existing_question.answer or "").strip()
         new_answer = final_answer.strip()
-        if new_answer and existing_answer and new_answer != existing_answer:
+        # 2026-08-25（BUG-026）：答案比较先去全部空白（含全角空格/换行）再比对，
+        # 避免"①.何时可掇"vs"①. 何时可掇"这类仅空白差异产生假冲突
+        # （语文朝阳 Q17 两次重灌答案内容一致仅空格不同，被误标 answer_conflict）。
+        if (
+            new_answer
+            and existing_answer
+            and _compact_answer(new_answer) != _compact_answer(existing_answer)
+        ):
             # 持久化冲突详情：来源文档 + 冲突答案，供管理员审核时参考
             conflict_detail = f"answer_conflict:{document.filename}:{new_answer}"
             existing_question.review_reason = conflict_detail[:200]
@@ -380,6 +387,15 @@ async def _ingest_one_question(
 
 
 # ── 辅助函数 ──────────────────────────────────────────────────────
+
+
+def _compact_answer(text: str | None) -> str:
+    """答案比较用归一：去掉全部空白（含全角空格/换行），仅保留内容字符。
+
+    2026-08-25（BUG-026）：语文朝阳 Q17 两次重灌答案内容一致但内部空格不同
+    （"①.何时可掇" vs "①. 何时可掇"），去重比较 .strip() 只去首尾 → 假冲突。
+    """
+    return "".join((text or "").split())
 
 
 def _extract_review_reason(sq: SlicedQuestion, final_answer: str) -> str:
