@@ -1788,3 +1788,33 @@ python test/scripts/answer_verifier.py
   backend/.env → 重启后端 → 重跑验证脚本）。git 历史泄露可考虑重写历史。
 
 **版本升至 6.15。**
+
+### 2026-08-25 07:30:00
+
+#### pytest 基线恢复：e2e_ingestion 9/9 + 测试环境加固（版本 6.16）
+
+**3b e2e_ingestion 测试恢复（9/9）**：
+- 重灌二中数学（task 77b7aa9a，paddle PPS，23/23 入库）——e2e 测试目标文档。
+- `test_e2e_ingestion_verification.py` 加固：
+  1. 目标文档 ID 由硬编码（042f5b90 已随重灌失效）改为按解码文件名动态解析
+     （`_resolve_target_doc_id`）；
+  2. 难度分布断言放宽（精确分布随 LLM 标注波动，只验证完整性/合法范围/覆盖）。
+- 数学语义报告（二中 23 题）：stem/位置/材料/选项 **23/23**、严格 16/23；
+  7 题答案 U（5 free_text + 2 essay_manual_review）。
+
+**测试环境加固**：
+- `test_actual_ocr_model_matches_winning_provider` 环境耦合修复：从根目录跑
+  全量时 settings 加载根 .env（无 mimo_vl_model）导致断言失败；改为只锁
+  "VL 降级不写路由模型"核心契约。
+- 全量 pytest：**639 → 640 passed**；剩余 7 failed + 2 errors 均为环境性：
+  - 5 phase2b stats（干净库前置：断言全局总数 3，当前 DB 含真实基线数据 200+ 题）
+  - 2 OCR vision + 2 errors（沙箱 temp ACL，用户本机可写）
+
+**发现项（待决策）**：
+- 数学解答题答案 LaTeX 验证缺口：DB 答案 `$0$`/`$\frac{4}{3}$` 与答案区
+  `0`/`4/3` 不匹配（验证器无 LaTeX 归一化），7 题答U 中至少 Q13 类可修复。
+- phase2b 干净库冲突：统计测试断言全局总数（total==3），与 DB 基线数据互斥；
+  方案（a）专用测试库（推荐，需知识树种子 + 迁移）／（b）跑前清库（破坏基线）／
+  （c）登记为环境前置。
+
+**版本升至 6.16。**

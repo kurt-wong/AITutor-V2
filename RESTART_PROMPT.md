@@ -1,7 +1,7 @@
 # AI Tutor Personal Edition — RESTART_PROMPT
 
-Version: 6.15
-Status: 重启恢复指引（9 科答案基线 mismatch=0、严格通过率 187/213 (88%)；英语 Q46 已标记需人工审核；T0-2 三个 API key 实测仍未轮换（待用户控制台操作）；下一步：重灌二中数学恢复 e2e 测试 + 处理 pytest stats 干净库冲突 + 物理重跑）
+Version: 6.16
+Status: 重启恢复指引（9 科答案基线 mismatch=0、严格通过率 187/213 (88%)；数学已重灌二中 23 题；pytest 640 passed，剩余 7 failed + 2 errors 全为环境性；待决策：phase2b 干净库方案 + 数学 LaTeX 验证归一化 + 物理重跑；T0-2 三个 key 未轮换待用户操作）
 Date: 2026-08-25
 
 ---
@@ -687,3 +687,8 @@ python test/scripts/adversarial_check_live_validation.py --require-live-pp
 
 - 版本升至 6.15。Q46 作文答案标记 essay_manual_review（需人工审核）；T0-2 key 轮换准备完成（实测三个 key 均为泄露原值未轮换，轮换步骤见 bugs.md）。
 - 下一步：重灌二中数学恢复 e2e_ingestion 测试 → pytest stats 干净库冲突决策 → 物理重跑。
+
+### 2026-08-25 07:30:00
+
+- 版本升至 6.16。e2e_ingestion 9/9 恢复（重灌二中数学 23 题 + 动态文档 ID + 难度断言放宽）；数学语义报告 stem/位置/材料/选项 23/23、严格 16/23；pytest 640 passed，剩余 7 failed + 2 errors 全为环境性。
+- 待决策：phase2b 干净库方案（专用测试库/清库/登记）；数学解答题 LaTeX 验证归一化；物理重跑。

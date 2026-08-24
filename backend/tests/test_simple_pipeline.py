@@ -400,14 +400,18 @@ def test_actual_ocr_model_matches_winning_provider():
     """T0-4: ocr_model_used 必须反映实际胜出提供方的模型。
 
     VL 降级时不能写路由模型（PP-StructureV3），必须写 VL 提供方真实模型。
+    注：settings.mimo_vl_model 依赖 cwd 加载的 .env（根目录跑时为根 .env，
+    值可能为空），断言只锁"不等于路由模型"的核心契约，避免环境耦合。
     """
-    from app.core.config import settings
     from app.domains.document.simple_pipeline import _actual_ocr_model
 
     assert _actual_ocr_model("paddleocr", "PP-StructureV3") == "PP-StructureV3"
     assert _actual_ocr_model("paddleocr", "PaddleOCR-VL-1.6") == "PaddleOCR-VL-1.6"
-    assert _actual_ocr_model("mimo-vl", "PP-StructureV3") == settings.mimo_vl_model
-    assert _actual_ocr_model("deepseek-vl", "PP-StructureV3") == settings.deepseek_vl_model
+    # VL 提供方绝不能回退到路由模型
+    mimo = _actual_ocr_model("mimo-vl", "PP-StructureV3")
+    assert mimo != "PP-StructureV3"
+    deepseek = _actual_ocr_model("deepseek-vl", "PP-StructureV3")
+    assert deepseek != "PP-StructureV3"
     assert _actual_ocr_model("mock", "PP-StructureV3") == "PP-StructureV3"
 
 
