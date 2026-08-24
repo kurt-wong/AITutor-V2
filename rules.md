@@ -88,6 +88,14 @@ Agent → MCP Tool → Application Service
 8. **常规 pytest 必须 mock**，live LLM/OCR 验证单独隔离，禁止混入默认套件。
 9. **解析/worker 验证前必须清理旧进程和 `__pycache__`**，禁止用 `--reload` 做验证。
 10. **错误不能静默吞掉**；失败、低置信度、来源缺失必须记录结构化原因并进入可审计状态。
+11. **OCR 识别链（用户决策 2026-08-25，见 `OCR_PROVIDER_POLICY.md`）**：
+    - L1 识别仅使用 paddle 系（PP-StructureV3 / PaddleOCR-VL，学科路由）；
+      native-markdown 只做同页同行证据 + PP 空行兜底。
+    - **LLM VL（mimo-vl / deepseek-vl）禁止作为 L1 识别工具或入库驱动**；
+      仅保留为可选交叉验证入口（默认关闭）。
+    - paddle 不可用（401/10010/网络错误）：重试/熔断耗尽后任务失败并标记
+      `ocr_unavailable`，等待 paddle 恢复后重跑；**禁止自动降级 LLM VL 驱动入库**。
+    - 动 OCR 链前必读 `OCR_PROVIDER_POLICY.md` 与 `ocr/paddle_client.py`。
 
 ---
 

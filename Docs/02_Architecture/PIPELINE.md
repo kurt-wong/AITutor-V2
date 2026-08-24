@@ -316,7 +316,13 @@ backend/app/domains/document/
 └── tasks.py
 ```
 
-当前 P2 已落地部分：`ocr/paddle_client.py` 负责 PP-StructureV3 提交、轮询和 JSONL 解析；`ocr/providers.py` 提供 PP-StructureV3 → MIMO → DeepSeek Vision 回退链；`question_extractor.py` 通过 LLM Gateway 输出 Question Aggregate JSON。
+当前 P2 已落地部分：`ocr/paddle_client.py` 负责 PP-StructureV3 提交、轮询和 JSONL 解析；`question_extractor.py` 通过 LLM Gateway 输出 Question Aggregate JSON。
+
+> **2026-08-25 起（OCR Provider 策略，见 `OCR_PROVIDER_POLICY.md`）**：
+> L1 识别仅使用 paddle 系（PP-StructureV3 / PaddleOCR-VL，学科路由）；
+> **mimo-vl / deepseek-vl 移出 OCR 驱动链**（不再自动降级驱动入库），
+> 仅保留为可选交叉验证入口（默认关）。paddle 不可用时任务标记
+> `ocr_unavailable` 等待恢复重跑，不降级 LLM VL。
 
 注意：当前 `question_extractor.py` 仍是临时验证版，允许 LLM 直接输出内容文本。正式 T3 前必须改为“粗略行号标注 + 代码锚点校正”范式，禁止直接复用到正式入库链路。
 

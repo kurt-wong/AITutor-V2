@@ -2058,3 +2058,37 @@ pdf_raw/native 中 "D.白话文在全国逐渐普及开来" 真实存在。`fix_
 （BUG-004）、数学 Q15 负号证据缺失（OCR 丢失负号）——全为缺库/证据类，待重跑或回填。
 
 **版本升至 6.25。**
+
+### 2026-08-25 17:00:00
+
+#### 架构决策：OCR Provider 策略（PPS/PVL 主识别 + LLM VL 移出驱动链）
+
+**决策**（用户，质量第一 / 成本 / 无人值守安全）：
+- L1 识别仅用 paddle 系（PP-StructureV3 / PaddleOCR-VL）；LLM VL
+  （mimo-vl / deepseek-vl）**移出 OCR 驱动链**，仅保留为可选交叉验证入口
+  （默认关，以确定性规则门为主——e2e 语义验收已覆盖结构异常信号）。
+- paddle 不可用时：重试/熔断耗尽后任务失败标记 `ocr_unavailable`，等待
+  paddle 恢复重跑；**不自动降级 LLM VL 驱动入库**。
+- 动因：mimo 实证失误（幻觉标题/漏选项 D/漏题干/空单元格）+ 免费额度
+  （paddle 每天各 3000 页）+ LLM 按量计费 + 夜间无人值守不划算。
+
+**10010 根因调查（官方文档确认）**：
+- 10010 是**官方异步 API 错误码**"任务提交队列已满"（HTTP 400）——服务端
+  pending 队列容量满，非认证/配额/频率问题（与 12001 配额 403、12002 频率
+  429 区分）。官方无恢复时间承诺；实测连续 30s 间隔多次提交均满（免费层
+  共享队列高峰满载），夜间低谷相对空闲。**勘误**：`paddle_client.py` 注释
+  "官方错误码表无 10010"不准确，已同步文档。
+- 配额：3000 页/天/模型（超限 429）；单文件建议 ≤100 页。
+
+**token 更新**：`PADDLEOCR_VL_TOKEN` 已换新（`backend/.env`，gitignore 不
+入库）；实测 401 已消除（当前 10010 队列满为服务端瞬时状态）。
+
+**文档落地**：`docs/02_Architecture/OCR_PROVIDER_POLICY.md`（新）、
+`PADDLEOCR_API.md`（错误码表+10010+配额）、`PIPELINE.md`（回退链声明）、
+`rules.md`（V1 教训固化 §11 OCR 识别链）。
+
+**待执行（实施计划，见 OCR_PROVIDER_POLICY.md §5）**：
+① OCRFallbackChain 不降级 LLM VL（抛 `OCROutageError` + `ocr_unavailable`）
+② LLM VL 移出 `build_ocr_chain` ③ 批量任务探活/恢复 ④ 测试改造。
+**历史数据**：paddle 恢复后 14:00 批量重跑 mimo 灌入文档（物理/历史），
+以主识别结果为准对比 mimo 效果。
