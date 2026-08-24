@@ -178,3 +178,15 @@
 - **T0-2 key 轮换（Deferred，用户决定 2026-08-25）**：用户明确暂不轮换三个泄露 key
   （PADDLEOCR_VL_TOKEN / MIMO_API_KEY / DEEPSEEK_API_KEY，dacad48 泄露原值），风险已知并接受；
   本项移出提醒清单，后续不再提示。`_verify_env_keys.py` 保留，需要轮换时可直接使用。
+
+### 2026-08-25 09:30:00
+
+- **BUG-022 phase2b 干净库冲突（Resolved，专用测试库）**：统计/搜索测试断言全表只有测试自身
+  数据（total==3），真实库 200+ 基线题污染。方案（a）落地：`aitutors_test` 库 + alembic
+  迁移 + 知识树种子（333 节点）；`conftest.py` 默认重定向 DATABASE_URL 到 `<库名>_test`
+  （`AITUTOR_TEST_DB=0` 关闭）。e2e_ingestion 硬编码真实 DSN 不受影响。全量 pytest
+  **645 passed**（+5 phase2b），剩余 2 failed + 2 errors 全为沙箱 temp ACL（用户本机可过）。
+- **新增发现（2026-08-25 物理重跑时）**：paddle OCR 提交返回 **HTTP 401 Unauthorized**
+  （PADDLEOCR_VL_TOKEN 服务端拒绝；数学重灌 08-25 时仍可用）。这是 T0-2 key 风险的首次真实
+  影响——用户已决定暂缓轮换，回退链（mimo-vl → deepseek-vl）兜底中；若三 provider 全 401，
+  真实重跑类任务将受阻，届时应重新评估轮换。

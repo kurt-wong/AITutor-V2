@@ -1841,3 +1841,24 @@ python test/scripts/answer_verifier.py
   4 沙箱 temp ACL），**无回归**。
 
 **版本升至 6.17。**
+
+### 2026-08-25 09:30:00
+
+#### 专用测试库：phase2b 干净库冲突解决（版本 6.18）
+
+**3e phase2b 干净库冲突（方案 a：专用测试库）**：
+- 冲突根因确认：phase2b 统计/搜索测试在事务内查**全表**（不是隔离视图），断言
+  `total==3` 等要求 questions 表为空；真实库 200+ 基线题污染断言（此前 5 项失败）。
+- 建立 `aitutors_test`（同实例 localhost:15432）：alembic upgrade head（20260821_0005）
+  + `seed_knowledge_tree.py`（9 学科 / 333 节点 / 292 父链接，幂等）。
+- `backend/tests/conftest.py`：pytest 默认把 DATABASE_URL 重定向到 `<库名>_test`
+  （settings 首次实例化晚于 pytest_configure，环境变量即可生效）；`AITUTOR_TEST_DB=0`
+  可关闭重定向连真实库。
+- **e2e_ingestion 测试硬编码真实 DSN（postgresql://…/aitutors），不受重定向影响**——
+  真实入库文档（二中数学）验收保持有效。
+- 全量 pytest：**640 → 645 passed**（5 项 phase2b 全部转绿）；剩余 2 failed + 2 errors
+  均为沙箱 temp ACL（用户本机可写，通过）。
+- 两层基线从此解耦：pytest 645+（专用测试库，逻辑层）+ 9 科语义基线 204/231（真实库，
+  不受测试库影响）。
+
+**版本升至 6.18。**
