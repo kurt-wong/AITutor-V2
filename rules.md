@@ -206,3 +206,34 @@ Agent → MCP Tool → Application Service
 - 只允许写入：规则、约束、约定、导航指针
 - 禁止写入：进度、状态、已知问题、统计数字、配置现值、API/工具/数据表清单
 - 发现状态类内容混入本文件时，应将其移至 `PROJECT_STATUS.md` 或对应权威文档，而非就地更新
+
+---
+
+## 文档治理快照模式（v6.21，优先）
+
+以下规则优先于上方「记录规范」中涉及 `PROJECT_STATUS.md` 与
+`RESTART_PROMPT.md` 历史堆积的旧条款。
+
+1. `LOG.md` 是唯一完整变更历史；每次重要变更在文末追加一条记录，格式为
+   `YYYY-MM-DD HH:mm:ss`，禁止覆盖或删除历史。
+2. `PROJECT_STATUS.md` 只保留最新状态；更新时直接在正文维护，不在文末堆积历史。
+3. `RESTART_PROMPT.md` 只保留稳定上下文：项目目标、基础架构、强制规则、
+   文档地图、恢复流程；不承载状态数字和历史记录。
+4. 版本升级或里程碑验收前，先运行
+   `python scripts/archive_status_snapshot.py --version <VERSION>`，
+   把旧版 `PROJECT_STATUS.md` 和 `RESTART_PROMPT.md` 快照到
+   `docs_archive/status/`；同版本小修改不强制快照。
+5. `bugs.md` 仍按文末追加维护；覆盖或删除历史前，必须先保留原内容到归档目录。
+6. 出现新字段、新功能或新状态枚举时，必须同步维护
+   `Docs/00_Requirements/DICTIONARY.md`，并在其更新记录追加完整时间戳。
+7. 禁止用新文件替代 `LOG.md`、`PROJECT_STATUS.md`、`RESTART_PROMPT.md`
+   的状态职责；`docs_archive/status/` 只做快照，不做工作文件。
+
+| 更新类型 | 对应文档 |
+|---|---|
+| 代码/修复/测试/变更历史 | `LOG.md` |
+| 当前状态与下一步 | `PROJECT_STATUS.md` |
+| 重启恢复稳定上下文 | `RESTART_PROMPT.md` |
+| Bug / 修复记录 | `bugs.md` |
+| 版本化状态快照 | `docs_archive/status/` |
+| 规划/设计/API/数据/UI 契约 | `Docs/` 下对应权威文档 |
