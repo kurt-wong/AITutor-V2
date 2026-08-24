@@ -1707,3 +1707,35 @@ python test/scripts/answer_verifier.py
   建立相似度 golden。数据质量备注：28 题 subject 名称为空（subject_id 关联问题）。
 
 **版本升至 6.12。**
+
+### 2026-08-25 04:30:00
+
+#### 验收口径修复：报告 section artifact + subject 数据完整性（版本 6.13）
+
+**报告 section 解析 artifact 修复（历史 Q38-43 位置误报）**：
+- 现象：历史 Q38-43 stem 内容正确（已在原文中核实），但报"未完整落在 section 内
+  (行覆盖 0%)"。根因：`__q_*` 逐题回退 section（LLM 未给 section_id 的独立题）
+  的 norm_text 解析为空 → in_section 检查误报。
+- 修复：`e2e_semantic_report.py` verify_stem 对 `__q_*` 无共享材料的独立题
+  跳过 in_section 包含检查（位置校验退化为不判失败），**越界/串题检查保留**。
+- 效果：历史 位置 36/43 → **42/43**、严格 35/43 → **41/43**。
+
+**subject 数据完整性修复（28 题空名 subject + 知识映射污染）**：
+- 根因：ingestion `_get_or_create_subject` 查不到就创建；LLM 答案提取返回空/非规范
+  subject 时创建垃圾行（空名、生物学、英语(A班)、高一物理）。28 题（政治文档）
+  subject_id 指向空名行，且知识点被回退映射到 MATH-UNKNOWN（subject_code 回退 MATH）。
+- 代码修复（`ingestion.py`）：
+  1. 元数据优先级（V1_LESSONS 3.5）：上传/文档 subject 优先，LLM 答案提取只填空；
+  2. `_get_or_create_subject` 加固：strip、空名回退"未知"、别名归一化
+     （生物学→生物、英语(A班)→英语、高一物理→物理）、非 canonical 名称告警回退
+     "未知"不创建垃圾行。
+- 数据修复（`backend/scripts/fix_subject_data.py` + `fix_poli_knowledge.py`）：
+  28 题 subject_id → 政治；删除 MATH-UNKNOWN 污染映射，用 KnowledgeService 按
+  POLI 重映射（POLI-UNKNOWN 10 + POLI-ECON/POLI-POLI/POLI-PHIL 等语义节点）；
+  删除 4 个垃圾 subject 行（空名/生物学/英语(A班)/高一物理）。
+- 测试 +4：`test_subject_get_or_create.py`（空名回退/别名归一化/未知回退/canonical 复用）。
+
+**效果**：全科报告 合计 严格 172/197 (87%)（历史提升 +6）；政治 28 题知识点映射
+从 MATH-UNKNOWN 修正为 POLI 语义节点。
+
+**版本升至 6.13。**

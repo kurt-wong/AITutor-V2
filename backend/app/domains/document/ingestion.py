@@ -36,6 +36,20 @@ from app.models import (
 logger = logging.getLogger(__name__)
 
 
+# 学科名别名 → canonical（2026-08-25：非规范名导致垃圾 subject 行）
+_SUBJECT_NAME_ALIASES = {
+    "生物学": "生物",
+    "英语(a班)": "英语",
+    "英语(A班)": "英语",
+    "高一物理": "物理",
+}
+# canonical 科目名集合（与 knowledge/tree_seed/types.py SUBJECT_CODES 一致）
+_CANONICAL_SUBJECT_NAMES = frozenset(
+    {"数学", "物理", "化学", "生物", "语文", "英语", "政治", "历史", "地理"}
+)
+_FALLBACK_SUBJECT_NAME = "未知"
+
+
 # ── 数据结构 ──────────────────────────────────────────────────────
 
 
@@ -102,8 +116,17 @@ async def ingest_pipeline_result(
 
     result.total_questions = len(sliced_questions)
 
-    # 获取学科
-    subject = await _get_or_create_subject(session, answer_result.subject if answer_result else document.subject or "未知")
+    # 获取学科（元数据优先级，V1_LESSONS 3.5）：
+    # 上传/文档 subject 为高优先级；LLM 答案提取的 subject 只在文档缺失时
+    # 填空（2026-08-25：LLM 幻觉空/非规范 subject 曾创建垃圾 subject 行）。
+    subject_name = (document.subject or "").strip()
+    if subject_name in ("", _FALLBACK_SUBJECT_NAME) and answer_result:
+        llm_subject = (answer_result.subject or "").strip()
+        if llm_subject:
+            subject_name = llm_subject
+    if not subject_name:
+        subject_name = _FALLBACK_SUBJECT_NAME
+    subject = await _get_or_create_subject(session, subject_name)
 
     # 获取答案映射
     answer_map = answer_result.answers if answer_result else {}
@@ -526,16 +549,40 @@ async def _find_similar_by_llm(
 
 
 async def _get_or_create_subject(session: AsyncSession, name: str) -> Subject:
-    """查找或创建学科。"""
-    stmt = select(Subject).where(Subject.name == name)
+    """查找或创建学科。
+
+    2026-08-25 加固（历史脏行根因：28 题指向空名 subject，另有
+    生物学/英语(A班)/高一物理 垃圾行）：
+    - 名称 strip；空名/纯空白回退"未知"；
+    - 非规范别名归一化到 canonical（生物学→生物 等）；
+    - 不在 canonical 科目集合的名称不再自动创建（LLM 幻觉/班级名等
+      不得污染 subjects 表），告警并回退"未知"。
+    """
+    raw = (name or "").strip()
+    canonical = _SUBJECT_NAME_ALIASES.get(raw, raw)
+    if not canonical:
+        canonical = _FALLBACK_SUBJECT_NAME
+
+    stmt = select(Subject).where(Subject.name == canonical)
     subject = await session.scalar(stmt)
     if subject:
         return subject
 
-    # 创建新学科
+    if canonical not in _CANONICAL_SUBJECT_NAMES:
+        logger.warning(
+            "subject %r 不在 canonical 科目集合，回退 %r（不创建垃圾行）",
+            raw, _FALLBACK_SUBJECT_NAME,
+        )
+        canonical = _FALLBACK_SUBJECT_NAME
+        stmt = select(Subject).where(Subject.name == canonical)
+        subject = await session.scalar(stmt)
+        if subject:
+            return subject
+
+    # 创建新学科（仅 canonical 科目名或"未知"兜底）
     subject = Subject(
-        code=name.lower().replace(" ", "_"),
-        name=name,
+        code=canonical.lower().replace(" ", "_"),
+        name=canonical,
     )
     session.add(subject)
     await session.flush()

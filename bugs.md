@@ -137,3 +137,9 @@
 - **BUG-002/004 英语 Q46 作文缺库修复**：根因 `_truncate_stem_at_next_question` 按题号大小取边界，OCR 噪声题号行 "48、"（书面表达第一节标题拆行）题号 48 > 46 但文档顺序在作文题之前，把 Q46 stem 截空。修复：边界改"当前题号行/题干起点之后、且题号不小于当前题"的最早题号行（文档顺序 + 题号过滤）。重跑后 Q46 作文 prompt 完整入库，DB 11/11。
 - **选项归属假阳性修复（验证脚本）**：`e2e_semantic_report.py` verify_options 对多行选项拼接文本的 section 包含判断产生假阳性（Q1/Q26/Q29/Q33），DB 数据本身正确；改为 L2 options_line_ids 行号区间判断。
 - **存量过期测试**：`test_ocr_vision_pdf_fallback.py::test_paddle_queue_full_retries_submit` 自 8574109（10010 熔断）后与生产代码不同步（期望 10010 重试 2 次后成功，实际连续 2 次触发熔断）；已改为 503 瞬态错误重试路径（`test_submit_transient_error_retries_then_succeeds`）。
+
+### 2026-08-25 04:30:00
+
+- **BUG-018 subject 垃圾行（Resolved）**：ingestion `_get_or_create_subject` 查不到就创建，LLM 答案提取返回空/非规范 subject 时产生空名、生物学、英语(A班)、高一物理 4 个垃圾行；28 题（政治文档）subject_id 指向空名行，知识点被回退映射到 MATH-UNKNOWN（subject_code 回退 MATH）。修复：文档 subject 优先 + get-or-create 加固（空名回退"未知"、别名归一化、非 canonical 不创建）；数据侧 28 题改指政治、知识重映射 POLI、4 垃圾行删除。
+- **BUG-019 历史 Q38-43 位置误报（Resolved，验证脚本）**：`__q_*` 逐题回退 section（无共享材料）的 norm_text 解析为空，in_section 检查 0% 覆盖误报；DB stem 内容正确。修复：此类题跳过 in_section 检查（越界检查保留）。历史 位置 36/43 → 42/43。
+- **遗留**：历史 Q37 缺库（stem 为空）、Q41-43 题干膨胀标记；语文 Q1/Q8/Q17/Q18 stem 越界（与英语同根因，待重跑）。

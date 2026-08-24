@@ -1,7 +1,7 @@
 # AI Tutor Personal Edition — RESTART_PROMPT
 
-Version: 6.12
-Status: 重启恢复指引（9 科答案基线 mismatch=0；英语 stem 位置/选项归属 11/11、严格 10/11、Q46 作文已入库；PPS/PVL 队列满载已解决；provider_used 落盘完成；Phase 2D 前置条件未满足暂缓；下一步：轮换泄露 API key（待用户操作）+ 英语答案 free_text 验证改进 + 扩充样本）
+Version: 6.13
+Status: 重启恢复指引（9 科答案基线 mismatch=0、严格通过率 172/197 (87%)；英语位置/选项 11/11、历史 42/43；subject 数据完整性与报告验收口径已修复；下一步：重跑语文验证 T0-3 普适性 + 英语 Q46 free_text 验证改进 + 轮换泄露 API key（待用户操作））
 Date: 2026-08-25
 
 ---
@@ -671,3 +671,9 @@ python test/scripts/adversarial_check_live_validation.py --require-live-pp
 - T0-5 Phase 2D 前置评估完成：样本 191 题、golden 3 科、签名覆盖率 20%——前置条件未满足，暂缓启动。
 - 英语最终验收稳定：位置/选项/stem/材料 11/11、DB 11/11、严格 10/11 (91%)。
 - 下一步：轮换泄露 API key（待用户操作）+ 英语答案 free_text 验证改进（可选）+ 扩充样本/补齐 9 科签名 → Phase 2D。
+
+### 2026-08-25 04:30:00
+
+- 版本升至 6.13。验收口径修复：历史 Q38-43 位置误报（`__q_*` 独立题 section artifact）→ 历史 42/43；28 题空名 subject → 政治 + 知识映射 MATH-UNKNOWN → POLI 重映射 + 4 垃圾行清理；ingestion subject 加固（文档优先 + get-or-create 防护）。
+- 全科严格通过率 172/197 (87%)。
+- 下一步：重跑语文验证 T0-3 普适性 → 复算 9 科基线 → 英语 Q46 free_text 验证改进。

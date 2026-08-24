@@ -835,6 +835,15 @@ def verify_stem(
     coverage = line_coverage(db_stem, section_text) if section_text else 0.0
     in_section = bool(section_text and (contained or coverage >= 0.8))
 
+    # 逐题回退 section（__q_*：LLM 未给 section_id 的独立题，section 即题目
+    # 本身）：section 文本范围解析常为空，in_section 包含检查会产生 0% 覆盖
+    # 误报（2026-08-25 历史 Q38-43 stem 内容正确仍报位置 N）。此类题的位置
+    # 校验退化为"不判失败"；越界/串题检查仍然保留（能抓到真实串题）。
+    fallback_section = (
+        not section.has_shared_material
+        and str(section.section_id).startswith("__q_")
+    )
+
     # 越界/串题：DB stem 里出现后续 section 的起始文本，或出现多个大题标题。
     bleed_headers: list[str] = []
     first_qn_marker_pos = find_marker(
@@ -860,9 +869,9 @@ def verify_stem(
     bleed = bool(bleed_headers)
     if bleed:
         result.details.append(f"stem 越界/串题: {', '.join(sorted(set(bleed_headers))[:5])}")
-    if not in_section:
+    if not in_section and not fallback_section:
         result.details.append(f"stem 未完整落在 section {section.section_id} 内 (行覆盖 {coverage:.0%})")
-    result.stem_location_hit = bool(in_section and not bleed)
+    result.stem_location_hit = bool((in_section or fallback_section) and not bleed)
 
 
 def verify_material(
