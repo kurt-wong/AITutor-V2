@@ -929,11 +929,19 @@ def verify_material(
         result.material_hit = True
         return
 
-    expected = ""
-    if section and section.has_shared_material:
+    # 2026-08-25 PVL 化学：section 级共享材料只应检查"该题自己标注了共享材料"
+    # 的题。某题（如 Q12/Q13 粗盐材料）的独立材料被 build_sections 并入 section
+    # 共享后，会误套到 section 内所有成员题（Q1-21 全被要求含粗盐材料 →
+    # 材料覆盖 0% 假阳性，PVL 版 15/26 的另一个根因）。改为优先用当前题的
+    # pipeline shared_material；当前题未标注共享材料 → 非材料题，检查通过。
+    own_shared = str(pipeline_q.get("shared_material") or "")
+    if not own_shared_ids and not own_shared:
+        result.material_hit = True
+        return
+
+    expected = own_shared
+    if not expected and section and section.has_shared_material:
         expected = section.shared_text
-    if not expected and pipeline_q.get("shared_material"):
-        expected = str(pipeline_q["shared_material"])
 
     db_compact = compact_text(db_stem)
     if not expected:
