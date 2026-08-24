@@ -112,6 +112,31 @@ def test_ocr_fallback_chain_uses_next_provider() -> None:
     assert document.pages[0].markdown == "ok"
 
 
+def test_ocr_chain_all_failed_raises_outage_with_failures() -> None:
+    """paddle 耗尽（全部 provider 失败）→ 抛 OCROutageError 且保留失败明细。
+
+    2026-08-25 用户决策：OCR 链只含 paddle（LLM VL 已移出驱动链），
+    paddle 失败即 OCROutageError，任务标记 ocr_unavailable 等待恢复，
+    不降级 LLM VL。failures 保留每个 provider 的失败原因供审计。
+    """
+    from app.domains.document.ocr.providers import OCROutageError, OCRProviderError
+
+    class Failing1:
+        name = "paddleocr"
+
+        async def extract(self, file_path):
+            raise OCRProviderError("paddle submit HTTP 400: 10010 queue full")
+
+    chain = OCRFallbackChain([Failing1()])
+
+    with pytest.raises(OCROutageError) as excinfo:
+        asyncio.run(chain.extract(Path("test.pdf")))
+
+    assert isinstance(excinfo.value, OCRProviderError)
+    assert "all OCR providers failed" in str(excinfo.value)
+    assert excinfo.value.failures == [("paddleocr", "paddle submit HTTP 400: 10010 queue full")]
+
+
 def test_mock_ocr_provider_returns_deterministic_page() -> None:
     document = asyncio.run(MockOCRProvider().extract(Path("test.pdf")))
 

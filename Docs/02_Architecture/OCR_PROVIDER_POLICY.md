@@ -89,15 +89,19 @@ simple_pipeline 的 `_build_pp_canonical` 已实现该原则（PP 非空保留 P
   paddle 恢复后重跑。
 - token 已更新（`backend/.env`，gitignore 不入库），401 已消除。
 
-## 5. 实施计划（待执行）
+## 5. 实施计划
 
-| # | 项 | 内容 | 验收 |
-|---|---|---|---|
-| 1 | `OCRFallbackChain` 改造 | paddle 失败 → 重试+熔断 → 耗尽后抛 `OCROutageError`，任务失败标记 `ocr_unavailable`，不降级 mimo/deepseek | 单测：paddle 耗尽不降级 |
-| 2 | LLM VL 移出驱动链 | `build_ocr_chain` 不再包含 mimo-vl/deepseek-vl；保留 provider 实现为可选复核入口（默认关） | `test_vl_fast_fail.py` 等改造 |
-| 3 | 批量任务恢复 | 探活 paddle → 可用才跑；`ocr_unavailable` 失败任务可一键重跑（任务幂等已具备） | 批量重跑脚本 |
-| 4 | 规则文档 | 本文件 + `rules.md` 强制规则 + `PIPELINE.md`/`PADDLEOCR_API.md` 同步 | 文档评审 |
-| 5 | 测试 | 改降级路径相关测试；新增"paddle 耗尽不降级"用例 | 全量 pytest |
+| # | 项 | 状态 |
+|---|---|---|
+| 1 | `OCRFallbackChain` 改造：paddle 失败 → 重试+熔断 → 耗尽后抛 `OCROutageError`，任务失败标记 `ocr_unavailable`，不降级 mimo/deepseek | ✅ 2026-08-25 完成 |
+| 2 | LLM VL 移出驱动链：`build_ocr_chain` 不再包含 mimo-vl/deepseek-vl；保留 provider 实现为可选复核入口（默认关） | ✅ 2026-08-25 完成 |
+| 3 | 批量任务恢复：`backend/scripts/retry_ocr_unavailable.py`（探活 paddle → retry `ocr_unavailable` 失败任务） | ✅ 2026-08-25 完成 |
+| 4 | 规则文档：本文件 + `rules.md` §11 + `PIPELINE.md`/`PADDLEOCR_API.md` 同步 | ✅ 2026-08-25 完成 |
+| 5 | 测试：降级路径测试改造 + 新增"paddle 耗尽不降级"用例 | ✅ 2026-08-25 完成 |
+
+配套：`app/core/logging.py` 配置 root logger INFO 输出（worker 日志可见，
+OCR 降级/任务进度可实时监控）；`processor.py` 失败任务 error_detail 优先取
+`result.errors`（含 `ocr_unavailable` 标记，供批量恢复脚本识别）。
 
 ## 6. 历史数据重跑计划
 

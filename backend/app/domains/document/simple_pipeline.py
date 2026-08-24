@@ -391,11 +391,12 @@ async def run_simple_pipeline(
                 model=result.ocr_model_used,
             )
         except Exception as exc:
-            # OCR 失败：保持 failed 状态（不引入新状态避免下游不兼容）
-            # 通过 error message 标记可重试，后续可通过 cron/manual 重跑
+            # OCR 失败（2026-08-25 用户决策：不降级 LLM VL）。
+            # 主识别 paddle（PPS/PVL）不可用 → 标记 ocr_unavailable，等待
+            # paddle 恢复后重跑；错误信息保留供审计/批量恢复脚本识别。
             result.status = "failed"
-            result.errors.append(f"simple_pipeline ppsv3_l1 failed (retry_eligible): {exc}")
-            logger.warning("OCR failed, marked as retry_eligible: %s", exc)
+            result.errors.append(f"simple_pipeline ppsv3_l1 failed (ocr_unavailable): {exc}")
+            logger.warning("OCR failed, marked as ocr_unavailable: %s", exc)
             return result
 
     if page_range:

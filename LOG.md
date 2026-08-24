@@ -2092,3 +2092,41 @@ pdf_raw/native 中 "D.白话文在全国逐渐普及开来" 真实存在。`fix_
 ② LLM VL 移出 `build_ocr_chain` ③ 批量任务探活/恢复 ④ 测试改造。
 **历史数据**：paddle 恢复后 14:00 批量重跑 mimo 灌入文档（物理/历史），
 以主识别结果为准对比 mimo 效果。
+
+### 2026-08-25 18:30:00
+
+#### OCR Provider 策略代码改造完成（版本 6.26）
+
+**改造（OCR_PROVIDER_POLICY.md §5 全部完成）**：
+1. `OCRFallbackChain`：全部 provider 失败 → 抛 **`OCROutageError`**
+   （继承 OCRProviderError，保留 failures 明细）；`simple_pipeline` OCR 失败
+   标记 **`ocr_unavailable`**（原 retry_eligible）；`processor.py` 失败任务
+   error_detail 优先取 `result.errors`（含 ocr_unavailable 供批量恢复识别）。
+2. `build_ocr_chain`：**移除 mimo-vl / deepseek-vl 追加块**——LLM VL 移出
+   驱动链，`LLMVisionOCRProvider` 保留实现供可选交叉验证（外部显式构造）。
+3. 批量恢复：`backend/scripts/retry_ocr_unavailable.py`（探活 paddle →
+   retry ocr_unavailable 失败任务）。
+4. `app/core/logging.py`：root logger INFO 输出（`main.py` 显式导入触发），
+   worker INFO 日志可见（"document_parse_worker started" 等）。
+5. 测试：`test_vl_model_queue.py` 回退顺序用例改为"VL 不在链中"（paddle
+   token 存在 → 链只含 paddleocr；缺失 → 空链）；`test_ocr_parsing.py`
+   新增"paddle 耗尽抛 OCROutageError 保留失败明细"。全量 **651 passed**
+   （2 failed + 2 errors 沙箱 ACL）。
+
+**PPS 重跑与回填（对比 mimo）**：
+- 物理 PPS（PP-StructureV3）：严格 15/20；Q1 选项 D 回填后 **16/20**。
+  PPS OCR 把 Q1 "C.加速度D时间" 粘连一行（源 PDF 文本层本就粘连）→ LLM
+  无法拆分；mimo 视觉能拆。Q3/Q9/Q10 表格答案 PPS 原生正确。
+- 历史 PPS（PP-StructureV3）：严格 39/43；Q26/Q27/Q28 选项回填后 **42/43**
+  （`backfill_pps_missing_options.py`）。根因：LLM 标注跨页漏标选项行号
+  （Q26 D 在第 6 页开头、Q27/Q28 整题在跨页边界）——OCR 数据完整，非 OCR
+  问题。Q37 缺库（同 mimo，需回填/重跑）。
+- 结论：**PPS 与 mimo 互补而非替代**（PPS 表格提取强/免费/可靠；mimo 选项
+  完整/LaTeX 格式化）；PPS 为主力后，跨页标注与粘连选项需数据补丁兜底。
+
+**9 科基线（v6.26，物理/历史为 PPS 版本）**：严格 **218/231 (94%)**、答U 13、
+答M 0。物理 16/20（Q4/Q7 缺库 + Q18/Q20 structured_partial）、历史 42/43
+（Q37 缺库）；其余科持平（语文 24、数学 22、政治 28、生物 24、化学 26、
+英语 11、地理 25）。
+
+**版本升至 6.26。**

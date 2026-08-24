@@ -94,7 +94,11 @@ class DocumentProcessor:
             # 4. 根据管线结果状态决定任务状态（C5/C6 修复）
             # 不在此处 commit — 由 worker 统一提交 task + document（H3 修复）
             if result.status == "failed":
-                error_msg = result.stage_errors[0]["error"] if result.stage_errors else "pipeline failed"
+                # 优先取 result.errors（含 ocr_unavailable 等语义标记，2026-08-25：
+                # paddle 不可用时 simple_pipeline 标记 ocr_unavailable 供批量恢复识别）
+                error_msg = "; ".join(result.errors) if result.errors else (
+                    result.stage_errors[0]["error"] if result.stage_errors else "pipeline failed"
+                )
                 await self.task_service.fail_task(
                     task_id,
                     error_detail=f"解析失败: {error_msg}",

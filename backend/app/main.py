@@ -2,6 +2,8 @@ import asyncio
 import logging
 from contextlib import asynccontextmanager
 
+import app.core.logging  # noqa: F401  # 触发 root logger INFO 配置（worker 日志可见）
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 

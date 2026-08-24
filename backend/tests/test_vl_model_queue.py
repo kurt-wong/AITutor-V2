@@ -264,8 +264,34 @@ class TestBuildOcrChainIntegration:
         assert len(chain.providers) == 0
 
     @patch("app.domains.document.ocr.providers.settings")
-    def test_vision_fallback_order_mimo_then_deepseek(self, mock_settings):
-        """VL fallback 必须 MIMO 优先，DeepSeek Vision 兜底。"""
+    def test_no_vl_fallback_in_chain(self, mock_settings):
+        """LLM VL 移出驱动链（2026-08-25 用户决策，OCR_PROVIDER_POLICY.md §2）。
+
+        即使 mimo/deepseek VL 配置存在，build_ocr_chain 也不追加 VL provider：
+        paddle token 存在 → 链只含 paddleocr；paddle token 缺失 → 链为空
+        （无 VL 兜底，任务应标记 ocr_unavailable 等待 paddle 恢复）。
+        """
+        mock_settings.ocr_mock_mode = False
+        mock_settings.paddleocr_vl_token = "paddle-token"
+        mock_settings.paddleocr_api_base_url = "https://paddleocr.aistudio-app.com/api/v2/ocr/jobs"
+        mock_settings.llm_request_timeout_seconds = 60
+        mock_settings.paddleocr_poll_interval_seconds = 5
+        mock_settings.paddleocr_job_timeout_seconds = 600
+        # mimo/deepseek VL 配置齐全但不得进链
+        mock_settings.mimo_api_key = "mimo-key"
+        mock_settings.mimo_base_url = "https://api.xiaomimimo.com/v1"
+        mock_settings.mimo_vl_model = "mimo-v2.5"
+        mock_settings.deepseek_api_key = "deepseek-key"
+        mock_settings.deepseek_base_url = "https://api.deepseek.com"
+        mock_settings.deepseek_vl_model = "deepseek-v4-flash-vision-exp"
+
+        chain = build_ocr_chain(model="PP-StructureV3")
+
+        assert [p.name for p in chain.providers] == ["paddleocr"]
+
+    @patch("app.domains.document.ocr.providers.settings")
+    def test_no_vl_fallback_paddle_down_chain_empty(self, mock_settings):
+        """paddle token 缺失且 VL 配置存在 → 链为空（不降级 LLM VL）。"""
         mock_settings.ocr_mock_mode = False
         mock_settings.paddleocr_vl_token = None
         mock_settings.mimo_api_key = "mimo-key"
@@ -274,8 +300,7 @@ class TestBuildOcrChainIntegration:
         mock_settings.deepseek_api_key = "deepseek-key"
         mock_settings.deepseek_base_url = "https://api.deepseek.com"
         mock_settings.deepseek_vl_model = "deepseek-v4-flash-vision-exp"
-        mock_settings.llm_request_timeout_seconds = 60
 
         chain = build_ocr_chain(model="PP-StructureV3")
 
-        assert [p.name for p in chain.providers] == ["mimo-vl", "deepseek-vl"]
+        assert len(chain.providers) == 0

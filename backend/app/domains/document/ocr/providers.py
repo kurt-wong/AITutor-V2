@@ -25,6 +25,22 @@ class OCRProviderError(RuntimeError):
         self.failures = failures or []
 
 
+class OCROutageError(OCRProviderError):
+    """主 OCR（paddle 系）不可用，任务应标记 ocr_unavailable 等待恢复。
+
+    2026-08-25 用户决策（OCR_PROVIDER_POLICY.md）：paddle（PPS/PVL）是唯一
+    L1 识别提供方，失败/熔断耗尽后**不降级 LLM VL**——LLM VL 只做可选交叉
+    验证，不驱动入库。任务失败原因带 ocr_unavailable，等 paddle 恢复后重跑。
+    """
+
+    def __init__(
+        self,
+        message: str,
+        failures: list[tuple[str, str]] | None = None,
+    ) -> None:
+        super().__init__(message, failures)
+
+
 @runtime_checkable
 class OCRProvider(Protocol):
     name: str
@@ -164,7 +180,9 @@ class OCRFallbackChain:
                 failures.append((provider.name, str(exc)))
                 logger.warning("ocr provider=%s failed: %s", provider.name, exc)
         detail = "; ".join(f"{name}: {message}" for name, message in failures)
-        raise OCRProviderError(
+        # 2026-08-25：链只含 paddle（LLM VL 已移出驱动链），全部失败即
+        # OCROutageError → 任务标记 ocr_unavailable 等待 paddle 恢复，不降级。
+        raise OCROutageError(
             f"all OCR providers failed ({detail or 'none configured'})",
             failures=failures,
         )
@@ -182,6 +200,14 @@ def build_ocr_chain(
     mock: bool | None = None,
     model: str | None = None,
 ) -> OCRFallbackChain:
+    """构建 OCR 链。
+
+    2026-08-25 用户决策（OCR_PROVIDER_POLICY.md §2）：L1 识别仅用 paddle 系
+    （PP-StructureV3 / PaddleOCR-VL）；**LLM VL（mimo-vl / deepseek-vl）移出
+    驱动链**——不在此追加，只保留 LLMVisionOCRProvider 类作为可选交叉验证
+    入口（由外部显式构造）。paddle 不可用时 OCRFallbackChain 抛
+    OCROutageError，任务标记 ocr_unavailable 等待恢复，不降级。
+    """
     use_mock = settings.ocr_mock_mode if mock is None else mock
     if use_mock:
         return OCRFallbackChain([MockOCRProvider()])
@@ -210,49 +236,8 @@ def build_ocr_chain(
         )
         providers.append(QueuedPaddleOCRProvider(paddle_client, max_concurrent=1))
 
-    if settings.mimo_api_key and settings.mimo_base_url and settings.mimo_vl_model:
-        # mimo-vl 服务端间歇性断连/挂起（2026-08-25 实测）：
-        # 用短超时 + 少重试，快速失败让 OCRFallbackChain 降级到 deepseek-vl。
-        # 全局 LLM_REQUEST_TIMEOUT_SECONDS=300 会让挂起请求等满 5 分钟，拖死整条链。
-        mimo_timeout = min(settings.llm_request_timeout_seconds, 45.0)
-        providers.append(
-            LLMVisionOCRProvider(
-                name="mimo-vl",
-                gateway=LLMGateway(
-                    mode="live",
-                    providers=[
-                        HTTPLLMProvider(
-                            name="mimo-vl",
-                            base_url=settings.mimo_base_url,
-                            api_key=settings.mimo_api_key,
-                            model=settings.mimo_vl_model,
-                            timeout_seconds=mimo_timeout,
-                            max_retries=1,
-                        )
-                    ],
-                ),
-            )
-        )
-
-    if settings.deepseek_api_key and settings.deepseek_base_url and settings.deepseek_vl_model:
-        providers.append(
-            LLMVisionOCRProvider(
-                name="deepseek-vl",
-                gateway=LLMGateway(
-                    mode="live",
-                    providers=[
-                        HTTPLLMProvider(
-                            name="deepseek-vl",
-                            base_url=settings.deepseek_base_url,
-                            api_key=settings.deepseek_api_key,
-                            model=settings.deepseek_vl_model,
-                            timeout_seconds=settings.llm_request_timeout_seconds,
-                        )
-                    ],
-                ),
-            )
-        )
-
+    # 不再追加 mimo-vl / deepseek-vl（2026-08-25 用户决策）。
+    # LLMVisionOCRProvider 保留实现，仅用于可选交叉验证（外部显式构造）。
     return OCRFallbackChain(providers)
 
 
