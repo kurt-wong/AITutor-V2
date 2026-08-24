@@ -88,3 +88,49 @@ class TestStemInflationDetection:
         result = evaluate_quality([q])
         assert q.confidence < 0.8, f"2608 字符材料混入题必须 <0.8，实际 {q.confidence}"
         assert any("题干异常膨胀" in i for i in q.issues)
+
+    def test_material_question_long_stem_not_flagged(self):
+        """非综合材料题（历史 Q43 类）：题干含材料一/材料二（LLM 未标 shared 行号），
+        1162 字符合法 → 不按 800 上限误伤。
+
+        2026-08-25：历史东城 Q43 材料分析题（题干+材料一/二/三+子问 = 1162 字符）
+        被 800 上限误标记为膨胀 → reviewing(low_confidence)。修复：材料标记 → 综合题上限。
+        """
+        stem = (
+            "43．（11分）从和平共处五项原则到人类命运共同体理念\n"
+            "材料一 构建人类命运共同体理念与和平共处五项原则一脉相承，都根植于"
+            "亲仁善邻、讲信修睦、协和万邦的中华优秀传统文化。" * 3 + "\n"
+            "材料二 中国援建非洲铁路，帮助沿线国家改善基础设施。" * 3 + "\n"
+            "（1）根据材料一和材料二，谈谈你的理解。\n"
+            "（2）从材料三的表格中任选两个成就，提炼一个主题并说明。"
+        )[:1162]
+        q = _q(stem, qtype="short_answer", with_answer=True)
+        evaluate_quality([q])
+        assert "题干异常膨胀" not in q.issues
+        assert q.confidence >= 0.8, f"材料题不应降分，实际 conf={q.confidence}"
+
+    def test_shared_material_independent_uses_composite_limit(self):
+        """带 shared_material_line_ids 的独立题（v6.14 材料并入）按综合题上限计长。"""
+        stem = ("材料" + "这是一段较长的共享材料文本。" * 60)[:1300]
+        q = SlicedQuestion(
+            question_number="1",
+            question_type="short_answer",
+            stem=stem,
+            answer="答案",
+            confidence=0.5,
+            shared_material_line_ids=["P1L001", "P1L002"],
+            is_composite=False,
+        )
+        evaluate_quality([q])
+        assert "题干异常膨胀" not in q.issues
+
+    def test_real_bloat_without_material_marker_still_flagged(self):
+        """无材料标记的纯题干膨胀（语文 Q17 默写混入散文材料）仍被拦截。"""
+        stem = '17.在横线处填写作品原句。\n（1）古诗词常借"月"表达情感。' + (
+            "国就封，作为闯入者，自然招致徐国的反抗。伯禽在周王室支持下，"
+            "率军讨伐徐国，古徐阁主体建筑7层，高" * 20
+        )[:1840]
+        q = _q(stem, qtype="short_answer", with_answer=True)
+        evaluate_quality([q])
+        assert any("题干异常膨胀" in i for i in q.issues)
+        assert q.confidence < 0.8

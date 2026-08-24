@@ -34,6 +34,11 @@ _SEVEN_CHOICE_RE = re.compile(r"七选五|7选5|7选七")
 # 阈值设计（保守防误伤）：
 # - 非综合题正常题干通常 < 200 字符（含公式/图注）；材料混入可达 1000+。
 # - 综合题（完形/阅读）材料+子题合理上限约 3000 字符；超过说明材料被重复复制或错切。
+# - 材料题识别（2026-08-25 历史 Q43/化学 Q22 类）：LLM 可能把材料直接写进
+#   stem_line_ids（未标记 shared_material_line_ids），题干合法包含材料文本 →
+#   按综合题上限计，避免 800 上限误伤。判据：shared 行号标记，或题干含"材料"字样。
+#   真膨胀（语文 Q17 默写混入散文材料 1840 字、英语 P0-4 材料并入 2608 字）均
+#   不含"材料"字样 → 仍按 800 上限拦截。
 _STEM_CHAR_LIMIT_NON_COMPOSITE = 800
 _STEM_CHAR_LIMIT_COMPOSITE = 3000
 
@@ -95,8 +100,16 @@ def evaluate_quality(
         # 背景：英语完形/阅读题材料被整段写入 stem（见审计报告 §三 D），
         # 单题 stem 可达 2000-2600 字符。正常单题题干远小于阈值。
         stem_len = len(sq.stem or "")
+        # 材料题（含 shared 行号标记，或题干含"材料"字样）按综合题上限计长：
+        # LLM 可能把材料直接写进 stem（未标记 shared_material_line_ids），
+        # 此类题干合法包含材料文本（历史材料分析题/化学综合题），不应按普通
+        # 题干 800 上限误伤；真膨胀（默写混入散文材料等）不含"材料"字样。
+        has_material = bool(getattr(sq, "shared_material_line_ids", None)) or (
+            "材料" in (sq.stem or "")
+        )
         limit = (
-            _STEM_CHAR_LIMIT_COMPOSITE if getattr(sq, "is_composite", False)
+            _STEM_CHAR_LIMIT_COMPOSITE
+            if (getattr(sq, "is_composite", False) or has_material)
             else _STEM_CHAR_LIMIT_NON_COMPOSITE
         )
         if stem_len > limit:
