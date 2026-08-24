@@ -1,6 +1,6 @@
 # AI Tutor Personal Edition — RESTART_PROMPT
 
-Version: 6.28
+Version: 6.29
 Status: 文档治理已切换为精简快照模式；功能状态见 PROJECT_STATUS.md
 Date: 2026-08-25
 
