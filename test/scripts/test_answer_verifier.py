@@ -51,3 +51,27 @@ def test_raw_table_priority_over_ocr_errors():
     assert evidence.table[5] == "D"
     assert evidence.table[6] == "C"
     assert evidence.table[7] == "A"
+
+
+def test_long_free_text_answer_needs_manual_review():
+    """长自由文本答案（作文/长解答题）→ essay_manual_review（需人工审核）。
+
+    2026-08-25：英语 Q46 作文答案（713 字符）无法通过答案区标记自动验证，
+    标记为"需人工审核"，区别于短答案的 free_text_answer。
+    """
+    raw = "\u53c2\u8003\u7b54\u6848\n\u9898\u53f7 46\n\u7b54\u6848\n\u4e00\u7bc7\u8303\u6587"
+    evidence = av.build_evidence(raw, "", "")
+    essay = "Dear Jim,\n" + "I am very glad to hear that you are coming to China. " * 8
+    ver = av.verify_one("46", essay, None, evidence)
+    assert ver.status == av.UNVERIFIABLE
+    assert ver.reason == "essay_manual_review"
+
+
+def test_short_free_text_answer_stays_free_text():
+    """短自由文本答案（找不到证据）仍标记 free_text_answer。"""
+    raw = "\u53c2\u8003\u7b54\u6848\n\u9898\u53f7 1\n\u7b54\u6848\nA"
+    evidence = av.build_evidence(raw, "", "")
+    # 题号 9 不在答案区，答案较短（<100 字符）→ free_text_answer
+    ver = av.verify_one("9", "x\u7684\u503c\u4e3a\u221a2", None, evidence)
+    assert ver.status == av.UNVERIFIABLE
+    assert ver.reason == "free_text_answer"

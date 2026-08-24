@@ -23,6 +23,12 @@ MATCHED = "matched"
 MISMATCHED = "mismatched"
 UNVERIFIABLE = "unverifiable"
 
+# 长自由文本答案（作文/长解答题）的判定阈值（compact 后字符数）：
+# 超过该长度且无法通过答案区标记自动验证 → 标记"需人工审核"
+# （essay_manual_review），区别于短答案找不到证据（free_text_answer）。
+# 2026-08-25：英语 Q46 作文答案 713 字符，仅能人工核对。
+_ESSAY_MIN_LENGTH = 100
+
 
 def compact_text(text: str | None) -> str:
     if not text:
@@ -348,6 +354,10 @@ def verify_one(
         return AnswerVerification(reason="missing_answer_evidence")
     if re.fullmatch(r"[A-G]{1,4}", answer_text):
         return AnswerVerification(reason="no_answer_evidence")
+    # 长自由文本答案（作文/长解答题）无法自动验证 → 需人工审核
+    # （2026-08-25：区别于短答案的 free_text_answer，语义更诚实）。
+    if len(answer_text) >= _ESSAY_MIN_LENGTH:
+        return AnswerVerification(reason="essay_manual_review")
     return AnswerVerification(reason="free_text_answer")
 
 

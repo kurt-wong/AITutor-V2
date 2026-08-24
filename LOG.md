@@ -1768,3 +1768,23 @@ python test/scripts/answer_verifier.py
 - 物理 11/19 为主要缺口（8 题未过：答案/选项/缺库，旧 08-23 数据未重跑）
 
 **版本升至 6.14。**
+
+### 2026-08-25 06:30:00
+
+#### 英语 Q46 需人工审核标记 + T0-2 key 轮换准备（版本 6.15）
+
+**3a Q46 free_text 验证改进**：
+- `answer_verifier.py`：无法自动验证的长自由文本答案（compact ≥100 字符，
+  作文/长解答题）标记 `essay_manual_review`（需人工审核），区别于短答案的
+  `free_text_answer`（语义更诚实）。英语 Q46 作文答案 713 字符 → essay_manual_review。
+- 测试 +2：`test_long_free_text_answer_needs_manual_review`、
+  `test_short_free_text_answer_stays_free_text`。
+- 英语报告：answer 不可验证 1/11 由 free_text_answer → essay_manual_review。
+
+**3c T0-2 key 轮换准备（待用户操作）**：
+- `_verify_env_keys.py` 增强：比对 git 历史泄露值（dacad48），输出轮换状态。
+- 实测：PADDLEOCR_VL_TOKEN / MIMO_API_KEY / DEEPSEEK_API_KEY **三个 key 均为
+  泄露原值，尚未轮换**。轮换步骤见 bugs.md T0-2 条目（控制台重置 → 更新
+  backend/.env → 重启后端 → 重跑验证脚本）。git 历史泄露可考虑重写历史。
+
+**版本升至 6.15。**

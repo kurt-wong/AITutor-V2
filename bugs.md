@@ -150,3 +150,12 @@
 - **语文重跑验收（2a）**：位置 3/8 → 19/24、严格 18/24、DB 24/24（T0-3 修复普适性验证通过）。
 - **遗留（语文）**：Q14-16 诗歌阅读 位置行覆盖 67%（section 边界未覆盖全部 stem 行）；Q17 题干膨胀 1840 字符（reviewing）；Q22 串题（散文阅读_1/四、本大题）。
 - **遗留（物理）**：严格 11/19（08-23 旧数据，答案 14/22、选项 16/22、缺库 3），待重跑。
+
+### 2026-08-25 06:30:00
+
+- **3a Q46 需人工审核标记（Resolved）**：`answer_verifier.py` 长自由文本答案（≥100 字符）→ `essay_manual_review`（需人工审核），区别于短答案 `free_text_answer`。英语 Q46 作文 713 字符标记生效。
+- **T0-2 泄露 key 轮换（Open，待用户操作）**：实测三个 key（PADDLEOCR_VL_TOKEN/MIMO_API_KEY/DEEPSEEK_API_KEY）**均为 dacad48 泄露原值，尚未轮换**。轮换步骤：
+  1. 平台控制台重置：PaddleOCR AIStudio（VL token）、MIMO 开放平台、DeepSeek 开放平台
+  2. 新 key 写入 `backend/.env`（gitignore，不入库）
+  3. 重启后端后运行 `python test/scripts/_verify_env_keys.py`，三个 key 须均为 OK
+  4. 历史泄露仍在 git 历史（dacad48），可考虑重写历史或接受风险
