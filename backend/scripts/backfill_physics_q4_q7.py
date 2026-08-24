@@ -170,7 +170,7 @@ async def main() -> None:
                 "UPDATE questions SET occurrence_count = (SELECT count(*) FROM question_instances WHERE question_id = $1) WHERE id = $1",
                 qid,
             )
-            print(f"Q{qn}: 已回填（question={qid[:8]}…, instance={inst_id[:8]}…, answer={answer}）")
+            print(f"Q{qn}: 已回填（question={str(qid)[:8]}…, instance={str(inst_id)[:8]}…, answer={answer}）")
 
         # L2 stem_start_marker 修正（幂等：仅当当前值为 OCR 幻觉标题时替换）
         l2_raw = doc_meta and doc_meta["llm_annotated_markdown"] or "{}"

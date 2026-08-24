@@ -112,6 +112,10 @@ def normalize_math(text: str | None) -> str:
     )
     out = out.replace(r"\{", "{").replace(r"\}", "}")
     out = out.replace(r"\mid", "|").replace(r"\pi", "\u03c0")
+    # \text{...} 是文本/单位标记（如 \text{s}、\text{m/s}）→ 直接取内容。
+    # 2026-08-25 物理 PPS 版 Q20：DB "4.5s"（纯文本）vs 答案区 "$4.5\text{s}$"
+    # 原归一化 \text → "text" 得 "4.5texts" 与 "4.5s" 不匹配；此处 \text{s} → "s"。
+    out = re.sub(r"\\text\s*\{([^{}]*)\}", r"\1", out)
     out = re.sub(r"\\([a-zA-Z]+)", r"\1", out)
     out = out.replace("{", "").replace("}", "")
     return out
@@ -448,6 +452,31 @@ def _split_structured(answer: str) -> list[tuple[str, str]]:
     return parts
 
 
+def _greek_to_latex(s: str) -> str:
+    """Unicode 希腊字母 → LaTeX 名（两侧同规）。
+
+    2026-08-25 物理 PPS 版 Q20：DB 答案用 Unicode `θ`（PPS 提取纯文本
+    "f=F sinθ"），答案区 OCR 用 LaTeX `\\theta`（归一化后 `theta`）——
+    θ vs theta 不匹配导致 structured_partial。此处把 Unicode 希腊字母统一
+    为 LaTeX 名，使两侧可比较。
+    """
+    for uni, name in (
+        ("\u03b8", "theta"),    # θ
+        ("\u1d703", "theta"),   # 𝜃（数学斜体）
+        ("\u03c6", "varphi"),   # φ
+        ("\u1d711", "varphi"),  # 𝜑（数学斜体）
+        ("\u03b1", "alpha"),    # α
+        ("\u03b2", "beta"),     # β
+        ("\u03b3", "gamma"),    # γ
+        ("\u03bc", "mu"),       # μ
+        ("\u03c0", "pi"),       # π（normalize_math 已处理，这里兜底）
+        ("\u03c9", "omega"),    # ω
+        ("\u0394", "Delta"),    # Δ
+    ):
+        s = s.replace(uni, name)
+    return s
+
+
 def _find_structured_answer(
     qn: str,
     answer: str,
@@ -472,6 +501,7 @@ def _find_structured_answer(
             continue
         fragment = norm.split("=")[-1].strip() if "=" in norm else norm.strip()
         fragment = _strip_score_annotations(fragment)
+        fragment = _greek_to_latex(fragment)
         if len(fragment) < 3:
             continue  # 片段过短不参与（保守，避免误命中）
         matched = False
@@ -479,6 +509,7 @@ def _find_structured_answer(
             compact_section = compact_text(section)
             if "$" in compact_section or "\\" in compact_section:
                 compact_section = compact_text(normalize_math(section))
+            compact_section = _greek_to_latex(compact_section)
             for qm in (f"{qn}.\u3010\u7b54\u6848\u3011", f"{qn}\u3010\u7b54\u6848\u3011", f"{qn}.", f"{qn} "):
                 pos = compact_section.find(qm)
                 if pos < 0:

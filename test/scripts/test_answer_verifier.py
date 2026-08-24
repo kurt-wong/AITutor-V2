@@ -285,3 +285,22 @@ def test_structured_condensed_answer_partial_stays_unverifiable():
     ver = av.verify_one("17", answer, None, evidence)
     assert ver.status == av.UNVERIFIABLE
     assert ver.reason == "structured_partial"
+
+
+def test_structured_unicode_greek_matches_latex_answer_area():
+    """DB 纯文本 Unicode θ vs 答案区 LaTeX \\theta（物理 PPS 版 Q20 类）。
+
+    PPS 提取 DB 答案 "（1）f=F sinθ"（Unicode θ），答案区 OCR 是
+    "$f=F\\sin\\theta$"（归一化后 "f=Fsintheta"）——θ vs theta 不匹配。
+    _greek_to_latex 两侧同规后应全部命中。
+    """
+    ocr = (
+        "参考答案 20.(11分)解:(1)由平衡条件可得$f=F\\sin\\theta$(2分)"
+        "(2)所以小包裹通过传送带的时间为$t=t_1+t_2=4.5\\text{s}$(1分)"
+        "(3)可得$\\frac{f_1}{f_2}=\\cos\\theta$(1分)"
+    )
+    evidence = av.build_evidence("", "", ocr)
+    answer = "（1）f=F sinθ；（2）t=4.5s；（3）f1/f2=cosθ"
+    ver = av.verify_one("20", answer, None, evidence)
+    assert ver.status == av.MATCHED
+    assert ver.evidence_kind == "structured"
