@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""上传二中数学 PDF 触发管线（e2e_ingestion 测试前置文档）。"""
+# -*- coding: utf-8 -*-
+"""上传二中数学 PDF 触发管线（PPS 重跑，验证 Q15 负号 + 统一数据源）。"""
 import asyncio
 import io
 import sys
