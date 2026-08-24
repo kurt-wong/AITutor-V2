@@ -366,6 +366,17 @@ def _find_free_text(
     return False, "", ""
 
 
+def _strip_score_annotations(s: str) -> str:
+    """去掉分值注记（"（2分）"、"（2分公式1分结果1分）"）与分隔符。
+
+    2026-08-25：答案区内联解答穿插分值注记，如物理 Q17
+    "(1)a=0.2m/s²(2分公式1分结果1分)(2)…"，须剥掉才能连续比对。
+    """
+    s = re.sub(r"[（(]\s*\d+\s*分[^（(]*[)）]", "", s)
+    s = s.replace("\uff1b", "").replace(";", "")
+    return s
+
+
 def _find_sub_answer(
     qn: str,
     sub_qno: str,
@@ -389,10 +400,7 @@ def _find_sub_answer(
     exp = re.sub(r"^[(（][0-9]+[)）]", "", exp)
 
     def tolerant(s: str) -> str:
-        s = compact_text(s)
-        s = re.sub(r"[（(]\s*\d+\s*分\s*[)）]", "", s)
-        s = s.replace("\uff1b", "").replace(";", "")
-        return s
+        return _strip_score_annotations(compact_text(s))
 
     fragment = tolerant(exp)
     if not fragment:
@@ -418,7 +426,7 @@ def _find_sub_answer(
                 if spos < 0:
                     continue
                 paren_hit = True
-                sub_window = tolerant(window[spos : spos + 300])
+                sub_window = tolerant(window[spos : spos + 2000])
                 if fragment in sub_window:
                     return True, "composite", "pdf_raw_text"
             if not paren_hit:
@@ -426,10 +434,71 @@ def _find_sub_answer(
                     spos = window.find(sm)
                     if spos < 0:
                         continue
-                    sub_window = tolerant(window[spos : spos + 300])
+                    sub_window = tolerant(window[spos : spos + 2000])
                     if fragment in sub_window:
                         return True, "composite", "pdf_raw_text"
     return False, "", ""
+
+
+def _split_structured(answer: str) -> list[tuple[str, str]]:
+    """拆分（1）…；（2）… 结构化答案 → [(子号, 子答案文本)]。"""
+    parts: list[tuple[str, str]] = []
+    for m in re.finditer(r"[（(]\s*(\d+)\s*[)）]\s*([^（(；;]+)", answer or ""):
+        parts.append((m.group(1), m.group(2).strip()))
+    return parts
+
+
+def _find_structured_answer(
+    qn: str,
+    answer: str,
+    evidence: DocumentAnswerEvidence,
+) -> tuple[bool, int]:
+    """（1）…；（2）… 结构化精简答案的分部核对。
+
+    2026-08-25 物理 Q17/Q20 类：DB 答案为精简版
+    （"（1）$a=0.2\\text{m/s}^2$；（2）$m=70\\text{kg}$；…"），答案区是完整
+    解答（含中间步骤与分值注记），整段/首 20 字符无法命中。按子部分拆：
+    每部分 LaTeX 归一化后取 "=" 后核心值，在题号标记 + 子题标记锚定的
+    答案区窗口内逐一核对；全部命中才 matched（部分命中 → 保持 unverifiable）。
+    返回 (全部命中, 命中数)。
+    """
+    parts = _split_structured(answer)
+    if len(parts) < 2:
+        return False, 0
+    found = 0
+    for sub_no, part_text in parts:
+        norm = compact_text(normalize_math(part_text))
+        if not norm:
+            continue
+        fragment = norm.split("=")[-1].strip() if "=" in norm else norm.strip()
+        fragment = _strip_score_annotations(fragment)
+        if len(fragment) < 3:
+            continue  # 片段过短不参与（保守，避免误命中）
+        matched = False
+        for section in evidence.answer_sections:
+            compact_section = compact_text(section)
+            if "$" in compact_section or "\\" in compact_section:
+                compact_section = compact_text(normalize_math(section))
+            for qm in (f"{qn}.\u3010\u7b54\u6848\u3011", f"{qn}\u3010\u7b54\u6848\u3011", f"{qn}.", f"{qn} "):
+                pos = compact_section.find(qm)
+                if pos < 0:
+                    continue
+                window = compact_section[pos : pos + 2000]
+                for sm in (f"({sub_no})", f"\uff08{sub_no}\uff09"):
+                    spos = window.find(sm)
+                    if spos < 0:
+                        continue
+                    sub_window = _strip_score_annotations(window[spos : spos + 2000])
+                    if fragment in sub_window:
+                        matched = True
+                        break
+                if matched:
+                    break
+            if matched:
+                break
+        if matched:
+            found += 1
+    return found == len(parts), found
 
 
 def verify_one(
@@ -535,6 +604,18 @@ def verify_one(
             evidence_source=source,
         )
 
+    # （1）…；（2）… 结构化精简答案：分部核对（仅非综合题）。
+    # 2026-08-25 物理 Q17/Q20 类：DB 为精简版（"（1）a=0.2m/s²；…"），
+    # 答案区为完整解答（含中间步骤与分值注记），整段无法命中。按子部分拆，
+    # 每部分取 "=" 后核心值在题号+子题标记锚定窗口内核对；全部命中才 matched。
+    # 综合题（有 sub_questions）走 composite 子题路径，不在此处理（Q15/Q16）。
+    if not subs:
+        structured_all, structured_found = _find_structured_answer(qn, answer, evidence)
+        if structured_all:
+            return AnswerVerification(status=MATCHED, evidence_kind="structured")
+        if structured_found > 0:
+            return AnswerVerification(reason="structured_partial")
+
     # 综合题：父题整体匹配失败后，按子题逐个搜索内联答案。
     # 2026-08-25 物理 Q15/Q16：子题号为"（1）"非数字，verify_one 数字路径
     # 无法验证；父题整体又因全角/半角+分值注记整段命不中。此处若全部子题
@@ -566,9 +647,17 @@ def verify_one(
         return AnswerVerification(reason="missing_answer_evidence")
     if re.fullmatch(r"[A-G]{1,4}", answer_text):
         return AnswerVerification(reason="no_answer_evidence")
-    # 长自由文本答案（作文/长解答题）无法自动验证 → 需人工审核
-    # （2026-08-25：区别于短答案的 free_text_answer，语义更诚实）。
+    # 长自由文本答案（作文/长解答题）：答案区无题号标记时（如英语 Q46
+    # 作文区是"第二节(20分) One possible version: Dear Jim, …"，无 "46."
+    # 锚点），_find_free_text 无法命中。若答案前 40 字符在答案区逐字出现，
+    # 视为答案与参考答案一致（有证据）→ matched；否则需人工审核
+    # （essay_manual_review，2026-08-25）。
     if len(answer_text) >= _ESSAY_MIN_LENGTH:
+        fragment = answer_text[:40]
+        if fragment:
+            for section in evidence.answer_sections:
+                if fragment in compact_text(section):
+                    return AnswerVerification(status=MATCHED, evidence_kind="essay")
         return AnswerVerification(reason="essay_manual_review")
     return AnswerVerification(reason="free_text_answer")
 

@@ -512,6 +512,7 @@ async def load_document(conn, subject: str) -> SubjectReport | None:
     raw_text = _extract_pdf_raw_text(subject, doc["filename"] or "")
     native_text = doc["native_markdown"] or ""
     ocr_text = doc["ocr_markdown"] or ""
+    native_compact = compact_text(native_text)
     answer_verifications = verify_document_answers(
         [dict(r) for r in db_rows],
         raw_text,
@@ -540,6 +541,7 @@ async def load_document(conn, subject: str) -> SubjectReport | None:
             source_compact=source_compact,
             headers_in_source=headers_in_source,
             answer_verification=answer_verifications.get(qn),
+            native_compact=native_compact,
         )
         report.results.append(result)
 
@@ -741,6 +743,7 @@ def verify_question(
     source_compact: str,
     headers_in_source: list[str],
     answer_verification: AnswerVerification | None = None,
+    native_compact: str = "",
 ) -> QuestionResult:
     db_stem = (db_row or {}).get("stem") or ""
     db_options = (db_row or {}).get("options")
@@ -756,7 +759,7 @@ def verify_question(
         in_db=db_row is not None,
     )
 
-    verify_stem(result, db_stem, l2_q, pipeline_q, section, sections, source_compact, headers_in_source)
+    verify_stem(result, db_stem, l2_q, pipeline_q, section, sections, source_compact, headers_in_source, native_compact=native_compact)
     verify_material(result, db_stem, section, pipeline_q, source_compact)
     verify_options(result, db_options, pipeline_q, section, l2_q=l2_q)
     if answer_verification is not None:
@@ -805,6 +808,7 @@ def verify_stem(
     sections: list[Section],
     source_compact: str,
     headers_in_source: list[str],
+    native_compact: str = "",
 ) -> None:
     db_compact = compact_text(db_stem)
     if not db_compact:
@@ -834,6 +838,21 @@ def verify_stem(
     contained = bool(section_text and db_compact in section_text)
     coverage = line_coverage(db_stem, section_text) if section_text else 0.0
     in_section = bool(section_text and (contained or coverage >= 0.8))
+
+    # 锚点缺失题（L2/管线均无 stem/shared 行号，如自主命制试题回填的
+    # 物理 Q4/Q7）：section 文本跨度取自 OCR 源，mimo 视觉模型可能在
+    # 题号后插入幻觉标题（"4.滑沙项目受力与运动分析"），使逐字包含失败，
+    # 但题干内容在 native/pdf_raw 源中逐字存在（DB 数据正确，2026-08-25）。
+    # 退化为"内容在文档中存在 + 无串题"判定；越界/串题仍由 bleed 检查拦截。
+    anchorless = not (
+        to_list(l2_q.get("stem_line_ids"))
+        or to_list(l2_q.get("shared_material_line_ids"))
+        or to_list(pipeline_q.get("stem_line_ids"))
+        or to_list(pipeline_q.get("shared_material_line_ids"))
+    )
+    if not in_section and anchorless and native_compact and db_compact in native_compact:
+        in_section = True
+        result.details.append("锚点缺失，stem 在 native 源中逐字存在")
 
     # 行号区间补充校验（比文本跨度可靠）：
     # - Q14-16 诗歌阅读：section 文本跨度从诗歌正文起，标题 `病橘[1]`/作者 `杜甫`
