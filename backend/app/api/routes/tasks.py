@@ -57,6 +57,8 @@ async def retry_task(
     if task.status != "failed":
         return _error_response(409, "TASK_RETRY_INVALID", "Only failed tasks can be retried")
     task = await service.retry_task(task_id)
+    # 2026-08-25 P4 修复：application 层 commit 后已 refresh（onupdate 列
+    # expired → MissingGreenlet 根因），此处直接序列化即可。
     return build_response(_serialize_task(task))
 
 

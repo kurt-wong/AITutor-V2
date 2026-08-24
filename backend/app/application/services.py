@@ -79,6 +79,9 @@ class TaskApplicationService:
         )
         await self.task_service.commit()
         await self.event_service.commit()
+        # 2026-08-25 P4 修复：commit 后 onupdate 列（updated_at）expired，
+        # 路由 _serialize_task 同步访问触发 MissingGreenlet；refresh 加载。
+        await self.task_service.refresh(task)
         return task
 
 

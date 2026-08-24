@@ -164,6 +164,12 @@ class DocumentProcessor:
         注意：不用 tempfile.mkdtemp —— 其 mode=0o700 在沙箱环境下创建的
         子目录 ACL 只授予沙箱 SID，后续写入被拒（WinError 5/Errno 13）。
         改用 Path.mkdir 继承工作区 tmp 的可写 ACL + uuid 唯一目录名。
+
+        2026-08-25 P2 修复：filename 为 URL 编码（中文膨胀 3 倍），
+        tmp/aitutors_xxx/<filename> 完整路径在 Windows 超 MAX_PATH(260) 时
+        写文件失败（Errno 2，批次验证 P2：路径 261/297 的文档下载失败）。
+        临时文件名改为短名（doc_<uuid>.pdf），管线内 filename 参数仍传原值
+        用于日志/OCR 提交展示，不再由本地路径承载。
         """
         import asyncio
         import uuid
@@ -171,7 +177,8 @@ class DocumentProcessor:
         _WORKSPACE_TMP.mkdir(parents=True, exist_ok=True)
         tmp_dir = _WORKSPACE_TMP / f"aitutors_{uuid.uuid4().hex[:8]}"
         tmp_dir.mkdir(parents=True, exist_ok=True)
-        pdf_path = tmp_dir / filename
+        # P2：短临时文件名（长度固定，路径必然 < 260）
+        pdf_path = tmp_dir / f"doc_{uuid.uuid4().hex[:8]}.pdf"
 
         # 下载文件（使用线程池避免阻塞事件循环）
         data = await asyncio.to_thread(self.storage.get_object, object_key)

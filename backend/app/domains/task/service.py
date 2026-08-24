@@ -132,5 +132,15 @@ class TaskService:
         await self.repository.session.flush()
         return task
 
+    async def refresh(self, task: BackgroundTask) -> BackgroundTask:
+        """显式重新加载 ORM 实例属性。
+
+        2026-08-25 P4 修复：onupdate 列（updated_at 等）在 flush 后标记为
+        待从 DB 取回（expired），async 路由里 _serialize_task 同步访问触发
+        MissingGreenlet。commit 后 refresh 一次，属性即已加载。
+        """
+        await self.repository.session.refresh(task)
+        return task
+
     async def commit(self) -> None:
         await self.repository.commit()
