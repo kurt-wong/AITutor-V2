@@ -835,6 +835,24 @@ def verify_stem(
     coverage = line_coverage(db_stem, section_text) if section_text else 0.0
     in_section = bool(section_text and (contained or coverage >= 0.8))
 
+    # 行号区间补充校验（比文本跨度可靠）：
+    # - Q14-16 诗歌阅读：section 文本跨度从诗歌正文起，标题 `病橘[1]`/作者 `杜甫`
+    #   行落在跨度外（行覆盖 67%），但行号在 section 区间内；
+    # - Q22 语言基础运用：源文本题干行在材料之前（`…22.阅读文字…①《乡土中国》…`），
+    #   材料优先合并后文本跨度不含题干行（行覆盖 50%），行号区间含之。
+    # 两者 DB 数据均正确，纯文本包含检查产生误报（2026-08-25 语文位置 4 题）。
+    # 越界/串题仍由下方 bleed 检查独立拦截（能抓到真实串题，如 Q17）。
+    line_span_ok = False
+    if section.id_min is not None and not in_section:
+        q_ids: list[str] = []
+        q_ids.extend(str(lid) for lid in to_list(pipeline_q.get("stem_line_ids")))
+        q_ids.extend(str(lid) for lid in to_list(pipeline_q.get("shared_material_line_ids")))
+        if q_ids:
+            # _lid_within 对无法解析的行号采取 fail-open，不会误判失败
+            line_span_ok = all(_lid_within(lid, section) for lid in q_ids)
+    if line_span_ok:
+        in_section = True
+
     # 逐题回退 section（__q_*：LLM 未给 section_id 的独立题，section 即题目
     # 本身）：section 文本范围解析常为空，in_section 包含检查会产生 0% 覆盖
     # 误报（2026-08-25 历史 Q38-43 stem 内容正确仍报位置 N）。此类题的位置
