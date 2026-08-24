@@ -122,3 +122,77 @@ def test_latex_missing_minus_not_false_positive():
     ver = av.verify_one("15", "①. $6$ ②. $-\\frac{7}{3}$", None, evidence)
     assert ver.status == av.UNVERIFIABLE
     assert ver.reason == "free_text_answer"
+
+
+def test_plain_table_with_blank_cells_recovered():
+    """竖排答案表含空单元格（物理八十中 Q4/Q7 空白）不再整体丢弃。
+
+    2026-08-25：10 个题号只有 8 个答案（Q4/Q7 空单元格，答案在文末
+    "自主命制试题答案"单独给出），旧实现 len 不等丢弃整行 → Q3/Q9/Q10
+    失去答案证据。新实现按行重排：空行=空单元格，位置对齐。
+    """
+    raw = (
+        "参考答案\n一、单项选择题\n题号\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n"
+        "答案\nC\nB\nD\n\nC\nD\n\nB\nD\nC\n二、多项选择题\n题号 11 12 13 14\n答案 BC AC AD BC"
+    )
+    evidence = av.build_evidence(raw, "", "")
+    assert evidence.table[1] == "C"
+    assert evidence.table[2] == "B"
+    assert evidence.table[3] == "D"
+    assert evidence.table[5] == "C"
+    assert evidence.table[6] == "D"
+    assert evidence.table[8] == "B"
+    assert evidence.table[9] == "D"
+    assert evidence.table[10] == "C"
+    assert evidence.table[11] == "BC"
+    assert 4 in evidence.blank_qns
+    assert 7 in evidence.blank_qns
+    ver = av.verify_one("3", "D", None, evidence)
+    assert ver.status == av.MATCHED
+    assert ver.evidence_kind == "table"
+
+
+def test_composite_sub_answer_inline_search():
+    """综合题子题答案内联搜索（物理八十中 Q15/Q16 类）。
+
+    子题号"（1）"非数字走不了 verify_one 数字路径；父题整体答案因
+    全角/半角+分值注记插缝整段命不中。按子题逐个在父题号附近搜索。
+    """
+    raw = (
+        "参考答案 三、实验题\n15． （1）1.50 （2 分） （2）不能 （2 分） "
+        "（3）0.50 （2 分）     100（2 分）\n"
+        "16． （1）B （2分）\n（2）使小车所受合力大小等于绳上的拉力大小（2分）\n"
+        "（3）左（1 分）         0.45（0.43~0.46 均可）（2 分）\n（4）C （3 分）"
+    )
+    evidence = av.build_evidence(raw, "", "")
+    subs15 = [
+        {"qno": "(1)", "answer": "1.50"},
+        {"qno": "(2)", "answer": "不能"},
+        {"qno": "(3)", "answer": "0.50；100"},
+    ]
+    ver15 = av.verify_one("15", "（1）1.50；（2）不能；（3）0.50；100", subs15, evidence)
+    assert ver15.status == av.MATCHED
+    assert ver15.evidence_kind == "composite"
+    subs16 = [
+        {"qno": "(1)", "answer": "B"},
+        {"qno": "(2)", "answer": "使小车所受合力大小等于绳上的拉力大小"},
+        {"qno": "(3)", "answer": "左；0.45（0.43~0.46均可）"},
+        {"qno": "(4)", "answer": "C"},
+    ]
+    ver16 = av.verify_one("16", "（1）B；（2）使小车所受合力大小等于绳上的拉力大小；（3）左；0.45 (0.43~0.46均可)；（4）C", subs16, evidence)
+    assert ver16.status == av.MATCHED
+    assert ver16.evidence_kind == "composite"
+
+
+def test_composite_sub_answer_partial_stays_unverifiable():
+    """子题只找到部分（一个错/缺）→ 仍 composite_subquestion，不得算通过。"""
+    raw = "参考答案 15． （1）1.50 （2 分） （2）不能 （2 分） （3）0.50 （2 分）"
+    evidence = av.build_evidence(raw, "", "")
+    subs = [
+        {"qno": "(1)", "answer": "1.50"},
+        {"qno": "(2)", "answer": "可以"},  # 答案区是"不能"，找不到"可以"
+        {"qno": "(3)", "answer": "0.50"},
+    ]
+    ver = av.verify_one("15", "（1）1.50；（2）可以；（3）0.50", subs, evidence)
+    assert ver.status == av.UNVERIFIABLE
+    assert ver.reason == "composite_subquestion"

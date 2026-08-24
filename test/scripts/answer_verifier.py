@@ -207,19 +207,60 @@ def _parse_html_tables(text: str) -> tuple[dict[int, str], set[int]]:
     return mapping, blank_qns
 
 
+def _row_cells(lines: list[str], row_idx: int, end_idx: int, marker: str) -> list[str]:
+    """提取表格一行的单元格（"题号"/"答案"标记行）。
+
+    同行空格分隔优先；否则后续每行一个单元格（空行 = 空单元格），
+    遇到下一个"题号/答案"标记或大题标题行停止。
+    """
+    head = lines[row_idx].split(marker, 1)[1]
+    head_cells = head.split()
+    if head_cells:
+        return head_cells
+    cells: list[str] = []
+    for ln in lines[row_idx + 1 : end_idx]:
+        stripped = ln.strip()
+        if re.match(r"^[一二三四五六七八九十]+、", stripped) or re.match(r"^(?:题号|答案)\b", stripped):
+            break
+        cells.append(stripped)
+    return cells
+
+
 def _parse_plain_table(text: str) -> tuple[dict[int, str], set[int]]:
     mapping: dict[int, str] = {}
+    blank_qns: set[int] = set()
     for m in re.finditer(
         r"\u9898\u53f7\s*((?:\d+\s*)+)\s*\u7b54\u6848\s*((?:[A-G]+\s*)+)",
         text,
     ):
         nums = [int(x) for x in m.group(1).split()]
         ans = [x.upper() for x in m.group(2).split()]
-        if len(nums) != len(ans):
+        if len(nums) == len(ans):
+            for num, answer in zip(nums, ans):
+                mapping[num] = answer
             continue
-        for num, answer in zip(nums, ans):
-            mapping[num] = answer
-    return mapping, set()
+        # 长度不等：答案行存在空单元格（如物理八十中单选题表 Q4/Q7 空白，
+        # 其答案在文末"自主命制试题答案"单独给出），(?:[A-G]+\s*)+ 无法
+        # 捕获占位导致整行被丢弃 → Q3/Q9/Q10 失去答案证据（2026-08-25）。
+        # 改按原始行结构重排：竖排每格一行，空行 = 空单元格，位置对齐。
+        raw = m.group(0)
+        lines = raw.splitlines()
+        ti = next((i for i, ln in enumerate(lines) if "\u9898\u53f7" in ln), -1)
+        ai = next((i for i, ln in enumerate(lines) if "\u7b54\u6848" in ln), -1)
+        if ti < 0 or ai < 0:
+            continue
+        num_cells = _row_cells(lines, ti, ai, "\u9898\u53f7")
+        ans_cells = _row_cells(lines, ai, len(lines), "\u7b54\u6848")
+        if len(num_cells) != len(ans_cells):
+            continue  # 仍无法对齐，保守跳过（同旧行为）
+        for num_cell, ans_cell in zip(num_cells, ans_cells):
+            if not num_cell.isdigit():
+                continue
+            if ans_cell:
+                mapping[int(num_cell)] = ans_cell.upper()
+            else:
+                blank_qns.add(int(num_cell))
+    return mapping, blank_qns
 
 
 def _parse_prefix(text: str) -> dict[int, str]:
@@ -275,10 +316,11 @@ def build_evidence(raw_text: str | None, native_text: str | None, ocr_text: str 
     # 表格证据优先级：raw plain 先填，缺失列再用 native/OCR 补。
     # 不能整体覆盖：OCR 表格可能把生物答案识别成 a/∀/つ，只能补 raw 缺失项。
     for source_name, source_text in sources:
-        table, _ = _parse_plain_table(answer_section(source_text or ""))
+        table, blank = _parse_plain_table(answer_section(source_text or ""))
         for qn, answer in table.items():
             if qn not in evidence.table:
                 evidence.table[qn] = answer
+        evidence.blank_qns.update(blank)
     for source_name, source_text in sources:
         table, blank = _parse_html_tables(source_text or "")
         for qn, answer in table.items():
@@ -321,6 +363,72 @@ def _find_free_text(
             window = compact_section[pos : pos + 2000]
             if fragment in window or exp[:12] in window:
                 return True, "free_text", "pdf_raw_text"
+    return False, "", ""
+
+
+def _find_sub_answer(
+    qn: str,
+    sub_qno: str,
+    sub_answer: str,
+    evidence: DocumentAnswerEvidence,
+) -> tuple[bool, str, str]:
+    """综合题子题答案的内联搜索（父题标记 → 子题标记 → 窗口宽松包含）。
+
+    2026-08-25 物理八十中 Q15/Q16：答案区内联给出子题答案
+    （"15.（1）1.50（2分）（2）不能（2分）…"），但子题号是"（1）"非数字，
+    verify_one 数字路径走不了；父题整体答案又因全角/半角与分值注记插缝
+    无法整段命中。这里按子题逐个搜索：
+    - 先定位父题号标记（"15."等），
+    - 在窗口内定位子题标记（"(1)"/"（1）"），
+    - 子题窗口做宽松归一（去分值注记、分隔符）后做包含比对。
+    仅在父题整体匹配失败后启用，不改变"父题整体即命中"学科（如生物）的行为。
+    """
+    exp = compact_text(sub_answer)
+    if not exp:
+        return False, "", ""
+    exp = re.sub(r"^[(（][0-9]+[)）]", "", exp)
+
+    def tolerant(s: str) -> str:
+        s = compact_text(s)
+        s = re.sub(r"[（(]\s*\d+\s*分\s*[)）]", "", s)
+        s = s.replace("\uff1b", "").replace(";", "")
+        return s
+
+    fragment = tolerant(exp)
+    if not fragment:
+        return False, "", ""
+    inner = str(sub_qno or "").strip("\uff08\uff09()")
+    sub_markers: list[str] = []
+    if inner:
+        sub_markers = [f"({inner})", f"\uff08{inner}\uff09", inner]
+    for section in evidence.answer_sections:
+        compact_section = compact_text(section)
+        if "$" in compact_section or "\\" in compact_section:
+            compact_section = compact_text(normalize_math(section))
+        for qm in (f"{qn}.\u3010\u7b54\u6848\u3011", f"{qn}\u3010\u7b54\u6848\u3011", f"{qn}.", f"{qn} "):
+            pos = compact_section.find(qm)
+            if pos < 0:
+                continue
+            window = compact_section[pos : pos + 2000]
+            paren_hit = False
+            for sm in sub_markers:
+                if not sm.startswith("(") and not sm.startswith("\uff08"):
+                    continue
+                spos = window.find(sm)
+                if spos < 0:
+                    continue
+                paren_hit = True
+                sub_window = tolerant(window[spos : spos + 300])
+                if fragment in sub_window:
+                    return True, "composite", "pdf_raw_text"
+            if not paren_hit:
+                for sm in sub_markers:
+                    spos = window.find(sm)
+                    if spos < 0:
+                        continue
+                    sub_window = tolerant(window[spos : spos + 300])
+                    if fragment in sub_window:
+                        return True, "composite", "pdf_raw_text"
     return False, "", ""
 
 
@@ -426,6 +534,27 @@ def verify_one(
             evidence_kind=kind,
             evidence_source=source,
         )
+
+    # 综合题：父题整体匹配失败后，按子题逐个搜索内联答案。
+    # 2026-08-25 物理 Q15/Q16：子题号为"（1）"非数字，verify_one 数字路径
+    # 无法验证；父题整体又因全角/半角+分值注记整段命不中。此处若全部子题
+    # 在父题号附近的答案区内找到 → matched；部分找到 → composite_subquestion。
+    if sub_total > 0:
+        sub_found = 0
+        for sub in subs:
+            if not isinstance(sub, dict):
+                continue
+            sub_answer_text = compact_text(sub.get("answer") or "")
+            if not sub_answer_text:
+                continue
+            sub_qno_text = str(sub.get("qno") or "")
+            ok, _k, _s = _find_sub_answer(qn, sub_qno_text, sub_answer_text, evidence)
+            if ok:
+                sub_found += 1
+        if sub_found == sub_total:
+            return AnswerVerification(status=MATCHED, evidence_kind="composite")
+        if sub_found > 0:
+            return AnswerVerification(reason="composite_subquestion")
 
     # 子题有部分 matched 但未全部 → composite_subquestion（证据不完整，不可算通过）
     if sub_total > 0 and sub_matched > 0 and sub_matched < sub_total:

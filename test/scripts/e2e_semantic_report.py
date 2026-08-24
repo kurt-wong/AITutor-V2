@@ -899,6 +899,17 @@ def verify_material(
     pipeline_q: dict,
     source_compact: str,
 ) -> None:
+    # 自共享材料：管线把本题自己的题干行同时标为 shared_material
+    # （实验题各题自带装置描述，如物理八十中 Q15/Q16 的 shared_material == stem，
+    # shared_material_line_ids == stem_line_ids）。此时材料即题干本身，题干已过
+    # stem 校验，材料要求视为满足；否则 section 归并会用首题材料误套后续题
+    # （物理 Q16 材料覆盖 7% 假阳性，2026-08-25）。
+    own_shared_ids = to_list(pipeline_q.get("shared_material_line_ids"))
+    own_stem_ids = to_list(pipeline_q.get("stem_line_ids"))
+    if own_shared_ids and own_shared_ids == own_stem_ids:
+        result.material_hit = True
+        return
+
     expected = ""
     if section and section.has_shared_material:
         expected = section.shared_text
