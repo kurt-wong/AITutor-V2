@@ -53,6 +53,8 @@ class DocumentProcessor:
         document_id: UUID,
         object_key: str,
         filename: str,
+        subject: str | None = None,
+        ocr_model: str | None = None,
     ) -> PipelineResult:
         """处理单个文档。
 
@@ -61,6 +63,10 @@ class DocumentProcessor:
             document_id: 文档 ID
             object_key: MinIO 对象键
             filename: 文件名
+            subject: 学科名（2026-08-25 修复：文件名为 URL 编码，文件名提取
+                不到中文学科名 → 化学 VL 路由失效走 PPS；由 worker 从
+                document.subject 传入）。
+            ocr_model: 显式 OCR 模型覆盖（如"PaddleOCR-VL-1.6"），优先级最高。
 
         Returns:
             PipelineResult: 管线执行结果
@@ -87,6 +93,8 @@ class DocumentProcessor:
             result = await run_simple_pipeline(
                 pdf_path=pdf_path,
                 filename=filename,
+                subject=subject,
+                ocr_model=ocr_model,
                 gateway=self.gateway,
                 progress_callback=progress_cb,
             )

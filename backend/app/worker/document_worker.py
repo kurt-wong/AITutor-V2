@@ -68,6 +68,8 @@ async def document_parse_worker(
 
             task = tasks[0]
             document_id = UUID(task.payload_json["document_id"])
+            # 2026-08-25：显式 OCR 模型覆盖（上传时可选传入，如语文 VL 重跑）
+            ocr_model = (task.payload_json or {}).get("ocr_model") or None
             logger.info("worker: picked up task %s for document %s", task.id, document_id)
 
             # 从 DB 获取 document 信息
@@ -92,6 +94,8 @@ async def document_parse_worker(
                     document_id=document_id,
                     object_key=document.object_key,
                     filename=document.filename,
+                    subject=document.subject,
+                    ocr_model=ocr_model,
                 )
 
                 # C5/C6: 根据 result.status 设置 document 状态

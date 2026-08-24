@@ -109,6 +109,7 @@ class DocumentApplicationService:
         grade: str | None = None,
         year: int | None = None,
         school: str | None = None,
+        ocr_model: str | None = None,
     ) -> tuple[Document, BackgroundTask]:
         object_key = f"documents/{uuid4().hex}/{Path(filename).name}"
         self.storage.put_object(
@@ -128,7 +129,7 @@ class DocumentApplicationService:
         )
         task = await self.task_service.create_task(
             task_type="document_parse",
-            payload={"document_id": str(document.id)},
+            payload={"document_id": str(document.id), "ocr_model": ocr_model},
         )
         await self.event_service.publish(
             event_type="DocumentUploaded",

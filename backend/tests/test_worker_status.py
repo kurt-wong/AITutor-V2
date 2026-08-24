@@ -911,6 +911,7 @@ class TestRollbackAtomicity:
             filename="test.pdf",
             processing_status="processing",
             error_message=None,
+            subject="数学",
         )
 
         # 第一次 commit（标记 processing）成功，第二次（最终提交）失败
@@ -997,6 +998,7 @@ class TestRollbackAtomicity:
             filename="test.pdf",
             processing_status="processing",
             error_message=None,
+            subject="数学",
         )
 
         # 第一次 commit（标记 processing）成功，第二次（except 路径）失败

@@ -26,6 +26,7 @@ async def upload_documents(
     subject: str | None = Form(None),
     grade: str | None = Form(None),
     year: int | None = Form(None),
+    ocr_model: str | None = Form(None),
     service: DocumentApplicationService = Depends(get_document_application_service),
 ) -> dict | JSONResponse:
     document_ids: list[str] = []
@@ -49,6 +50,7 @@ async def upload_documents(
                 subject=subject,
                 grade=grade,
                 year=year,
+                ocr_model=ocr_model,
             )
         except StorageError as exc:
             return _error_response(500, "UPLOAD_FAILED", str(exc))
