@@ -444,11 +444,38 @@ def _find_sub_answer(
     return False, "", ""
 
 
+_CIRCLED_SUB = {
+    "\u2460": "1", "\u2461": "2", "\u2462": "3", "\u2463": "4",
+    "\u2464": "5", "\u2465": "6", "\u2466": "7", "\u2467": "8",
+    "\u2468": "9", "\u2469": "10",
+}
+
+
 def _split_structured(answer: str) -> list[tuple[str, str]]:
-    """拆分（1）…；（2）… 结构化答案 → [(子号, 子答案文本)]。"""
+    """拆分（1）…；（2）… 或 ①…②… 结构化答案 → [(子号, 子答案文本)]。
+
+    2026-08-31 数学 Q15：DB 答案用圈号 "①. $6$ ②. $-\frac{7}{3}$"
+    （无括号子号），原正则只认（N）→ parts 为空 → 退化为 free_text 失败。
+    此处同时支持圈号 ①-⑩，按标记位置切分（子答案 = 本标记到下一标记间）。
+    """
+    pattern = re.compile(r"[（(]\s*(\d+)\s*[)）]|([\u2460-\u2469])")
+    spans: list[tuple[int, str]] = []
+    for m in pattern.finditer(answer or ""):
+        if m.group(1) is not None:
+            spans.append((m.start(), m.group(1)))
+        else:
+            spans.append((m.start(), _CIRCLED_SUB[m.group(2)]))
     parts: list[tuple[str, str]] = []
-    for m in re.finditer(r"[（(]\s*(\d+)\s*[)）]\s*([^（(；;]+)", answer or ""):
-        parts.append((m.group(1), m.group(2).strip()))
+    for i, (pos, sub_no) in enumerate(spans):
+        end = spans[i + 1][0] if i + 1 < len(spans) else len(answer or "")
+        text = (answer or "")[pos:end]
+        # 去掉子号标记本身与紧随的句点分隔（"①. " → ""），再清内部残留子号。
+        # 注意只能用 ^ 锚定的开头清洗，通用空白/句点 regex 会误删公式小数
+        # 点（"0.2"→"02"、"1.5N"→"15N"，2026-08-31 实测）。
+        text = re.sub(r"^[（(]\s*\d+\s*[)）]|^[\u2460-\u2469]", "", text)
+        text = re.sub(r"^[.．\uff0e\u3000\s]+", "", text)
+        text = re.sub(r"[（(]\s*\d+\s*[)）]|[\u2460-\u2469]", "", text)
+        parts.append((sub_no, text.strip()))
     return parts
 
 
@@ -492,6 +519,11 @@ def _find_structured_answer(
     返回 (全部命中, 命中数)。
     """
     parts = _split_structured(answer)
+    # 2026-08-31 物理 Q18（1）：答案在受力分析图中，DB 用"见解析"占位
+    # （答案区该子部分无文本答案，只有分值注记）。"见解析/见详解"语义 =
+    # 答案在解析/图中，无文本可比对——从核对清单剔除（不要求匹配、不计缺失），
+    # 但其余子部分仍须全部命中才 matched。
+    parts = [p for p in parts if not re.search(r"见\s*(解析|详解)", p[1])]
     if len(parts) < 2:
         return False, 0
     found = 0
@@ -499,11 +531,16 @@ def _find_structured_answer(
         norm = compact_text(normalize_math(part_text))
         if not norm:
             continue
+        # 2026-08-31 物理 Q20（3）：DB 答案含等价表述 "（或f2/f1=1/cosθ）"，
+        # 答案区只给主式 `\cos\theta`。须在 split("=") 前剥离，否则内层 "="
+        # 会把 fragment 拆成 "或" 分支的值（"1/costheta)"）。
+        norm = re.sub(r"[（(]或[^（(]*[)）]", "", norm)
         fragment = norm.split("=")[-1].strip() if "=" in norm else norm.strip()
         fragment = _strip_score_annotations(fragment)
         fragment = _greek_to_latex(fragment)
-        if len(fragment) < 3:
-            continue  # 片段过短不参与（保守，避免误命中）
+        if not fragment:
+            continue
+        short = len(fragment) < 3
         matched = False
         for section in evidence.answer_sections:
             compact_section = compact_text(section)
@@ -520,9 +557,17 @@ def _find_structured_answer(
                     if spos < 0:
                         continue
                     sub_window = _strip_score_annotations(window[spos : spos + 2000])
-                    if fragment in sub_window:
+                    # 短片段（纯数字值如 "6"）只查子题标记紧邻区（数学 Q15 ①.$6$），
+                    # 避免窗口越界命中后续题号/详解中的无关数字。
+                    probe = sub_window[:80] if short else sub_window
+                    if fragment in probe:
                         matched = True
                         break
+                # 2026-08-31 数学 Q15（2）：负号值在答案行 OCR 丢失（"~7/3"），
+                # 但题号窗口内详解含正确值（"取最小值-7/3"）——窗口级再搜一次。
+                if not matched and fragment.startswith("-") and len(fragment) >= 3:
+                    if fragment in window:
+                        matched = True
                 if matched:
                     break
             if matched:
