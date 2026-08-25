@@ -2287,3 +2287,36 @@ verifier 单测 20 passed（含原有 Q17/Q20 结构化用例）。
 地理 27/27（真实）、**物理 20/20**、**数学 23/23**。
 
 **版本升至 6.31。**
+
+### 2026-08-25 01:30:00
+
+#### 30 份样本验证（61%）+ P2/P4 修复 + 审计结论（版本 6.32）
+
+**样本扩展验证**：test/pdf 30 份全部入库（10 份已有 completed + 20 份新跑）。
+新样本原始质量 **134/219 (61%)**（零人工干预）；stem/位置/材料覆盖 92%+，
+缺陷集中在答案/入库环节。运行期问题 P1-P9（MinIO 文件名、260 路径、paddle
+熔断 10010、retry 500、僵尸任务、deepseek 慢、worker 挂死、VL 队列满、
+脚本 env 路径）全部记录。
+
+**P2 修复（Windows 260 路径限制）**：`processor._download_pdf` 临时文件名
+改为短名 `doc_<uuid>.pdf`（管线 filename 仍传原值）。验证：51bf043c
+（路径 261）与 19086f92（路径 297）——两个曾必失败的文档均 completed
+（ingested 18/21、26/26）。
+
+**P4 修复（retry API 500）**：根因 = retry commit 后 onupdate 列 expired，
+`_serialize_task` 同步访问触发 MissingGreenlet。修复 = TaskService 新增
+`refresh()`，application 层 commit 后 refresh。验证：retry API 返回 409
+（正确业务响应，不再 500）。
+
+**审计结论（未修，记录根因）**：
+- 化学 17 mismatch：**同号题锚定冲突**（选择题答案表 vs 综合题详解，卷面
+  存在多个同号"2."）——提取/锚定层缺陷，非 OCR 问题。
+- 入库缺口（数学 3 题、生物 9 题）：**选择题题干/答案提取失败**
+  （stem_empty / 锚点需重新标注 / answer_empty）。
+- 地理育英 23 U：**答案区无题号锚点**（no_answer_evidence）——验证口径
+  需适配答案区结构。
+- P10：worker LLM 请求挂死复发（P7 在 answer_extractor、P10 在
+  llm_annotation；deepseek 探测正常）——重启 worker 恢复；**待修**：LLM
+  调用加超时/心跳。
+
+**版本升至 6.32。**
