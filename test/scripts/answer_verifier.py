@@ -284,6 +284,16 @@ def _parse_prefix(text: str) -> dict[int, str]:
         m = re.match(r"^\s*(\d+)[.\u3001\uff0e]\s*([^\s,,\uff0c;;\uff1b]+)", line)
         if m:
             add(m.group(1), m.group(2))
+    # 2026-08-25 地理育英卷：选择题答案是区间压缩格式
+    # "1——5CBDCA6——10CADAB11——15DACDC"（题号区间 + 连续字母答案），
+    # 无逐题锚点 → 原解析漏掉 1-25 → no_answer_evidence。
+    # 展开为 {题号: 字母}。答案长度须与区间宽度一致（防 OCR 错位误配）。
+    for m in re.finditer(r"(\d+)\s*[\u2014\u2013-]{1,3}\s*(\d+)\s*([A-Ga-g]+)", text):
+        start, end = int(m.group(1)), int(m.group(2))
+        answers = m.group(3).upper()
+        if 1 <= end - start + 1 <= 30 and len(answers) == end - start + 1:
+            for i, ch in enumerate(answers):
+                mapping[start + i] = ch
     return mapping
 
 
