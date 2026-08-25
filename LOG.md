@@ -2320,3 +2320,29 @@ verifier 单测 20 passed（含原有 Q17/Q20 结构化用例）。
   调用加超时/心跳。
 
 **版本升至 6.32。**
+
+### 2026-08-25 02:30:00
+
+#### worker LLM 挂死 P7/P10 双层超时兜底（版本 6.33）
+
+**根因**：`LLM_REQUEST_TIMEOUT_SECONDS=300` 是 httpx **空闲超时**（两次
+数据读取间隔），deepseek 流式响应持续有数据时可远超总时长（实测最长
+339s 成功）；而挂死场景（连接挂起无数据且不关闭）空闲超时可能失效 →
+请求无限等待 → 单任务卡死阻塞整个批次（P7 answer_extractor、P10
+llm_annotation 两次出现，deepseek 探测均正常）。
+
+**修复（双层兜底）**：
+1. **LLM 层**（`ai/providers/http.py` `_post_completion`）：请求包
+   `asyncio.wait_for` 总时长兜底 = `max(2×空闲超时, 600s)`——容纳正常
+   reasoning 响应（~6min），挂死请求 10min 内强制取消 → TimeoutError
+   （继承 OSError，走既有重试/失败路径）。新增 `total_timeout_seconds`
+   参数便于测试注入。
+2. **worker 层**（`worker/document_worker.py`）：`process_document` 整体
+   `asyncio.wait_for` 3600s 兜底；超时取消后 task 幂等标记 failed
+   （不再僵尸），可重试（P4 已修 retry）。
+
+**验证**：新增 `backend/tests/test_http_provider_timeout.py` 3 用例
+（挂死请求总超时取消、挂死重试后抛错、正常请求不受影响）；相关套件
+36 passed 无回归。提交 `9bf6594`。
+
+**版本升至 6.33。**
