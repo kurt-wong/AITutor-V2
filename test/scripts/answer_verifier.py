@@ -317,20 +317,47 @@ def build_evidence(raw_text: str | None, native_text: str | None, ocr_text: str 
         if section:
             evidence.answer_sections.append(section)
 
-    # 表格证据优先级：raw plain 先填，缺失列再用 native/OCR 补。
-    # 不能整体覆盖：OCR 表格可能把生物答案识别成 a/∀/つ，只能补 raw 缺失项。
-    for source_name, source_text in sources:
-        table, blank = _parse_plain_table(answer_section(source_text or ""))
-        for qn, answer in table.items():
-            if qn not in evidence.table:
-                evidence.table[qn] = answer
-        evidence.blank_qns.update(blank)
-    for source_name, source_text in sources:
-        table, blank = _parse_html_tables(source_text or "")
-        for qn, answer in table.items():
-            if qn not in evidence.table:
-                evidence.table[qn] = answer
-        evidence.blank_qns.update(blank)
+    # 三源答案表收集（plain + html），冲突投票（2026-08-25 化学锚定消歧）。
+    # 原逻辑"raw 先填、native/OCR 只补缺失"在二附中化学卷失效：pdf_raw
+    # （PyMuPDF 文本层）答案表错位（Q2=D），native+OCR（视觉/表格引擎）
+    # 一致为 B → 被 raw 占位压制 → 验证器误判 mismatch（化学 17 题）。
+    # 改为：同题多源冲突时取多数一致（独立引擎一致优先）；全不同回退
+    # pdf_raw（兼容基线行为）。
+    per_source: dict[str, dict[int, str]] = {}
+    blanks: set[int] = set()
+    for name, source_text in sources:
+        tbl, blank = _parse_plain_table(answer_section(source_text or ""))
+        per_source[name] = dict(tbl)
+        blanks |= blank
+    for name, source_text in sources:
+        tbl, blank = _parse_html_tables(source_text or "")
+        for qn, answer in tbl.items():
+            per_source[name].setdefault(qn, answer)
+        blanks |= blank
+    evidence.blank_qns.update(blanks)
+
+    all_qns: set[int] = set()
+    for tbl in per_source.values():
+        all_qns.update(tbl.keys())
+    for qn in all_qns:
+        groups: dict[str, list[str]] = {}
+        for tbl in per_source.values():
+            value = tbl.get(qn)
+            if value is None:
+                continue
+            groups.setdefault(compact_text(value), []).append(value)
+        if not groups:
+            continue
+        if len(groups) == 1:
+            evidence.table[qn] = next(iter(groups.values()))[0]
+        else:
+            best = max(groups.values(), key=len)
+            if len(best) > 1:
+                evidence.table[qn] = best[0]  # 多数一致优先
+            elif qn in per_source["pdf_raw_text"]:
+                evidence.table[qn] = per_source["pdf_raw_text"][qn]  # 全不同回退 raw
+            else:
+                evidence.table[qn] = next(iter(groups.values()))[0]
 
     for _source_name, source_text in sources:
         section = answer_section(source_text or "")
