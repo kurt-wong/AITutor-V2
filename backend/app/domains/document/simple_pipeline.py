@@ -26,7 +26,10 @@ from app.domains.document.answer_matcher import match_answers
 from app.domains.document.content_slicer import slice_questions
 from app.domains.document.image_deduplicator import deduplicate_images
 from app.domains.document.line_annotator import annotate_document
-from app.domains.document.native_markdown import extract_l1_from_pdf
+from app.domains.document.native_markdown import (
+    extract_l1_from_docx,
+    extract_l1_from_pdf,
+)
 from app.domains.document.ocr.providers import build_ocr_chain
 from app.domains.document.pipeline import (
     PipelineResult,
@@ -346,7 +349,24 @@ async def run_simple_pipeline(
                 logger.debug("progress_callback failed", exc_info=True)
 
     # 1. native 证据 L1
-    if native_doc is None and pdf_path is not None:
+    is_docx = pdf_path is not None and pdf_path.suffix.lower() == ".docx"
+    if is_docx:
+        # DOCX 原生文本：python-docx 直接提取，不需要 OCR
+        try:
+            stage_start = time.perf_counter()
+            native_doc = extract_l1_from_docx(
+                pdf_path, filename=filename
+            )
+            result.add_stage(
+                "native_l1",
+                int((time.perf_counter() - stage_start) * 1000),
+                lines=len(native_doc.lines),
+            )
+        except Exception as exc:
+            result.status = "failed"
+            result.errors.append(f"simple_pipeline docx_l1 failed: {exc}")
+            return result
+    elif native_doc is None and pdf_path is not None:
         try:
             stage_start = time.perf_counter()
             native_doc = extract_l1_from_pdf(
@@ -365,7 +385,13 @@ async def run_simple_pipeline(
         result.native_l1_document = native_doc
 
     # 2. PP canonical L1
-    if ppsv3_doc is None:
+    if is_docx:
+        # DOCX 原生文本即 canonical（无 OCR；ppsv3_doc 复用 native 以通过
+        # 后续非空检查与 merge——两者同一对象时 merge 无变化）。
+        ppsv3_doc = native_doc
+        result.ocr_provider_used = None
+        result.ocr_model_used = None
+    elif ppsv3_doc is None:
         if pdf_path is None:
             result.status = "failed"
             result.errors.append("simple_pipeline: no ppsv3_doc and no pdf_path")

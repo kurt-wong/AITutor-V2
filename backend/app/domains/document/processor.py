@@ -173,12 +173,21 @@ class DocumentProcessor:
         """
         import asyncio
         import uuid
+        from urllib.parse import unquote
 
         _WORKSPACE_TMP.mkdir(parents=True, exist_ok=True)
         tmp_dir = _WORKSPACE_TMP / f"aitutors_{uuid.uuid4().hex[:8]}"
         tmp_dir.mkdir(parents=True, exist_ok=True)
-        # P2：短临时文件名（长度固定，路径必然 < 260）
-        pdf_path = tmp_dir / f"doc_{uuid.uuid4().hex[:8]}.pdf"
+        # P2：短临时文件名（长度固定，路径必然 < 260）。2026-08-25 扩展：
+        # 保留原文件后缀（DOCX 场景），否则 docx 内容被命名为 .pdf，
+        # simple_pipeline 的 is_docx 判断（Path.suffix）失效。
+        try:
+            suffix = Path(unquote(filename or "")).suffix.lower() or ".pdf"
+        except Exception:
+            suffix = ".pdf"
+        if suffix not in (".pdf", ".docx"):
+            suffix = ".pdf"
+        pdf_path = tmp_dir / f"doc_{uuid.uuid4().hex[:8]}{suffix}"
 
         # 下载文件（使用线程池避免阻塞事件循环）
         data = await asyncio.to_thread(self.storage.get_object, object_key)

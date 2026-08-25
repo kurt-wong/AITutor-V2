@@ -197,6 +197,219 @@ def extract_l1_from_pdf(
     return postprocess_l1(raw_doc)
 
 
+def _build_numbering_map(doc) -> dict[int, dict[int, dict]]:
+    """解析 DOCX numbering part → {numId: {ilvl: {fmt, lvl_text, start}}}。
+
+    2026-08-25：Word 自动编号（如选项 "A."）不在 paragraph.text 中，
+    python-docx 提取会丢选项标记（语文 docx Q1 A 选项）。此函数从
+    numbering.xml 恢复编号格式，供 extract_l1_from_docx 前缀还原。
+    """
+    from docx.oxml.ns import qn
+
+    result: dict[int, dict[int, dict]] = {}
+    try:
+        numbering = doc.part.numbering_part.element
+    except Exception:
+        return result
+    # abstractNumId -> {ilvl: {...}}
+    abstracts: dict[str, dict[int, dict]] = {}
+    for abs_num in numbering.findall(qn("w:abstractNum")):
+        abs_id = abs_num.get(qn("w:abstractNumId"))
+        if abs_id is None:
+            continue
+        lvls: dict[int, dict] = {}
+        for lvl in abs_num.findall(qn("w:lvl")):
+            try:
+                ilvl = int(lvl.get(qn("w:ilvl")) or 0)
+            except (TypeError, ValueError):
+                continue
+            fmt_el = lvl.find(qn("w:numFmt"))
+            txt_el = lvl.find(qn("w:lvlText"))
+            start_el = lvl.find(qn("w:start"))
+            lvls[ilvl] = {
+                "fmt": fmt_el.get(qn("w:val")) if fmt_el is not None else "decimal",
+                "lvl_text": txt_el.get(qn("w:val")) if txt_el is not None else "%1.",
+                "start": int(start_el.get(qn("w:val")) or 1) if start_el is not None else 1,
+            }
+        abstracts[abs_id] = lvls
+    for num in numbering.findall(qn("w:num")):
+        num_id_str = num.get(qn("w:numId"))
+        abs_el = num.find(qn("w:abstractNumId"))
+        if num_id_str is None or abs_el is None:
+            continue
+        try:
+            num_id = int(num_id_str)
+        except (TypeError, ValueError):
+            continue
+        abs_id = abs_el.get(qn("w:val"))
+        result[num_id] = abstracts.get(abs_id, {})
+    return result
+
+
+def _format_number(fmt: str, n: int) -> str:
+    """按 numbering numFmt 生成序号文本（upperLetter/decimal/lowerLetter/roman）。"""
+    if fmt == "upperLetter":
+        return chr(64 + n) if 1 <= n <= 26 else str(n)
+    if fmt == "lowerLetter":
+        return chr(96 + n) if 1 <= n <= 26 else str(n)
+    if fmt == "upperRoman":
+        return _roman(n).upper()
+    if fmt == "lowerRoman":
+        return _roman(n)
+    return str(n)
+
+
+def _roman(n: int) -> str:
+    vals = [(1000, "m"), (900, "cm"), (500, "d"), (400, "cd"), (100, "c"),
+            (90, "xc"), (50, "l"), (40, "xl"), (10, "x"), (9, "ix"),
+            (5, "v"), (4, "iv"), (1, "i")]
+    out = []
+    for v, s in vals:
+        while n >= v:
+            out.append(s)
+            n -= v
+    return "".join(out)
+
+
+def _render_numbering_prefix(lvl: dict, seq: int) -> str:
+    """lvlText（如 '%1.'、'（%1）'、'%1)'）替换 %1 为序号。"""
+    text = lvl.get("lvl_text") or "%1."
+    fmt = lvl.get("fmt") or "decimal"
+    start = lvl.get("start") or 1
+    label = _format_number(fmt, start + seq - 1)
+    return text.replace("%1", label).strip()
+
+
+def extract_l1_from_docx(
+    path: Path,
+    *,
+    filename: str | None = None,
+) -> L1Document:
+    """从 DOCX 提取 L1Document（2026-08-25，DOCX 全管线支持）。
+
+    DOCX 是原生文本/表格/图片，不需要 OCR：用 python-docx 直接读取
+    段落与表格文本（按文档 body 顺序），生成 L1 行（line_id 用 "D"
+    前缀，D1Lxxx，与 PDF 的 N/P 前缀区分）。
+
+    图片：docx 内嵌图片无可提取文本，图片行缺失（图片内容如图表/题干
+    插图不影响文本识别，效果待样本验证）。
+
+    Args:
+        path: DOCX 文件路径
+        filename: 文件名（默认使用 Path.name）
+
+    Returns:
+        L1Document：后处理后的 L1 文档
+    """
+    import logging
+
+    from docx import Document
+    from docx.table import Table
+    from docx.text.paragraph import Paragraph
+
+    fname = filename or path.name
+    doc = Document(str(path))
+    num_map = _build_numbering_map(doc)
+    # 同 (numId, ilvl) 段落序号计数器（从 start 起递增）
+    num_seq: dict[tuple[int, int], int] = {}
+
+    lines: list[L1Line] = []
+    images: list[L1Image] = []
+    order = 1
+    line_no = 1
+
+    def _number_prefix(paragraph) -> str:
+        """段落自动编号前缀（如 "A."、"1."、"（1）"）；无编号返回 ""。"""
+        from docx.oxml.ns import qn
+
+        pPr = paragraph._p.pPr
+        if pPr is None:
+            return ""
+        numPr = pPr.find(qn("w:numPr"))
+        if numPr is None:
+            return ""
+        num_id_el = numPr.find(qn("w:numId"))
+        ilvl_el = numPr.find(qn("w:ilvl"))
+        if num_id_el is None:
+            return ""
+        try:
+            num_id = int(num_id_el.get(qn("w:val")) or 0)
+            ilvl = int(ilvl_el.get(qn("w:val")) or 0) if ilvl_el is not None else 0
+        except (TypeError, ValueError):
+            return ""
+        if num_id == 0:  # Word 约定 numId=0 = 关闭编号
+            return ""
+        lvls = num_map.get(num_id) or {}
+        lvl = lvls.get(ilvl)
+        if not lvl:
+            return ""
+        key = (num_id, ilvl)
+        seq = num_seq.get(key, 0) + 1
+        num_seq[key] = seq
+        return _render_numbering_prefix(lvl, seq)
+
+    body = doc.element.body
+    for child in body.iterchildren():
+        tag = child.tag
+        if tag.endswith("}p"):
+            para = Paragraph(child, doc)
+            prefix = _number_prefix(para)
+            text = (prefix + para.text).strip()
+            if not text:
+                continue
+            lines.append(L1Line(
+                line_id=f"D1L{line_no:03d}",
+                page_no=1,
+                line_no_in_page=line_no,
+                order=order,
+                text=text,
+                block_type="text",
+                bbox=None,
+                source="native",
+                continuation=False,
+            ))
+            line_no += 1
+            order += 1
+        elif tag.endswith("}tbl"):
+            table = Table(child, doc)
+            for row in table.rows:
+                cells = [cell.text.strip() for cell in row.cells]
+                text = " | ".join(c for c in cells if c)
+                if not text:
+                    continue
+                lines.append(L1Line(
+                    line_id=f"D1L{line_no:03d}",
+                    page_no=1,
+                    line_no_in_page=line_no,
+                    order=order,
+                    text=text,
+                    block_type="table",
+                    bbox=None,
+                    source="native",
+                    continuation=False,
+                ))
+                line_no += 1
+                order += 1
+
+    pages = [L1Page(page_no=1, lines=lines, images=images)]
+    raw_doc = L1Document(
+        filename=fname,
+        pages=pages,
+        lines=lines,
+        images=images,
+        source="native",
+        total_pages=1,
+        text_coverage=1.0 if lines else 0.0,
+    )
+    logger.info(
+        "docx_extract filename=%s lines=%d images=%d",
+        fname,
+        len(lines),
+        len(images),
+    )
+    return postprocess_l1(raw_doc)
+
+
 def _calculate_text_coverage(
     pdf_path: Path, start_idx: int, end_idx: int
 ) -> float:
