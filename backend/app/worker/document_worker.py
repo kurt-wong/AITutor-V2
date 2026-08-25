@@ -54,6 +54,11 @@ async def document_parse_worker(
     stop = stop_event or asyncio.Event()
     logger.info("document_parse_worker started (poll_interval=%ds)", _POLL_INTERVAL)
 
+    # 2026-08-25 僵尸任务恢复：worker 重启/崩溃后遗留的 running 任务
+    # 不会被轮询重新拾取（只查 queued）。每次轮询先恢复「超时未更新的
+    # running 任务」（排除当前正在处理的任务），避免文档永久卡 processing。
+    _active_task_id: UUID | None = None
+
     while not stop.is_set():
         session = None
         task = None
@@ -61,6 +66,24 @@ async def document_parse_worker(
         try:
             # 每次任务创建新的 service 实例（独立 session）
             session, task_service, document_service = await create_task_services()
+
+            # 僵尸恢复（幂等）：running 且 updated_at 超时、非当前处理中 →
+            # 重置 queued，由下方轮询重新拾取。
+            try:
+                recovered = await task_service.recover_stale_running_tasks(
+                    task_type="document_parse",
+                    active_task_id=_active_task_id,
+                )
+                if recovered:
+                    logger.warning(
+                        "worker: recovered %d stale running task(s): %s",
+                        len(recovered),
+                        [str(t) for t in recovered],
+                    )
+                    await task_service.commit()
+            except Exception:
+                logger.exception("worker: recover_stale_running_tasks failed")
+                await task_service.rollback()
 
             # 查询 queued 状态的 document_parse 任务
             tasks = await task_service.list_tasks(
@@ -74,6 +97,7 @@ async def document_parse_worker(
                 continue
 
             task = tasks[0]
+            _active_task_id = task.id
             document_id = UUID(task.payload_json["document_id"])
             # 2026-08-25：显式 OCR 模型覆盖（上传时可选传入，如语文 VL 重跑）
             ocr_model = (task.payload_json or {}).get("ocr_model") or None
@@ -282,6 +306,8 @@ async def document_parse_worker(
                     await session.close()
                 except Exception:
                     pass
+            # 当前任务已结束（成功/失败/异常），下一轮可恢复该 id 的僵尸状态
+            _active_task_id = None
             await asyncio.sleep(_POLL_INTERVAL)
 
     logger.info("document_parse_worker stopped")

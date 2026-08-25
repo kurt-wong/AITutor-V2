@@ -132,6 +132,42 @@ class TaskService:
         await self.repository.session.flush()
         return task
 
+    async def recover_stale_running_tasks(
+        self,
+        *,
+        task_type: str,
+        active_task_id: UUID | None,
+        stale_after_seconds: int = 900,
+    ) -> list[UUID]:
+        """恢复僵尸 running 任务：worker 重启/崩溃遗留的 running 任务
+        永远不会被轮询重新拾取（worker 只查 queued）→ 文档卡在 processing。
+
+        2026-08-25 DOCX 批次：英语任务重启前 processing，重启后 worker 只
+        拾取 queued → 卡死，需手工改 DB 才恢复。此处自动兜底：
+        - running 且非当前 worker 正在处理的任务（active_task_id）；
+        - 且 updated_at 距今超过 stale_after_seconds（防误伤刚启动的任务）。
+        满足条件 → 重置为 queued（清 progress/stage），由 worker 重新拾取。
+
+        Returns:
+            被恢复的任务 id 列表。
+        """
+        stale_tasks = await self.repository.list_stale_running(
+            task_type=task_type,
+            active_task_id=active_task_id,
+            stale_after_seconds=stale_after_seconds,
+        )
+        recovered: list[UUID] = []
+        for task in stale_tasks:
+            task.status = "queued"
+            task.progress = None
+            task.current_stage = None
+            task.error_detail = None
+            task.result_json = None
+            recovered.append(task.id)
+        if recovered:
+            await self.repository.session.flush()
+        return recovered
+
     async def refresh(self, task: BackgroundTask) -> BackgroundTask:
         """显式重新加载 ORM 实例属性。
 
