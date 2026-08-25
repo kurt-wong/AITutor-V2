@@ -71,6 +71,7 @@ class HTTPLLMProvider(LLMProvider):
         api_key: str | None,
         model: str,
         timeout_seconds: float = 60.0,
+        total_timeout_seconds: float | None = None,
         response_format: dict[str, str] | None = None,
         max_tokens: int | None = None,
         max_completion_tokens: int | None = None,
@@ -82,6 +83,17 @@ class HTTPLLMProvider(LLMProvider):
         self.api_key = api_key
         self.model = model
         self.timeout_seconds = timeout_seconds
+        # 2026-08-25 P7/P10 修复：httpx timeout 是"无数据活动"空闲超时——
+        # deepseek 流式响应持续有数据时总时长可远超 timeout_seconds（实测
+        # 最长 339s），挂死（连接挂起无数据且不关闭）时空闲超时可能失效，
+        # 请求无限等待。此处加 asyncio.wait_for 总时长兜底：
+        #   max(2×空闲超时, 600s)——容纳正常 reasoning 响应（~6min），
+        #   挂死请求 10 分钟内强制取消 → TimeoutError → 走重试/失败路径。
+        self._total_timeout = (
+            total_timeout_seconds
+            if total_timeout_seconds is not None
+            else max(timeout_seconds * 2, 600.0)
+        )
         self.response_format = response_format
         self.max_tokens = max_tokens
         self.max_completion_tokens = max_completion_tokens
@@ -142,7 +154,13 @@ class HTTPLLMProvider(LLMProvider):
         for attempt in range(self.max_retries + 1):
             try:
                 async with httpx.AsyncClient(timeout=self.timeout_seconds) as client:
-                    response = await client.post(url, json=payload, headers=headers)
+                    # P7/P10 修复：总时长兜底（httpx 空闲超时对"挂起无数据"
+                    # 可能失效）。超时抛 asyncio.TimeoutError（继承 OSError，
+                    # 已被下方 except 覆盖）→ 重试 → 全失败标记。
+                    response = await asyncio.wait_for(
+                        client.post(url, json=payload, headers=headers),
+                        timeout=self._total_timeout,
+                    )
                     if response.status_code >= 400:
                         # 必须带出 status 和 body，不能只抛 raise_for_status() 的通用错误
                         # （否则 LLM/OCR 400 失败原因不可复现）

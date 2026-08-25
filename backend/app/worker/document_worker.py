@@ -24,6 +24,13 @@ logger = logging.getLogger(__name__)
 # 轮询间隔（秒）
 _POLL_INTERVAL = 5
 
+# 2026-08-25 P7/P10 修复：任务级超时兜底（秒）。
+# worker 内 LLM 请求挂死（deepseek 正常但请求无限等待）时，LLM 层
+# asyncio.wait_for 会在 ~10min 后取消请求并重试/失败，但为避免任何
+# 未覆盖环节卡死整个批次，processor.process_document 整体再加一层
+# 超时：超时后任务标记 failed（可重试，P4 已修复 retry）。
+_TASK_TIMEOUT_SECONDS = 3600
+
 
 async def document_parse_worker(
     *,
@@ -89,13 +96,19 @@ async def document_parse_worker(
             )
 
             try:
-                result = await processor.process_document(
-                    task_id=task.id,
-                    document_id=document_id,
-                    object_key=document.object_key,
-                    filename=document.filename,
-                    subject=document.subject,
-                    ocr_model=ocr_model,
+                # P7/P10 修复：任务级超时兜底——任何环节（LLM/OCR/入库）
+                # 挂死超 _TASK_TIMEOUT_SECONDS 即取消并走外层 except 标记
+                # failed（可重试），避免单任务无限卡住阻塞整个批次。
+                result = await asyncio.wait_for(
+                    processor.process_document(
+                        task_id=task.id,
+                        document_id=document_id,
+                        object_key=document.object_key,
+                        filename=document.filename,
+                        subject=document.subject,
+                        ocr_model=ocr_model,
+                    ),
+                    timeout=_TASK_TIMEOUT_SECONDS,
                 )
 
                 # C5/C6: 根据 result.status 设置 document 状态
@@ -231,7 +244,17 @@ async def document_parse_worker(
                 except Exception:
                     logger.debug("worker: rollback in outer except (expected if savepoint handled)")
                 document.processing_status = "failed"
+                # P7/P10 修复：任务级超时（asyncio.wait_for 取消 process_document）
+                # 时 task 停在 running，需在此标记 failed（幂等），否则僵尸任务
+                # 永久阻塞该文档重试。
                 document.error_message = str(exc)[:500]  # 截断避免超长
+                try:
+                    current_task = await task_service.get_task(task.id)
+                    if current_task is not None and current_task.status == "running":
+                        timeout_hint = "task timeout" if isinstance(exc, asyncio.TimeoutError) else "processing failed"
+                        await task_service.fail_task(task.id, error_detail=f"{timeout_hint}: {exc}"[:500])
+                except Exception:
+                    logger.exception("worker: failed to mark task as failed after processing error")
                 try:
                     await document_service.commit()
                 except Exception:
