@@ -482,15 +482,18 @@ def correct_anchors(
         # 语义锚点在有 marker 时已计算下一题边界，但 LLM 裸行号路径不做此检查。
         # 这里统一后处理：无论 stem 来自语义锚点还是 LLM 原始行号，
         # 都不能包含下一题的行。
-        # 例外（2026-08-25 数学 Q1-3）：marker 兜底来源的行号已按
-        # start/end marker + 下一题边界精确切片，P0-B 截断（boundary_order
-        # 取自 question_start_map）反而可能把合法题干行误截为空 →
-        # stem_empty。兜底来源跳过截断。
+        # 例外（2026-08-25 数学 Q1-3）：semantic 解析成功或 marker 兜底来源
+        # 的行号已按 start/end marker + next_q/first_option 边界精确切片；
+        # P0-B 截断的 boundary_order 取自 question_start_map，可能被卷面
+        # 须知行污染（数学卷 "1.本试卷共6页" 被识别为 Q1 题号行 →
+        # boundary_order 过早）→ 把合法题干行误截为空 → stem_empty。
+        # 仅 LLM 裸行号路径（semantic/兜底均未生效）才做 P0-B 截断。
         is_marker_fallback = bool(
             stem_anchor.evidence and "marker-fallback" in stem_anchor.evidence
         )
+        skip_truncate = semantic_stem is not None or is_marker_fallback
         truncated_ids = question.stem_line_ids
-        if not is_marker_fallback:
+        if not skip_truncate:
             truncated_ids = _truncate_stem_at_next_question(
                 question.stem_line_ids,
                 line_by_id,
