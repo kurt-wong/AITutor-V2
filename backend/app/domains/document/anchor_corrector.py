@@ -468,6 +468,32 @@ def correct_anchors(
                 semantic_anchor.corrected_line_ids = semantic_stem.line_ids
                 semantic_anchor.evidence = semantic_stem.evidence
                 stem_anchor = semantic_anchor
+            elif not question.stem_line_ids:
+                # 2026-08-25 生物 Q6/8/9/11：resolve_stem_range 返回了
+                # marker 匹配结果但行号范围无效（validation 失败），且 LLM
+                # 未给行号 → 用 marker 简单兜底再试一次。
+                fallback = _resolve_stem_by_markers_fallback(
+                    question,
+                    doc,
+                    stop_order=stop_order,
+                    question_start_map=question_start_map,
+                )
+                if fallback is not None:
+                    fb_anchor = _validate_stem_anchor(
+                        llm_line_ids=fallback.line_ids,
+                        valid_ids=valid_line_ids,
+                        line_by_id=line_by_id,
+                        question_number=question.question_number,
+                        stop_order=stop_order,
+                        is_composite=question.is_composite,
+                        has_shared_material=bool(question.shared_material_line_ids),
+                    )
+                    if fb_anchor.validation_passed:
+                        fb_anchor.anchor_status = fallback.status
+                        fb_anchor.corrected_line_ids = fallback.line_ids
+                        fb_anchor.evidence = fallback.evidence
+                        stem_anchor = fb_anchor
+                        semantic_stem = fallback  # 供下方 skip_truncate 判断
         llm_anchors.append(CorrectedAnchor(
             field="stem",
             llm_line_ids=question.stem_line_ids,
