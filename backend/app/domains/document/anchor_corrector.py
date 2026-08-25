@@ -17,6 +17,8 @@ import re
 from app.domains.document.schemas_l1 import L1Document, L1Line
 from app.domains.document.schemas_l2 import CorrectedAnchor, L2DocumentAnnotation
 from app.domains.document.semantic_anchor import (
+    StemResolution,
+    find_marker,
     resolve_composite_stem_range,
     resolve_stem_range,
 )
@@ -249,6 +251,77 @@ def _validate_option_anchor(
     )
 
 
+def _resolve_stem_by_markers_fallback(
+    question,
+    doc: L1Document,
+    *,
+    stop_order: int,
+    question_start_map: dict[int, str],
+) -> StemResolution | None:
+    """marker 简单兜底：stem_line_ids 为空但 LLM 给了 stem marker 时定位行号。
+
+    2026-08-25 数学 Q1-3（P10 批次）：LLM 漏给 stem_line_ids（空列表）但
+    marker 完整；resolve_stem_range 因 marker 与 L1 文本形态差异（LaTeX
+    vs native 打散符号）可能返回 None → 题干切片为空 → stem_empty 丢弃。
+    此处直接用 find_marker 定位 start 行，end 取 end_marker / 下一题边界 /
+    答案区起点中的较早者（与 resolve_stem_range 的确定性边界一致）。
+    仅作为最后兜底，不改变正常路径行为。
+    """
+    start_marker = (question.stem_start_marker or "").strip()
+    if not start_marker:
+        return None
+    start_match = find_marker(
+        start_marker,
+        doc.lines,
+        stop_order=stop_order,
+        question_number=question.question_number,
+    )
+    if start_match is None:
+        return None
+    line_by_id = {line.line_id: line for line in doc.lines}
+    start_line = line_by_id.get(start_match.line_id)
+    if start_line is None:
+        return None
+
+    end_order = stop_order - 1 if stop_order != float("inf") else None
+    end_marker = (question.stem_end_marker or "").strip()
+    if end_marker:
+        end_match = find_marker(
+            end_marker,
+            doc.lines,
+            start_order=start_line.order,
+            stop_order=stop_order,
+            question_number=question.question_number,
+        )
+        if end_match is not None:
+            end_line = line_by_id.get(end_match.line_id)
+            if end_line is not None and end_line.order >= start_line.order:
+                end_order = end_line.order if end_order is None else min(end_order, end_line.order)
+    # 下一题边界（文档顺序上位于当前题之后的题号行）
+    for qnum, line_id in question_start_map.items():
+        if str(qnum) == str(question.question_number or ""):
+            continue
+        line = line_by_id.get(line_id)
+        if line is not None and line.order > start_line.order:
+            end_order = line.order - 1 if end_order is None else min(end_order, line.order - 1)
+
+    if end_order is None or end_order < start_line.order:
+        return None
+    line_ids = [
+        line.line_id
+        for line in doc.lines
+        if start_line.order <= line.order <= end_order
+    ]
+    if not line_ids:
+        return None
+    return StemResolution(
+        line_ids=line_ids,
+        status="nearest",
+        confidence=0.9,
+        evidence="marker-fallback (stem_line_ids empty)",
+    )
+
+
 def _truncate_stem_at_next_question(
     stem_line_ids: list[str],
     line_by_id: dict[str, L1Line],
@@ -362,6 +435,15 @@ def correct_anchors(
                 stop_order=stop_order,
                 question_start_map=question_start_map,
             )
+        # 2026-08-25 数学 Q1-3 兜底：语义解析失败且 LLM 未给 stem 行号但有
+        # marker → 用 marker 直接定位（否则 stem 切片空 → stem_empty 丢弃）。
+        if semantic_stem is None and not question.stem_line_ids:
+            semantic_stem = _resolve_stem_by_markers_fallback(
+                question,
+                doc,
+                stop_order=stop_order,
+                question_start_map=question_start_map,
+            )
         stem_anchor = _validate_stem_anchor(
             llm_line_ids=question.stem_line_ids,
             valid_ids=valid_line_ids,
@@ -400,13 +482,22 @@ def correct_anchors(
         # 语义锚点在有 marker 时已计算下一题边界，但 LLM 裸行号路径不做此检查。
         # 这里统一后处理：无论 stem 来自语义锚点还是 LLM 原始行号，
         # 都不能包含下一题的行。
-        truncated_ids = _truncate_stem_at_next_question(
-            question.stem_line_ids,
-            line_by_id,
-            question_start_map,
-            question.question_number,
-            stop_order,
+        # 例外（2026-08-25 数学 Q1-3）：marker 兜底来源的行号已按
+        # start/end marker + 下一题边界精确切片，P0-B 截断（boundary_order
+        # 取自 question_start_map）反而可能把合法题干行误截为空 →
+        # stem_empty。兜底来源跳过截断。
+        is_marker_fallback = bool(
+            stem_anchor.evidence and "marker-fallback" in stem_anchor.evidence
         )
+        truncated_ids = question.stem_line_ids
+        if not is_marker_fallback:
+            truncated_ids = _truncate_stem_at_next_question(
+                question.stem_line_ids,
+                line_by_id,
+                question_start_map,
+                question.question_number,
+                stop_order,
+            )
         question.stem_line_ids = truncated_ids
         # 同步 stem_anchor.corrected_line_ids，避免下游（content_slicer 合并、
         # pipeline 序列化、配图关联）使用未截断的行号。
