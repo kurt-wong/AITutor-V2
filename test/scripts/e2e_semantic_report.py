@@ -403,6 +403,11 @@ def _find_pdf_path(subject: str, filename: str) -> Path | None:
         normalized_stem = re.sub(r"\s+", "", path.stem)
         if normalized_target and normalized_target == normalized_stem:
             return path
+    # 2026-08-25 DOCX 修复：非 .pdf 文档（docx）不参与 subject 模糊匹配——
+    # test/pdf 下同科目的其他 PDF 会被误当 pdf_raw 证据源（政治 docx 全部
+    # expected 来自错误 PDF 的答案表）。docx 自身 native/ocr 同源即可。
+    if not str(filename or "").lower().endswith(".pdf"):
+        return None
     for path in pdf_root.glob("*.pdf"):
         if subject and subject in path.name:
             return path
@@ -463,7 +468,7 @@ async def load_document(conn, subject: str) -> SubjectReport | None:
         FROM questions q
         JOIN question_instances qi ON qi.question_id = q.id
         WHERE qi.document_id = $1
-        ORDER BY qi.source_question_number::int
+        ORDER BY length(qi.source_question_number), qi.source_question_number
         """,
         doc_id,
     )

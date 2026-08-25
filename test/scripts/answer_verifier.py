@@ -233,6 +233,10 @@ def _row_cells(lines: list[str], row_idx: int, end_idx: int, marker: str) -> lis
 def _parse_plain_table(text: str) -> tuple[dict[int, str], set[int]]:
     mapping: dict[int, str] = {}
     blank_qns: set[int] = set()
+    # 2026-08-25 DOCX：docx 表格行被提取为 "题号 | 1 | 2 | 3…\n答案 | D | A | C…"，
+    # 管道符分隔导致原正则的 (?:\\d+\\s*)+ 无法跨格匹配 → 全表丢失。
+    # 归一化管道符为空格后与 PDF 表格文本同构，走同一解析路径。
+    text = text.replace("|", " ")
     for m in re.finditer(
         r"\u9898\u53f7\s*((?:\d+\s*)+)\s*\u7b54\u6848\s*((?:[A-G]+\s*)+)",
         text,
@@ -264,6 +268,30 @@ def _parse_plain_table(text: str) -> tuple[dict[int, str], set[int]]:
                 mapping[int(num_cell)] = ans_cell.upper()
             else:
                 blank_qns.add(int(num_cell))
+
+    # 2026-08-25 DOCX：无表头表格（历史 docx）——"1 2 3 … 10" 换行
+    # "B C C A D C B D A C"，无"题号/答案"标签行，上面的正则匹配不到。
+    # 逐行扫描：数字行（全部整数）+ 紧随的字母行（全部 [A-G]）配对。
+    for m in re.finditer(
+        r"(?m)^([0-9][0-9 ]*)\s*\n\s*([A-Ga-g](?:[A-Ga-g ]*[A-Ga-g])?)\s*$",
+        text,
+    ):
+        nums = [int(x) for x in m.group(1).split()]
+        ans = [x.upper() for x in m.group(2).split()]
+        if 2 <= len(nums) <= 60 and len(nums) == len(ans):
+            for num, answer in zip(nums, ans):
+                mapping.setdefault(num, answer)
+
+    # 2026-08-25 DOCX：同行配对格式（生物 docx）——"1 C | 2 C | 3 C … 10 D"，
+    # 题号与答案同行交替（管道符已在上方归一化为空格），无表头无换行。
+    for m in re.finditer(
+        r"(?m)^((?:\d+\s+[A-Ga-g]\s*){2,})$",
+        text,
+    ):
+        pairs = re.findall(r"(\d+)\s+([A-Ga-g])", m.group(1))
+        if 2 <= len(pairs) <= 60:
+            for num, answer in pairs:
+                mapping.setdefault(int(num), answer.upper())
     return mapping, blank_qns
 
 
@@ -273,6 +301,13 @@ def _parse_prefix(text: str) -> dict[int, str]:
     def add(num: str, token: str) -> None:
         if token and re.fullmatch(r"[A-G]{1,4}", token.upper()):
             mapping[int(num)] = token.upper()
+
+    # 2026-08-25 DOCX：教师版 docx 答案区为内联格式
+    # "参考答案1.【答案】D【解析】…2.【答案】B【解析】…"（题号在【答案】前），
+    # 与 PDF 的 "【答案】1. D" 相反，原正则匹配不到 → 选择题全 no_answer_evidence。
+    # 同时兼容数字题号后跟全角句号/点的情况。
+    for m in re.finditer(r"(\d+)\s*[.．、]\s*\u3010\u7b54\u6848\u3011\s*([A-Ga-g])", text):
+        add(m.group(1), m.group(2))
 
     for block in re.findall(
         r"\u3010\u7b54\u6848\u3011\s*((?:\d+[.\u3001\uff0e]\s*[^\n\u3010]+)+)",
@@ -624,9 +659,12 @@ def verify_one(
     if not answer_text:
         return AnswerVerification(reason="missing_db_answer")
 
-    if not str(qn).isdigit():
+    # 注意：str.isdigit() 对上标字符（如 '²'）返回 True 但 int() 会失败，
+    # 故用 try/except 而非 isdigit 判断（docx 地理卷子题号出现过上标字符）。
+    try:
+        qn_int = int(str(qn))
+    except (ValueError, TypeError):
         return AnswerVerification(reason="invalid_question_number")
-    qn_int = int(qn)
 
     expected = evidence.table.get(qn_int)
     source = "pdf_raw_text"
