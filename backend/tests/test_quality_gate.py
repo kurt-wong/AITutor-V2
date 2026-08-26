@@ -247,3 +247,45 @@ def test_non_composite_choice_still_requires_options():
 
     result = evaluate_quality(questions)
     assert any("选项锚点缺失" in i for i in result[0].issues)
+
+
+def test_short_answer_long_stem_not_flagged_as_bloated():
+    """short_answer 解答题长题干不误报"题干异常膨胀"。
+
+    2026-08-26（LOG v6.39）：化学解答题（如 Q23 氧化还原 1025 字符、
+    Q15 元素化合物 1208 字符）是多小题合法长题干，800 上限误伤 →
+    low_confidence。short_answer 一律按综合题上限（3000）计长。
+    """
+    questions = [
+        SlicedQuestion(
+            question_number="23",
+            question_type="short_answer",
+            stem="23. 氧化还原反应是中学化学中一类重要的反应。回答下列问题：" + ("题目内容" * 200),
+            options=[],
+            answer="（1）① 2CO+2NO=2CO2+N2",
+            answer_line_ids=["P5L010"],
+            answer_provenance=SourceProvenance("answer", "llm_annotation", 0.9),
+        ),
+    ]
+
+    result = evaluate_quality(questions)
+    # 1025 字符左右的多小题解答题不应被判膨胀（上限 3000）
+    assert not any("题干异常膨胀" in i for i in result[0].issues)
+    assert result[0].confidence >= 0.8
+
+
+def test_choice_long_stem_still_flagged_as_bloated():
+    """选择题长题干仍按 800 上限拦截（回归保护，膨胀检查主要针对选择题）。"""
+    questions = [
+        SlicedQuestion(
+            question_number="1",
+            question_type="single_choice",
+            stem="1. 阅读下面文章回答问题。" + ("正文内容" * 200),  # ~1000 字符
+            options=[{"label": "A", "text": "1"}, {"label": "B", "text": "2"}],
+            answer="A",
+            answer_provenance=SourceProvenance("answer", "document_answer_table", 1.0),
+        ),
+    ]
+
+    result = evaluate_quality(questions)
+    assert any("题干异常膨胀" in i for i in result[0].issues)

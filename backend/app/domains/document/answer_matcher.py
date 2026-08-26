@@ -280,6 +280,12 @@ def _filter_to_question_boundary(
 
     范围 = 当前题号行之后到下一个题号行之前。
     超出范围的行（属于下一题）必须丢弃。
+
+    豁免（2026-08-26，LOG v6.39）：文末答案区（"参考答案/答案"标题之后）的
+    行**不截断**——化学 Q16/Q19（题目 P5/P7、答案 P9/P10 文末答案区）等
+    解答题答案在文末答案区是合法结构，按"下一题边界"截断会清空答案 →
+    answer=None → quality_gate 误报 answer_missing。答案区行保留，仅
+    过滤"下一题号行到答案区之间"的解题过程行。
     """
     if not answer_ids:
         return answer_ids
@@ -287,7 +293,15 @@ def _filter_to_question_boundary(
     # 按文档顺序排列所有行
     all_lines = sorted(line_by_id.values(), key=lambda l: l.order)
 
-    # 找当前题号行和下一题号行的位置
+    # 答案区起点（"参考答案/答案"标题行）——必须在完整文档中查找，
+    # 不能因找到下一题号行就停止（文末答案区在下一题号之后）。
+    answer_section_start = None
+    for line in all_lines:
+        if _ANSWER_SECTION_RE.search(line.text or ""):
+            answer_section_start = line.order
+            break
+
+    # 找当前题号行和下一题号行
     current_q_start = None
     next_q_start = None
     found_current = False
@@ -295,7 +309,6 @@ def _filter_to_question_boundary(
     for line in all_lines:
         text = line.text or ""
         if _QUESTION_HEADER_RE.match(text):
-            # 提取题号
             m = re.match(r"^\s*(\d{1,3})\s*[.、．]", text)
             if m:
                 q_num = m.group(1)
@@ -309,7 +322,7 @@ def _filter_to_question_boundary(
     if current_q_start is None:
         return answer_ids
 
-    # 过滤：只保留在 [current_q_start, next_q_start) 范围内的行
+    # 过滤：保留 [current_q_start, next_q_start) 范围 + 文末答案区行
     result = []
     for lid in answer_ids:
         line = line_by_id.get(lid)
@@ -318,6 +331,9 @@ def _filter_to_question_boundary(
         if line.order < current_q_start:
             continue
         if next_q_start is not None and line.order >= next_q_start:
+            # 超出下一题边界：仅当位于答案区时才保留
+            if answer_section_start is not None and line.order >= answer_section_start:
+                result.append(lid)
             continue
         result.append(lid)
     return result
@@ -842,14 +858,15 @@ def _apply_llm_annotation_answers(
                 line_by_id,
             )
             answer_ids = _filter_diagram_labels(answer_ids, line_by_id)
-            # 解答题限制在当前题目的解题范围内（避免混入下一题的行）。
-            # 综合题（材料+多小问）跳过：LLM 的 answer_line_ids 可能指向
-            # 文末答案区（如历史材料题题目在 P7-8、答案在 P20），超出
-            # 当前题目范围是正常结构，按"下一题边界"截断会清空答案 →
-            # answer=None → quality_gate 误报 answer_missing。
-            if q.question_type == "short_answer" and not getattr(
-                sq, "is_composite", False
-            ):
+            # 解答题限制在当前题目的解题范围内（防 LLM 行号漂移混入下一题，
+            # 如物理 Q18 把 Q19 的 P10L007 标进 answer_line_ids）。
+            # 豁免文末答案区（2026-08-26，LOG v6.39）：全库 124 个 short_answer
+            # 的答案行几乎全部位于文末答案区/详解区（答案页 > 题干页，0 例
+            # 答案紧跟题目），LLM 正确指向答案区时不应被"下一题边界"截断
+            # （化学 Q16/Q19 题目 P5/P7、答案 P9/P10 被清空 → answer_missing）。
+            # _filter_to_question_boundary 内部保留答案区（"参考答案"标题后）
+            # 的行，仅过滤"下一题号行到答案区之间"的解题过程行。
+            if q.question_type == "short_answer":
                 answer_ids = _filter_to_question_boundary(
                     answer_ids, sq.question_number, line_by_id
                 )

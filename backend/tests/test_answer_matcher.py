@@ -1147,3 +1147,93 @@ def test_short_answer_composite_keeps_answer_outside_question_boundary():
     # 文末答案区行保留（不被下一题边界截断）
     assert result[0].answer is not None
     assert "西域都护府" in result[0].answer
+
+
+def test_short_answer_non_composite_keeps_answer_section_lines():
+    """非综合题 short_answer：answer_line_ids 指向文末答案区（"参考答案"标题后）。
+
+    2026-08-26（LOG v6.39）：化学北师大二附 Q16/Q19（题目 P5/P7、答案 P9/P10
+    文末答案区）。_filter_to_question_boundary 对非综合题 short_answer 也截断，
+    把答案区行当"越界"清空 → answer=None → answer_missing。修复：答案区
+    （"参考答案/答案"标题之后）的行豁免截断。
+    """
+    lines = [
+        L1Line("P5L008", 5, 8, 30, "16.（10分）以富含硫酸亚铁的工业废液为原料", "text"),
+        L1Line("P5L018", 5, 18, 40, "检验 SO4^2- 的操作是 ___。", "text"),
+        L1Line("P6L001", 6, 1, 41, "17.（8分）下一题", "text"),
+        L1Line("P9L011", 9, 11, 60, "参考答案", "text"),
+        L1Line("P9L012", 9, 12, 61, "（1）沉淀  Fe(OH)3", "text"),
+        L1Line("P9L013", 9, 13, 62, "（2）0.04 mol", "text"),
+    ]
+    doc = L1Document(
+        filename="test.pdf",
+        pages=[L1Page(page_no=5, lines=lines)],
+        lines=lines,
+        source="native",
+        total_pages=9,
+    )
+    annotation = L2DocumentAnnotation(
+        filename="test.pdf",
+        questions=[L2QuestionAnnotation(
+            question_number="16",
+            question_type="short_answer",
+            answer_line_ids=["P9L012", "P9L013"],  # 文末答案区
+        )],
+    )
+    questions = [SlicedQuestion(
+        question_number="16",
+        question_type="short_answer",
+        stem="以富含硫酸亚铁的工业废液为原料",
+        options=[],
+        is_composite=False,  # 非综合题
+    )]
+
+    result = match_answers(questions, doc, llm_annotation=annotation)
+    # 答案区行保留（不被下一题边界截断）
+    assert result[0].answer is not None
+    assert "Fe(OH)3" in result[0].answer
+
+
+def test_short_answer_non_composite_keeps_later_answer_lines():
+    """非综合题 short_answer：LLM 指向的答案行（即使跨页在文末）全部保留。
+
+    2026-08-26（LOG v6.39）：全库 124 个 short_answer 的答案行全部位于
+    文末答案区/详解区（答案页 > 题干页），0 例答案紧跟题目。移除对
+    answer_line_ids 的"下一题边界"机械截断——LLM 语义定位指向哪就保留哪。
+    """
+    lines = [
+        L1Line("P5L008", 5, 8, 30, "16.（10分）以富含硫酸亚铁的工业废液为原料", "text"),
+        L1Line("P5L018", 5, 18, 40, "检验 SO4^2- 的操作是 ___。", "text"),
+        L1Line("P6L001", 6, 1, 41, "17.（8分）下一题", "text"),
+        L1Line("P6L002", 6, 2, 42, "下一题的解题过程", "text"),
+        L1Line("P9L011", 9, 11, 60, "参考答案", "text"),
+        L1Line("P9L012", 9, 12, 61, "（1）沉淀  Fe(OH)3", "text"),
+    ]
+    doc = L1Document(
+        filename="test.pdf",
+        pages=[L1Page(page_no=5, lines=lines)],
+        lines=lines,
+        source="native",
+        total_pages=9,
+    )
+    annotation = L2DocumentAnnotation(
+        filename="test.pdf",
+        questions=[L2QuestionAnnotation(
+            question_number="16",
+            question_type="short_answer",
+            answer_line_ids=["P5L018", "P9L012"],  # 题干行 + 文末答案区行
+        )],
+    )
+    questions = [SlicedQuestion(
+        question_number="16",
+        question_type="short_answer",
+        stem="以富含硫酸亚铁的工业废液为原料",
+        options=[],
+        is_composite=False,
+    )]
+
+    result = match_answers(questions, doc, llm_annotation=annotation)
+    # 文末答案区行保留（不再被"下一题边界"截断）
+    assert result[0].answer is not None
+    assert "检验" in result[0].answer
+    assert "Fe(OH)3" in result[0].answer

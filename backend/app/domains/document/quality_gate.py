@@ -104,12 +104,19 @@ def evaluate_quality(
         # LLM 可能把材料直接写进 stem（未标记 shared_material_line_ids），
         # 此类题干合法包含材料文本（历史材料分析题/化学综合题），不应按普通
         # 题干 800 上限误伤；真膨胀（默写混入散文材料等）不含"材料"字样。
+        # 2026-08-26（LOG v6.39）：short_answer 解答题一律按综合题上限计长——
+        # 解答题合法题干可长（多小题、每问带材料/条件，如化学 Q23 1025 字符、
+        # Q15 1208 字符、语文默写 2098 字符），800 上限误伤合法长题干。
+        # 数据支撑：全库 >800 的解答题 38 题中 28 已 approved（靠 composite/
+        # 材料豁免），证明解答题长题干是常态；膨胀检查主要拦截选择题
+        # （材料吞并选项），解答题不受选项丢失影响。
         has_material = bool(getattr(sq, "shared_material_line_ids", None)) or (
             "材料" in (sq.stem or "")
         )
+        is_short_answer = sq.question_type == "short_answer"
         limit = (
             _STEM_CHAR_LIMIT_COMPOSITE
-            if (getattr(sq, "is_composite", False) or has_material)
+            if (getattr(sq, "is_composite", False) or has_material or is_short_answer)
             else _STEM_CHAR_LIMIT_NON_COMPOSITE
         )
         if stem_len > limit:

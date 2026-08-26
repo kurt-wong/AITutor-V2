@@ -124,13 +124,21 @@ class TestStemInflationDetection:
         evaluate_quality([q])
         assert "题干异常膨胀" not in q.issues
 
-    def test_real_bloat_without_material_marker_still_flagged(self):
-        """无材料标记的纯题干膨胀（语文 Q17 默写混入散文材料）仍被拦截。"""
+    def test_short_answer_long_stem_not_flagged_anymore(self):
+        """short_answer 长题干不再被膨胀检查拦截（2026-08-26，LOG v6.39）。
+
+        策略变更：解答题（short_answer）合法题干可长（化学 Q23 多小题 1025 字符、
+        Q15 元素化合物 1208 字符、语文默写 2098 字符都是合法长题干），
+        short_answer 一律按综合题上限（3000）计长。真膨胀（如语文 Q17 默写
+        混入散文 1840 字符）不再被膨胀检查拦截，改由答案质量检查
+        （answer_missing/answer_suspicious）兜底——若答案也恰好完整则入库，
+        概率极小，前端反馈机制后续补充。
+        """
         stem = '17.在横线处填写作品原句。\n（1）古诗词常借"月"表达情感。' + (
             "国就封，作为闯入者，自然招致徐国的反抗。伯禽在周王室支持下，"
             "率军讨伐徐国，古徐阁主体建筑7层，高" * 20
         )[:1840]
         q = _q(stem, qtype="short_answer", with_answer=True)
         evaluate_quality([q])
-        assert any("题干异常膨胀" in i for i in q.issues)
-        assert q.confidence < 0.8
+        # short_answer 不再按 800 拦截（上限 3000）
+        assert "题干异常膨胀" not in q.issues
