@@ -1105,6 +1105,8 @@ def _build_question_images(
                 "bbox": img.bbox,
                 "source": img.source,
                 "figure_id": img.figure_id,
+                # 2026-08-27：携带图片 URL（OCR 路径），入库后前端可显示实际图片
+                "url": img.url,
             })
 
     return result

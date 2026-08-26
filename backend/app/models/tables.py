@@ -174,6 +174,7 @@ class QuestionImage(Base):
     placement: Mapped[str | None] = mapped_column(String(30))  # stem/options/answer/explanation/page_context
     source: Mapped[str | None] = mapped_column(String(30))  # native/paddleocr/vl/manual
     figure_id: Mapped[str | None] = mapped_column(String(100))  # 文档级去重标识
+    url: Mapped[str | None] = mapped_column(Text)  # 图片 URL（OCR 路径，2026-08-27 新增）
     created_at: Mapped[datetime] = created_at_column()
 
 

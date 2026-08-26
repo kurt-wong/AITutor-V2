@@ -365,6 +365,7 @@ async def _ingest_one_question(
             placement=img.get("placement", "stem"),
             source=img.get("source", "paddleocr"),
             figure_id=img.get("figure_id"),
+            url=img.get("url"),  # 2026-08-27：保存 OCR 图片 URL，前端可显示实际图片
         )
         session.add(qi)
 

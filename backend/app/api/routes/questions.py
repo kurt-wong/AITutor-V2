@@ -174,6 +174,7 @@ async def get_question(
             "placement": img.placement,
             "source": img.source,
             "figure_id": img.figure_id,
+            "url": img.url,  # 2026-08-27：OCR 图片 URL（新数据有值，历史数据为空）
         }
         for img in images
     ]

@@ -50,6 +50,7 @@ interface QuestionRow {
     placement?: string | null;
     source?: string | null;
     figure_id?: string | null;
+    url?: string | null;
   }[];
 }
 
@@ -193,11 +194,46 @@ function QuestionImages({ images }: { images: NonNullable<QuestionRow["images"]>
   if (images.length === 0) {
     return null;
   }
-  // 入库题目只持久化 image_id（无 URL），实际图片渲染依赖后续
-  // 后端图片服务端点；当前先展示配图标识列表。
+  const withUrl = images.filter((image) => image.url);
+  if (withUrl.length > 0) {
+    // 有 OCR URL 的图片直接渲染；无 URL 的历史数据降级为标识列表
+    return (
+      <div className="question-image-block">
+        <strong>配图（{images.length}）</strong>
+        <div className="question-image-grid">
+          {images.map((image) =>
+            image.url ? (
+              <figure className="question-image" key={image.image_key}>
+                <img
+                  src={image.url}
+                  alt={`${image.placement ?? "题目"}配图 ${image.image_key}`}
+                  loading="lazy"
+                  onError={(event) => {
+                    event.currentTarget.hidden = true;
+                    event.currentTarget.nextElementSibling?.classList.add("visible");
+                  }}
+                />
+                <figcaption>
+                  {image.image_key}
+                  {image.placement ? ` / ${image.placement}` : ""}
+                  {image.page_no ? ` / 第${image.page_no}页` : ""}
+                </figcaption>
+              </figure>
+            ) : (
+              <span key={image.image_key} className="image-fallback visible">
+                {image.image_key}
+                {image.placement ? ` / ${image.placement}` : ""}
+              </span>
+            ),
+          )}
+        </div>
+      </div>
+    );
+  }
+  // 历史数据无 URL：只展示配图标识列表。
   return (
     <div className="question-image-block">
-      <strong>配图（{images.length}）</strong>
+      <strong>配图（{images.length}，无图源）</strong>
       <ul className="image-id-list">
         {images.map((image) => (
           <li key={image.image_key}>
