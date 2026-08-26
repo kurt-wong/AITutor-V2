@@ -339,6 +339,117 @@ async def test_ingestion_whitespace_only_answer_diff_no_conflict(db, subject_id)
 
 
 @pytest.mark.asyncio
+async def test_ingestion_latex_and_fullwidth_answer_diff_no_conflict(db, subject_id):
+    """LaTeX 包裹/全角标点差异 → 不产生冲突（数学 40 题 answer_conflict 根因）。
+
+    2026-08-26：同一道题两次入库，答案内容相同但格式不同（LLM/OCR 输出
+    抖动）被误判冲突：
+    - `$0$` vs `0`（LaTeX 定界符）
+    - `$\\frac{3\\pi}{4}$` vs `\\frac{3\\pi}{4}`（公式命令外壳）
+    - `(1) $C=...$` vs `（1）C=...`（全角/半角括号 + LaTeX）
+    """
+    from app.domains.document.ingestion import ingest_pipeline_result
+    from app.models import Document, Question
+
+    stem = "格式差异题干"
+    options = [{"label": "A", "text": "选项A"}, {"label": "B", "text": "选项B"}]
+
+    doc_a = Document(filename=f"fmt_a_{uuid.uuid4().hex[:6]}.pdf", file_type="pdf",
+                     object_key="test/fmt_a.pdf", subject="数学")
+    db.add(doc_a)
+    await db.flush()
+    r1 = await ingest_pipeline_result(
+        db,
+        pipeline_result=_make_pipeline_result("1", stem, options),
+        answer_result=_make_answer_result("数学", "1", r"①. $0$ ②. $\frac{3\pi}{4}$"),
+        document=doc_a,
+    )
+    qid = r1.question_ids[0]
+
+    # 第二次：同内容，LaTeX 定界符去掉 + 全角括号
+    doc_b = Document(filename=f"fmt_b_{uuid.uuid4().hex[:6]}.pdf", file_type="pdf",
+                     object_key="test/fmt_b.pdf", subject="数学")
+    db.add(doc_b)
+    await db.flush()
+    r2 = await ingest_pipeline_result(
+        db,
+        pipeline_result=_make_pipeline_result("1", stem, options),
+        answer_result=_make_answer_result("数学", "1", r"①. 0 ②. \frac{3\pi}{4}"),
+        document=doc_b,
+    )
+    assert r2.question_ids[0] == qid
+    q = await db.scalar(select(Question).where(Question.id == qid))
+    assert q.review_reason is None, f"LaTeX/全角差异不应产生冲突，实际: {q.review_reason}"
+    assert q.status == "approved"
+
+    # 第三次：内容真的不同 → 仍冲突
+    doc_c = Document(filename=f"fmt_c_{uuid.uuid4().hex[:6]}.pdf", file_type="pdf",
+                     object_key="test/fmt_c.pdf", subject="数学")
+    db.add(doc_c)
+    await db.flush()
+    r3 = await ingest_pipeline_result(
+        db,
+        pipeline_result=_make_pipeline_result("1", stem, options),
+        answer_result=_make_answer_result("数学", "1", r"①. $0$ ②. $\frac{3\pi}{4}$ ③. 9"),
+        document=doc_c,
+    )
+    assert r3.question_ids[0] == qid
+    q3 = await db.scalar(select(Question).where(Question.id == qid))
+    assert q3.review_reason is not None
+    assert q3.review_reason.startswith("answer_conflict:")
+    assert q3.status == "reviewing"
+
+
+@pytest.mark.asyncio
+async def test_ingestion_exact_match_clears_stale_answer_conflict(db, subject_id):
+    """重灌 dedup exact（归一化后答案一致）→ 清除历史遗留 answer_conflict 标记。
+
+    2026-08-26：格式类假冲突在旧比较下被误标 reviewing（数学 Q13/15/17），
+    重灌时新比较归一化后判定 exact → 应自动清除旧标记并恢复 approved，
+    否则标记永久滞留 reviewing。
+    """
+    from app.domains.document.ingestion import ingest_pipeline_result
+    from app.models import Document, Question
+
+    stem = "清除历史冲突题干"
+    options = [{"label": "A", "text": "选项A"}, {"label": "B", "text": "选项B"}]
+
+    # 第一次：LaTeX 格式答案，直接标记一个假冲突（模拟历史遗留）
+    doc_a = Document(filename=f"clr_a_{uuid.uuid4().hex[:6]}.pdf", file_type="pdf",
+                     object_key="test/clr_a.pdf", subject="数学")
+    db.add(doc_a)
+    await db.flush()
+    r1 = await ingest_pipeline_result(
+        db,
+        pipeline_result=_make_pipeline_result("1", stem, options),
+        answer_result=_make_answer_result("数学", "1", r"①. $0$ ②. $\frac{3\pi}{4}$"),
+        document=doc_a,
+    )
+    qid = r1.question_ids[0]
+    # 人为制造历史假冲突标记（模拟旧比较误标）
+    q = await db.scalar(select(Question).where(Question.id == qid))
+    q.review_reason = f"answer_conflict:{doc_a.filename}:①. 0"
+    q.status = "reviewing"
+    await db.flush()
+
+    # 第二次：同内容但格式不同（归一化后 equal）→ dedup exact → 清除标记
+    doc_b = Document(filename=f"clr_b_{uuid.uuid4().hex[:6]}.pdf", file_type="pdf",
+                     object_key="test/clr_b.pdf", subject="数学")
+    db.add(doc_b)
+    await db.flush()
+    r2 = await ingest_pipeline_result(
+        db,
+        pipeline_result=_make_pipeline_result("1", stem, options),
+        answer_result=_make_answer_result("数学", "1", r"①. 0 ②. \frac{3\pi}{4}"),
+        document=doc_b,
+    )
+    assert r2.question_ids[0] == qid
+    q2 = await db.scalar(select(Question).where(Question.id == qid))
+    assert q2.review_reason is None, f"exact 匹配应清除历史 conflict 标记，实际: {q2.review_reason}"
+    assert q2.status == "approved"
+
+
+@pytest.mark.asyncio
 async def test_ingestion_first_upload_creates_question_with_correct_fields(db, subject_id):
     """首次上传一道题：Question 正常创建，answer/status/content_hash/occurrence_count 字段正确。"""
     from app.domains.document.ingestion import ingest_pipeline_result

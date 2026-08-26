@@ -10,6 +10,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from dataclasses import dataclass, field
 from decimal import Decimal
 from uuid import UUID
@@ -278,6 +279,20 @@ async def _ingest_one_question(
                 "dedup exact: Q%s hash=%s → existing question %s (occurrence=%d)",
                 sq.question_number, content_hash[:12], existing_question.id, existing_question.occurrence_count,
             )
+            # 2026-08-26：答案归一化后一致 → 清除历史遗留的 answer_conflict
+            # 标记并恢复 approved（Q13/15/17 等格式类假冲突在旧比较下被误标，
+            # 重灌 dedup exact 时应自动解除，否则标记永久滞留 reviewing）。
+            if (
+                existing_question.review_reason
+                and existing_question.review_reason.startswith("answer_conflict:")
+                and existing_question.status == "reviewing"
+            ):
+                existing_question.review_reason = None
+                existing_question.status = "approved"
+                logger.info(
+                    "dedup exact: Q%s cleared stale answer_conflict (normalized answers equal) → approved",
+                    sq.question_number,
+                )
         return existing_question.id
 
     # 第二步：LLM 相似判断（暂时禁用，待方案重新设计）
@@ -390,12 +405,46 @@ async def _ingest_one_question(
 
 
 def _compact_answer(text: str | None) -> str:
-    """答案比较用归一：去掉全部空白（含全角空格/换行），仅保留内容字符。
+    """答案比较用归一：格式统一后再比对，消除"同内容不同格式"的假冲突。
 
-    2026-08-25（BUG-026）：语文朝阳 Q17 两次重灌答案内容一致但内部空格不同
-    （"①.何时可掇" vs "①. 何时可掇"），去重比较 .strip() 只去首尾 → 假冲突。
+    2026-08-25（BUG-026）：只去空白，语文朝阳 Q17 假冲突已修。
+    2026-08-26（数学 40 题 answer_conflict）：同一道题两次入库，答案内容
+    相同但格式不同（LLM/OCR 输出抖动）被误判冲突：
+    - LaTeX 包裹：`$0$` vs `0`、`$\\frac{3\\pi}{4}$` vs `\\frac{3\\pi}{4}`
+    - 全角/半角：`(1)` vs `（1）`、`；` vs `;`、`：` vs `:`
+    - 分隔符：换行 vs `；` 拼接
+    归一化顺序：去空白 → 全角转半角 → LaTeX 标记剥离 → 数学命令等价化。
+    仅用于去重冲突判断，不改变存储的原始答案。
     """
-    return "".join((text or "").split())
+    if not text:
+        return ""
+    out = "".join(text.split())  # 去全部空白（含全角空格/换行）
+    # 圈号后点号/空白归一（`①.`/`①`/`①．` → `①`；LLM 输出圈号后点号有无抖动）
+    out = re.sub(r"([①②③④⑤⑥⑦⑧⑨⑩])\s*[.．、]?", r"\1", out)
+    # 全角 → 半角（常见标点；保留中文与圈号 ①②③）
+    out = out.replace("（", "(").replace("）", ")")
+    out = out.replace("；", ";").replace("：", ":").replace("，", ",")
+    out = out.replace("．", ".").replace("。", ".")
+    out = out.replace("－", "-").replace("～", "~")
+    # 换行/分号分隔统一（LLM 输出有时 \n 换行、有时 ；拼接，同内容）
+    out = out.replace("\\n", ";").replace("\n", ";")
+    # LaTeX 标记剥离（含 $ 或 \\ 时才处理，否则原样）
+    if "$" in out or "\\" in out:
+        out = re.sub(r"\$\$", "", out).replace("$", "")
+        out = out.replace(r"\(", "").replace(r"\)", "").replace(r"\[", "").replace(r"\]", "")
+        # \frac{a}{b} → a/b（保留分子分母内容，去掉命令外壳）
+        out = re.sub(r"\\frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}", r"\1/\2", out)
+        out = re.sub(r"\\dfrac\s*\{([^{}]*)\}\s*\{([^{}]*)\}", r"\1/\2", out)
+        out = re.sub(r"\\sqrt\s*\{([^{}]*)\}", r"sqrt(\1)", out)
+        # \text{...} / \mathrm{...} 等文本标记 → 取内容
+        out = re.sub(r"\\(?:text|mathrm|mathbf|mathit|mathrm|operatorname)\s*\{([^{}]*)\}", r"\1", out)
+        out = out.replace(r"\{", "{").replace(r"\}", "}")
+        out = out.replace(r"\pi", "π").replace(r"\mid", "|").replace(r"\le", "<=").replace(r"\ge", ">=")
+        # 间距/括号命令与 \command 外壳 → 去命令名保留字母（\sin→sin 等）
+        out = re.sub(r"\\(?:left|right|big|Big|bigg|Bigg|quad|qquad|;|,|!| )", "", out)
+        out = re.sub(r"\\([a-zA-Z]+)", r"\1", out)
+        out = out.replace("{", "").replace("}", "")
+    return out
 
 
 def _extract_review_reason(sq: SlicedQuestion, final_answer: str) -> str:
