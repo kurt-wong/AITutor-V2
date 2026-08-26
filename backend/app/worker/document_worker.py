@@ -233,6 +233,12 @@ async def document_parse_worker(
                     document.processing_status = "failed"
                     error_msg = "; ".join(result.errors) if result.errors else "pipeline failed"
                     document.error_message = error_msg[:500]
+                elif result.status == "scanned":
+                    # 2026-08-25 扫描件标注：纯扫描 PDF（无文本层）OCR 不可靠，
+                    # 标记 scanned 供后续集中处理，不入库、不重试。
+                    document.processing_status = "scanned"
+                    error_msg = "; ".join(result.errors) if result.errors else "scanned pdf"
+                    document.error_message = error_msg[:500]
                 elif result.status == "partial_failed":
                     logger.error(
                         "partial_failed task_id=%s document_id=%s errors=%s",

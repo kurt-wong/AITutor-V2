@@ -384,6 +384,28 @@ async def run_simple_pipeline(
     if native_doc is not None:
         result.native_l1_document = native_doc
 
+    # 2026-08-25 扫描件标注：纯扫描 PDF（无文本层，text_coverage 极低）
+    # 的题号/公式区域 OCR 后不可靠（昌平生物 8 题题号被误读），换 OCR
+    # 引擎亦无法解决（同一后端、题号印刷模糊）。此类样本少，先标注出来
+    # 交由后续集中处理，不浪费 OCR/LLM token 跑一条注定质量差的管线。
+    _SCANNED_TEXT_COVERAGE_THRESHOLD = 0.02
+    if (
+        not is_docx
+        and native_doc is not None
+        and native_doc.text_coverage < _SCANNED_TEXT_COVERAGE_THRESHOLD
+    ):
+        result.status = "scanned"
+        result.errors.append(
+            "scanned_pdf: 扫描版 PDF（无文本层），题号/公式 OCR 不可靠，"
+            "暂不进入管线，后续集中处理"
+        )
+        logger.warning(
+            "scanned_pdf detected: filename=%s text_coverage=%.4f",
+            filename,
+            native_doc.text_coverage,
+        )
+        return result
+
     # 2. PP canonical L1
     if is_docx:
         # DOCX 原生文本即 canonical（无 OCR；ppsv3_doc 复用 native 以通过

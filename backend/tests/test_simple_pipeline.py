@@ -73,6 +73,7 @@ def _load_l1(path: Path, source: str) -> L1Document:
         lines=lines,
         source=source,
         total_pages=data.get("total_pages", 1),
+        text_coverage=1.0 if source == "native" else 0.0,
     )
 
 
@@ -475,3 +476,58 @@ def test_simple_pipeline_records_ocr_provider():
         assert ppsv3_stage.get("model") == "PP-StructureV3"
     finally:
         pdf.unlink(missing_ok=True)
+
+
+def test_scanned_pdf_detected_and_skips_ocr():
+    """纯扫描 PDF（native text_coverage=0）→ status=scanned，不跑 OCR。
+
+    2026-08-25 昌平生物教训：扫描件题号/公式 OCR 不可靠（换引擎也解决
+    不了），后端层层补丁治标不治本。改为检测扫描件 → 标记 scanned →
+    跳过 OCR/LLM（不浪费 token），后续集中处理。
+    """
+    native = L1Document(
+        filename="scanned.pdf",
+        pages=[],
+        lines=[],
+        source="native",
+        total_pages=1,
+        text_coverage=0.0,  # 无文本层
+    )
+    gateway = LLMGateway(
+        mode="live",
+        providers=[MockLLMProvider(response=_mock_llm_response())],
+    )
+    # 不传 pdf_path（避免真跑 native 提取/OCR），直接传 native_doc
+    result = asyncio.run(run_simple_pipeline(
+        native_doc=native,
+        gateway=gateway,
+        filename="scanned.pdf",
+    ))
+
+    assert result.status == "scanned"
+    assert any("scanned_pdf" in e for e in result.errors)
+    # 没有跑 OCR（无 ppsv3_l1 stage）
+    assert not any(s["name"] == "ppsv3_l1" for s in result.stages)
+
+
+def test_text_layer_pdf_not_flagged_as_scanned():
+    """有文本层的 PDF（text_coverage=1.0）不应被标记为 scanned。"""
+    native = L1Document(
+        filename="text.pdf",
+        pages=[],
+        lines=[],
+        source="native",
+        total_pages=1,
+        text_coverage=1.0,
+    )
+    gateway = LLMGateway(
+        mode="live",
+        providers=[MockLLMProvider(response=_mock_llm_response())],
+    )
+    result = asyncio.run(run_simple_pipeline(
+        native_doc=native,
+        gateway=gateway,
+        filename="text.pdf",
+    ))
+    # 有文本层：不是 scanned（会继续走 OCR/标注，status 不可能是 scanned）
+    assert result.status != "scanned"
