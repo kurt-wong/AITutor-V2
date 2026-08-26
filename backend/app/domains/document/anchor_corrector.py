@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 # 题号模式（行首）。排除小数和 LaTeX 续行（如 0.\end{aligned}）。
 # 兼容 VL 输出的转义点（如 "16\. 下列..."）：\\? 匹配可选的反斜杠。
 _QUESTION_NUMBER_RE = re.compile(
-    r"^(\s*)(\d{1,3})\s*\\?[.、．]"
+    r"^(\s*)(\d{1,3})\s*\\?[.、．，]"
     r"(?!\d+(?:\s*[+\-*/=×÷xX\\]|$))"
     r"(?!\\)"
 )

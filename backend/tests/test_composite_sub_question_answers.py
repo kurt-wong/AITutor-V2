@@ -101,3 +101,49 @@ class TestMergeQuestionGroupSubQuestionAnswers:
         merged = _merge_question_group([q], line_by_id)
         assert merged.answer is not None
         assert "X" in merged.answer
+
+    def test_choice_group_sub_options_preserved(self):
+        """选择题组综合题（共享题图）：子题的 stem_line_ids/options_line_ids 透传。
+
+        2026-08-26：育英地理"读图完成 18-20 题"共享题图选择题组，LLM 输出
+        综合题子题带各自题干/选项行号 → _merge_question_group 必须保留，
+        否则合并后子题丢失选项（无法独立展示）。
+        """
+        doc = _doc()
+        line_by_id = {l.line_id: l for l in doc.lines}
+        anchor = CorrectedAnchor(
+            field="stem", llm_line_ids=["P1L003"],
+            corrected_line_ids=["P1L003"],
+            anchor_status="exact", validation_passed=True,
+        )
+        q1 = SlicedQuestion(
+            question_number="18", question_type="single_choice", stem="", options=[],
+            answer=None, confidence=0.9, stem_anchor=anchor, corrected_anchors=[anchor],
+            shared_material_line_ids=["P1L001", "P1L002"],
+            sub_questions=[L2SubQuestion(
+                qno="18", question_type="single_choice", answer="D",
+                stem_line_ids=["P1L003"],
+                options_line_ids={"A": ["P1L004"], "B": ["P1L005"]},
+            )],
+        )
+        q2 = SlicedQuestion(
+            question_number="19", question_type="single_choice", stem="", options=[],
+            answer=None, confidence=0.9, stem_anchor=anchor, corrected_anchors=[anchor],
+            shared_material_line_ids=["P1L001", "P1L002"],
+            sub_questions=[L2SubQuestion(
+                qno="19", question_type="single_choice", answer="B",
+                stem_line_ids=["P1L004"],
+                options_line_ids={"A": ["P1L006"], "B": ["P1L007"]},
+            )],
+        )
+        merged = _merge_question_group([q1, q2], line_by_id)
+        assert merged.is_composite is True
+        assert len(merged.sub_questions) == 2
+        # 子题选项透传
+        sub_opts = {s.qno: s.options_line_ids for s in (merged.sub_questions or [])}
+        assert sub_opts["18"] == {"A": ["P1L004"], "B": ["P1L005"]}
+        assert sub_opts["19"] == {"A": ["P1L006"], "B": ["P1L007"]}
+        # 子题题干行号透传
+        sub_stems = {s.qno: s.stem_line_ids for s in (merged.sub_questions or [])}
+        assert sub_stems["18"] == ["P1L003"]
+        assert sub_stems["19"] == ["P1L004"]

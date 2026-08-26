@@ -22,6 +22,10 @@ class L2SubQuestion:
 
     qno: str                    # 子题编号（如 "1"、"2"、"（1）"）
     question_type: str | None = None  # 子题题型（fill_in / single_choice / ...）
+    # 2026-08-26：选择题组综合题（共享题图，"读图完成 18-20 题"）子题
+    # 带题干/选项行号，供切片/入库保留各子题完整内容。
+    stem_line_ids: list[str] = field(default_factory=list)
+    options_line_ids: dict[str, list[str]] = field(default_factory=dict)
     answer: str | None = None   # 子题答案
     knowledge_points: list[str] = field(default_factory=list)
     score: float | None = None  # 子题分值

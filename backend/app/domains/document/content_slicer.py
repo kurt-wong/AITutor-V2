@@ -235,6 +235,9 @@ def _merge_question_group(
                 sub_questions.append(L2SubQuestion(
                     qno=sub.qno or q.question_number,
                     question_type=sub.question_type or q.question_type,
+                    # 2026-08-26：选择题组综合题（共享题图）透传子题题干/选项行号
+                    stem_line_ids=sub.stem_line_ids or [],
+                    options_line_ids=sub.options_line_ids or {},
                     answer=sub.answer,  # L2 标注层的子题答案（LLM 输出）
                     knowledge_points=sub.knowledge_points or q.knowledge_points or [],
                     score=sub.score or q.score,

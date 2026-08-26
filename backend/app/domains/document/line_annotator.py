@@ -488,12 +488,23 @@ ANNOTATION_PROMPT = """你是一个试卷文档标注助手。给定一份试卷
 
 ## 综合题识别（材料题必须合并）
 
-对于共享同一段材料/文章/实验描述的若干子题，必须输出为一道综合题，不要拆成独立题目。
+对于共享同一段材料/文章/实验描述/题图/前提条件的若干子题，必须输出为一道综合题，不要拆成独立题目。
 
-**判断规则：**
-- 去掉材料后，子题是否还能独立作答？
-  - 不能独立作答（如完形填空的空格、阅读理解的选择、共享文章下的语法填空）→ **综合题**
-  - 能独立作答（如化学 20 道独立选择题、英语独立带题号的语法句子）→ **独立题**
+**第一优先规则（共享即合并，不依赖能否独立作答）：**
+- **只要多道题共享同一份材料/文章/题图/图表/前提条件，就合并为一道综合题**——无论每道子题是否有自己的选项、无论去掉材料后子题"看起来"能否作答。因为脱离共享材料/题图，子题就失去作答所需的上下文，不能作为真正独立的题目。
+- 共享材料/题图的信号（任一项即判定共享）：
+  - 卷面显式标识："读图/读表/读材料…完成 N—M 题"、"结合材料回答 N—M 题"
+  - 题干均引用同一图表："如图""下图""读图""读表""下图为…""如下图所示""如表所示"且指向同一张图/表
+  - 多题共享同一段文字材料/文章/实验描述/前提条件（shared_material_line_ids 重叠）
+- 共享题图示例：地理"读图，完成 18—20 题"的 18/19/20；生物共享某实验示意图的多题；物理共享电路图的多题——**均合并为一道综合题**
+
+**第二规则（独立题判断，仅当完全无共享材料/题图时）：**
+- 每道题引用**各自独立的图/材料**（如 Q21 引用自己的"甲城市机动车流量变化图"、Q22 引用自己的阅兵图）→ **保持独立题**
+- 化学 20 道独立选择题（无共享材料、无共享题图）→ 独立题
+- 英语独立带题号的语法句子（各自独立、无共享文章）→ 独立题
+
+**⚠️ 特别提醒：选择题组共享题图时必须合并，不要因为"每道选择题有自己选项"就判为独立题。**
+选择题组一旦共享题图/材料，该图/材料就是题目不可分割的组成部分——去掉它，子题无法理解题意，所以必须合并为综合题，子题作为 sub_questions 保留各自题干/选项/答案。
 
 **综合题类型举例：**
 - 英语：完形填空、共享文章下的语法填空/词汇填空、阅读理解、七选五、阅读表达
@@ -502,6 +513,13 @@ ANNOTATION_PROMPT = """你是一个试卷文档标注助手。给定一份试卷
 - 物理：综合实验题
 - 生物：实验设计题
 - 历史/政治/地理：材料分析题
+- **地理/生物/物理等：共享题图/图表/前提的选择题组**——卷面常以"读图/读表…完成 N—M 题"标识，或题干均含"如图为…"且指向**同一**图表/示意图/折线图/统计表/前提条件（如"读图，完成 18—20 题"的 18/19/20 三道选择题）
+
+**共享题图判断要点（语义判断，不要只看有没有"完成 N—M 题"字样）：**
+- 多道题的题干都引用**同一张图/表/示意图/前提**（如"读图完成 18—20 题"、或题干都写"如图为甲城市…"且指同一图）→ 共享题图 → **合并为综合题**
+- 每道题引用**各自独立的图**（如 Q21 引用自己的"甲城市机动车流量变化图"、Q22 引用自己的阅兵图）→ **保持独立题**
+- "读图完成 N—M 题"只是常见标识之一，**没有该字样但语义上共享同一图表/前提的，同样要合并**；反之，即使相邻也不能仅因题号连续而合并
+- 题图引用信号：题干中的"如图""下图""读图""读表""下图为…""如下图所示"等指向同一图表
 
 **英语试卷分组注意（按语义判断，不按题号机械合并）：**
 - 多个小题只有在共享同一篇材料/文章/短文时才合并为综合题
@@ -513,15 +531,17 @@ ANNOTATION_PROMPT = """你是一个试卷文档标注助手。给定一份试卷
 
 **综合题输出格式：**
 - question_number = 该组第一道题的大题号（如 "11"）
-- question_type = 保留原始题型（cloze / reading / grammar_fill / seven_to_five / ...）
+- question_type = 保留原始题型（cloze / reading / grammar_fill / seven_to_five / single_choice / ...）
 - is_composite = true
 - stem_markers = 材料全文的首尾标记
 - stem_line_ids = 只包含子题题干行号（❌ 不包含共享材料行；材料行只放 shared_material_line_ids）
-- shared_material_line_ids = 材料全文的行号（材料不得重复写入每道题的 stem_line_ids）
-- answer = 所有子题答案（格式："(1) B (2) C (3) A ..."）
+- shared_material_line_ids = 材料全文的行号（含题图引用说明行；材料不得重复写入每道题的 stem_line_ids）
+- answer = 所有子题答案（格式："(1) B (2) C (3) A ..."；选择题组如 "(18) D (19) B (20) C"）
 - sub_questions = 子题元数据数组，每项包含：
-  - qno: 子题编号（如 "1"、"2"、"（1）"）
+  - qno: 子题编号（如 "1"、"2"、"（1）"、"18"）
   - question_type: 子题题型（fill_in / single_choice / ...）
+  - stem_line_ids: 子题题干行号（选择题组为各题题干行）
+  - options_line_ids: 子题选项行号（仅选择题子题，如 {{"A": [...], "B": [...], "C": [...], "D": [...]}}）
   - answer: 子题答案
   - knowledge_points: 知识点（可选）
   - score: 分值（可选）
@@ -582,6 +602,43 @@ ANNOTATION_PROMPT = """你是一个试卷文档标注助手。给定一份试卷
       ],
       "difficulty": 3,
       "knowledge_points": ["语法填空"]
+    }},
+    {{
+      "question_number": "18",
+      "question_type": "single_choice",
+      "is_composite": true,
+      "section_id": "选择题_共享题图",
+      "stem_markers": {{
+        "start": "读图，完成18—20题",
+        "end": "三种地貌类型依次分别是"
+      }},
+      "stem_line_ids": [],
+      "shared_material_line_ids": ["P3L001", "P3L002", "P3L003", "P3L004"],
+      "options_line_ids": {{}},
+      "answer": "(18) D (19) B (20) C",
+      "answer_line_ids": ["P9L010"],
+      "sub_questions": [
+        {{
+          "qno": "18", "question_type": "single_choice",
+          "stem_line_ids": ["P3L005"],
+          "options_line_ids": {{"A": ["P3L006"], "B": ["P3L007"], "C": ["P3L008"], "D": ["P3L009"]}},
+          "answer": "D"
+        }},
+        {{
+          "qno": "19", "question_type": "single_choice",
+          "stem_line_ids": ["P3L010"],
+          "options_line_ids": {{"A": ["P3L011"], "B": ["P3L012"], "C": ["P3L013"], "D": ["P3L014"]}},
+          "answer": "B"
+        }},
+        {{
+          "qno": "20", "question_type": "single_choice",
+          "stem_line_ids": ["P3L015"],
+          "options_line_ids": {{"A": ["P3L016"], "B": ["P3L017"], "C": ["P3L018"], "D": ["P3L019"]}},
+          "answer": "C"
+        }}
+      ],
+      "difficulty": 3,
+      "knowledge_points": ["地貌"]
     }},
     {{
       "question_number": "19",
@@ -721,9 +778,21 @@ async def annotate_document(
         if raw_sub_questions and isinstance(raw_sub_questions, list):
             sub_questions = []
             for sq_data in raw_sub_questions:
+                # 2026-08-26：选择题组综合题的子题带 stem_line_ids/options_line_ids
+                # （"读图完成 18-20 题"的共享题图选择题组），解析保留，供
+                # _merge_question_group 合并时保留子题题干与选项。
+                raw_sub_opts = sq_data.get("options_line_ids", {}) or {}
+                sub_options = {
+                    label: _validate_line_ids(ids, valid_line_ids, "sub_options")
+                    for label, ids in raw_sub_opts.items()
+                }
                 sub_questions.append(L2SubQuestion(
                     qno=str(sq_data.get("qno", "")),
                     question_type=sq_data.get("question_type"),
+                    stem_line_ids=_validate_line_ids(
+                        sq_data.get("stem_line_ids", []), valid_line_ids, "sub_stem"
+                    ),
+                    options_line_ids=sub_options,
                     answer=sq_data.get("answer"),
                     knowledge_points=sq_data.get("knowledge_points", []),
                     score=sq_data.get("score"),
