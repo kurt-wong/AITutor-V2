@@ -35,6 +35,9 @@ class _MockSession:
             def __iter__(self):
                 return iter(self._items)
 
+            def all(self):
+                return list(self._items)
+
         return _Result([])
 
 
@@ -221,4 +224,41 @@ def test_statistics_forwards_filters() -> None:
         assert fake.last_statistics_kwargs.get("grade") == "高二"
         assert fake.last_statistics_kwargs.get("knowledge_point") == "函数"
     finally:
+        _clear()
+
+
+def test_search_questions_forwards_source_document_name() -> None:
+    """source_document_name 参数透传到 service（管理后台文档入口）。
+
+    注意：query 参数经 FastAPI 自动 URL 解码，前端传 URLSearchParams
+    编码值时服务端收到明文（如 "2024北京"）。
+    """
+    _override()
+    try:
+        client = TestClient(app)
+        r = client.get("/api/admin/questions?source_document_name=2024%E5%8C%97%E4%BA%AC")
+        assert r.status_code == 200
+        assert fake.last_search_kwargs.get("source_document_name") == "2024北京"
+    finally:
+        _clear()
+
+
+def test_catalog_api() -> None:
+    """GET /api/admin/catalog 返回学科→年级聚合（管理后台题库目录树）。"""
+    _override()
+    try:
+        async def _fake_catalog():
+            return [
+                {"name": "数学", "question_count": 3,
+                 "grades": [{"name": "高一", "question_count": 3}]},
+            ]
+        fake.get_catalog = _fake_catalog
+        client = TestClient(app)
+        r = client.get("/api/admin/catalog")
+        assert r.status_code == 200
+        data = r.json()["data"]
+        assert data[0]["name"] == "数学"
+        assert data[0]["grades"][0]["name"] == "高一"
+    finally:
+        del fake.get_catalog
         _clear()

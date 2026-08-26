@@ -33,6 +33,24 @@ def _error_response(status_code: int, code: str, message: str) -> JSONResponse:
     )
 
 
+async def _load_name_maps(
+    session: AsyncSession,
+) -> tuple[dict[str, str], dict[str, str]]:
+    """加载 subject / question_type 的 id→name 映射（表很小，全量查一次）。
+
+    供题目列表/详情序列化时附带名称，避免前端仅凭 UUID 无法展示学科/题型。
+    """
+    subject_names = {
+        str(row.id): row.name
+        for row in (await session.scalars(select(Subject))).all()
+    }
+    question_type_names = {
+        str(row.id): row.name
+        for row in (await session.scalars(select(QuestionType))).all()
+    }
+    return subject_names, question_type_names
+
+
 async def _resolve_subject_id(session: AsyncSession, subject: str | None) -> UUID | None:
     """按 code（MATH）或 name（数学）解析学科 id。"""
     if not subject:
@@ -55,6 +73,14 @@ async def _resolve_question_type_id(
     return await session.scalar(stmt)
 
 
+@router.get("/catalog", response_model=None)
+async def get_catalog(
+    service: QuestionApplicationService = Depends(get_question_application_service),
+) -> dict | JSONResponse:
+    """题库目录聚合：学科 → 年级 → 题目数（管理后台题库目录树）。"""
+    return build_response(await service.get_catalog())
+
+
 @router.get("/questions", response_model=None)
 async def search_questions(
     subject: str | None = Query(None),
@@ -67,6 +93,7 @@ async def search_questions(
     source_type: str | None = Query(None),
     status: str | None = Query(None),
     confidence: float | None = Query(None, ge=0, le=1),
+    source_document_name: str | None = Query(None),
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
     session: AsyncSession = Depends(get_db_session),
@@ -77,6 +104,9 @@ async def search_questions(
     confidence 语义（对抗性审查 F4）：**精确匹配**（`Question.confidence == value`），
     非阈值范围。需要范围筛选（如低置信度 < 0.5）请通过 status=reviewing 组合实现，
     或后续扩展 min_confidence/max_confidence 参数。
+
+    source_document_name：来源文档名模糊匹配（ilike %..%），供管理后台
+    「从文档列表查看入库题目」入口使用。
     """
     if source_type is not None and source_type not in SOURCE_TYPES:
         return _error_response(400, "VALIDATION_ERROR", f"Unsupported source_type: {source_type}")
@@ -97,12 +127,17 @@ async def search_questions(
         source_type=source_type,
         status=status,
         confidence=confidence,
+        source_document_name=source_document_name,
         page=page,
         page_size=page_size,
     )
+    subject_names, question_type_names = await _load_name_maps(session)
     return build_response(
         {
-            "items": [_serialize_question(q) for q in items],
+            "items": [
+                _serialize_question(q, subject_names, question_type_names)
+                for q in items
+            ],
             "total": total,
             "page": page,
             "page_size": page_size,
@@ -113,6 +148,7 @@ async def search_questions(
 @router.get("/questions/{question_id}", response_model=None)
 async def get_question(
     question_id: UUID,
+    session: AsyncSession = Depends(get_db_session),
     service: QuestionApplicationService = Depends(get_question_application_service),
 ) -> dict | JSONResponse:
     """单题详情：内容、答案、详解、配图、元数据和出现次数（ACS §5.3 合约）。
@@ -124,7 +160,8 @@ async def get_question(
     if question is None:
         return _error_response(404, "NOT_FOUND", "Question not found")
 
-    data = _serialize_question(question)
+    subject_names, question_type_names = await _load_name_maps(session)
+    data = _serialize_question(question, subject_names, question_type_names)
     data["occurrence_count"] = occurrence_count
     data["images"] = [
         {
@@ -176,12 +213,19 @@ async def get_statistics(
     return build_response(stats)
 
 
-def _serialize_question(q: Question) -> dict:
+def _serialize_question(
+    q: Question,
+    subject_names: dict[str, str] | None = None,
+    question_type_names: dict[str, str] | None = None,
+) -> dict:
     return {
         "id": str(q.id),
         "subject_id": str(q.subject_id),
+        "subject_name": (subject_names or {}).get(str(q.subject_id)),
         "grade": q.grade,
         "question_type_id": str(q.question_type_id) if q.question_type_id else None,
+        "question_type_name": (question_type_names or {}).get(str(q.question_type_id))
+        if q.question_type_id else None,
         "stem": q.stem,
         "options": q.options,
         "answer": q.answer,

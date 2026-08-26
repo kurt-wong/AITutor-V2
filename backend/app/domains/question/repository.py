@@ -7,6 +7,7 @@ from app.models import (
     QuestionImage,
     QuestionInstance,
     QuestionKnowledge,
+    Subject,
 )
 from app.repositories.base import BaseRepository
 
@@ -31,6 +32,38 @@ class QuestionRepository(BaseRepository[Question]):
         result = await self.session.scalars(stmt)
         return list(result)
 
+    async def catalog(
+        self,
+    ) -> list[dict]:
+        """题库目录聚合：学科 → 年级 → 题目数（供管理后台题库目录树）。
+
+        返回形如：
+        [{"name": "数学", "question_count": 123,
+          "grades": [{"name": "高一", "question_count": 100},
+                     {"name": null, "question_count": 23}]}]
+        """
+        rows = await self.session.execute(
+            select(
+                Subject.name,
+                Question.grade,
+                func.count(func.distinct(Question.id)),
+            )
+            .join(Subject, Subject.id == Question.subject_id)
+            .group_by(Subject.name, Question.grade)
+            .order_by(Subject.name, Question.grade)
+        )
+        subjects: dict[str, dict] = {}
+        for subject_name, grade, count in rows:
+            entry = subjects.setdefault(
+                subject_name,
+                {"name": subject_name, "question_count": 0, "grades": []},
+            )
+            entry["question_count"] += count
+            entry["grades"].append(
+                {"name": grade, "question_count": count}
+            )
+        return list(subjects.values())
+
     def _build_search_stmt(
         self,
         *,
@@ -44,6 +77,7 @@ class QuestionRepository(BaseRepository[Question]):
         source_type: str | None = None,
         status: str | None = None,
         confidence: float | None = None,
+        source_document_name: str | None = None,
         count_only: bool = False,
     ):
         """Phase 2B：构建条件搜索 SQL（JOIN instances 支持 year/school，JOIN knowledge 支持知识点）。"""
@@ -65,6 +99,10 @@ class QuestionRepository(BaseRepository[Question]):
             stmt = stmt.where(Question.status == status)
         if confidence is not None:
             stmt = stmt.where(Question.confidence == confidence)
+        if source_document_name is not None:
+            stmt = stmt.where(
+                Question.source_document_name.ilike(f"%{source_document_name}%")
+            )
 
         # year / school 在 question_instances（Phase 2A 迁移）
         if year is not None or school is not None:
@@ -96,6 +134,7 @@ class QuestionRepository(BaseRepository[Question]):
         source_type: str | None = None,
         status: str | None = None,
         confidence: float | None = None,
+        source_document_name: str | None = None,
         skip: int = 0,
         limit: int = 100,
     ) -> tuple[list[Question], int]:
@@ -111,6 +150,7 @@ class QuestionRepository(BaseRepository[Question]):
             source_type=source_type,
             status=status,
             confidence=confidence,
+            source_document_name=source_document_name,
         )
         # distinct（JOIN 多表可能产生重复行）
         stmt = stmt.distinct().order_by(Question.created_at.desc()).offset(skip).limit(limit)
@@ -127,6 +167,7 @@ class QuestionRepository(BaseRepository[Question]):
             source_type=source_type,
             status=status,
             confidence=confidence,
+            source_document_name=source_document_name,
             count_only=True,
         )
         total = await self.session.scalar(count_stmt)

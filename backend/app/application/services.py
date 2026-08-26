@@ -359,6 +359,7 @@ class QuestionApplicationService:
         source_type: str | None = None,
         status: str | None = None,
         confidence: float | None = None,
+        source_document_name: str | None = None,
         page: int = 1,
         page_size: int = 20,
     ) -> tuple[list[Question], int]:
@@ -375,9 +376,14 @@ class QuestionApplicationService:
             source_type=source_type,
             status=status,
             confidence=confidence,
+            source_document_name=source_document_name,
             skip=skip,
             limit=page_size,
         )
+
+    async def get_catalog(self) -> list[dict]:
+        """题库目录聚合：学科 → 年级 → 题目数。"""
+        return await self.question_service.catalog()
 
     async def get_statistics(
         self,

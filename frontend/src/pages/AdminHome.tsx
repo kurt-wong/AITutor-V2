@@ -1364,19 +1364,30 @@ export default function AdminHome() {
             <div className="doc-list">
               {documents.length === 0 ? <p className="muted">暂无文档</p> : null}
               {documents.map((document) => (
-                <button
+                <div
                   key={document.id}
-                  className={`doc-item ${selectedId === document.id ? "active" : ""}`}
-                  type="button"
-                  onClick={() => {
-                    setImportedResult(null);
-                    setParse(null);
-                    setSelectedId(document.id);
-                  }}
+                  className={`doc-item-wrap ${selectedId === document.id ? "active" : ""}`}
                 >
-                  <span className="doc-name">{document.filename}</span>
-                  <span className="doc-status">{document.processing_status || document.upload_status}</span>
-                </button>
+                  <button
+                    className="doc-item"
+                    type="button"
+                    onClick={() => {
+                      setImportedResult(null);
+                      setParse(null);
+                      setSelectedId(document.id);
+                    }}
+                  >
+                    <span className="doc-name">{document.filename}</span>
+                    <span className="doc-status">{document.processing_status || document.upload_status}</span>
+                  </button>
+                  <Link
+                    className="doc-bank-link"
+                    to={`/admin/questions?document=${encodeURIComponent(document.filename)}`}
+                    title="查看该文档的入库题目"
+                  >
+                    入库
+                  </Link>
+                </div>
               ))}
             </div>
           </section>

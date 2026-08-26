@@ -2552,3 +2552,23 @@ LLM 无法给选项独立行号 → options_line_ids 全空 → 锚点校验 ret
 全库缺口 17→10（化学 7→0）。638 单测通过。
 
 **版本升至 6.39。**
+
+### 2026-08-27 07:20:00
+
+#### 管理后台「题库管理」页面上线（v6.40）
+**目标**（用户）：重跑全量测试前先完成前端页面，能从页面直观查看入库结果。
+**参考**：V1 前端（`D:\Project\AI Tutors\frontend`）的题库目录树 + 题目表格形态；
+设计语言遵循 `Docs/Design.md`（Apple-like，单一蓝 #0066cc，无阴影无渐变）。
+**前端**（`frontend/src/pages/QuestionBankPage.tsx`，约 500 行 + App.tsx 路由 `/admin/questions` + theme.css 样式）：
+- 左侧目录树：学科 → 年级 → 题目数（`GET /api/admin/catalog` 新端点）；
+- 右侧题目列表：状态徽章（已入库/待审核/已驳回/草稿）+ 题干摘要 + 学科/题型/难度/置信度/出现次数/综合题；
+- 筛选：学科 / 状态 / 题型 / 难度；分页；
+- 点击行展开详情：题干/选项/答案/详解/配图标识（`GET /api/admin/questions/{id}`）；
+- AdminHome 文档列表新增「入库」入口 → `/admin/questions?document=<filename>`（按 source_document_name 模糊筛选）。
+**后端**：
+- `repository.py`：`catalog()` 学科→年级聚合；`_build_search_stmt`/`search` 加 `source_document_name` ilike 筛选；
+- `service.py` / `application/services.py` / `api/routes/questions.py`：透传 + `GET /api/admin/catalog` 端点；
+- `_serialize_question` 增加 `subject_name` / `question_type_name`（全量查 subjects/question_types 映射，一次查询）。
+**已知缺口**：入库题目图片仅持久化 image_id（无 URL），详情页当前显示配图标识列表，实际图片渲染待后端图片服务端点。
+**验证**：Playwright（Edge headless）实测——目录树 28 节点、题目列表 20 行、详情展开（答案/选项/配图标识）、学科/状态筛选、文档入口跳转+解码、无 404（除 favicon）；tsc 类型检查通过；后端 10 单测 + 19 集成通过。
+**版本升至 6.40。**
