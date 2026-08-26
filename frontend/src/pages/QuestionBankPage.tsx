@@ -234,7 +234,7 @@ export default function QuestionBankPage() {
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [typeFilter, setTypeFilter] = useState<string>("");
   const [difficultyFilter, setDifficultyFilter] = useState<string>("");
-  // 文档入口：?document=<urlencoded filename>
+  // 文档入口：?document=<urlencoded filename>；学科入口：?subject=<学科名>
   const [documentFilter, setDocumentFilter] = useState<string>(
     () => searchParams.get("document") ?? "",
   );
@@ -243,6 +243,10 @@ export default function QuestionBankPage() {
     const doc = searchParams.get("document");
     if (doc) {
       setDocumentFilter(doc);
+    }
+    const subjectParam = searchParams.get("subject");
+    if (subjectParam) {
+      setSelection({ subject: subjectParam });
     }
   }, [searchParams]);
 
