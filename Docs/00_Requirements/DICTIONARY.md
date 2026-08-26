@@ -373,7 +373,7 @@ Question Aggregate
 | review_status | pending / approved / rejected | 审核状态 |
 | mastery_status | mastered / reviewing / not_mastered | 掌握状态 |
 | upload_status | queued / processing / completed / failed | 上传状态 |
-| processing_status | pending / parsing / annotating / reviewing / completed / failed | 文档处理状态 |
+| processing_status | pending / parsing / annotating / reviewing / completed / failed / scanned | 文档处理状态（scanned=扫描版 PDF，2026-08-25 新增，跳过 OCR 后续集中处理） |
 | trigger_type | manual / recommendation / admin | 练习触发方式 |
 
 ---
@@ -429,3 +429,8 @@ Question Aggregate
 
 - 版本升至 0.8：新增 Native L1、PPSV3 L1、Canonical L1、L1 Source Arbitration 概念。
 - 修正 Native Markdown/L1 Markdown 定义，明确 PyMuPDF 为辅助源。
+
+### 2026-08-26 08:06:54
+
+- `processing_status` 新增 `scanned` 状态：纯扫描版 PDF（无文本层，
+  text_coverage 极低）OCR 题号不可靠，标记后跳过 OCR/LLM，后续集中处理。

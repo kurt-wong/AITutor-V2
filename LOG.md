@@ -2346,3 +2346,52 @@ llm_annotation 两次出现，deepseek 探测均正常）。
 36 passed 无回归。提交 `9bf6594`。
 
 **版本升至 6.33。**
+
+### 2026-08-26 08:06:54
+
+#### DOCX 全管线支持 + 验证器 DOCX 适配 + worker 僵尸恢复 + 扫描件标注（版本 6.34）
+
+**① DOCX 全管线支持（提交 6c7f729）**：
+- `extract_l1_from_docx`（python-docx 段落+表格），解析 numbering.xml 还原
+  Word 自动编号前缀（upperLetter→A、decimal→数字、roman→罗马）；
+  simple_pipeline 对 .docx 跳过 OCR（ppsv3_doc=native_doc、零 paddle token）；
+  processor 临时文件保留原后缀（限 .pdf/.docx）。
+- DOCX 九科样本（test/docx，2018-2021 教师版）全量 e2e：严格通过率 62%
+  （165/267），答案命中 90%、答M=0。但口径注意：与 PDF 基线是**不同试卷**
+  非一对一对比，且 DOCX 批次选择题更多（275 vs 219）。
+- **DOCX 短板（记录，后续处理）**：选项/公式为图片时原生提取丢失
+  （数学 docx 271 张 WMF 公式图，paragraph.text 不含）；双卷题号冲突
+  （数学 A+B 卷 unique 约束拒 B 卷）；分栏布局锚定错位。讨论存档
+  `tmp/docx_pipeline_discussion.md`。
+
+**② 验证器 DOCX 适配（提交 64ec9f3）**：
+- pdf_raw 误配修复（非 .pdf 文档不参与 subject 模糊匹配，否则 docx 会
+  误用 test/pdf 下同科目其他 PDF 当答案证据源）；
+- docx 答案格式解析：内联 `1.【答案】D`、管道表格、无表头双行、同行配对；
+- 上标字符 int() 崩溃修复；e2e 排序 length+text（地理 "二.1"）。
+- 效果：DOCX e2e 从初跑 28% → 62%（答M 106→0）。
+
+**③ worker 僵尸任务恢复（提交 12cd06a）**：
+- 问题：worker 重启/崩溃遗留的 running 任务不会被轮询重拾（只查 queued）
+  → 文档永久卡 processing（DOCX 批次英语任务曾手工改 DB 才恢复）。
+- 修复：TaskService.recover_stale_running_tasks（running+超时+非 active
+  → 重置 queued）+ repository list_stale_running + worker 每轮询先恢复
+  （_active_task_id 跟踪当前任务）。单测 3 + worker 套件 30 passed +
+  E2E（ghost 任务 6s 恢复→拾取，日志 "recovered 1 stale running task"）。
+
+**④ 扫描版 PDF 检测标注（提交 148d8e6）**：
+- 昌平生物（全库唯一无文本层 PDF，PyMuPDF text_coverage=0）8 题题号被
+  OCR 误读（9→D、15→1b、28→33），实测换 OCR 引擎无效（PaddleOCR-VL 与
+  PP-StructureV3 同一后端，题号印刷模糊；题干内容两引擎均能认对，仅
+  "第几题"编号丢失）。
+- 决策（方向 B）：纯扫描件是少数（当前 1/39），不为异常样本反复调后端。
+  检测 text_coverage < 0.02 → 标记 processing_status=scanned，跳过
+  OCR/LLM（零 token 浪费），后续集中处理。此前为扫描件加的 option-fallback
+  + 宽松题号匹配补丁已全部回退。
+- E2E：昌平生物重跑秒级标记 scanned（无 paddle 请求）。
+
+**⑤ 规则新增（rules.md）**：遇到同一问题反复修改 ≥2 次、较大代码级/架构级
+调整、或用后端补"上游输入质量"问题时，必须先大白话讲清根因与改动范围，
+获得用户确认后再动手；禁止连续多轮闷头改代码、逐层加补丁。
+
+**版本升至 6.34。**
