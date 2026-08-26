@@ -196,3 +196,54 @@ def test_seven_choice_five_section_allows_seven_options():
     result = evaluate_quality(questions)
     assert not any("选项数量过多" in i for i in result[0].issues)
     assert result[0].confidence >= 0.8
+
+
+def test_composite_choice_group_skips_option_check():
+    """综合题（共享题图选择题组）父题无选项 → 跳过选项检查。
+
+    2026-08-26 育英地理"读图完成 18-20 题"：选择题组合并为综合题后，
+    父题 question_type=single_choice 但 options=[]（子题选项在
+    sub_questions 里）。quality_gate 不应要求父题有选项。
+    """
+    from app.domains.document.schemas_l2 import L2SubQuestion
+    questions = [
+        SlicedQuestion(
+            question_number="18",
+            question_type="single_choice",
+            stem="读图，完成18—20题。\n材料行1\n材料行2",
+            options=[],  # 综合题父题无独立选项
+            answer="(18) B (19) A (20) B",
+            answer_provenance=SourceProvenance("answer", "document_answer_table", 1.0),
+            is_composite=True,
+            sub_questions=[
+                L2SubQuestion(qno="18", question_type="single_choice", answer="B",
+                              options_line_ids={"A": ["P1L001"], "B": ["P1L002"]}),
+                L2SubQuestion(qno="19", question_type="single_choice", answer="A",
+                              options_line_ids={"A": ["P1L003"], "B": ["P1L004"]}),
+                L2SubQuestion(qno="20", question_type="single_choice", answer="B",
+                              options_line_ids={"A": ["P1L005"], "B": ["P1L006"]}),
+            ],
+        ),
+    ]
+
+    result = evaluate_quality(questions)
+    assert not any("选项锚点缺失" in i for i in result[0].issues)
+    assert not any("选项数量不足" in i for i in result[0].issues)
+
+
+def test_non_composite_choice_still_requires_options():
+    """非综合题选择题仍要求选项（回归保护）。"""
+    questions = [
+        SlicedQuestion(
+            question_number="1",
+            question_type="single_choice",
+            stem="test",
+            options=[],
+            answer="A",
+            answer_provenance=SourceProvenance("answer", "document_answer_table", 1.0),
+            is_composite=False,
+        ),
+    ]
+
+    result = evaluate_quality(questions)
+    assert any("选项锚点缺失" in i for i in result[0].issues)

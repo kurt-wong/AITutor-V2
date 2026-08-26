@@ -117,7 +117,10 @@ def evaluate_quality(
             score -= 0.4
 
         # 2. 检查选择题选项数量
-        if sq.question_type in ("single_choice", "multiple_choice"):
+        # 综合题（is_composite=True）跳过：父题无独立选项（子题选项在
+        # sub_questions 里，如"读图完成 18-20 题"选择题组综合题），
+        # 不能按普通选择题要求父题有选项。
+        if sq.question_type in ("single_choice", "multiple_choice") and not sq.is_composite:
             expected = _expected_option_count(sq)
             actual = len(sq.options)
             if actual == 0:
