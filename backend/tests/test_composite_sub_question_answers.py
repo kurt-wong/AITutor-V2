@@ -11,10 +11,15 @@
 3. 无 L2 子题时回退到 SlicedQuestion.answer
 """
 
-from app.domains.document.content_slicer import _merge_question_group
+from app.domains.document.content_slicer import (
+    _merge_question_group,
+    slice_questions,
+)
 from app.domains.document.schemas_l1 import L1Document, L1Line, L1Page
 from app.domains.document.schemas_l2 import (
     CorrectedAnchor,
+    L2DocumentAnnotation,
+    L2QuestionAnnotation,
     L2SubQuestion,
     SlicedQuestion,
 )
@@ -147,3 +152,74 @@ class TestMergeQuestionGroupSubQuestionAnswers:
         sub_stems = {s.qno: s.stem_line_ids for s in (merged.sub_questions or [])}
         assert sub_stems["18"] == ["P1L003"]
         assert sub_stems["19"] == ["P1L004"]
+
+
+def test_slice_questions_builds_parent_answer_from_subs():
+    """LLM 直接输出的综合题：父题 answer 为空时从子题答案汇总构建。
+
+    2026-08-26：育英地理共享题图选择题组，LLM 把答案写在 sub_questions[].answer
+    （父题 answer 字段为空）。slice_questions 必须在切片阶段为综合题父题
+    构建子题答案汇总（"(1) C (2) B ..." 格式），否则 answer_matcher 的
+    纯字母校验清空后父题 answer=None → quality_gate 误报 answer_missing。
+    """
+    lines = [
+        L1Line("P1L001", 1, 1, 1, "读图，完成9—11题", "text"),
+        L1Line("P1L002", 1, 2, 2, "（A）选项", "text"),
+        L1Line("P1L003", 1, 3, 3, "（B）选项", "text"),
+    ]
+    doc = L1Document(
+        filename="test.pdf", pages=[L1Page(page_no=1, lines=lines)],
+        lines=lines, source="native", total_pages=1,
+    )
+    annotation = L2DocumentAnnotation(
+        filename="test.pdf",
+        questions=[L2QuestionAnnotation(
+            question_number="9",
+            question_type="single_choice",
+            stem_line_ids=["P1L001"],
+            shared_material_line_ids=["P1L001"],
+            is_composite=True,
+            answer=None,  # LLM 父题 answer 为空
+            sub_questions=[
+                L2SubQuestion(qno="9", question_type="single_choice", answer="A"),
+                L2SubQuestion(qno="10", question_type="single_choice", answer="B"),
+                L2SubQuestion(qno="11", question_type="single_choice", answer="D"),
+            ],
+        )],
+    )
+
+    sliced = slice_questions(annotation, doc)
+    assert len(sliced) == 1
+    assert sliced[0].is_composite is True
+    # 父题答案从子题汇总构建
+    assert sliced[0].answer == "(9) A (10) B (11) D"
+
+
+def test_slice_questions_keeps_existing_parent_answer():
+    """综合题父题已有答案（如解答题从答案表匹配）时不覆盖。"""
+    lines = [
+        L1Line("P1L001", 1, 1, 1, "阅读材料", "text"),
+        L1Line("P1L002", 1, 2, 2, "（1）第一问", "text"),
+    ]
+    doc = L1Document(
+        filename="test.pdf", pages=[L1Page(page_no=1, lines=lines)],
+        lines=lines, source="native", total_pages=1,
+    )
+    annotation = L2DocumentAnnotation(
+        filename="test.pdf",
+        questions=[L2QuestionAnnotation(
+            question_number="26",
+            question_type="short_answer",
+            stem_line_ids=["P1L001"],
+            shared_material_line_ids=["P1L001"],
+            is_composite=True,
+            answer="（1）已有答案",  # 父题已有答案
+            sub_questions=[
+                L2SubQuestion(qno="（1）", question_type="short_answer", answer="子题答案"),
+            ],
+        )],
+    )
+
+    sliced = slice_questions(annotation, doc)
+    assert len(sliced) == 1
+    assert sliced[0].answer == "（1）已有答案"  # 不覆盖

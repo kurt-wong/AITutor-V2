@@ -150,6 +150,14 @@ def match_answers(
         )
 
     for sq in sliced_questions:
+        # 选择题组综合题：父题答案 = 子题答案汇总（content_slicer 已生成），
+        # 不走答案表匹配——文末答案表按子题号给单字母（如 18→B），会覆盖
+        # merged_answer 为单个字母，丢失子题汇总。跳过单题匹配，保留汇总答案。
+        if (
+            getattr(sq, "is_composite", False)
+            and sq.question_type in ("single_choice", "multiple_choice")
+        ):
+            continue
         _match_single_question(
             sq, doc, answer_table, answer_table_sources,
             explanation_map, solution_blocks,
@@ -801,6 +809,17 @@ def _apply_llm_annotation_answers(
         by_number.setdefault(q.question_number, q)
 
     for sq in sliced_questions:
+        # 选择题组综合题（共享题图/材料，如"读图完成 18-20 题"）：父题答案已在
+        # content_slicer 合并时由子题答案汇总生成（merged_answer，格式
+        # "(1) C (2) B ..."），不是单个字母。LLM 的 answer_line_ids 指向
+        # 文末答案表行时，_CHOICE_ANSWER_RE 纯字母校验会把它清空 →
+        # 父题 answer=None → quality_gate 误报"答案缺失"。这里直接跳过：
+        # 保留 content_slicer 生成的汇总答案（子题答案在 sub_questions 里）。
+        if (
+            getattr(sq, "is_composite", False)
+            and sq.question_type in ("single_choice", "multiple_choice")
+        ):
+            continue
         q = by_number.get(sq.question_number)
         if q is None:
             continue

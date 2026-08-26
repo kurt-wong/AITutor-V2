@@ -1032,3 +1032,73 @@ def test_short_answer_uses_solution_block_over_llm_line_ids():
 
     # 解题过程提取是确定性的，两轮结果必须一致
     assert result1[0].answer == result2[0].answer
+
+
+def test_choice_composite_keeps_merged_answer_over_letter_check():
+    """选择题组综合题：父题保留 content_slicer 的子题答案汇总。
+
+    2026-08-26：育英地理"读图完成 9-11 题"共享题图选择题组，content_slicer
+    合并时生成 merged_answer = "(9) A (10) B (11) D"（子题答案汇总）。
+    answer_matcher 曾把父题当普通选择题，_CHOICE_ANSWER_RE 纯字母校验
+    （^[A-G]{1,7}$）不匹配汇总格式 → 清空 → quality_gate 误报 answer_missing。
+    修复：选择题组综合题跳过 LLM 答案应用与答案表匹配，保留汇总答案。
+    """
+    lines = [
+        L1Line("P1L001", 1, 1, 1, "读图，完成9—11题", "text"),
+        L1Line("P1L002", 1, 2, 2, "参考答案 9.A 10.B 11.D", "text"),
+    ]
+    doc = L1Document(
+        filename="test.pdf",
+        pages=[L1Page(page_no=1, lines=lines)],
+        lines=lines,
+        source="native",
+        total_pages=1,
+    )
+    annotation = L2DocumentAnnotation(
+        filename="test.pdf",
+        questions=[L2QuestionAnnotation(
+            question_number="9",
+            question_type="single_choice",
+            answer="(9) A (10) B (11) D",
+            answer_line_ids=["P1L002"],  # 指向答案表行（含非字母内容）
+        )],
+    )
+    questions = [SlicedQuestion(
+        question_number="9",
+        question_type="single_choice",
+        stem="读图，完成9—11题",
+        options=[],
+        is_composite=True,
+        answer="(9) A (10) B (11) D",  # content_slicer 合并生成的汇总答案
+    )]
+
+    result = match_answers(questions, doc, llm_annotation=annotation)
+    # 汇总答案保留，不被纯字母校验清空、不被答案表单字母覆盖
+    assert result[0].answer == "(9) A (10) B (11) D"
+
+
+def test_choice_composite_keeps_merged_answer_without_llm_annotation():
+    """选择题组综合题：无 llm_annotation 时也保留汇总答案（不走答案表单字母覆盖）。"""
+    lines = [
+        L1Line("P1L001", 1, 1, 1, "读图，完成9—11题", "text"),
+        L1Line("P1L002", 1, 2, 2, "参考答案", "text"),
+        L1Line("P1L003", 1, 3, 3, "9.A 10.B 11.D", "text"),
+    ]
+    doc = L1Document(
+        filename="test.pdf",
+        pages=[L1Page(page_no=1, lines=lines)],
+        lines=lines,
+        source="native",
+        total_pages=1,
+    )
+    questions = [SlicedQuestion(
+        question_number="9",
+        question_type="single_choice",
+        stem="读图，完成9—11题",
+        options=[],
+        is_composite=True,
+        answer="(9) A (10) B (11) D",
+    )]
+
+    result = match_answers(questions, doc)
+    assert result[0].answer == "(9) A (10) B (11) D"

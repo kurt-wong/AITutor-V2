@@ -81,6 +81,22 @@ def slice_questions(
 
     for question in annotation.questions:
         sq = _slice_single_question(question, line_by_id, anchor_map)
+        # 综合题父题答案：LLM 常把答案写在 sub_questions[].answer 而父题 answer 为空
+        # （共享题图选择题组等）。父题 answer 由子题答案汇总构建，格式与
+        # _merge_question_group 的 merged_answer 一致："(1) C (2) B ..."。
+        # 仅当父题 answer 为空时构建，已有答案（如解答题从答案表匹配）不覆盖。
+        if (
+            getattr(sq, "is_composite", False)
+            and not (sq.answer or "").strip()
+            and sq.sub_questions
+        ):
+            sub_answers = [
+                f"({sub.qno}) {sub.answer}"
+                for sub in sq.sub_questions
+                if (sub.answer or "").strip()
+            ]
+            if sub_answers:
+                sq.answer = " ".join(sub_answers)
         sliced.append(sq)
 
     # Task 2.3: 共享材料题 section_id 校验
@@ -453,6 +469,11 @@ def _slice_single_question(
         source_page=question.source_page,
         structure_signature=question.structure_signature,
         is_composite=question.is_composite,
+        # 透传 LLM 的父题答案：综合题父题 answer 可能已有值（解答题从答案表
+        # 匹配）或为空（选择题组把答案写在 sub_questions 里）。answer_matcher
+        # 对非综合题会覆盖此值；综合题父题答案由 slice_questions 汇总逻辑或
+        # 此透传值决定。
+        answer=question.answer,
         sub_questions=question.sub_questions,
     )
 

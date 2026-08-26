@@ -203,8 +203,15 @@ async def _ingest_one_question(
         return None  # 无题干，跳过
 
     # 获取答案：优先用 LLM 提取的答案，回退到管线切片的答案
+    # 选择题组综合题（共享题图/材料）：父题答案 = 子题答案汇总
+    # （content_slicer 合并生成 "(1) C (2) B ..." 格式）。answer_map 按父题号
+    # 从文末答案表提取的是单字母（如 18→B），覆盖会丢失子题汇总 → 跳过。
     llm_answer_data = answer_map.get(str(sq.question_number))
-    if llm_answer_data and llm_answer_data.answer.strip():
+    is_choice_composite = (
+        getattr(sq, "is_composite", False)
+        and sq.question_type in ("single_choice", "multiple_choice")
+    )
+    if llm_answer_data and llm_answer_data.answer.strip() and not is_choice_composite:
         final_answer = llm_answer_data.answer
         final_explanation = llm_answer_data.explanation or sq.explanation or ""
     else:
