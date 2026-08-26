@@ -842,8 +842,14 @@ def _apply_llm_annotation_answers(
                 line_by_id,
             )
             answer_ids = _filter_diagram_labels(answer_ids, line_by_id)
-            # 解答题限制在当前题目的解题范围内（避免混入下一题的行）
-            if q.question_type == "short_answer":
+            # 解答题限制在当前题目的解题范围内（避免混入下一题的行）。
+            # 综合题（材料+多小问）跳过：LLM 的 answer_line_ids 可能指向
+            # 文末答案区（如历史材料题题目在 P7-8、答案在 P20），超出
+            # 当前题目范围是正常结构，按"下一题边界"截断会清空答案 →
+            # answer=None → quality_gate 误报 answer_missing。
+            if q.question_type == "short_answer" and not getattr(
+                sq, "is_composite", False
+            ):
                 answer_ids = _filter_to_question_boundary(
                     answer_ids, sq.question_number, line_by_id
                 )

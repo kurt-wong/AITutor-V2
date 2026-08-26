@@ -1,0 +1,8 @@
+﻿{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "deepseek/deepseek-v4-pro",
+  "small_model": "mimo/mimo-v2.5",
+  "default_agent": "architect",
+  "instructions": ["AGENTS.md"],
+  "subagent_depth": 2
+}

@@ -1,13 +1,16 @@
 # Secrets and local environment files
 .env
 .env.*
-!.env.example
-!**/.env.example
 
-# Agent-local state
+# Test documents and fixtures
+test/
+
+# Agent / tool local state
 .claude/
 .agents/
 .codex/
+.opencode/
+.dsh-plugin-gitconfig
 
 # Python
 .venv/
@@ -35,14 +38,14 @@ npm-debug.log*
 Thumbs.db
 
 # Generated test runtime artifacts
-test/results/*.log
-test/results/*_result.json
-test/results/phase1_*.json
-test/scripts/smoke_report.json
 *.tmp
 *.tsbuildinfo
 .npm-cache/
 .tmp-install/
+
+# Package manager caches
+.pnpm-cache/
+.pnpm-store/
 
 # Workspace temp artifacts
 tmp/

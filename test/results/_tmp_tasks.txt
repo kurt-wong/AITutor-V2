@@ -1,6 +1,0 @@
-﻿=== tasks (5) ===
-  queued     | stage=                     | progress=None | err=
-  queued     | stage=                     | progress=None | err=
-  running    | stage=parsing              | progress=0.200 | err=
-  succeeded  | stage=question_images      | progress=1.000 | err=
-  succeeded  | stage=question_images      | progress=1.000 | err=

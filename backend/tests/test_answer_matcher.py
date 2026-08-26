@@ -1102,3 +1102,48 @@ def test_choice_composite_keeps_merged_answer_without_llm_annotation():
 
     result = match_answers(questions, doc)
     assert result[0].answer == "(9) A (10) B (11) D"
+
+
+def test_short_answer_composite_keeps_answer_outside_question_boundary():
+    """综合题 short_answer：answer_line_ids 指向文末答案区（超出当前题目范围）。
+
+    2026-08-26：历史海淀 Q31 材料+4 小问综合题，题目在 P7-8，LLM 的
+    answer_line_ids 指向文末答案区 P20L010-016。_filter_to_question_boundary
+    按"当前题号行到下一题号行"截断会清空答案 → answer=None →
+    quality_gate 误报 answer_missing。综合题跳过边界截断。
+    """
+    lines = [
+        L1Line("P7L016", 7, 16, 16, "31.（12分）经过武帝至宣帝三代经营", "text"),
+        L1Line("P8L011", 8, 11, 27, "在民族地区建立重要工业生产基地", "text"),
+        L1Line("P19L021", 19, 21, 59, "【详解】解析内容", "text"),
+        L1Line("P20L010", 20, 10, 68, "（1）机构名称：西域都护府。", "text"),
+        L1Line("P20L011", 20, 11, 69, "（2）将西域纳入中央管理之下", "text"),
+    ]
+    doc = L1Document(
+        filename="test.pdf",
+        pages=[L1Page(page_no=7, lines=lines)],
+        lines=lines,
+        source="native",
+        total_pages=20,
+    )
+    annotation = L2DocumentAnnotation(
+        filename="test.pdf",
+        questions=[L2QuestionAnnotation(
+            question_number="31",
+            question_type="short_answer",
+            answer_line_ids=["P20L010", "P20L011"],  # 文末答案区
+            explanation_line_ids=["P19L021"],
+        )],
+    )
+    questions = [SlicedQuestion(
+        question_number="31",
+        question_type="short_answer",
+        stem="经过武帝至宣帝三代经营",
+        options=[],
+        is_composite=True,  # 材料+多小问综合题
+    )]
+
+    result = match_answers(questions, doc, llm_annotation=annotation)
+    # 文末答案区行保留（不被下一题边界截断）
+    assert result[0].answer is not None
+    assert "西域都护府" in result[0].answer

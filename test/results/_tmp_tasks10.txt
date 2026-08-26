@@ -1,6 +1,0 @@
-﻿=== tasks (5) ===
-  succeeded  | stage=question_images      | progress=1.000 | err=
-  succeeded  | stage=question_images      | progress=1.000 | err=
-  succeeded  | stage=question_images      | progress=1.000 | err=
-  succeeded  | stage=question_images      | progress=1.000 | err=
-  succeeded  | stage=question_images      | progress=1.000 | err=
