@@ -101,3 +101,19 @@ Phase 2A/2B/2C 已验收；P0 入库管线修复完成；OCR Provider 策略落�
 - 完整变更历史：`LOG.md`
 - 快照：`docs_archive/status/2026-08-26_PROJECT_STATUS_v6.33.md`
 - 快照：`docs_archive/status/2026-08-26_RESTART_PROMPT_v6.33.md`
+
+## 历史与快照
+
+- 完整变更历史：`LOG.md`
+- 快照：`docs_archive/status/2026-08-26_PROJECT_STATUS_v6.33.md`
+- 快照：`docs_archive/status/2026-08-26_RESTART_PROMPT_v6.33.md`
+
+### 2026-08-26 20:16:00（v6.35）
+
+- **综合题父题答案缺失修复（367c7df）**：育英地理重灌 14/14 approved，
+  0 answer_missing。根因：LLM 把答案写在 sub_questions 而父题 answer 为空，
+  answer_matcher 纯字母校验清空汇总答案 → 误报 answer_missing。
+  修复：content_slicer 从子题汇总构建父题答案、answer_matcher/ingestion
+  跳过选择题组综合题单题覆盖。新增 5 单测，全量回归 651 通过。
+- **地理基线缺口收窄**：地理（育英）9 题 anchor_uncertain + 7 题 answer_missing
+  全部清零 → 地理基线缺口从 3 降至 0（30 份样本口径地理 3 缺口已消）。

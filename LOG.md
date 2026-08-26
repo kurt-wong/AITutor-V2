@@ -2442,3 +2442,27 @@ Q13/15/16/19-22 为本轮 LLM 真实输出差异（圈号错位 `0①` / 截断 
 正确，ingested 14/14。114 passed 无回归。
 
 **版本升至 6.34。**
+
+### 2026-08-26 20:15:00
+
+#### 综合题父题答案缺失（answer_missing）修复（提交 367c7df，版本 v6.35）
+
+**问题**：育英地理重灌后 9 题 reviewing/answer_missing（此前 quality_gate 修复后从 anchor_uncertain 转出）。DB 显示父题 answer 为空、子题答案完整。
+
+**根因链**：
+- 综合题由 LLM 直接输出（_merge_shared_material_questions 只分类不合并），LLM 把答案写在 sub_questions[].answer，父题 answer 字段本身为空；
+- answer_matcher 的选择题纯字母校验（_CHOICE_ANSWER_RE = ^[A-G]{1,7}$）把子题汇总格式 "(9) A (10) B (11) D" 判定为"非字母"而清空 → 父题 answer=None → quality_gate 报"答案缺失，禁止自动发布"；
+- 且文末答案表按父题号给单字母（如 18→B），answer_map 覆盖会丢失子题汇总。
+
+**修复**（3 处，全部针对选择题组综合题 is_composite+choice）：
+1. content_slicer：_slice_single_question 透传 LLM 父题 answer；slice_questions 对父题 answer 为空的综合题从 sub_questions 构建汇总 "(9) A (10) B (11) D"（格式与 _merge_question_group 的 merged_answer 一致，仅空时构建不覆盖已有答案）；
+2. answer_matcher：_apply_llm_annotation_answers 与 match_answers 主循环跳过选择题组综合题（保留汇总答案，不被纯字母校验清空/答案表单字母覆盖）；
+3. ingestion：选择题组综合题不用 answer_map 单字母覆盖汇总答案。
+
+**验证**：
+- 育英地理重灌：14/14 approved，0 answer_missing（此前 9 题 reviewing）；
+- 综合题父题答案=子题汇总（Q1:"(1) C (2) B (3) D (4) C"），子题答案完整保留；
+- 新增 5 单测（slice_questions 汇总构建/不覆盖已有答案、answer_matcher 保留汇总、quality_gate 综合题跳过选项检查）63 passed；
+- 全量回归 651 通过，4 failed+2 errors 均为既有沙箱环境问题（HTTP 超时模拟/vision OCR/真实管线/tmp 权限）。
+
+**版本升至 6.35。**
