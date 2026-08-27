@@ -1,8 +1,8 @@
 # AI Tutor Personal Edition — RESTART_PROMPT
 
-Version: 6.33
+Version: 6.41
 Status: 文档治理已切换为精简快照模式；功能状态见 PROJECT_STATUS.md
-Date: 2026-08-25
+Date: 2026-08-27
 
 ---
 
@@ -68,7 +68,50 @@ Codex/Claude 重启后先读本文件恢复上下文。本文件只承载稳定�
 
 ---
 
-## 6. 验证清单
+## 6. 服务启动（重启 PC 后）
+
+### 6.1 基础设施（Docker 容器，Docker Desktop 启动后自动恢复）
+
+```powershell
+docker ps -a --filter "name=aitutor"
+# 若未自动启动：
+docker start aitutor-postgres aitutor-minio aitutor-redis
+```
+
+| 容器 | 端口 | 凭据 |
+|---|---|---|
+| aitutor-postgres | localhost:15432 | postgres/postgres，db=aitutors |
+| aitutor-minio | localhost:9000 (API) / 9001 (控制台) | minioadmin/minioadmin，bucket=aitutors |
+| aitutor-redis | localhost:16379 | — |
+
+### 6.2 后端（uvicorn，8000）
+
+```powershell
+cd D:\Project\AITutors-v2\backend
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --log-level warning
+```
+验证：`http://localhost:8000/api/admin/catalog` 返回 JSON（非 index.html）。
+
+### 6.3 前端（vite dev，5173）
+
+```powershell
+cd D:\Project\AITutors-v2\frontend
+npx vite --port 5173 --strictPort
+```
+**注意**：沙箱环境需 `danger-full-access`（esbuild 子进程 spawn 限制）。
+验证：`http://localhost:5173/admin/questions` 正常渲染。
+
+### 6.4 测试库（pytest 默认走 aitutors_test，自动重定向）
+
+```powershell
+$env:AITUTOR_TEST_DB='0'   # 需要连真实库时关闭
+cd D:\Project\AITutors-v2\backend
+python -m pytest tests -q -p no:cacheprovider
+```
+
+---
+
+## 7. 验证清单
 
 ```powershell
 python test/scripts/llm_smoke_test.py --live
@@ -78,7 +121,7 @@ python test/scripts/run_live_validation.py --with-ocr --runs 2
 
 ---
 
-## 7. 历史与快照
+## 8. 历史与快照
 
 - 当前状态：`PROJECT_STATUS.md`
 - 变更历史：`LOG.md`

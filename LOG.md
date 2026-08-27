@@ -2600,3 +2600,58 @@ low_confidence 8/answer_suspicious 5 都有答案），仅 4 题真无答案（3
 1 地理综合题号缺失）。积压主因是旧代码标注质量 + 旧文档 OCR，30 份 PDF 全量重跑（新代码：
 VL 表格拆行/答案区豁免/膨胀放宽）预计自动修复大部分。
 **版本保持 6.41（补充记录）。**
+
+### 2026-08-27 19:00:00
+
+#### 暂停：用户重启 PC（v6.41 会话结束）
+**当前 HEAD**：a27550e（docs: quality diagnosis, cleanup, image url persistence, backfill decision）
+**已完成**（本轮会话）：前端题库管理页（v6.40）+ 前端 subject 参数修复（d63bffe）+
+图片 URL 落库 migration 20260827_0001（bd8d91c）+ 17 题脏数据清理 + 入库质量诊断 +
+详解回填放弃决策 + reviewing 积压分析（82/86 有答案）。
+**服务状态**：vite dev（5173）与 uvicorn（8000）已停止（准备重启 PC）。
+**基础设施（Docker 容器，重启 PC 后 Docker Desktop 自动恢复）**：
+- `aitutor-postgres` → localhost:15432（DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:15432/aitutors）
+- `aitutor-minio` → localhost:9000/9001（minioadmin/minioadmin，bucket=aitutors）
+- `aitutor-redis` → localhost:16379
+- 若未自动启动：`docker start aitutor-postgres aitutor-minio aitutor-redis`
+#### 2026-08-27 21:30:00 — ChatGPT 四轮审计 + Codex 复核后执行决策（重启后 Sprint）
+
+**审计结论核实**（均与代码事实一致）：content_hash 生命周期漏洞（apply_review 改内容不重算 hash）、
+DSD §8 状态漂移（"待实现"但已落地）、test/ 被 gitignore 导致 GitHub 无法复现、生产管线依赖 legacy 内部函数。
+
+**重启后 Sprint 排期**（小 Sprint，不全量执行 P0）：
+1. **P0 content_hash 生命周期**（重跑前必须做）：统一领域入口 `update_question_content()` ——
+   内容变化→重算 hash→查 exact duplicate→冲突标记审核；apply_review 内部调用它；补回归测试
+   （人工审核改题干后新内容能正确去重、旧 hash 不残留）。**注意**：修复后重跑可借机验证 dedup 收敛。
+   **先不**加 UNIQUE(subject_id, content_hash)——先修写路径 + 审计现有重复，避免迁移失败固化审核差异。
+2. **P0 DSD §8 修正**：把"已实施的 Phase 2A schema"与"未来 Family/Similarity 计划"分开，删除"待实现/旧结构"表述。
+3. **P0 AGENTS.md 薄入口**（不新建 PROJECT_CONTEXT.md）：opencode.json 只自动加载 AGENTS.md，
+   但 AGENTS.md 只有 agent 路由——改为薄入口指向 RESTART_PROMPT + rules。
+4. **P2 Pipeline 共享内核拆分（方案 A + 兼容层标注）**：
+   - 新建 `pipeline_shared.py`：PipelineResult + save_result + _filter_by_page_range + _build_question_images
+     + 依赖 helper（_provenance_to_dict/_anchor_to_dict/_slice_l1_text/_question_is_ingested/
+     _discard_reason_label/_discard_category_for_issue/_question_field_line_ids/
+     _question_option_line_ids/_bbox_contains_with_margin）+ schemas import，**无循环依赖**（shared 不 import pipeline）；
+   - pipeline.py 顶部显式标注"**兼容层**：生产代码禁止从这里导入共享符号，请从 pipeline_shared 导入；
+     re-export 仅兼容 legacy 测试与旧调用"+ re-export；
+   - 生产三文件（simple_pipeline/processor/ingestion）改从 pipeline_shared 导入；
+   - **测试零改动**（re-export 兼容）；验收=rg 确认生产三文件不再 from pipeline import 共享符号 + 全量 pytest；
+   - LOG 留一条"移除 legacy 时同步迁移 17 个测试文件 import"后续事项。
+   **不做**：不拆 result/helpers/legacy/simple 四文件、不动 parser.py/question_extractor.py、不动 scripts 目录；
+   extract_l1_from_pdf/ocr 不进 shared（legacy 测试面，等删除时处理）。
+5. **P1 最小 JSON fixture 版本化**（重跑后）：只解除小 fixture ignore，不提交真实 PDF；
+   每修复一个真实 bug 沉淀一个最小匿名 regression fixture。
+
+**决策原则**（延续）：不为极小概率事件过度投入；治理文件必须替代而非叠加；先修写路径再加 DB 约束；
+代码优先于文档（文档可能过时）。
+
+**重启后待办**：
+1. 读 PROJECT_STATUS.md（已更新至 v6.41）恢复上下文；
+1b. **先读本暂停记录中的"2026-08-27 21:30:00 审计执行决策"**：重启后 Sprint 五项
+    （content_hash P0 / DSD P0 / AGENTS.md P0 / Pipeline 方案A P2 / fixture P1）按此排期执行，
+    content_hash 必须在 30 份 PDF 重跑之前完成；
+2. 重新启动后端（uvicorn 8000，backend 目录，`python -m uvicorn app.main:app --host 127.0.0.1 --port 8000`）；
+3. 重新启动前端（vite 5173，frontend 目录，`npx vite --port 5173 --strictPort`，沙箱需 danger-full-access）；
+4. 等用户确认后启动 30 份 PDF + 9 份 DOCX 全量重跑（半小时轮询，rerun_docs2.py 批量入队）；
+5. 重跑后对比缺口（当前 10）+ reviewing 积压（86）+ 详解缺失率（59%）变化；
+6. 完成后整体情况汇总 + DOCX 管线调整决策（tmp/docx_pipeline_discussion.md）。
