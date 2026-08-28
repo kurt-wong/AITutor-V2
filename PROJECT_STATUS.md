@@ -1,30 +1,32 @@
 # AI Tutor Personal Edition — PROJECT_STATUS
 
-Version: 6.44
-Status: P4E.1 子题链路修复完成并验证（52 题入库）+ 前端展示重构完成；测试门禁未启动；token 消耗根因=DSH 会话重发上下文
+Version: 6.45
+Status: 切片入库规则差距修复完成并端到端验证；英语/理科入库标准对抗性审查 v3.1 已锁定，修复计划就绪；异步富化暂缓
 Date: 2026-08-28
 
 ---
 
 ## 当前阶段
 
-Phase 2A/2B/2C 已验收；OCR Provider 策略落地（PPS/PVL 主识别、LLM VL 移出驱动链）；
-Sprint 治理五项完成（content_hash 生命周期 / DSD §8 / AGENTS 薄入口 / Pipeline 方案 A /
-fixture 版本化）。
+Phase 2A/2B/2C 已验收；OCR Provider 策略落地；Sprint 治理五项完成。
 
-**v6.44（2026-08-28，P4E.1 主体完成）**：
-- **子题链路 6 处补齐 + 答案/详解/配图修复已全部落地并经真实文档验证**（P4E.1 任务 1/2/3）：
-  3 份验证文档（东城英语/八中数学/丰台物理）重跑完成，52 题入库——父题答案聚合子题、
-  配图 page 约束（不再跨页误关联）、详解保留教师版换行、作文英文原文。
-- **前端展示重构完成**：`〔N〕` 空位高亮、题干默认展开 + 答案/详解折叠、
-  答案格式化（`(1) C (2) D` → `1.C 2.D`）、子题题干去重。
-- **空位标记 5/10**（旧正则数据）：正则已修复（允许数字后接字母），要全 10/10 需
-  重跑 3 份（约 ¥1-2）——**待用户决策**：重跑 or 推迟到批量导入。
-- **token 消耗根因锁定**：11:00 后 103 次 / 7,097 万 token（平均 ~69 万/次）=
-  **DSH 会话每轮重发全部历史**（上下文膨胀至 ~70 万 token），非 V1/V2 worker。
-  用户已决定开新会话恢复。成本防护：`WORKER_ENABLED=0` 环境变量 gate（API-only）。
-- **测试门禁（P4E.1 任务 4）未启动**：golden 子题结构 + run_live_validation 准确率
-  FAIL + 选项完整性指标——**新会话首个任务**。
+**v6.45（2026-08-28，切片入库规则差距修复，用户第三次提供展示标准）**：
+- **差距 1 修复**：fill_in/short_answer 综合题父题答案未汇总（Q11=`itself`、Q21=`confusing`、
+  Q42 只留第一题答案）→ 根因是 `answer_matcher.match_answers` 主循环只跳过
+  choice 类综合题，P4E.1 只修了 `_apply_llm_annotation_answers`。已修：所有
+  is_composite 且父题已有汇总答案的一律跳过单题匹配。验证：`(11) itself (12) to
+  (13) to stay` 保留。
+- **差距 2 修复**：七选五选项错位（B 丢/D 吞 E/E/F/G 错位/G 落 section 标题）→
+  4 处修复：`_INLINE_LABEL_RE` A-G、l1_postprocessor 拆行 A-G、子题 options 锚点
+  校验、合并行行内归属不误判 retry。验证：Q37 选项 A-G 完整、D/E 正确分离。
+- **差距 3 修复**：空位标记 → 规则 1.5 下划线空位 `____37____`→`〔37〕`、子题 stem
+  也标记、subject 兜底。验证：`〔37〕` 父题/子题均高亮。
+- **异步富化（新方向，用户确认）**：理科选择题大部分无详解（源 PDF 教师版答案区
+  只有「题号+答案」表，八中数学 Q1-10 无【详解】），需入库后 LLM 异步生成详解并
+  写回 `questions.explanation` 标记 `llm_fallback`——**当前无实现，待新会话设计**。
+- **测试**：改动范围 129 passed；新增 7 项回归测试（含七选五端到端链路）。
+- **存量数据未重跑**：东城英语（fd6a575a）Q11/21/42 父题答案截断、Q37-41 选项
+  错位、空位缺失——代码已修，重跑约 ¥0.5-1，用户暂缓。
 
 ## 关键验收
 
@@ -34,56 +36,63 @@ fixture 版本化）。
 | Phase 2B 搜索/统计 | ✅ |
 | Phase 2C Structure Signature | ✅ |
 | OCR Provider 策略（PPS/PVL 主识别、LLM VL 移出驱动链） | ✅ 651 passed |
-| paddle 耗尽不降级（OCROutageError + ocr_unavailable） | ✅ |
-| 批量恢复脚本（retry_ocr_unavailable.py） | ✅ |
-| worker 超时兜底（P7/P10）+ 僵尸恢复（v6.33/6.34） | ✅ |
-| DOCX 全管线支持 + 扫描件标注（v6.34） | ✅ |
-| 9 科答案 mismatch / 严格通过 | ✅ 0 / 212/215 (99%) |
-| 题库管理页（v6.40）+ 图片 URL 落库（v6.41） | ✅ |
-| Sprint 治理五项（v6.42） | ✅ 680 passed |
-| 入库质量审计（v6.43）：6 类错误量化、根因定位 | ✅ 诊断完成 |
-| **P4E.1 任务 1/2/3（子题链路/紧凑选项/父题不拼接）** | ✅ 52 题入库验证 |
-| **前端展示重构（空位高亮/折叠/格式化）** | ✅ |
+| P4E.1 任务 1/2/3（子题链路/紧凑选项/父题不拼接） | ✅ 52 题入库验证 |
+| 前端展示重构（空位高亮/折叠/格式化） | ✅ |
+| **v6.45：fill_in/short_answer 综合题父题答案汇总** | ✅ 端到端验证 |
+| **v6.45：七选五 A-G 选项完整性（含合并行）** | ✅ 端到端验证 |
+| **v6.45：空位标记（下划线/子题/裸数字）** | ✅ 端到端验证 |
+| **异步富化（理科选择题详解）** | ⏳ 未实现，待设计 |
 | **P4E.1 任务 4（测试门禁）** | ⏳ 未启动 |
-| **P4E.1 任务 5（验证文档空位标记 10/10）** | ⏳ 5/10，待决策重跑 |
-| pytest（专用测试库） | ✅ 687 passed / 2 errors（沙箱环境限制） |
+| pytest（专用测试库） | ✅ 改动范围 129 passed（全量挂起/失败均为沙箱 ACL） |
 
-## 当前状态（v6.44）
+## 当前状态（v6.45）
 
-- **入库质量**：子题数据链路修复完成（此前 20.9% 坏的核心根因已消除）；3 份验证
-  文档 52 题入库结构完整。空位标记 5/10（旧正则数据，重跑可全）。
-- **token 消耗**：根因 = DSH 会话重发上下文（每轮 ~69 万 token）。V1/V2 worker 正常
-  量级（今日 V2 仅 ~40 次 flash）。**新会话每轮成本将降到几万 token。**
-- **成本防护**：`WORKER_ENABLED=0` → API-only（无 LLM 消费）；走环境变量不写 .env。
-- **测试**：687 passed / 2 errors（沙箱 temp ACL，用户本机可过）。
+- **代码修复完成**（5 个文件）：`answer_matcher.py`（主循环跳过所有有汇总答案的
+  composite）、`anchor_corrector.py`（子题选项锚点校验 + 合并行行内归属）、
+  `content_slicer.py`（A-G 行内拆分、下划线空位规则 1.5、子题 stem 标记）、
+  `l1_postprocessor.py`（行内拆行 A-G）、`simple_pipeline.py`（subject 兜底 +
+  retry hints 覆盖子题选项）。
+- **存量数据待重跑**：东城英语文档（Q11/21/42 父题答案、Q37-41 选项、空位标记）。
+- **异步富化待实现**：理科选择题详解（用户确认方向：入库后 LLM 异步生成）。
 - **服务状态**：8000（uvicorn）与 5173（vite）当前未监听（会话收尾已停）。
 
 ## 数据与文档基线
 
 - migration `20260821_0003/0005`、`20260827_0001` 已执行；知识树 333 节点。
 - 专用测试库 `aitutors_test`（`AITUTOR_TEST_DB=0` 关闭）。
-- 文档治理快照模式：v6.42 已归档 `docs_archive/status/2026-08-27_*_v6.42.md`。
+- 文档治理快照模式：v6.44 已归档 `docs_archive/status/2026-08-28_*_v6.44.md`。
 - `D:\Project\Papers` 是批量导入源（maintainess 整理集 + 高一/高一上/高二/高三原始集）。
-- V2 `backend\.env`：DEEPSEEK_API_KEY=`sk-06123f…`（新，已验证）；V1（D:\Project\AI
-  Tutors）已换 sk-1bd6a1…，遗留 v4-pro 强制 + explain_queue 6 任务待处理。
+- V2 `backend\.env`：DEEPSEEK_API_KEY 已换新（已验证）；V1 遗留 v4-pro 强制 +
+  explain_queue 6 任务待处理。
 
-## 当前焦点（新会话按此顺序）
+## 当前焦点（修复优先）
 
-1. **测试门禁（P4E.1 任务 4）**：golden 补子题结构（子题数 + 每子题 options_line_ids
-   精确）；run_live_validation 把 golden 准确率纳入 FAIL（<80%）；选项完整性指标
-   （label 数/空选项/内嵌）。回归测试能抓"子题内容丢失/选项拼接/紧凑未拆"。
-2. **空位标记决策**（等用户）：重跑 3 份验证文档补全 10/10（约 ¥1-2）或推迟到
-   批量导入（P4E.2 时正则已修，直接产出完整标记）。
-3. **批量导入（P4E.2）**：全盘 9 万 → 清单（文件名元数据 + 去重 + 文本层检测）→
-   30 份 → 100 份 → 全量；DOCX 优先。P4E.1 验收通过后启动。
-4. **V1 遗留清理**（可选）：async_pipeline v4-pro 强制改 flash/禁用；Redis
-   explain_queue 6 任务清除。
-5. **异步补全**：详解空缺 LLM 生成（标记 `llm_fallback`）。
-6. **扫描件**（错题拍照场景）：PPS/PVL 路径预留，下一轮。
+1. **Phase 1 数据契约**：P0-1/P0-3/P0-4/P1-1，涉及 L2/Sliced/Question/API/前端、Alembic migration、DSD/DICTIONARY 同步。
+2. **Phase 2 英语**：P0-2/P1-3/P1-4/P2，涉及题型映射、prompt、空位保护、七选五校验和展示增强。
+3. **Phase 3 理科**：P0-5/P1-2，涉及化学式标准化和答案图子题绑定。
+4. **Phase 4 验收**：新增回归测试 + golden + 重跑东城英语/样本卷。
+5. **异步富化**（暂缓）：待题型/答案结构修复稳定后重新设计。
+6. **批量导入（P4E.2）**：修复验收后按 清单 → 30 份 → 100 份 → 全量推进。
+
+## 审核锁定（v3.1，2026-08-28）
+
+对用户提供的英语/理科切片入库展示标准完成对抗性审查并锁定结论：
+
+- P0：P0-1 细粒度题型/section 入库丢失、P0-2 写作题无 canonical 类型、P0-3 多层嵌套子问不支持、P0-4 结构化答案格式缺失（条件化）、P0-5 化学式下标/上标标准化。
+- P1：P1-1 词库无独立 word_bank 字段、P1-2 答案图子题粒度绑定不精确、P1-3 完形共享材料数字误标、P1-4 七选五 A-G 完整性无强制校验。
+- P2：P2-1 instruction 独立字段（当前行为不算错误）、P2-2 七选五正确选项高亮/自动关联文本展示增强。
+- 已排除/降级：答案表空格、词库完全无支撑、答案图完全无支撑、数字误标全面风险等 v1 误判已修正。
+
+## 修复计划（v3.1）
+
+Phase 1 数据契约：P0-1/P0-3/P0-4/P1-1，涉及 L2/Sliced/Question/API/前端、Alembic migration、DSD/DICTIONARY 同步。
+Phase 2 英语：P0-2/P1-3/P1-4/P2，涉及题型映射、prompt、空位保护、七选五校验和展示增强。
+Phase 3 理科：P0-5/P1-2，涉及化学式标准化和答案图子题绑定。
+Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 
 ## 历史与快照
 
 - 完整变更历史：`LOG.md`
+- 快照：`docs_archive/status/2026-08-28_PROJECT_STATUS_v6.44.md`
+- 快照：`docs_archive/status/2026-08-28_RESTART_PROMPT_v6.44.md`
 - 快照：`docs_archive/status/2026-08-27_PROJECT_STATUS_v6.42.md`
-- 快照：`docs_archive/status/2026-08-27_RESTART_PROMPT_v6.42.md`
-- 快照：`docs_archive/status/2026-08-27_PROJECT_STATUS_v6.41.md`

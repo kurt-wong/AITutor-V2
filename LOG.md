@@ -2919,3 +2919,75 @@ Docker CLI 在代理沙箱不可用（用户本机可用）。待用户决策：
 （~¥1-2）还是推迟到批量导入；②V1 遗留（v4-pro 强制 / explain_queue 6 任务）。
 测试门禁（P4E.1 任务 4：golden 子题结构 + run_live_validation 准确率 FAIL +
 选项完整性指标）**未启动**，新会话首个任务。
+
+### 2026-08-28 22:30:00（切片入库规则差距修复 + 端到端验证 + 文档快照 v6.45）
+
+**背景**：用户第三次提供「题干区/答案区/详解区」展示标准，要求核对英语与理科
+切片入库规律。核对发现 3 类差距，全部代码层定位并修复（非"旧管线未生效"——
+P4E.1 修了一半，本次补全）。
+
+**差距 1：fill_in/short_answer 综合题父题答案未汇总**（东城英语 Q11 语法填空
+parent answer 只剩 `itself`、Q21 词汇只剩 `confusing`、Q42 阅读表达只留第一题答案）
+- 根因：P4E.1 修了 `_apply_llm_annotation_answers`（跳过所有 composite），但
+  `answer_matcher.match_answers` 主循环只跳过 `single_choice/multiple_choice` 综合题
+  → fill_in/short_answer 综合题的 content_slicer 汇总答案在最后一步被答案表单值
+  覆盖（`(11) itself (12) to (13) to stay` → `itself`）。
+- 修复：`answer_matcher.py` 主循环跳过「所有 is_composite 且父题已有汇总答案」；
+  父题 answer 为空（物理实验题等，content_slicer 无子题可汇总）仍走答案区匹配，
+  避免 answer_missing（`test_short_answer_composite_keeps_answer_outside_question_boundary`
+  同步更新为新行为断言）。
+
+**差距 2：七选五选项错位**（东城英语 Q37-41：B 丢失、D 吞 E、E/F/G 错位、G 落
+section 标题）
+- 根因链：① PPSV3 把 `D.xxx`/`E.yyy` 两行合并成一个 L1 行 → LLM 行号整体偏移；
+  ② `content_slicer._INLINE_LABEL_RE` 只匹配 A-D，七选五 E/F/G 行内标签不识别；
+  ③ `anchor_corrector.correct_anchors` 只校验顶层题选项行号，子题行号 LLM 原始值
+  直接透传；④ 合并行场景（E 引用 D 开头的行）被 `_validate_option_anchor` 误判 retry。
+- 修复（4 处）：`_INLINE_LABEL_RE` A-D→A-G；`l1_postprocessor` 行内拆行 A-D→A-G
+  （L1 阶段拆开 PPSV3 合并行）；子题 options_line_ids 也过锚点校验（失败归集为
+  `sub_options` retry 锚点，simple_pipeline retry hints 覆盖）；合并行行内归属
+  （首行标签≠期望但行内含该标签时不误判 retry，保留行号由切片归属）。
+
+**差距 3：空位标记不完整**
+- 根因：`_mark_blank_positions` 只处理父题 stem；`____37____` 下划线形式（native L1
+  保留、PPSV3 常丢下划线变裸数字/粘连如 `_40Orthe`）不识别；`annotation.subject`
+  可能为空使文本科目孤立数字规则不启用。
+- 修复：规则 1.5 下划线空位 `____37____`→`〔37〕`（所有科目）；切片时子题 stem
+  同样标记；simple_pipeline 用管线传入 subject 兜底 `annotation.subject`。
+
+**测试**：新增 7 项（下划线空位、七选五 A-G 行内拆分、合并行切片归属、子题锚点
+校验 retry/exact、fill_in/short_answer 综合题汇总不被覆盖、七选五端到端链路）。
+改动范围 129 passed；全量 708 收集正常，运行中挂起/失败均为沙箱环境固有问题
+（temp ACL、OCR tmp 写入），与本次改动无关。
+
+**验证**（不跑真实入库，直接验证新代码行为）：
+- Q11 场景：parent answer 保持 `(11) itself (12) to (13) to stay`（不再变 `itself`）。
+- Q37 场景：选项 A-G 完整、D/E 正确分离、父题/子题 stem 空位 `〔37〕` 已标记。
+
+**待办（新会话）**：
+1. 重跑东城英语文档（fd6a575a）修复存量数据（选项错位 + 父题答案截断 + 空位），
+   约 ¥0.5-1，用户已确认方向但暂缓（先研究清楚再跑）。
+2. **异步富化（用户确认方向）**：理科选择题大部分无详解（源 PDF 教师版答案区只有
+   「题号+答案」表，八中数学 Q1-10 无【详解】），需入库后 LLM 异步生成并写回
+   `questions.explanation` 标记 `llm_fallback`——当前无实现，需新增补全 worker。
+3. 测试门禁（P4E.1 任务 4）未启动。
+
+**版本**：v6.44 → v6.45（快照已归档 docs_archive/status/2026-08-28_*_v6.44.md）。
+
+### 2026-08-28 23:30:00（题型入库标准对抗性审查 v3.1 锁定 + 修复计划）
+
+**背景**：用户提供英语/理科试卷的「题干区/答案区/详解区」展示标准，要求核对当前切片入库管线是否符合标准；Claude 审查 v1 经 Codex 逐条代码核对后修正为 v3.1 终版。
+
+**审查结论（v3.1）**：
+- P0：P0-1 细粒度题型/section 入库丢失、P0-2 写作题无 canonical 类型、P0-3 多层嵌套子问不支持、P0-4 结构化答案格式缺失（条件化）、P0-5 化学式下标/上标标准化。
+- P1：P1-1 词库无独立 word_bank 字段、P1-2 答案图子题粒度绑定不精确、P1-3 完形共享材料数字误标、P1-4 七选五 A-G 完整性无强制校验。
+- P2：P2-1 instruction 独立字段（当前行为不算错误）、P2-2 七选五正确选项高亮/自动关联文本展示增强。
+- 已排除/降级：答案表空格、词库完全无支撑、答案图完全无支撑、数字误标全面风险等 v1 误判已修正。
+
+**计划**：
+1. Phase 1 数据契约：P0-1/P0-3/P0-4/P1-1，涉及 L2/Sliced/Question/API/前端、Alembic migration、DSD/DICTIONARY 同步。
+2. Phase 2 英语：P0-2/P1-3/P1-4/P2，涉及题型映射、prompt、空位保护、七选五校验和展示增强。
+3. Phase 3 理科：P0-5/P1-2，涉及化学式标准化和答案图子题绑定。
+4. Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
+
+**文档**：PROJECT_STATUS.md 已锁定 v3.1 状态与修复计划；bugs.md 新增 BUG-027 Open；未开始生产代码修复。
