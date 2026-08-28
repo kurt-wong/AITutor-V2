@@ -3053,3 +3053,20 @@ section 标题）
 - 后端 pytest 全量：730 passed，5 failed。
 - 5 个 failed 均为 test_e2e_ingestion_verification：目标文档 042f5b90-4a11-4c03-aabd-bd0683442dfe 不在当前 documents 表，属环境/数据缺失，与 Phase 1 代码无关。
 - 前端 npm run build 通过；迁移 head=20260829_0002。
+
+#### 2026-08-29 12:30:00 Phase 2 英语 P0-2/P1-3/P1-4/P2-2
+
+- P0-2：content_slicer/line_annotator 增加 essay/writing/composition/作文/写作/书面表达映射；prompt 明确英语写作输出 essay；入库 _get_question_type_id 保留 essay/writing 细粒度类型。测试：test_line_annotator、test_content_slicer、test_question_type_get_or_create。
+- P1-3：_mark_blank_positions 增加 _is_protected_number，对 ages/year/month/page/range/percent/中文量词等上下文数字不替换。测试：test_mark_blank_positions_protects_ordinary_english_numbers。
+- P1-4：anchor_corrector 增加 _is_seven_to_five 与 A-G 完整性校验，缺失标签汇总为 sub_options retry；simple_pipeline 重试提示覆盖。测试：test_seven_to_five_missing_labels_trigger_retry、test_seven_to_five_missing_labels_build_retry_hint。
+- P2-2：QuestionBankPage/AdminHome 增加 answerWithOptionText，正确选项 is-correct 高亮；theme.css 增加样式。前端 npm run build 通过。
+- P2-1：保持现状，不新增 instruction 字段，符合展示标准。
+- 回归：后端 739 passed，5 failed 仅为已知 e2e 目标文档 042f5b90 不存在；前端 build 通过。
+
+#### 2026-08-29 13:00:00 Phase 2 对抗性审查修复
+
+- P1-3：孤立数字 regex 增加 %/％ 排除，_is_protected_number 改用 m.string，修复 50% 与题号 50 冲突的误标风险。
+- P1-4：七选五缺少 sub_questions 时生成 sub_options retry，不再静默跳过结构校验。
+- P2-2：新增 frontend/src/lib/answer.ts 共享答案工具，answerWithOptionText 支持 BD/ACD 多答案，isOptionCorrect 支持多字母高亮。
+- 验证：content_slicer/anchor_corrector/simple_pipeline 79 passed；前端 npm run build 通过。
+

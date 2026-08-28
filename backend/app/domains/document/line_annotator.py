@@ -89,6 +89,14 @@ _QUESTION_TYPE_CANONICAL = {
     "reading": "single_choice",  # 阅读理解
     "seven_to_five": "single_choice",  # 七选五
     "grammar_fill": "fill_in",  # 语法填空
+    "essay": "short_answer",  # writing/essay: subjective internally
+    "writing": "short_answer",
+    "composition": "short_answer",
+    "作文": "short_answer",
+    "写作": "short_answer",
+    "写作题": "short_answer",
+    "书面表达": "short_answer",
+    "书面表达题": "short_answer",
 }
 
 
@@ -514,7 +522,7 @@ logger = logging.getLogger(__name__)
 ANNOTATION_PROMPT = """你是一个试卷文档标注助手。给定一份试卷的文本行（带行号），请识别所有题目并输出标注结果。
 
 ## 规则
-1. 每个题目必须包含：question_number, question_type, section_id, stem_line_ids, options_line_ids, answer_line_ids, explanation_line_ids；question_type 使用 canonical 枚举：single_choice / multiple_choice / fill_in / true_false / short_answer
+1. 每个题目必须包含：question_number, question_type, section_id, stem_line_ids, options_line_ids, answer_line_ids, explanation_line_ids；question_type 使用 canonical 枚举：single_choice / multiple_choice / fill_in / true_false / short_answer；英语写作/书面表达必须输出 essay（内部按 short_answer 处理，但入库必须保留 essay 原始题型）
 2. difficulty 为必填字段，取值 1-5 整数（1=基础，2=简单，3=中等，4=较难，5=困难），必须为每道题给出，禁止省略。判断依据：考查单一概念的直接套用=1~2；需两步以上推理或综合两个知识点=3；涉及多知识点综合、复杂计算或易错陷阱=4；压轴题、强综合、非常规思路=5。若确实无法判断，输出 3（中等），不得输出 null。
 2b. 可选字段：score, knowledge_points, answer, word_bank, answer_structure
 2c. answer_structure 可选，仅当答案存在多答案/范围/特殊标注格式时输出 JSON；例如 {{"accepted_answers": ["that", "which"]}}、{{"range": {{"min": "24.00", "max": "25.00"}}}}、{{"error_span": "...", "explanation": "..."}}
@@ -593,7 +601,7 @@ ANNOTATION_PROMPT = """你是一个试卷文档标注助手。给定一份试卷
 
 **综合题输出格式：**
 - question_number = 该组第一道题的大题号（如 "11"）
-- question_type = 保留原始题型（cloze / reading / grammar_fill / seven_to_five / single_choice / ...）
+- question_type = 保留原始题型（cloze / reading / grammar_fill / seven_to_five / essay / single_choice / ...）
 - is_composite = true
 - stem_markers = 材料全文的首尾标记
 - stem_line_ids = 只包含子题题干行号（❌ 不包含共享材料行；材料行只放 shared_material_line_ids）

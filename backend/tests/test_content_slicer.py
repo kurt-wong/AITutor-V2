@@ -259,6 +259,26 @@ def test_slice_preserves_original_question_type_and_section():
     assert result[0].original_question_type == "cloze"
     assert result[0].section_id == "cloze_1"
 
+def test_slice_preserves_essay_original_type():
+    """Essay canonicalizes to short_answer while keeping original type."""
+    doc = _make_doc()
+    annotation = L2DocumentAnnotation(
+        filename="test.pdf",
+        questions=[
+            L2QuestionAnnotation(
+                question_number="46",
+                question_type="essay",
+                section_id="书面表达_46",
+                stem_line_ids=["P1L001"],
+                options_line_ids={},
+            )
+        ],
+    )
+
+    result = slice_questions(annotation, doc)
+    assert result[0].question_type == "short_answer"
+    assert result[0].original_question_type == "essay"
+
 
 def test_section_validation_single_choice_no_section():
     """普通单选无 section_id 不应被标记。"""
@@ -1015,6 +1035,35 @@ def test_mark_blank_positions_digit_followed_by_letter():
     assert "my 〔5〕was" in out
     assert "don't 〔8〕mistakes" in out
     assert "I've 〔10〕it." in out
+
+
+def test_mark_blank_positions_protects_ordinary_english_numbers():
+    """P1-3: ages/year/date/page/range/percent numbers are not blank markers."""
+    from app.domains.document.content_slicer import _mark_blank_positions
+
+    stem = "The camp is for ages 9 \u2014 16. July 10th. page 4. 9-12. 50%. year 2016. \u7b2c1\u9898. The rate is 50% and the cost is 5."
+    qnos = [str(i) for i in range(1, 21)] + ["2016", "50"]
+    out = _mark_blank_positions(stem, qnos, "\u82f1\u8bed")
+    assert "ages 9 \u2014 16" in out
+    assert "July 10th" in out
+    assert "page 4" in out
+    assert "9-12" in out
+    assert "50%" in out
+    assert "The rate is 50%" in out
+    assert "cost is \u30145\u3015" in out
+    assert "year 2016" in out
+    assert "\u7b2c1\u9898" in out
+    assert "my \u30145\u3015was" not in out
+
+
+def test_mark_blank_positions_still_marks_ocr_blank_followed_by_letter():
+    """OCR blank-like digits remain marked despite ordinary-number protection."""
+    from app.domains.document.content_slicer import _mark_blank_positions
+
+    stem = "Trusting my 5was the only thing. I've 10it."
+    out = _mark_blank_positions(stem, [str(i) for i in range(1, 11)], "\u82f1\u8bed")
+    assert "my \u30145\u3015was" in out
+    assert "I've \u301410\u3015it." in out
 
 
 def test_mark_blank_positions_underline_blank():

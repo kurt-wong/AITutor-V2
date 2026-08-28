@@ -460,6 +460,8 @@ def test_sub_question_options_anchor_exact():
             L2QuestionAnnotation(
                 question_number="37",
                 question_type="single_choice",
+                original_question_type="seven_to_five",
+                section_id="seven_to_five_1",
                 stem_line_ids=["P1L001"],
                 options_line_ids={},
                 is_composite=True,
@@ -482,3 +484,94 @@ def test_sub_question_options_anchor_exact():
     result = correct_anchors(annotation, doc)
     sub_anchor = [a for a in result.corrected_anchors if a.field == "sub_options"]
     assert sub_anchor == []
+
+def test_seven_to_five_missing_labels_trigger_retry():
+    """P1-4: missing A-G labels on a seven-to-five composite -> retry anchor."""
+    from app.domains.document.schemas_l2 import L2SubQuestion
+
+    lines = [
+        L1Line("P1L001", 1, 1, 1, "37. seven to five", "text"),
+        L1Line("P1L002", 1, 2, 2, "A. one", "text"),
+        L1Line("P1L003", 1, 3, 3, "B. two", "text"),
+        L1Line("P1L004", 1, 4, 4, "C. three", "text"),
+        L1Line("P1L005", 1, 5, 5, "D. four", "text"),
+        L1Line("P1L006", 1, 6, 6, "E. five", "text"),
+    ]
+    doc = L1Document(
+        filename="english.pdf",
+        pages=[L1Page(page_no=1, lines=lines)],
+        lines=lines,
+        source="native",
+        total_pages=1,
+    )
+    annotation = L2DocumentAnnotation(
+        filename="english.pdf",
+        questions=[
+            L2QuestionAnnotation(
+                question_number="37",
+                question_type="single_choice",
+                original_question_type="seven_to_five",
+                section_id="seven_to_five_1",
+                stem_line_ids=["P1L001"],
+                options_line_ids={},
+                is_composite=True,
+                sub_questions=[
+                    L2SubQuestion(
+                        qno="37",
+                        question_type="single_choice",
+                        stem_line_ids=["P1L001"],
+                        options_line_ids={
+                            label: [f"P1L00{idx}"]
+                            for idx, label in enumerate("ABCDE", 2)
+                        },
+                        answer="B",
+                    )
+                ],
+            )
+        ],
+    )
+
+    result = correct_anchors(annotation, doc)
+    sub_anchor = [a for a in result.corrected_anchors if a.field == "sub_options"]
+    assert len(sub_anchor) == 1
+    assert sub_anchor[0].anchor_status == "retry"
+    assert "A-G-missing:F,G" in sub_anchor[0].evidence
+
+def test_seven_to_five_missing_subquestions_trigger_retry():
+    """P1-4: seven-to-five without sub_questions must be retried."""
+    from app.domains.document.schemas_l2 import L2SubQuestion
+
+    lines = [
+        L1Line("P1L001", 1, 1, 1, "37. seven to five", "text"),
+        L1Line("P1L002", 1, 2, 2, "A. one", "text"),
+        L1Line("P1L003", 1, 3, 3, "B. two", "text"),
+    ]
+    doc = L1Document(
+        filename="english.pdf",
+        pages=[L1Page(page_no=1, lines=lines)],
+        lines=lines,
+        source="native",
+        total_pages=1,
+    )
+    annotation = L2DocumentAnnotation(
+        filename="english.pdf",
+        questions=[
+            L2QuestionAnnotation(
+                question_number="37",
+                question_type="single_choice",
+                original_question_type="seven_to_five",
+                section_id="seven_to_five_1",
+                stem_line_ids=["P1L001"],
+                options_line_ids={},
+                is_composite=True,
+                sub_questions=None,
+            )
+        ],
+    )
+
+    result = correct_anchors(annotation, doc)
+    sub_anchor = [a for a in result.corrected_anchors if a.field == "sub_options"]
+    assert len(sub_anchor) == 1
+    assert sub_anchor[0].anchor_status == "retry"
+    assert "sub_questions" in sub_anchor[0].evidence
+

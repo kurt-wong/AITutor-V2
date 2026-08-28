@@ -689,6 +689,11 @@ a {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+.option-list li.is-correct {
+  background: #eaf3ff;
+  border-color: var(--primary);
+}
+
 
 .answer-grid {
   display: grid;

@@ -164,7 +164,7 @@ AI 只能把题目映射到已有节点，不能创建新节点。
 | subject_id | UUID | FK subjects |
 | grade | VARCHAR | 高一/高二/高三 |
 | question_type_id | UUID | FK question_types |
-| original_question_type | VARCHAR(50) | LLM 原始细粒度题型 code（cloze/grammar_fill/seven_to_five 等），可为空 |
+| original_question_type | VARCHAR(50) | LLM 原始细粒度题型 code（cloze/grammar_fill/seven_to_five/essay/writing 等），可为空 |
 | section_id | VARCHAR(100) | 来源卷面 section/共享材料区标识，可为空 |
 | score | NUMERIC | 分值，可为空 |
 | difficulty | INTEGER | 1-5 |
@@ -639,7 +639,7 @@ DSD 必须与以下文档保持一致：
 
 ### 2026-08-28 23:50:00
 
-- 新增 questions.original_question_type VARCHAR(50)：保留 LLM 原始细粒度题型（cloze/grammar_fill/seven_to_five 等）。
+- 新增 questions.original_question_type VARCHAR(50)：保留 LLM 原始细粒度题型（cloze/grammar_fill/seven_to_five/essay/writing 等）。
 - 新增 questions.section_id VARCHAR(100)：保留卷面 section/共享材料区标识。
 - Alembic migration：20260828_0001_add_question_original_type_section.py。
 
@@ -661,3 +661,11 @@ DSD 必须与以下文档保持一致：
 - questions 新增 word_bank JSONB：词库独立存储，单题与多题词库路径均支持。
 - Alembic migration：20260829_0002_add_question_word_bank.py。
 - P0-1 统计补强：入库优先使用 original_question_type 建立细粒度 question_type_id。
+
+### 2026-08-29 12:30:00
+
+- P0-2：essay/writing 作为原始细粒度 code 入库，question_type_id 可创建 essay/writing；无 schema 变更。
+- P1-3：填空位标记增加普通数字上下文保护，英语正文数字误标风险收敛。
+- P1-4：七选五 A-G 标签完整性进入锚点校验，缺失时 retry。
+- P2-2：前端展示层增强，不涉及数据 schema。
+

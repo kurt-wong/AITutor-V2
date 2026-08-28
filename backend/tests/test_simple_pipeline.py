@@ -8,12 +8,13 @@ from pathlib import Path
 from app.ai.gateway import LLMGateway
 from app.ai.providers import MockLLMProvider
 from app.domains.document.schemas_l1 import L1Document, L1Line, L1Page
-from app.domains.document.schemas_l2 import SlicedQuestion
+from app.domains.document.schemas_l2 import CorrectedAnchor, SlicedQuestion
 from app.domains.document.simple_pipeline import (
     _build_pp_canonical,
+    _build_retry_hints,
     _extract_subject_from_filename,
-    _ocr_model_for_subject,
     _select_better_result,
+    _ocr_model_for_subject,
     run_simple_pipeline,
 )
 
@@ -531,3 +532,31 @@ def test_text_layer_pdf_not_flagged_as_scanned():
     ))
     # 有文本层：不是 scanned（会继续走 OCR/标注，status 不可能是 scanned）
     assert result.status != "scanned"
+
+def test_seven_to_five_missing_labels_build_retry_hint():
+    """P1-4: missing A-G labels produce a retry hint for the LLM."""
+    from app.domains.document.quality_gate import evaluate_quality
+
+    sq = SlicedQuestion(
+        question_number="37",
+        question_type="single_choice",
+        original_question_type="seven_to_five",
+        section_id="seven_to_five_1",
+        is_composite=True,
+        corrected_anchors=[
+            CorrectedAnchor(
+                field="sub_options",
+                llm_line_ids=[],
+                corrected_line_ids=[],
+                anchor_status="retry",
+                validation_passed=False,
+                evidence="sub_options invalid: A-G-missing:F,G",
+                question_number="37",
+            )
+        ],
+    )
+    sliced = evaluate_quality([sq])
+    assert any("\u7981\u6b62\u81ea\u52a8\u53d1\u5e03" in issue for issue in sliced[0].issues)
+    hints = _build_retry_hints(sliced)
+    assert any("A-G-missing:F,G" in hint for hint in hints)
+

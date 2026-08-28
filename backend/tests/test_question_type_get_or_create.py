@@ -137,3 +137,14 @@ async def test_creates_fine_grained_cloze_type(db):
     qt = await db.get(QuestionType, qid)
     assert qt.code == "cloze"
     assert qt.name == "完形填空"
+
+
+@pytest.mark.asyncio
+async def test_creates_fine_grained_essay_type(db):
+    """essay creates its own question_type_id and stats name."""
+    subj = await _make_subject(db)
+    qid = await _get_question_type_id(db, "essay", subj.id)
+    assert qid is not None
+    qt = await db.get(QuestionType, qid)
+    assert qt.code == "essay"
+    assert qt.name == "写作"

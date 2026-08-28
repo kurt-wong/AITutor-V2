@@ -133,7 +133,7 @@ Question Aggregate
 | subject_id | 学科 ID |
 | grade | 年级 |
 | question_type_id | 题型 ID |
-| original_question_type | LLM 原始细粒度题型 code（cloze/grammar_fill/seven_to_five 等），可为空 |
+| original_question_type | LLM 原始细粒度题型 code（cloze/grammar_fill/seven_to_five/essay/writing 等），可为空 |
 | section_id | 来源卷面 section/共享材料区标识，可为空 |
 | score | 分值 |
 | difficulty | 难度 1-5 |
@@ -460,4 +460,13 @@ Question Aggregate
 ### 2026-08-29 00:35:00
 
 - questions 新增 word_bank JSONB：词库独立存储。
-- 细粒度题型统计：question_type_id 可使用 cloze/grammar_fill/seven_to_five 等原始细粒度码。
+- 细粒度题型统计：question_type_id 可使用 cloze/grammar_fill/seven_to_five/essay/writing 等原始细粒度码。
+
+### 2026-08-29 12:30:00
+
+- P0-2 写作题 canonical：essay/writing 作为原始细粒度题型 code；内部按 short_answer 处理，入库 question_type_id 可创建 essay/writing。
+- P1-3 孤立数字保护：英语正文中的年龄/年份/日期/页码/范围/百分数不再被误标为填空位。
+- P1-4 七选五 A-G 完整性：子题选项标签缺失时生成 sub_options retry 锚点并触发重试。
+- P2-2 展示增强：前端高亮正确选项并在答案区显示对应选项文本。
+- P2-1 保持现状：指令文本继续保留在题干区，符合当前展示标准，不新增 instruction 字段。
+

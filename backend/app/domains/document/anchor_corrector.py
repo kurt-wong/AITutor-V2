@@ -46,6 +46,17 @@ _STRICT_OPTION_LABEL_RE = re.compile(
     r"\s+(?=[0-9$\\[{(+-])|$"
     r")"
 )
+_SEVEN_TO_FIVE_RE = re.compile(r"\u4e03\u9009\u4e94|7\u90095|7\u9009\u4e03")
+_SEVEN_TO_FIVE_LABELS = frozenset("ABCDEFG")
+
+
+def _is_seven_to_five(question) -> bool:
+    """Return True for seven-to-five composites identified by LLM/section."""
+    raw_type = (getattr(question, "original_question_type", None) or getattr(question, "question_type", None) or "")
+    section_id = getattr(question, "section_id", None) or ""
+    return raw_type == "seven_to_five" or bool(_SEVEN_TO_FIVE_RE.search(section_id))
+
+
 # 答案区起点（精确）：独立"参考答案"/"答案"标题行或"【答案】"标题行。
 _ANSWER_SECTION_START_RE = re.compile(
     r"(?:^|[\s，。；：])(?:参考答案|答案|Answer\s*Key)(?:\s*[:：]|$)|^【答案】\s*$",
@@ -576,10 +587,24 @@ def correct_anchors(
         # G 落 section 标题（东城英语 Q37-41）。校验失败的 label 清空并
         # 汇总为 field="sub_options" 的 retry 锚点，由 simple_pipeline
         # 重试链路（_build_retry_hints）捕获并让 LLM 重新标注。
+        if _is_seven_to_five(question) and not question.sub_questions:
+            corrected_anchors.append(CorrectedAnchor(
+                field="sub_options",
+                llm_line_ids=[],
+                corrected_line_ids=[],
+                anchor_status="retry",
+                validation_passed=False,
+                evidence="A-G-missing:sub_questions, need re-annotation",
+                question_number=question.question_number,
+            ))
+            anchor_status_summary["retry"] = anchor_status_summary.get("retry", 0) + 1
         if question.sub_questions:
             sub_retry_labels: list[str] = []
+            sub_option_labels: set[str] = set((question.options_line_ids or {}).keys())
             for sub in question.sub_questions:
-                if not sub.options_line_ids:
+                sub_opts = sub.options_line_ids or {}
+                sub_option_labels.update(sub_opts.keys())
+                if not sub_opts:
                     continue
                 corrected_sub_opts: dict[str, list[str]] = {}
                 for opt_label, opt_line_ids in sub.options_line_ids.items():
@@ -604,6 +629,10 @@ def correct_anchors(
                     else:
                         corrected_sub_opts[opt_label] = sub_anchor.corrected_line_ids
                 sub.options_line_ids = corrected_sub_opts
+            if _is_seven_to_five(question):
+                missing_labels = sorted(_SEVEN_TO_FIVE_LABELS - sub_option_labels)
+                if missing_labels:
+                    sub_retry_labels.append("A-G-missing:" + ",".join(missing_labels))
             if sub_retry_labels:
                 corrected_anchors.append(CorrectedAnchor(
                     field="sub_options",

@@ -1,8 +1,8 @@
 # AI Tutor Personal Edition — PROJECT_STATUS
 
 Version: 6.45
-Status: 切片入库规则差距修复完成并端到端验证；英语/理科入库标准对抗性审查 v3.1 已锁定，修复计划就绪；异步富化暂缓
-Date: 2026-08-28
+Status: v6.45 Phase 2 英语 P0-2/P1-3/P1-4/P2-2 已修复并回归通过；P2-1 保持题干区现状；下一步 Phase 3 理科。
+Date: 2026-08-29
 
 ---
 
@@ -68,7 +68,7 @@ Phase 2A/2B/2C 已验收；OCR Provider 策略落地；Sprint 治理五项完成
 ## 当前焦点
 
 1. **Phase 1 数据契约**：已完成（P0-1/P0-3/P0-4/P1-1），下一步进入 Phase 2。
-2. **Phase 2 英语**：P0-2/P1-3/P1-4/P2，涉及题型映射、prompt、空位保护、七选五校验和展示增强。
+2. **Phase 2 英语**：已完成（P0-2/P1-3/P1-4/P2-2；P2-1 保持题干区现状），下一步 Phase 3 理科。
 3. **Phase 3 理科**：P0-5/P1-2，涉及化学式标准化和答案图子题绑定。
 4. **Phase 4 验收**：新增回归测试 + golden + 重跑东城英语/样本卷。
 5. **异步富化**（暂缓）：待题型/答案结构修复稳定后重新设计。
@@ -86,7 +86,7 @@ Phase 2A/2B/2C 已验收；OCR Provider 策略落地；Sprint 治理五项完成
 ## 修复计划（v3.1）
 
 Phase 1 数据契约：全部完成（P0-1/P0-3/P0-4/P1-1），含细粒度题型、section、递归子问、answer_structure、word_bank。
-Phase 2 英语：P0-2/P1-3/P1-4/P2，涉及题型映射、prompt、空位保护、七选五校验和展示增强。
+Phase 2 英语：已完成（P0-2/P1-3/P1-4/P2-2；P2-1 保持题干区现状）。
 Phase 3 理科：P0-5/P1-2，涉及化学式标准化和答案图子题绑定。
 Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 
@@ -96,3 +96,15 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 - 快照：`docs_archive/status/2026-08-28_PROJECT_STATUS_v6.44.md`
 - 快照：`docs_archive/status/2026-08-28_RESTART_PROMPT_v6.44.md`
 - 快照：`docs_archive/status/2026-08-27_PROJECT_STATUS_v6.42.md`
+
+## Phase 2 状态（2026-08-29）
+
+- P0-2：essay/writing 题型映射、prompt、入库 get-or-create 与测试完成。
+- P1-3：普通数字上下文保护完成，ages/year/date/page/range/percent 不误标。
+- P1-4：七选五 A-G 缺失生成 sub_options retry，质量门阻断并生成重试提示。
+- P2-2：前端正确选项高亮，答案区自动关联选项文本。
+- 对抗性审查修复：P1-3 百分号误标封堵、P1-4 缺 sub_questions retry、P2-2 多答案高亮与共享工具。
+- P2-1：指令文本仍保留在题干区，符合当前展示标准，暂不新增 instruction 字段。
+- 验证：后端 739 passed（5 failed 仅为已知 e2e 目标文档缺失），前端 npm run build 通过。
+- 下一步：Phase 3 P0-5 化学式标准化、P1-2 答案图子题绑定。
+

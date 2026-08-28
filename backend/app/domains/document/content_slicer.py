@@ -62,6 +62,14 @@ _QUESTION_TYPE_CANONICAL = {
     "reading": "single_choice",  # 阅读理解
     "seven_to_five": "single_choice",  # 七选五
     "grammar_fill": "fill_in",  # 语法填空
+    "essay": "short_answer",  # writing/essay: subjective internally
+    "writing": "short_answer",
+    "composition": "short_answer",
+    "作文": "short_answer",
+    "写作": "short_answer",
+    "写作题": "short_answer",
+    "书面表达": "short_answer",
+    "书面表达题": "short_answer",
 }
 
 
@@ -76,6 +84,45 @@ def _canonical_question_type(qt: str) -> str:
 # 启用孤立数字替换；数理化填空位为下划线/空括号，数字密集，不启用孤立
 # 数字替换（避免误标普通数字），仅处理显式 {11} / （12） 标记。
 _TEXT_SUBJECTS = frozenset({"英语", "语文", "历史", "政治", "地理"})
+_NON_BLANK_NUMBER_PREFIXES = frozenset({
+    "age", "ages", "year", "years", "month", "months", "week", "weeks",
+    "day", "days", "hour", "hours", "minute", "minutes", "second", "seconds",
+    "time", "times", "score", "scores", "grade", "grades", "level", "levels",
+    "number", "numbers", "count", "counts", "amount", "amounts", "price",
+    "prices", "cost", "costs", "distance", "length", "height", "weight",
+    "page", "pages", "chapter", "chapters", "section", "sections", "version",
+    "versions", "part", "parts", "percent", "percentage", "ratio", "rate",
+    "value", "size", "population", "temperature",
+})
+_NON_BLANK_MONTHS = frozenset({
+    "january", "february", "march", "april", "may", "june", "july",
+    "august", "september", "october", "november", "december",
+    "jan", "feb", "mar", "apr", "jun", "jul", "aug", "sep", "oct", "nov", "dec",
+})
+_NON_BLANK_NUMBER_SUFFIX_RE = re.compile(
+    r"^(?:st|nd|rd|th|%|％|号|岁|年|月|日|点|分|秒)",
+    re.IGNORECASE,
+)
+
+
+def _is_protected_number(m: re.Match) -> bool:
+    """Reject ordinary English/Chinese numbers that are not blank positions."""
+    text = m.string
+    start, end = m.span()
+    before = text[:start].rstrip()
+    after = text[end:].lstrip()
+    if before and before[-1] in "-\u2013\u2014/":
+        return True
+    if after and after[0] in "-\u2013\u2014/":
+        return True
+    word_match = re.search(r"([A-Za-z]+|第)\s*$", before)
+    if word_match:
+        word = word_match.group(1).lower()
+        if word == "第" or word in _NON_BLANK_NUMBER_PREFIXES or word in _NON_BLANK_MONTHS:
+            return True
+    if _NON_BLANK_NUMBER_SUFFIX_RE.match(after):
+        return True
+    return False
 
 
 def _mark_blank_positions(
@@ -108,14 +155,16 @@ def _mark_blank_positions(
 
         def _repl(m: re.Match) -> str:
             n = m.group(1)
-            return f"〔{n}〕" if n in qno_set else m.group(0)
+            if n in qno_set and not _is_protected_number(m):
+                return f"〔{n}〕"
+            return m.group(0)
 
         # 孤立数字：前后均非数字/百分号/〔〕（〔N〕 已是结构化标记不再处理）；
         # 允许数字后跟字母（英语 OCR 丢空格场景 "my 5was" → 〔5〕，2026-08-28
         # 修正：原排除字母导致完形 5/6/7/8/10 漏标）；排除小数（"2.5" 不替换）。
         # 文本科目才启用（数学不启用，见 _TEXT_SUBJECTS）。
         text = re.sub(
-            r"(?<![〔\d%])(\d+)(?!\.\d|[\d〕])",
+            r"(?<![〔\d%])(\d+)(?!\.\d|[\d〕%％])",
             _repl,
             text,
         )

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { answerWithOptionText, isOptionCorrect } from "../lib/answer";
 import type { ChangeEvent, FormEvent } from "react";
 import { Link } from "react-router-dom";
 
@@ -371,6 +372,7 @@ function formatAnswer(answer?: string | null): string {
     .join(" ");
 }
 
+
 function escapeHtml(value: string) {
   return value
     .replace(/&/g, "&amp;")
@@ -486,14 +488,14 @@ function SubQuestionList({ items, parentStem, depth = 0 }: { items: SubQuestion[
             {sub.options?.length ? (
               <ol className="option-list subquestion-options">
                 {sub.options.map((option) => (
-                  <li key={option.label}>
+                  <li key={option.label} className={isOptionCorrect(option.label, sub.answer) ? "is-correct" : undefined}>
                     <strong>{option.label}.</strong> <MathText text={option.text} />
                   </li>
                 ))}
               </ol>
             ) : null}
             <div className="subquestion-answer">
-              {"\u7b54\u6848"} <MathText text={sub.answer || "\u7f3a\u7b54\u6848"} />
+              {"\u7b54\u6848"} <MathText text={answerWithOptionText(sub.answer, sub.options) || sub.answer || "\u7f3a\u7b54\u6848"} />
             </div>
             {sub.sub_sub_questions?.length ? (
               <SubQuestionList items={sub.sub_sub_questions} parentStem={subStem || parentStem} depth={depth + 1} />
@@ -868,7 +870,7 @@ function QuestionCard({
         {/* 答案区：默认折叠 */}
         <details className="bank-section">
           <summary>答案</summary>
-          <MathText text={formatAnswer(effective.answer) || "未匹配"} />
+          <MathText text={answerWithOptionText(effective.answer, effective.options) || formatAnswer(effective.answer) || "\u672a\u5339\u914d"} />
           <AnswerStructureView structure={effective.answer_structure} />
           <dl className="answer-grid">
             <div>

@@ -51,24 +51,20 @@
 
 ### BUG-027 英语/理科入库标准 v3.1 缺口
 
-- Status: Open
-- Phase 1：P0-1/P0-3/P0-4/P1-1 已全部修复；待 Phase 2 审查。
+- Status: Open（Phase 3 理科剩余）
+- Phase 1：P0-1/P0-3/P0-4/P1-1 已修复。
+- Phase 2：P0-2/P1-3/P1-4/P2-2 已修复；P2-1 保持题干区现状。
 - P0-4：已修复（answer_structure JSONB 全链路 + 多答案/范围自动识别）
 - P0-3：已修复（递归 sub_sub_questions 全链路 + 前端递归渲染）
 - P0-1：已修复（original_question_type + section_id 全链路 + T1-T5 测试）
 - 现象：当前管线无法完整满足用户提供的英语/理科切片入库展示标准。
 - 待修复：
   - P0-1 细粒度题型/section 入库后丢失
-  - P0-2 写作题无 canonical 类型
   - P0-3 多层嵌套子问不支持
   - P0-4 结构化答案格式缺失（条件化）
   - P0-5 化学式下标/上标标准化
   - P1-1 词库无独立 word_bank 字段
   - P1-2 答案图子题粒度绑定不精确
-  - P1-3 完形共享材料数字误标
-  - P1-4 七选五 A-G 完整性无强制校验
-  - P2-1 instruction 独立字段（当前行为不算错误）
-  - P2-2 七选五正确选项高亮/自动关联文本展示增强
 - 验收条件：按 PROJECT_STATUS 修复计划完成 Phase 1-4，回归测试与样本重跑通过。
 
 
@@ -352,3 +348,15 @@
 ### 2026-08-29 00:35:00
 
 - Phase 1 全部问题修复：P0-1 细粒度统计、P0-4 结构化答案 prompt/渲染/误判修复、P1-1 单题词库与 section 跳过。
+
+### BUG-028 Phase 2 英语 P0-2/P1-3/P1-4/P2-2
+
+- Status: Resolved
+- P0-2：essay/writing 归一为 short_answer 内部行为，原始题型透传并创建独立 question_types 记录；prompt 要求英语写作/书面表达输出 essay。
+- P1-3：_mark_blank_positions 增加普通数字上下文保护，避免 ages 9、July 10th、year 2016、9-12、50% 误标。
+- P1-4：anchor_corrector 对七选五子题选项标签做 A-G 完整性校验，缺失时生成 sub_options retry 锚点，simple_pipeline 重试提示覆盖。
+- P2-2：前端正确选项高亮并在答案区显示对应选项文本。
+- P2-1：保持现状，指令文本在题干区，不新增 instruction 字段。
+- 审查修复：百分号 regex 排除 %/％；七选五缺 sub_questions 触发 retry；前端多答案共享工具与多字母高亮。
+- 验证：后端 739 passed，5 failed 为已知 e2e 目标文档缺失；前端 npm run build 通过。
+

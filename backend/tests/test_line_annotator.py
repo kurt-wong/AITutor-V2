@@ -551,6 +551,40 @@ def test_annotate_keeps_standalone_group_placeholder_with_answer():
 def test_cloze_canonical_type_is_single_choice():
     assert _canonical_question_type("cloze") == "single_choice"
 
+def test_essay_canonical_type_is_short_answer_and_preserved():
+    assert _canonical_question_type("essay") == "short_answer"
+    assert _canonical_question_type("writing") == "short_answer"
+    assert _canonical_question_type("作文") == "short_answer"
+
+
+def test_annotate_preserves_essay_original_type():
+    """LLM essay is normalized to short_answer while preserving original type."""
+    doc = _make_simple_doc()
+    response = json.dumps({
+        "filename": "test.pdf",
+        "subject": "英语",
+        "questions": [
+            {
+                "question_number": "46",
+                "question_type": "essay",
+                "section_id": "书面表达_46",
+                "stem_line_ids": ["P1L002"],
+                "options_line_ids": {},
+            }
+        ],
+        "metadata_confidence": 0.5,
+    })
+    gateway = LLMGateway(
+        mode="live",
+        providers=[MockLLMProvider(response=response)],
+    )
+
+    import asyncio
+    result = asyncio.run(annotate_document(doc, gateway))
+
+    assert result.questions[0].question_type == "short_answer"
+    assert result.questions[0].original_question_type == "essay"
+
 
 def test_split_no_material_fill_composites_preserves_shared_composites():
     q11 = L2QuestionAnnotation(
