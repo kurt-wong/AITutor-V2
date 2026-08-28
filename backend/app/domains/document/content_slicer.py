@@ -87,6 +87,9 @@ def _mark_blank_positions(
 
     规则（2026-08-28，P4E.1）：
     1. 显式标记 `{11}` / `（12）` / `(37)` → `〔11〕`（所有科目，本身就是填空位标记）
+    1.5 下划线空位 `____37____` → `〔37〕`（所有科目；native L1 保留
+        下划线形式，PPSV3 文本层常丢下划线变裸数字/粘连，如 `_40Orthe`，
+        靠规则 2 兜底。2026-08-28 LOG v6.44 补）
     2. 孤立数字 ∈ 子题 qno 集合 → `〔N〕`（仅文本科目；数理化填空位为
        下划线/空括号，数字密集，不启用避免误标普通数字）
     3. `______` / `（　　）` 等原样保留（数理化填空位）
@@ -97,6 +100,8 @@ def _mark_blank_positions(
     # 规则 1：显式填空位标记（{11} / （12） / (37)）
     text = re.sub(r"\{(\d+)\}", r"〔\1〕", text)
     text = re.sub(r"[（(](\d+)[）)]", r"〔\1〕", text)
+    # 规则 1.5：下划线空位（____37____ / __37__）→ 〔N〕（所有科目）
+    text = re.sub(r"_+\s*(\d+)\s*_+", r"〔\1〕", text)
     # 规则 2：孤立数字（文本科目，且 ∈ 子题 qno）
     if subject in _TEXT_SUBJECTS and sub_qnos:
         qno_set = set(sub_qnos)
@@ -162,13 +167,18 @@ def slice_questions(
         # P4E.1（2026-08-28）：综合题题干/材料中的填空位标记为结构化 〔N〕，
         # 前端渲染高亮（完形 1、2、3 → 〔1〕〔2〕〔3〕；语法填空 {11} → 〔11〕；
         # 七选五 （37） → 〔37〕）。数理化填空位为下划线/空括号，原样保留。
+        # 2026-08-28 补强（LOG v6.44）：① 子题 stem 同样标记（七选五子题
+        # stem 以 "37The inventor" 裸数字开头，前端子题区也需要高亮）；
+        # ② 空位下划线形式 `____37____`/`_40` 兜底为孤立数字（PPSV3
+        # 文本层下划线丢失/粘连，native L1 保留 `____37____`）。
         if getattr(sq, "is_composite", False) and sq.sub_questions:
             qnos = [str(sub.qno) for sub in sq.sub_questions if sub.qno]
-            sq.stem = _mark_blank_positions(
-                sq.stem,
-                qnos,
-                getattr(annotation, "subject", None),
-            )
+            subject = getattr(annotation, "subject", None)
+            sq.stem = _mark_blank_positions(sq.stem, qnos, subject)
+            for sub in (sq.sub_questions or []):
+                sub_stem = getattr(sub, "stem", None)
+                if sub_stem:
+                    sub.stem = _mark_blank_positions(sub_stem, qnos, subject)
         sliced.append(sq)
 
     # Task 2.3: 共享材料题 section_id 校验
@@ -500,7 +510,6 @@ def _slice_single_question(
     stem_anchor = q_anchors.get("stem")
     # 合并所有 option anchors 为 options_anchor 列表
     option_anchors = [v for k, v in q_anchors.items() if k.startswith("option_")]
-
     # 构建 options_anchor: 合并所有选项锚点
     options_anchor = None
     if option_anchors:
@@ -527,9 +536,15 @@ def _slice_single_question(
             question_number=question.question_number,
         )
 
-    # 全部锚点（stem + options）
+    # 全部锚点（stem + options + 子题选项汇总）
     all_anchors = [a for a in [stem_anchor] if a]
     all_anchors.extend(option_anchors)
+    # 2026-08-28（LOG v6.44）：子题选项锚点校验失败（field="sub_options"）
+    # 纳入 corrected_anchors，使 quality_gate._get_anchor_status 能检测到
+    # retry 状态并触发 simple_pipeline 重试（此前子题行号偏移直接入库）。
+    sub_options_anchor = q_anchors.get("sub_options")
+    if sub_options_anchor:
+        all_anchors.append(sub_options_anchor)
 
     # P4E.1（2026-08-27）：LLM 标记的综合题直接透传子题——此处用行号切片
     # 补齐子题 stem/options 文本（此前只透传行号，入库/API/前端丢失子题
@@ -635,8 +650,11 @@ def _slice_options(
 # 行内选项标签标记：A. / A． / A、 / A: / (A) 等
 # 负向断言仅排除字母数字（防 "图2.B"、"xB." 误匹配）；紧凑格式
 # "件B.必要" 中 B 前是中文，必须允许匹配（P4E.1 修正，V1 3.21）。
+# 2026-08-28：A-D → A-G（七选五有 E/F/G 选项；PPSV3 行合并把
+# "D. xxx E. yyy" 合成一行时 E/F/G 必须能被行内拆分识别，否则
+# D 吞 E、E/F/G 依次错位、G 落到 section 标题，LOG v6.44）。
 _INLINE_LABEL_RE = re.compile(
-    r"(?<![A-Za-z0-9])([A-D])\s*[.．、:：]\s*"
+    r"(?<![A-Za-z0-9])([A-G])\s*[.．、:：]\s*"
 )
 
 

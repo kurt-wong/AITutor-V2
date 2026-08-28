@@ -993,3 +993,153 @@ def test_mark_blank_positions_digit_followed_by_letter():
     assert "my 〔5〕was" in out
     assert "don't 〔8〕mistakes" in out
     assert "I've 〔10〕it." in out
+
+
+def test_mark_blank_positions_underline_blank():
+    """下划线空位（____37____，native L1 形式）→ 〔37〕（所有科目）。
+
+    2026-08-28（LOG v6.44）：七选五空位在 PDF 原文是 `____37____`，
+    native L1 保留下划线，PPSV3 文本层常丢下划线变裸数字/粘连
+    （`_40Orthe`）。native 形式必须能转，否则前端空位不高亮。
+    """
+    from app.domains.document.content_slicer import _mark_blank_positions
+
+    stem = "____37____ The inventor who had the right idea. ____40____ Or the small business."
+    out = _mark_blank_positions(stem, ["37", "38", "39", "40", "41"], "英语")
+    assert "〔37〕 The inventor" in out
+    assert "〔40〕 Or the small business" in out
+    # 数学等非文本科目：显式下划线空位同样转（规则 1.5 不依赖科目）
+    out_math = _mark_blank_positions(
+        "____12____ 如图", ["12"], "数学"
+    )
+    assert "〔12〕 如图" in out_math
+
+
+def test_inline_split_options_seven_to_five():
+    """七选五：D/E 合并行（PPSV3 行合并）必须拆出 E/F/G 标签。
+
+    2026-08-28（LOG v6.44）：`_INLINE_LABEL_RE` 原只匹配 [A-D]，七选五
+    E/F/G 行内标签不识别 → D 吞 E、E/F/G 依次错位、G 落 section 标题
+    （东城英语 Q37-41 B 丢失/D/E 合并）。修复后 A-G 都能行内拆分。
+    """
+    from app.domains.document.content_slicer import _inline_split_options
+
+    # PPSV3 把 D、E 两行合并成一行
+    merged = (
+        'D. Her "almost" wasn\'t a failure at that time. '
+        "E. Think of the silver runner who returns stronger, inspired by that close loss."
+    )
+    parts = _inline_split_options(merged)
+    assert ("D", 'Her "almost" wasn\'t a failure at that time.') in parts
+    assert any(lab == "E" and "Think of the silver runner" in txt for lab, txt in parts)
+
+    # 独立 F/G 行也能识别
+    f_line = "F. These stories remind us not getting recognition doesn't mean making no difference."
+    assert _inline_split_options(f_line) == [
+        ("F", "These stories remind us not getting recognition doesn't mean making no difference."),
+    ]
+    g_line = "G. Nearly all her poems sat in a drawer while she lived, considered strange or unfinished."
+    assert _inline_split_options(g_line) == [
+        ("G", "Nearly all her poems sat in a drawer while she lived, considered strange or unfinished."),
+    ]
+
+
+def test_slice_options_seven_to_five_merged_lines():
+    """七选五切片：options_line_ids 指向合并行时按 A-G 行内拆分归属。
+
+    2026-08-28（LOG v6.44）：回归测试保证"子题内容丢失/选项拼接/
+    紧凑未拆"能被抓住（P4E.1 任务 4 选项完整性指标的前置修复）。
+    """
+    from app.domains.document.content_slicer import _slice_options
+    from app.domains.document.schemas_l1 import L1Line
+
+    lines = {
+        "P7L001": L1Line("P7L001", 7, 1, 1, "B. But what about the \"almosts\"?", "text"),
+        "P7L002": L1Line("P7L002", 7, 2, 2, "C. That struggle itself has meaning.", "text"),
+        "P7L003": L1Line(
+            "P7L003", 7, 3, 3,
+            'D. Her "almost" wasn\'t a failure at that time. E. Think of the silver runner who returns stronger, inspired by that close loss.',
+            "text",
+        ),
+        "P7L004": L1Line("P7L004", 7, 4, 4, "F. These stories remind us not getting recognition doesn't mean making no difference.", "text"),
+        "P7L005": L1Line("P7L005", 7, 5, 5, "G. Nearly all her poems sat in a drawer while she lived, considered strange or unfinished.", "text"),
+        "P7L006": L1Line("P7L006", 7, 6, 6, "第三部分：书面表达(共两节，32分)", "text"),
+    }
+    # LLM 标注：B 引用 P7L001、C→P7L002、D→P7L003（合并行）、E→P7L004、F→P7L005、G→P7L006
+    options_line_ids = {
+        "B": ["P7L001"], "C": ["P7L002"], "D": ["P7L003"],
+        "E": ["P7L004"], "F": ["P7L005"], "G": ["P7L006"],
+    }
+    result = {o["label"]: o["text"] for o in _slice_options(options_line_ids, lines)}
+    assert result.get("B", "").startswith("But what about")
+    assert result.get("C", "").startswith("That struggle")
+    # 合并行被 A-G 行内拆分：D 只含 D 内容，E 独立成项（不再 D 吞 E）
+    assert result.get("D", "").startswith('Her "almost"')
+    assert "Think of the silver runner" not in result.get("D", "")
+    assert "Think of the silver runner" in result.get("E", "")
+    assert result.get("E", "").startswith("Think of the silver runner")
+    assert result.get("F", "").startswith("These stories")
+    assert result.get("G", "").startswith("Nearly all her poems")
+
+
+def test_seven_to_five_end_to_end_chain():
+    """七选五完整链路：锚点校验（子题合并行不误判 retry）+ 切片 + 空位标记。
+
+    2026-08-28（LOG v6.44）：PPSV3 把 D/E 合并成一行时，E 引用的行首
+    标签是 D，旧锚点校验误判 retry 触发无谓 LLM 重标；且行内拆分只认
+    A-D 导致 E/F/G 错位。修复后：行内归属保留行号 + A-G 拆分 → 选项
+    A-G 完整、D/E 正确分离、空位 〔37〕 高亮。
+    """
+    from app.domains.document.anchor_corrector import correct_anchors
+    from app.domains.document.schemas_l2 import L2SubQuestion
+
+    lines = [
+        L1Line("P6L030", 6, 30, 30, "We live in a culture addicted to winning.", "text"),
+        L1Line("P6L031", 6, 31, 31, "____37____ The inventor who had the right idea at the wrong time.", "text"),
+        L1Line("P6L032", 6, 32, 32, "A. The truth lies in history.", "text"),
+        L1Line("P6L033", 6, 33, 33, 'B. But what about the "almosts"?', "text"),
+        L1Line("P7L001", 7, 1, 34, "C. That struggle itself has meaning.", "text"),
+        L1Line("P7L002", 7, 2, 35, 'D. Her "almost" wasn\'t a failure at that time. E. Think of the silver runner who returns stronger, inspired by that close loss.', "text"),
+        L1Line("P7L003", 7, 3, 36, "F. These stories remind us not getting recognition doesn't mean making no difference.", "text"),
+        L1Line("P7L004", 7, 4, 37, "G. Nearly all her poems sat in a drawer while she lived, considered strange or unfinished.", "text"),
+        L1Line("P7L005", 7, 5, 38, "第三部分：书面表达(共两节，32分)", "text"),
+    ]
+    doc = L1Document(
+        filename="english.pdf", pages=[], lines=lines,
+        source="ppsv3", total_pages=10,
+    )
+    sub_opts = {
+        "A": ["P6L032"], "B": ["P6L033"], "C": ["P7L001"],
+        "D": ["P7L002"], "E": ["P7L002"], "F": ["P7L003"], "G": ["P7L004"],
+    }
+    annotation = L2DocumentAnnotation(
+        filename="english.pdf", subject="英语",
+        questions=[L2QuestionAnnotation(
+            question_number="37", question_type="single_choice",
+            stem_line_ids=["P6L030", "P6L031"],
+            shared_material_line_ids=["P6L030", "P6L031"],
+            is_composite=True, answer=None,
+            sub_questions=[
+                L2SubQuestion(qno="37", question_type="single_choice",
+                              stem_line_ids=["P6L031"],
+                              options_line_ids=dict(sub_opts), answer="B"),
+            ],
+        )],
+    )
+
+    annotation = correct_anchors(annotation, doc)
+    # 子题合并行（E 引用 P7L002）不得触发 sub_options retry
+    sub_anchor = [a for a in annotation.corrected_anchors if a.field == "sub_options"]
+    assert sub_anchor == [], f"合并行被误判 retry: {[a.evidence for a in sub_anchor]}"
+
+    sliced = slice_questions(annotation, doc)
+    assert len(sliced) == 1
+    sq = sliced[0]
+    assert "〔37〕" in sq.stem, "父题空位未标记"
+    labels = [o["label"] for o in (sq.sub_questions[0].options or [])]
+    assert labels == ["A", "B", "C", "D", "E", "F", "G"], f"选项不完整: {labels}"
+    texts = {o["label"]: o["text"] for o in (sq.sub_questions[0].options or [])}
+    assert texts["D"].startswith('Her "almost"')
+    assert "Think of the silver runner" not in texts["D"], "D 仍吞 E"
+    assert texts["E"].startswith("Think of the silver runner")
+    assert "〔37〕" in sq.sub_questions[0].stem, "子题空位未标记"

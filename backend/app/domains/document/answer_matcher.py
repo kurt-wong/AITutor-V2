@@ -150,12 +150,20 @@ def match_answers(
         )
 
     for sq in sliced_questions:
-        # 选择题组综合题：父题答案 = 子题答案汇总（content_slicer 已生成），
-        # 不走答案表匹配——文末答案表按子题号给单字母（如 18→B），会覆盖
-        # merged_answer 为单个字母，丢失子题汇总。跳过单题匹配，保留汇总答案。
+        # 综合题（共享题图/材料）：父题答案 = 子题答案汇总（content_slicer
+        # 已生成 "(11) itself (12) to ..." / "(1) C (2) B ..."），不走单题
+        # 匹配——文末答案表按子题号给单值（如 11→itself、18→B），会覆盖
+        # merged_answer 为单值，丢失子题汇总。
+        # 2026-08-28（LOG v6.44）：此前只跳过 single_choice/multiple_choice，
+        # fill_in/short_answer 综合题（东城英语 Q11 语法填空="itself"、
+        # Q21 词汇="confusing"、Q42 阅读表达只留第一题答案）被答案表单值
+        # 覆盖 → 父题答案截断。现所有 is_composite 且父题已有汇总答案的
+        # 一律跳过（与 _apply_llm_annotation_answers 的 composite 跳过一致）。
+        # 父题 answer 为空（物理实验题等，content_slicer 无子题答案可汇总）
+        # 仍走答案区匹配，避免 answer_missing。
         if (
             getattr(sq, "is_composite", False)
-            and sq.question_type in ("single_choice", "multiple_choice")
+            and (sq.answer or "").strip()
         ):
             continue
         _match_single_question(

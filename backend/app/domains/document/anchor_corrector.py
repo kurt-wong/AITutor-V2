@@ -229,15 +229,31 @@ def _validate_option_anchor(
         )
 
     m = _STRICT_OPTION_LABEL_RE.match(first_line.text) if first_line else None
+    # 2026-08-28（LOG v6.44）：七选五 PPSV3 行合并——"D. xxx E. yyy"
+    # 两行并成一行时，E 引用的行首标签是 D ≠ E，但行内拆分（A-G）能
+    # 把 E 正确拆出。此时不能判 retry（会触发无谓的 LLM 重标）。
+    # 判定：首行标签匹配 → exact；否则若行内存在该 label 标签 → 仍有效
+    #（nearest 语义：行内归属由 content_slicer._slice_options 保证）。
+    inline_ok = False
+    if (not m or m.group(1) != label) and first_line is not None:
+        inline_ok = bool(re.search(
+            rf"(?<![A-Za-z0-9])({re.escape(label)})\s*[.．、:：]\s*",
+            first_line.text,
+        ))
     if not m or m.group(1) != label:
-        return CorrectedAnchor(
-            field=f"option_{label}",
-            llm_line_ids=llm_line_ids,
-            corrected_line_ids=[],
-            anchor_status="retry",
-            validation_passed=False,
-            evidence=f"选项 {label} 首行不是匹配的选项标签行，需重新标注",
-            question_number=question_number,
+        if not inline_ok:
+            return CorrectedAnchor(
+                field=f"option_{label}",
+                llm_line_ids=llm_line_ids,
+                corrected_line_ids=[],
+                anchor_status="retry",
+                validation_passed=False,
+                evidence=f"选项 {label} 首行不是匹配的选项标签行，需重新标注",
+                question_number=question_number,
+            )
+        logger.info(
+            "option_anchor_inline q=%s label=%s line=%s → 行内归属，保留行号",
+            question_number, label, valid_ids_list[0],
         )
 
     return CorrectedAnchor(
@@ -552,6 +568,57 @@ def correct_anchors(
             corrected_anchors.append(opt_anchor)
             corrected_options[opt_label] = opt_anchor.corrected_line_ids
         question.options_line_ids = corrected_options
+
+        # 2026-08-28（LOG v6.44）：七选五等综合题子题的选项行号同样要过
+        # 锚点校验——此前 correct_anchors 只校验顶层题 options_line_ids，
+        # 子题行号是 LLM 原始值直接透传；PPSV3 行合并（"D.xxx E.yyy"
+        # 两行并一行）时 LLM 行号整体偏移，切片后 B 丢失/E/F/G 错位/
+        # G 落 section 标题（东城英语 Q37-41）。校验失败的 label 清空并
+        # 汇总为 field="sub_options" 的 retry 锚点，由 simple_pipeline
+        # 重试链路（_build_retry_hints）捕获并让 LLM 重新标注。
+        if question.sub_questions:
+            sub_retry_labels: list[str] = []
+            for sub in question.sub_questions:
+                if not sub.options_line_ids:
+                    continue
+                corrected_sub_opts: dict[str, list[str]] = {}
+                for opt_label, opt_line_ids in sub.options_line_ids.items():
+                    sub_anchor = _validate_option_anchor(
+                        label=opt_label,
+                        llm_line_ids=opt_line_ids,
+                        valid_ids=valid_line_ids,
+                        line_by_id=line_by_id,
+                        question_number=question.question_number,
+                        stop_order=stop_order,
+                    )
+                    llm_anchors.append(CorrectedAnchor(
+                        field=f"sub_option_{sub.qno}_{opt_label}",
+                        llm_line_ids=opt_line_ids,
+                        corrected_line_ids=opt_line_ids,
+                        anchor_status="llm_raw",
+                        question_number=question.question_number,
+                    ))
+                    corrected_anchors.append(sub_anchor)
+                    if sub_anchor.anchor_status in ("retry", "missing") or not sub_anchor.corrected_line_ids:
+                        sub_retry_labels.append(f"{sub.qno}-{opt_label}")
+                    else:
+                        corrected_sub_opts[opt_label] = sub_anchor.corrected_line_ids
+                sub.options_line_ids = corrected_sub_opts
+            if sub_retry_labels:
+                corrected_anchors.append(CorrectedAnchor(
+                    field="sub_options",
+                    llm_line_ids=[],
+                    corrected_line_ids=[],
+                    anchor_status="retry",
+                    validation_passed=False,
+                    evidence=f"子题选项行号无效: {','.join(sub_retry_labels)}，需重新标注",
+                    question_number=question.question_number,
+                ))
+                anchor_status_summary["retry"] = anchor_status_summary.get("retry", 0) + 1
+                logger.warning(
+                    "anchor_validation sub_options retry q=%s labels=%s",
+                    question.question_number, sub_retry_labels,
+                )
 
         # Remove option lines from stem (LLM may have over-included)
         all_option_line_ids = set()

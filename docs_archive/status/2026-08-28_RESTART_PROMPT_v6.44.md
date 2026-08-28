@@ -1,6 +1,6 @@
 # AI Tutor Personal Edition — RESTART_PROMPT
 
-Version: 6.45
+Version: 6.44
 Status: 文档治理已切换为精简快照模式；功能状态见 PROJECT_STATUS.md
 Date: 2026-08-28
 
@@ -135,7 +135,5 @@ python test/scripts/run_live_validation.py --with-ocr --runs 2
 
 - 当前状态：`PROJECT_STATUS.md`
 - 变更历史：`LOG.md`
-- 旧版完整快照：`docs_archive/status/2026-08-28_RESTART_PROMPT_v6.44.md`
-- 旧版完整快照：`docs_archive/status/2026-08-28_PROJECT_STATUS_v6.44.md`
 - 旧版完整快照：`docs_archive/status/2026-08-25_RESTART_PROMPT_v6.20.md`
 - 旧版完整快照：`docs_archive/status/2026-08-25_PROJECT_STATUS_v6.20.md`

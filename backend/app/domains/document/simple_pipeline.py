@@ -177,6 +177,19 @@ def _build_retry_hints(sliced) -> list[str]:
                 "请重新输出 options_line_ids"
             )
 
+        # 2026-08-28（LOG v6.44）：子题选项锚点校验失败（七选五 E/F/G
+        # 行内标签、PPSV3 行合并导致 LLM 行号偏移）→ 提示 LLM 重标子题
+        # options_line_ids（此前子题行号直接透传入库，B 丢失/E/F/G 错位）。
+        sub_opt_anchor = next(
+            (a for a in (sq.corrected_anchors or []) if a.field == "sub_options"),
+            None,
+        )
+        if sub_opt_anchor and sub_opt_anchor.anchor_status in ("retry", "missing"):
+            problem_parts.append(
+                f"子题选项行号无效（{sub_opt_anchor.evidence or '校验失败'}），"
+                "请重新输出每个子题的 options_line_ids（七选五为 A-G 七个标签）"
+            )
+
         if not (sq.answer or "").strip() and sq.answer_provenance:
             if sq.answer_provenance.source == "llm_fallback":
                 problem_parts.append(
@@ -507,6 +520,12 @@ async def run_simple_pipeline(
                 temperature=temperature,
                 retry_hints=retry_hints,
             )
+            # 2026-08-28（LOG v6.44）：annotation.subject 来自 LLM metadata，
+            # 可能为空 → content_slicer._mark_blank_positions 的文本科目
+            # 孤立数字规则（七选五空位 → 〔N〕）不启用。用管线传入的
+            # subject（worker 从 document.subject 来）兜底。
+            if not annotation.subject and subject:
+                annotation.subject = subject
             result.l2_annotation = annotation
             result.add_stage(
                 stage_name,

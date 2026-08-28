@@ -1104,13 +1104,99 @@ def test_choice_composite_keeps_merged_answer_without_llm_annotation():
     assert result[0].answer == "(9) A (10) B (11) D"
 
 
-def test_short_answer_composite_keeps_answer_outside_question_boundary():
-    """综合题 short_answer：answer_line_ids 指向文末答案区（超出当前题目范围）。
+def test_fill_in_composite_keeps_merged_answer_over_table_single_value():
+    """fill_in 综合题（语法填空）：父题保留子题答案汇总，不被答案表单值覆盖。
 
-    2026-08-26：历史海淀 Q31 材料+4 小问综合题，题目在 P7-8，LLM 的
-    answer_line_ids 指向文末答案区 P20L010-016。_filter_to_question_boundary
-    按"当前题号行到下一题号行"截断会清空答案 → answer=None →
-    quality_gate 误报 answer_missing。综合题跳过边界截断。
+    2026-08-28（LOG v6.44）：东城英语 Q11 语法填空父题 answer 曾只剩
+    "itself"（答案表单值），实际应为 "(11) itself (12) to (13) to stay"。
+    P4E.1 只修了 _apply_llm_annotation_answers 的 composite 跳过，
+    match_answers 主循环仍只跳过 single_choice/multiple_choice →
+    fill_in 综合题被 _match_document_answer 用答案表单值覆盖。
+    修复：match_answers 主循环跳过所有 is_composite。
+    """
+    lines = [
+        L1Line("P1L001", 1, 1, 1, "Tangshan started to revive 11(it)", "text"),
+        L1Line("P1L002", 1, 2, 2, "参考答案", "text"),
+        L1Line("P1L003", 1, 3, 3, "11.itself 12. to 13. to stay", "text"),
+    ]
+    doc = L1Document(
+        filename="english.pdf",
+        pages=[L1Page(page_no=1, lines=lines)],
+        lines=lines,
+        source="native",
+        total_pages=1,
+    )
+    annotation = L2DocumentAnnotation(
+        filename="english.pdf",
+        questions=[L2QuestionAnnotation(
+            question_number="11",
+            question_type="fill_in",
+            answer_line_ids=["P1L003"],  # 指向答案表行（单值覆盖来源）
+        )],
+    )
+    questions = [SlicedQuestion(
+        question_number="11",
+        question_type="fill_in",
+        stem="Tangshan started to revive 11(it)",
+        options=[],
+        is_composite=True,
+        answer="(11) itself (12) to (13) to stay",  # content_slicer 汇总
+    )]
+
+    result = match_answers(questions, doc, llm_annotation=annotation)
+    assert result[0].answer == "(11) itself (12) to (13) to stay"
+
+
+def test_short_answer_composite_keeps_merged_answer_over_table_single_value():
+    """short_answer 综合题（阅读表达）：父题保留子题答案汇总，不被覆盖。
+
+    2026-08-28（LOG v6.44）：东城英语 Q42 阅读表达父题 answer 曾只剩
+    第一题答案 "Most people felt surprised..."，实际应汇总 42-45 全部。
+    """
+    lines = [
+        L1Line("P1L001", 1, 1, 1, "What if you quit your job?", "text"),
+        L1Line("P1L002", 1, 2, 2, "42. How did most people feel about Eric's question?", "text"),
+        L1Line("P1L003", 1, 3, 3, "参考答案", "text"),
+        L1Line("P1L004", 1, 4, 4, "42.Most people felt surprised.", "text"),
+    ]
+    doc = L1Document(
+        filename="english.pdf",
+        pages=[L1Page(page_no=1, lines=lines)],
+        lines=lines,
+        source="native",
+        total_pages=1,
+    )
+    annotation = L2DocumentAnnotation(
+        filename="english.pdf",
+        questions=[L2QuestionAnnotation(
+            question_number="42",
+            question_type="short_answer",
+            answer_line_ids=["P1L004"],  # 只指向 42 的答案行
+        )],
+    )
+    questions = [SlicedQuestion(
+        question_number="42",
+        question_type="short_answer",
+        stem="What if you quit your job?",
+        options=[],
+        is_composite=True,
+        answer="(42) Most people felt surprised. (43) An appreciation for small things. (44) ... (45) ...",
+    )]
+
+    result = match_answers(questions, doc, llm_annotation=annotation)
+    # 汇总答案保留，不被 42 单值答案表覆盖
+    assert result[0].answer.startswith("(42) Most people felt surprised.")
+    assert "(43)" in result[0].answer
+
+
+def test_short_answer_composite_keeps_answer_outside_question_boundary():
+    """综合题 short_answer：父题保留 content_slicer 子题汇总答案。
+
+    2026-08-26：历史海淀 Q31 材料+4 小问综合题，题目在 P7-8，答案在
+    文末答案区 P20L010-016。P4E.1 后 composite 父题答案一律由
+    content_slicer 从子题汇总生成，answer_matcher 跳过单题匹配——
+    答案区行不再参与单题切片（旧行为），父题汇总答案必须保留，
+    不能被 LLM answer_line_ids / 答案表单值覆盖。
     """
     lines = [
         L1Line("P7L016", 7, 16, 16, "31.（12分）经过武帝至宣帝三代经营", "text"),
@@ -1141,12 +1227,12 @@ def test_short_answer_composite_keeps_answer_outside_question_boundary():
         stem="经过武帝至宣帝三代经营",
         options=[],
         is_composite=True,  # 材料+多小问综合题
+        answer="(31) 西域都护府。 (32) 将西域纳入中央管理之下",  # content_slicer 汇总
     )]
 
     result = match_answers(questions, doc, llm_annotation=annotation)
-    # 文末答案区行保留（不被下一题边界截断）
-    assert result[0].answer is not None
-    assert "西域都护府" in result[0].answer
+    # 父题汇总答案保留，不被 LLM answer_line_ids 单值切片/答案表单值覆盖
+    assert result[0].answer == "(31) 西域都护府。 (32) 将西域纳入中央管理之下"
 
 
 def test_short_answer_non_composite_keeps_answer_section_lines():

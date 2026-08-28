@@ -37,12 +37,17 @@ _DECIMAL_PATTERN = re.compile(r"\d\.\d")
 _CHEMICAL_DOT_PATTERN = re.compile(r"[A-Z][a-z]?\d*·[A-Z]")
 
 # 匹配单行多选项（A.xxx B.xxx C.xxx D.xxx）或（A）xxx（B）xxx
+# 2026-08-28：A-D → A-G（七选五有 E/F/G；PPSV3 把 "D.xxx E.yyy"
+# 两行合并成一行时必须能拆开，否则 LLM 行号标注整体偏移，
+# B 丢失/E/F/G 错位/G 落 section 标题，LOG v6.44）。仅当行内
+# ≥2 个标签才触发拆行（_expand_inline_option_lines），正文单个
+# "E. " 不会误拆。
 _INLINE_OPTIONS_PATTERN = re.compile(
-    r"([A-D])\s*[.、．]\s*"
+    r"([A-G])\s*[.、．]\s*"
 )
 # 匹配括号选项（如 （A）xxx（B）xxx 或 (A) xxx(B) xxx）
 _PAREN_OPTIONS_PATTERN = re.compile(
-    r"[（(]\s*([A-D])\s*[）)]\s*"
+    r"[（(]\s*([A-G])\s*[）)]\s*"
 )
 
 # 匹配括号题号（如 (1) （2））

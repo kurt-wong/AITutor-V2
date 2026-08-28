@@ -363,3 +363,122 @@ def test_stem_after_solution_section_heading_is_not_answer_section():
     result = correct_anchors(annotation, doc)
     assert result.corrected_anchors[0].anchor_status == "exact"
     assert result.corrected_anchors[0].corrected_line_ids == ["P1L002"]
+
+
+def test_sub_question_options_anchor_validation():
+    """七选五子题选项行号偏移时校验失败 → sub_options retry 锚点。
+
+    2026-08-28（LOG v6.44）：此前 correct_anchors 只校验顶层题
+    options_line_ids，子题行号 LLM 原始值直接透传；PPSV3 行合并导致
+    行号偏移（B 指向 C 行）时切片后 B 丢失/E/F/G 错位。修复后子题
+    选项行号同样过 _validate_option_anchor，失败归集为 sub_options
+    retry，供 simple_pipeline 重试链路重新标注。
+    """
+    from app.domains.document.schemas_l2 import L2SubQuestion
+
+    lines = [
+        L1Line("P7L001", 7, 1, 1, "B. But what about the \"almosts\"?", "text"),
+        L1Line("P7L002", 7, 2, 2, "C. That struggle itself has meaning.", "text"),
+        L1Line("P7L003", 7, 3, 3, "D. Her \"almost\" wasn't a failure at that time.", "text"),
+        L1Line("P7L004", 7, 4, 4, "E. Think of the silver runner who returns stronger, inspired by that close loss.", "text"),
+        L1Line("P7L005", 7, 5, 5, "F. These stories remind us not getting recognition doesn't mean making no difference.", "text"),
+        L1Line("P7L006", 7, 6, 6, "G. Nearly all her poems sat in a drawer while she lived, considered strange or unfinished.", "text"),
+    ]
+    doc = L1Document(
+        filename="english.pdf",
+        pages=[L1Page(page_no=7, lines=lines)],
+        lines=lines,
+        source="ppsv3",
+        total_pages=10,
+    )
+    annotation = L2DocumentAnnotation(
+        filename="english.pdf",
+        questions=[
+            L2QuestionAnnotation(
+                question_number="37",
+                question_type="single_choice",
+                stem_line_ids=["P7L000"],  # 无效行号，仅构造
+                options_line_ids={},
+                is_composite=True,
+                sub_questions=[
+                    L2SubQuestion(
+                        qno="37",
+                        question_type="single_choice",
+                        stem_line_ids=["P7L000"],
+                        # LLM 行号整体偏移：B 指向 P7L001（实际是 B 行，
+                        # 正确），但 C/D/E/F/G 各自指向下一行（偏移）
+                        options_line_ids={
+                            "A": ["P7L000"],
+                            "B": ["P7L001"],
+                            "C": ["P7L002"],
+                            "D": ["P7L003"],
+                            "E": ["P7L004"],
+                            "F": ["P7L005"],
+                            "G": ["P7L006"],
+                        },
+                        answer="B",
+                    )
+                ],
+            )
+        ],
+    )
+
+    result = correct_anchors(annotation, doc)
+    sub_anchor = [a for a in result.corrected_anchors if a.field == "sub_options"]
+    assert len(sub_anchor) == 1
+    assert sub_anchor[0].anchor_status == "retry"
+    assert "A" in sub_anchor[0].evidence
+    # 正确的行号应保留在子题 options_line_ids
+    assert result.questions[0].sub_questions[0].options_line_ids["B"] == ["P7L001"]
+    assert result.questions[0].sub_questions[0].options_line_ids["C"] == ["P7L002"]
+
+
+def test_sub_question_options_anchor_exact():
+    """七选五子题选项行号全部正确时不产生 sub_options retry。"""
+    from app.domains.document.schemas_l2 import L2SubQuestion
+
+    lines = [
+        L1Line("P1L001", 1, 1, 1, "37. 七选五", "text"),
+        L1Line("P1L002", 1, 2, 2, "A. one", "text"),
+        L1Line("P1L003", 1, 3, 3, "B. two", "text"),
+        L1Line("P1L004", 1, 4, 4, "C. three", "text"),
+        L1Line("P1L005", 1, 5, 5, "D. four", "text"),
+        L1Line("P1L006", 1, 6, 6, "E. five", "text"),
+        L1Line("P1L007", 1, 7, 7, "F. six", "text"),
+        L1Line("P1L008", 1, 8, 8, "G. seven", "text"),
+    ]
+    doc = L1Document(
+        filename="english.pdf",
+        pages=[L1Page(page_no=1, lines=lines)],
+        lines=lines,
+        source="native",
+        total_pages=1,
+    )
+    annotation = L2DocumentAnnotation(
+        filename="english.pdf",
+        questions=[
+            L2QuestionAnnotation(
+                question_number="37",
+                question_type="single_choice",
+                stem_line_ids=["P1L001"],
+                options_line_ids={},
+                is_composite=True,
+                sub_questions=[
+                    L2SubQuestion(
+                        qno="37",
+                        question_type="single_choice",
+                        stem_line_ids=["P1L001"],
+                        options_line_ids={
+                            label: [f"P1L00{idx}"]
+                            for idx, label in enumerate("ABCDEFG", 2)
+                        },
+                        answer="B",
+                    )
+                ],
+            )
+        ],
+    )
+
+    result = correct_anchors(annotation, doc)
+    sub_anchor = [a for a in result.corrected_anchors if a.field == "sub_options"]
+    assert sub_anchor == []
