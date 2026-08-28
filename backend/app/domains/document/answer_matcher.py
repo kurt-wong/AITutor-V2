@@ -825,16 +825,17 @@ def _apply_llm_annotation_answers(
         by_number.setdefault(q.question_number, q)
 
     for sq in sliced_questions:
-        # 选择题组综合题（共享题图/材料，如"读图完成 18-20 题"）：父题答案已在
-        # content_slicer 合并时由子题答案汇总生成（merged_answer，格式
-        # "(1) C (2) B ..."），不是单个字母。LLM 的 answer_line_ids 指向
-        # 文末答案表行时，_CHOICE_ANSWER_RE 纯字母校验会把它清空 →
-        # 父题 answer=None → quality_gate 误报"答案缺失"。这里直接跳过：
-        # 保留 content_slicer 生成的汇总答案（子题答案在 sub_questions 里）。
-        if (
-            getattr(sq, "is_composite", False)
-            and sq.question_type in ("single_choice", "multiple_choice")
-        ):
+        # 综合题（共享题图/材料）：父题答案已在 content_slicer 合并时由子题
+        # 答案汇总生成（merged_answer，格式 "(1) C (2) B ..." / "(11) itself
+        # (12) to ..."），不是单个字母/单词。LLM 的 answer_line_ids 指向文末
+        # 答案表行时，_CHOICE_ANSWER_RE 纯字母校验或单值切片会把它清空/截断
+        # → 父题 answer 丢失或只剩第一个子题。这里直接跳过：保留 content_slicer
+        # 生成的汇总答案（子题答案在 sub_questions 里）。
+        # P4E.1（2026-08-27）：此前仅跳过 single_choice/multiple_choice，
+        # grammar_fill/fill_in/short_answer 综合题被答案表覆盖成第一个子题
+        # 答案（东城英语 Q11 只存 "itself"，实际应为 "(11) itself (12) to
+        # (13) to stay"，LOG v6.43）。现所有 is_composite 一律跳过。
+        if getattr(sq, "is_composite", False):
             continue
         q = by_number.get(sq.question_number)
         if q is None:

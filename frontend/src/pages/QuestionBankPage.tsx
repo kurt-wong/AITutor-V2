@@ -20,6 +20,28 @@ interface CatalogSubject {
   grades: { name: string | null; question_count: number }[];
 }
 
+/** 题型是否为选择题（有 A/B/C/D 选项的题型；fill_in/short_answer 无选项不提示） */
+function isChoiceType(typeName?: string | null): boolean {
+  if (!typeName) return false;
+  return /选择|choice/i.test(typeName);
+}
+
+/** 综合题汇总答案格式化：`(1) C (2) D (3) A` → `1.C 2.D 3.A`（每 5 个换行）。
+ *  单答案题（无 "(n)" 结构）原样返回。 */
+function formatAnswer(answer?: string | null): string {
+  if (!answer) return "";
+  const items: string[] = [];
+  const re = /\((\d+)\)\s*([^()]+?)(?=\s*\(\d+\)|$)/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(answer)) !== null) {
+    items.push(`${m[1]}.${(m[2] || "").trim()}`);
+  }
+  if (items.length === 0) return answer;
+  return items
+    .map((s, i) => (i > 0 && i % 5 === 0 ? `\n${s}` : s))
+    .join(" ");
+}
+
 interface QuestionRow {
   id: string;
   subject_id: string;
@@ -39,6 +61,16 @@ interface QuestionRow {
   confidence?: number | null;
   occurrence_count: number;
   is_composite: boolean;
+  // P4E.1（2026-08-27）：子题完整内容（题干/选项/答案/行号），链路补全后渲染
+  sub_questions?: {
+    qno?: string;
+    question_type?: string | null;
+    answer?: string | null;
+    stem?: string;
+    options?: { label: string; text: string }[] | null;
+    stem_line_ids?: string[];
+    options_line_ids?: Record<string, string[]>;
+  }[] | null;
   created_at?: string | null;
   images?: {
     image_key: string;
@@ -132,6 +164,11 @@ function MathText({ text, className = "" }: { text: string; className?: string }
       } else {
         node.textContent = text;
       }
+      // P4E.1：填空位结构化标记 〔N〕 → 高亮 span（数据层切片时生成）
+      node.innerHTML = node.innerHTML.replace(
+        /〔(\d+)〕/g,
+        '<span class="blank-marker">（$1）</span>',
+      );
     };
 
     render();
@@ -619,35 +656,83 @@ export default function QuestionBankPage() {
                             ) : null}
                           </div>
                           <div className="question-content">
-                            <MathText className="stem-text" text={detail.stem || "（题干为空）"} />
-                            {detail.options && detail.options.length > 0 ? (
-                              <ol className="option-list">
-                                {detail.options.map((option) => (
-                                  <li key={option.label}>
-                                    <strong>{option.label}.</strong> <MathText text={option.text} />
-                                  </li>
-                                ))}
-                              </ol>
-                            ) : (
-                              <p className="muted">无选项</p>
-                            )}
-                            <QuestionImages images={detail.images ?? []} />
-                            <dl className="answer-grid">
-                              <div>
-                                <dt>答案</dt>
-                                <dd>
-                                  <MathText text={detail.answer || "未匹配"} />
-                                </dd>
-                              </div>
-                              {detail.explanation ? (
-                                <div>
-                                  <dt>详解</dt>
-                                  <dd>
-                                    <MathText text={detail.explanation} />
-                                  </dd>
+                            {/* 题干区：默认展开（材料 + 子题题干 + 选项） */}
+                            <details open className="bank-section">
+                              <summary>题干</summary>
+                              <MathText className="stem-text" text={detail.stem || "（题干为空）"} />
+                              {detail.options && detail.options.length > 0 ? (
+                                <ol className="option-list">
+                                  {detail.options.map((option) => (
+                                    <li key={option.label}>
+                                      <strong>{option.label}.</strong> <MathText text={option.text} />
+                                    </li>
+                                  ))}
+                                </ol>
+                              ) : isChoiceType(detail.question_type_name) ? (
+                                <p className="muted">无选项</p>
+                              ) : null}
+                              <QuestionImages images={detail.images ?? []} />
+                              {/* P4E.1：综合题平铺——材料（父题 stem）已在上方显示一次，
+                                  子题列表：题干（与材料重叠时去重）→ 选项 → 答案。
+                                  2026-08-28 按用户反馈重构：子题题干与父题材料重复
+                                  （完形/语法填空子题 stem=整段材料）不重复显示；
+                                  顺序改为题干→选项→答案；题号包裹括号。 */}
+                              {detail.sub_questions && detail.sub_questions.length > 0 ? (
+                                <div className="bank-subquestions">
+                                  <strong>子题</strong>
+                                  {detail.sub_questions.map((sub, si) => {
+                                    const subStem = sub.stem || "";
+                                    const parentStem = detail.stem || "";
+                                    // 子题题干是父题材料（或其长片段）时冗余 → 去重
+                                    const redundant =
+                                      subStem.length > 8 &&
+                                      parentStem.includes(subStem);
+                                    return (
+                                      <div key={sub.qno ?? si} className="bank-subquestion">
+                                        <div className="bank-subquestion-head">
+                                          <span className="bank-subquestion-qno">
+                                            （{sub.qno ?? `子题 ${si + 1}`}）
+                                          </span>
+                                          {sub.question_type ? (
+                                            <span className="muted">（{sub.question_type}）</span>
+                                          ) : null}
+                                        </div>
+                                        {!redundant && subStem ? (
+                                          <div className="bank-subquestion-stem">
+                                            <MathText text={subStem} />
+                                          </div>
+                                        ) : null}
+                                        {sub.options && sub.options.length > 0 ? (
+                                          <ol className="option-list bank-subquestion-options">
+                                            {sub.options.map((option) => (
+                                              <li key={option.label}>
+                                                <strong>{option.label}.</strong>{" "}
+                                                <MathText text={option.text} />
+                                              </li>
+                                            ))}
+                                          </ol>
+                                        ) : null}
+                                        <div className="bank-subquestion-answer">
+                                          答案 <MathText text={sub.answer || "缺答案"} />
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
                                 </div>
                               ) : null}
-                            </dl>
+                            </details>
+                            {/* 答案区：默认折叠 */}
+                            <details className="bank-section">
+                              <summary>答案</summary>
+                              <MathText text={formatAnswer(detail.answer) || "未匹配"} />
+                            </details>
+                            {/* 详解区：默认折叠 */}
+                            {detail.explanation ? (
+                              <details className="bank-section">
+                                <summary>详解</summary>
+                                <MathText text={detail.explanation} />
+                              </details>
+                            ) : null}
                           </div>
                         </>
                       ) : (

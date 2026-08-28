@@ -18,7 +18,12 @@ from dataclasses import dataclass, field
 
 @dataclass
 class L2SubQuestion:
-    """综合题中的子题元数据，用于考点频率分析。"""
+    """综合题中的子题元数据，用于考点频率分析。
+
+    2026-08-27（P4E.1）：新增 stem/options 文本字段——content_slicer 按
+    子题行号切片后填充，入库/API/前端全程保留（此前只存行号，链路丢弃
+    子题内容导致"完形选项聚合/子题无内容"质量事故，见 LOG v6.43）。
+    """
 
     qno: str                    # 子题编号（如 "1"、"2"、"（1）"）
     question_type: str | None = None  # 子题题型（fill_in / single_choice / ...）
@@ -29,6 +34,9 @@ class L2SubQuestion:
     answer: str | None = None   # 子题答案
     knowledge_points: list[str] = field(default_factory=list)
     score: float | None = None  # 子题分值
+    # 切片文本（P4E.1）：由 content_slicer 按行号切片填充，L2 标注层不产生。
+    stem: str = ""              # 子题题干文本
+    options: list[dict] | None = None  # 子题选项 [{"label": "A", "text": "..."}]
 
 
 # ── L2 标注 ──────────────────────────────────────────────────────

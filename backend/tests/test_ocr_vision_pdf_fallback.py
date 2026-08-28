@@ -1,6 +1,7 @@
 import asyncio
 import json
-import tempfile
+import shutil
+import uuid
 from pathlib import Path
 
 import httpx
@@ -8,6 +9,19 @@ import pytest
 
 from app.domains.document.ocr.paddle_client import PaddleOCRClient
 from app.domains.document.ocr.providers import LLMVisionOCRProvider, _data_url
+
+# 2026-08-27：临时目录改用工作区 tmp（uuid 唯一子目录），避免沙箱对系统
+# %TEMP% 的 ACL 限制（conftest 将 tempfile.tempdir 指向 %TEMP%\aitutor_pytest，
+# 沙箱会话下测试进程写该目录 PermissionError）。模式与
+# test_paddle_circuit_breaker._WORKSPACE_TMP / processor._download_pdf 一致。
+_WORKSPACE_TMP = Path(__file__).resolve().parents[2] / "tmp" / "pytest_ocr_vision"
+
+
+def _tmp_dir() -> Path:
+    _WORKSPACE_TMP.mkdir(parents=True, exist_ok=True)
+    d = _WORKSPACE_TMP / f"ocr_vision_{uuid.uuid4().hex[:8]}"
+    d.mkdir()
+    return d
 
 
 class _FakeVisionGateway:
@@ -35,7 +49,7 @@ def _tmp_pdf() -> Path:
 
 def test_llm_vision_ocr_renders_pdf_pages() -> None:
     fitz = pytest.importorskip("fitz")
-    tmp_dir = Path(tempfile.mkdtemp(prefix="ocr_vision_"))
+    tmp_dir = _tmp_dir()
     pdf_path = tmp_dir / "sample.pdf"
     doc = fitz.open()
     for _ in range(2):
@@ -55,12 +69,11 @@ def test_llm_vision_ocr_renders_pdf_pages() -> None:
         assert len(gateway.calls) == 2
         assert all(url.startswith("data:image/png;base64,") for _, url, _ in gateway.calls)
     finally:
-        pdf_path.unlink(missing_ok=True)
-        tmp_dir.rmdir()
+        shutil.rmtree(tmp_dir, ignore_errors=True)
 
 
 def test_llm_vision_ocr_keeps_image_data_url() -> None:
-    tmp_dir = Path(tempfile.mkdtemp(prefix="ocr_vision_"))
+    tmp_dir = _tmp_dir()
     image_path = tmp_dir / "sample.png"
     image_path.write_bytes(b"fake png bytes")
 
@@ -75,8 +88,7 @@ def test_llm_vision_ocr_keeps_image_data_url() -> None:
         assert gateway.calls[0][1] == _data_url(image_path)
         assert gateway.calls[0][1].startswith("data:image/png;base64,")
     finally:
-        image_path.unlink(missing_ok=True)
-        tmp_dir.rmdir()
+        shutil.rmtree(tmp_dir, ignore_errors=True)
 
 
 def test_submit_transient_error_retries_then_succeeds() -> None:

@@ -239,5 +239,8 @@ def _serialize_question(
         "confidence": float(q.confidence) if q.confidence is not None else None,
         "occurrence_count": q.occurrence_count,
         "is_composite": q.is_composite,
+        # P4E.1（2026-08-27）：返回子题完整内容（此前 API 不返回
+        # sub_questions，前端无法显示子题题干/选项，LOG v6.43 链路断裂 #5）。
+        "sub_questions": getattr(q, "sub_questions", None),
         "created_at": q.created_at.isoformat() if q.created_at else None,
     }

@@ -975,6 +975,43 @@ a {
   color: var(--ink);
 }
 
+/* ── P4E.1：填空位高亮标记 + 题干/答案/详解折叠 ─────────────────── */
+.blank-marker {
+  display: inline-block;
+  min-width: 2em;
+  padding: 0 0.25em;
+  margin: 0 0.15em;
+  border-bottom: 2px solid #d97706;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 3px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.bank-section {
+  margin: 0.6em 0;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.015);
+}
+
+.bank-section > summary {
+  cursor: pointer;
+  padding: 0.45em 0.8em;
+  font-weight: 600;
+  color: var(--text-secondary, #555);
+  user-select: none;
+}
+
+.bank-section > summary:hover {
+  color: var(--primary-color, #2563eb);
+}
+
+.bank-section > :not(summary) {
+  padding: 0.4em 0.8em 0.8em;
+}
+
 .question-image-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));

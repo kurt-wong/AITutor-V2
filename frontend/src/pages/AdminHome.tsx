@@ -37,6 +37,11 @@ interface SubQuestion {
   answer?: string | null;
   knowledge_points?: string[];
   score?: number | null;
+  // P4E.1（2026-08-27）：子题题干/选项（含行号），链路补全后渲染
+  stem_line_ids?: string[];
+  options_line_ids?: Record<string, string[]>;
+  stem?: string;
+  options?: QuestionOption[] | null;
 }
 
 interface ReviewDecision {
@@ -338,6 +343,22 @@ function overrideFromDraft(draft: QuestionDraft): ReviewOverride {
   };
 }
 
+/** 综合题汇总答案格式化：`(1) C (2) D (3) A` → `1.C 2.D 3.A`（每 5 个换行）。
+ *  单答案题（无 "(n)" 结构）原样返回。 */
+function formatAnswer(answer?: string | null): string {
+  if (!answer) return "";
+  const items: string[] = [];
+  const re = /\((\d+)\)\s*([^()]+?)(?=\s*\(\d+\)|$)/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(answer)) !== null) {
+    items.push(`${m[1]}.${(m[2] || "").trim()}`);
+  }
+  if (items.length === 0) return answer;
+  return items
+    .map((s, i) => (i > 0 && i % 5 === 0 ? `\n${s}` : s))
+    .join(" ");
+}
+
 function escapeHtml(value: string) {
   return value
     .replace(/&/g, "&amp;")
@@ -412,6 +433,11 @@ function MathText({ text, className = "" }: { text: string; className?: string }
       } else {
         node.textContent = text;
       }
+      // P4E.1：填空位结构化标记 〔N〕 → 高亮 span（数据层切片时生成）
+      node.innerHTML = node.innerHTML.replace(
+        /〔(\d+)〕/g,
+        '<span class="blank-marker">（$1）</span>',
+      );
     };
 
     render();
@@ -720,76 +746,104 @@ function QuestionCard({
       ) : null}
 
       <div className="question-content">
-        {effective.stem ? (
-          <MathText className="stem-text" text={effective.stem} />
-        ) : (
-          <p className="muted">（题干为空）</p>
-        )}
-        {effective.options.length > 0 ? (
-          <ol className="option-list">
-            {effective.options.map((option) => (
-              <li key={option.label}>
-                <strong>{option.label}.</strong> <MathText text={option.text} />
-              </li>
-            ))}
-          </ol>
-        ) : (
-          <p className="muted">无选项</p>
-        )}
+        {/* 题干区：默认展开 */}
+        <details open className="bank-section">
+          <summary>题干</summary>
+          {effective.stem ? (
+            <MathText className="stem-text" text={effective.stem} />
+          ) : (
+            <p className="muted">（题干为空）</p>
+          )}
+          {effective.options.length > 0 ? (
+            <ol className="option-list">
+              {effective.options.map((option) => (
+                <li key={option.label}>
+                  <strong>{option.label}.</strong> <MathText text={option.text} />
+                </li>
+              ))}
+            </ol>
+          ) : effective.question_type && /选择|choice/i.test(effective.question_type) ? (
+            <p className="muted">无选项</p>
+          ) : null}
 
-        <QuestionImages images={images} />
+          <QuestionImages images={images} />
 
-        {effective.shared_material ? (
-          <div className="shared-material">
-            <strong>共享材料</strong>
-            <MathText text={effective.shared_material} />
-          </div>
-        ) : null}
+          {effective.shared_material ? (
+            <div className="shared-material">
+              <strong>共享材料</strong>
+              <MathText text={effective.shared_material} />
+            </div>
+          ) : null}
 
-        {effective.sub_questions?.length ? (
-          <div className="subquestion-list">
-            <strong>子题</strong>
-            {effective.sub_questions.map((sub, subIndex) => (
-              <div key={sub.qno ?? subIndex} className="subquestion-row">
-                <span>{sub.qno ?? `子题 ${subIndex + 1}`}</span>
-                <span>{TYPE_LABELS[sub.question_type ?? ""] ?? sub.question_type ?? ""}</span>
-                <span>
-                  <MathText text={sub.answer || "缺答案"} />
-                </span>
-              </div>
-            ))}
-          </div>
-        ) : null}
+          {effective.sub_questions?.length ? (
+            <div className="subquestion-list">
+              <strong>子题</strong>
+              {/* 2026-08-28：平铺展示——题干（与父题材料重叠时去重）→ 选项 → 答案；
+                  题号包裹括号；顺序与用户反馈一致（先题干后答案）。 */}
+              {effective.sub_questions.map((sub, subIndex) => {
+                const subStem = sub.stem ?? "";
+                const parentStem = effective.stem ?? "";
+                const redundant =
+                  subStem.length > 8 && parentStem.includes(subStem);
+                return (
+                  <div key={sub.qno ?? subIndex} className="subquestion-row">
+                    <div className="subquestion-head">
+                      <span className="subquestion-qno">（{sub.qno ?? `子题 ${subIndex + 1}`}）</span>
+                      <span>{TYPE_LABELS[sub.question_type ?? ""] ?? sub.question_type ?? ""}</span>
+                    </div>
+                    {!redundant && sub.stem ? (
+                      <div className="subquestion-stem">
+                        <MathText text={sub.stem} />
+                      </div>
+                    ) : null}
+                    {sub.options?.length ? (
+                      <ol className="option-list subquestion-options">
+                        {sub.options.map((option) => (
+                          <li key={option.label}>
+                            <strong>{option.label}.</strong> <MathText text={option.text} />
+                          </li>
+                        ))}
+                      </ol>
+                    ) : null}
+                    <div className="subquestion-answer">
+                      答案 <MathText text={sub.answer || "缺答案"} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : null}
+        </details>
 
-        <dl className="answer-grid">
-          <div>
-            <dt>答案</dt>
-            <dd>
-              <MathText text={effective.answer || "未匹配"} />
-            </dd>
-          </div>
-          <div>
-            <dt>答案来源</dt>
-            <dd>{effective.answer_provenance?.source || "未知"}</dd>
-          </div>
-          <div>
-            <dt>页码</dt>
-            <dd>{effective.source_page ?? "未知"}</dd>
-          </div>
-          <div>
-            <dt>锚点</dt>
-            <dd>
-              {anchors.get("stem")?.anchor_status ?? "无"}
-              {effective.stem_line_ids?.length ? ` / ${effective.stem_line_ids.join(", ")}` : ""}
-            </dd>
-          </div>
-        </dl>
+        {/* 答案区：默认折叠 */}
+        <details className="bank-section">
+          <summary>答案</summary>
+          <MathText text={formatAnswer(effective.answer) || "未匹配"} />
+          <dl className="answer-grid">
+            <div>
+              <dt>答案来源</dt>
+              <dd>{effective.answer_provenance?.source || "未知"}</dd>
+            </div>
+            <div>
+              <dt>页码</dt>
+              <dd>{effective.source_page ?? "未知"}</dd>
+            </div>
+            <div>
+              <dt>锚点</dt>
+              <dd>
+                {anchors.get("stem")?.anchor_status ?? "无"}
+                {effective.stem_line_ids?.length ? ` / ${effective.stem_line_ids.join(", ")}` : ""}
+              </dd>
+            </div>
+          </dl>
+        </details>
 
+        {/* 详解区：默认折叠 */}
         {effective.explanation ? (
-          <div className="explanation-block">
-            <strong>详解</strong>
+          <details className="bank-section">
+            <summary>详解</summary>
             <MathText text={effective.explanation} />
-          </div>
+          </details>
         ) : null}
 
         {effective.review_notes?.length ? (

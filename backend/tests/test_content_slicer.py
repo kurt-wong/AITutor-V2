@@ -793,3 +793,203 @@ def test_shared_material_not_required_for_ordinary_fill_in_section():
 
     assert not any("shared_material" in i or "共享材料" in i for i in sq1.issues)
     assert not any("shared_material" in i or "共享材料" in i for i in sq2.issues)
+
+
+# ═══════════════════════════════════════════════════════════════════
+# P4E.1：行内选项拆分 + 子题切片文本（2026-08-27，V1_LESSONS 3.21）
+# 背景：完形 10 个子题的 A 被拼成一个 A；子题内容链路丢失（LOG v6.43）。
+# ═══════════════════════════════════════════════════════════════════
+
+
+def test_inline_split_compact_options():
+    """`A.xxxB.yyyC.zzzD.www` 单行紧凑选项拆为独立选项。"""
+    from app.domains.document.content_slicer import _inline_split_options
+
+    parts = _inline_split_options("A.充分不必要条件B.必要不充分条件C.充要条件D.既不充分也不必要条件")
+    assert parts == [
+        ("A", "充分不必要条件"),
+        ("B", "必要不充分条件"),
+        ("C", "充要条件"),
+        ("D", "既不充分也不必要条件"),
+    ]
+
+
+def test_inline_split_leading_segment_inferred_as_a():
+    """首段无 label 时推断为 A（`①②③ | B. ①②③ | C. ①②③ | D. ①②③④`）。"""
+    from app.domains.document.content_slicer import _inline_split_options
+
+    parts = _inline_split_options("①②③ | B. ①②③ | C. ①②③ | D. ①②③④")
+    assert parts == [
+        ("A", "①②③ |"),
+        ("B", "①②③ |"),
+        ("C", "①②③ |"),
+        ("D", "①②③④"),
+    ]
+
+
+def test_inline_split_plain_line_returns_empty():
+    """无多选项标记的普通行返回 []（整行归调用方 label）。"""
+    from app.domains.document.content_slicer import _inline_split_options
+
+    assert _inline_split_options("已知函数f(x)=2x+1") == []
+    assert _inline_split_options("（A）5") == []
+
+
+def test_slice_options_splits_inline_and_dedups_lines():
+    """_slice_options：单行多选项拆分 + 行号去重。"""
+    from app.domains.document.content_slicer import _slice_options
+
+    doc = L1Document(
+        filename="test.pdf",
+        pages=[L1Page(page_no=1, lines=[])],
+        lines=[
+            L1Line("P1L001", 1, 1, 1, "A.甲B.乙C.丙D.丁", "text"),
+            # LLM 为多选项重复输出同一行 → 去重后不重复
+        ],
+        source="native",
+        total_pages=1,
+    )
+    line_by_id = {l.line_id: l for l in doc.lines}
+    result = _slice_options(
+        {"A": ["P1L001", "P1L001"], "B": ["P1L001"], "C": ["P1L001"], "D": ["P1L001"]},
+        line_by_id,
+    )
+    assert result == [
+        {"label": "A", "text": "甲"},
+        {"label": "B", "text": "乙"},
+        {"label": "C", "text": "丙"},
+        {"label": "D", "text": "丁"},
+    ]
+
+
+def test_composite_sub_questions_sliced_with_text():
+    """LLM 标记综合题的子题带行号时，切片出子题 stem/options 文本（P4E.1）。
+
+    背景：LLM 输出完形 20 个子题各带 options_line_ids，此前 _slice_single_question
+    只透传行号不切文本 → 入库子题只有 qno/answer/type（LOG v6.43 链路断裂 #1）。
+    """
+    from app.domains.document.schemas_l2 import L2SubQuestion
+
+    lines = [
+        L1Line("P1L001", 1, 1, 1, "1. 完形文章...", "text"),
+        L1Line("P1L002", 1, 2, 2, "子题1题干", "text"),
+        L1Line("P1L003", 1, 3, 3, "A.开心", "text"),
+        L1Line("P1L004", 1, 4, 4, "B.难过", "text"),
+        L1Line("P1L005", 1, 5, 5, "子题2题干", "text"),
+        L1Line("P1L006", 1, 6, 6, "A.快", "text"),
+        L1Line("P1L007", 1, 7, 7, "B.慢", "text"),
+    ]
+    doc = L1Document(
+        filename="test.pdf",
+        pages=[L1Page(page_no=1, lines=lines)],
+        lines=lines,
+        source="native",
+        total_pages=1,
+    )
+
+    # LLM 标记 is_composite=True 的综合题（生产主路径：_slice_single_question 透传）
+    annotation = L2DocumentAnnotation(
+        filename="test.pdf",
+        questions=[
+            L2QuestionAnnotation(
+                question_number="1",
+                question_type="single_choice",
+                stem_line_ids=["P1L001"],
+                options_line_ids={},
+                is_composite=True,
+                sub_questions=[
+                    L2SubQuestion(
+                        qno="1", question_type="single_choice", answer="A",
+                        stem_line_ids=["P1L002"],
+                        options_line_ids={"A": ["P1L003"], "B": ["P1L004"]},
+                    ),
+                    L2SubQuestion(
+                        qno="2", question_type="single_choice", answer="B",
+                        stem_line_ids=["P1L005"],
+                        options_line_ids={"A": ["P1L006"], "B": ["P1L007"]},
+                    ),
+                ],
+            )
+        ],
+    )
+
+    result = slice_questions(annotation, doc)
+    assert len(result) == 1
+    comp = result[0]
+    assert comp.is_composite
+    assert comp.sub_questions is not None
+    assert len(comp.sub_questions) == 2
+
+    s1, s2 = comp.sub_questions
+    # 子题切片文本（P4E.1 核心断言）
+    assert "子题1题干" in s1.stem
+    assert s1.options == [
+        {"label": "A", "text": "开心"},
+        {"label": "B", "text": "难过"},
+    ]
+    assert "子题2题干" in s2.stem
+    assert s2.options == [
+        {"label": "A", "text": "快"},
+        {"label": "B", "text": "慢"},
+    ]
+    # 行号保留
+    assert s1.options_line_ids == {"A": ["P1L003"], "B": ["P1L004"]}
+
+
+# ═══════════════════════════════════════════════════════════════════
+# P4E.1：填空位结构化标记（〔N〕入库，前端渲染高亮，2026-08-28）
+# ═══════════════════════════════════════════════════════════════════
+
+
+def test_mark_blank_positions_cloze_english():
+    """完形（英语）：孤立数字 ∈ qno → 〔N〕；年份等普通数字不误标。"""
+    from app.domains.document.content_slicer import _mark_blank_positions
+
+    stem = "I sat in the dressing room before my first major 1, feeling anxious. was 2. In 2026, we try again."
+    out = _mark_blank_positions(stem, ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "英语")
+    assert "major 〔1〕" in out
+    assert "was 〔2〕" in out
+    assert "In 2026, we try again" in out  # 2026 不在 qno 集合 → 不替换
+
+
+def test_mark_blank_positions_grammar_fill():
+    """语法填空：{11} / （12） 显式标记 → 〔11〕〔12〕（所有科目）。"""
+    from app.domains.document.content_slicer import _mark_blank_positions
+
+    stem = "Tangshan started to revive {11} (it). The new city has become a home （12） more than seven million people."
+    out = _mark_blank_positions(stem, ["11", "12", "13"], "英语")
+    assert "revive 〔11〕 (it)" in out
+    assert "home 〔12〕 more" in out
+
+
+def test_mark_blank_positions_math_untouched():
+    """数学（非文本科目）：孤立数字不替换（数字密集），下划线填空位原样保留。"""
+    from app.domains.document.content_slicer import _mark_blank_positions
+
+    stem = "AB=2AD=4，则2λ-μ=______．"
+    out = _mark_blank_positions(stem, [], "数学")
+    assert out == "AB=2AD=4，则2λ-μ=______．"
+
+
+def test_mark_blank_positions_no_subject():
+    """无学科信息时仅处理显式标记，孤立数字不替换。"""
+    from app.domains.document.content_slicer import _mark_blank_positions
+
+    stem = "major 1, was 2"
+    out = _mark_blank_positions(stem, ["1", "2"], None)
+    assert out == "major 1, was 2"
+
+
+def test_mark_blank_positions_digit_followed_by_letter():
+    """OCR 丢空格场景（数字后紧跟字母）：`my 5was` → `my 〔5〕was`。
+
+    2026-08-28 修正：完形 `my 5was`/`don't 8mistakes` 数字后是字母，
+    原正则排除字母导致漏标 → 现允许（仅文本科目启用）。
+    """
+    from app.domains.document.content_slicer import _mark_blank_positions
+
+    stem = "Trusting my 5was the only thing. don't 8mistakes. I've 10it."
+    out = _mark_blank_positions(stem, [str(i) for i in range(1, 11)], "英语")
+    assert "my 〔5〕was" in out
+    assert "don't 〔8〕mistakes" in out
+    assert "I've 〔10〕it." in out

@@ -25,7 +25,7 @@ from app.ai.gateway import LLMGateway
 from app.domains.document.answer_extractor import extract_answers_from_markdown
 from app.domains.document.ingestion import IngestionResult, ingest_pipeline_result
 from app.domains.document.simple_pipeline import run_simple_pipeline
-from app.domains.document.pipeline import PipelineResult, save_result
+from app.domains.document.pipeline_shared import PipelineResult, save_result
 from app.models import Document
 from app.domains.task.service import TaskService
 from app.infrastructure.storage import MinIOStorage

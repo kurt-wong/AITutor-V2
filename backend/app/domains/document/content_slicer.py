@@ -70,6 +70,53 @@ def _canonical_question_type(qt: str) -> str:
     return _QUESTION_TYPE_CANONICAL.get(qt, qt)
 
 
+# 填空位结构化标记：空位统一为 〔N〕（入库），前端渲染为高亮，不与其他
+# 普通数字混淆（P4E.1，2026-08-28）。详见 slice_questions 调用处。
+# 文本科目（英语/语文/历史/政治/地理）材料填空位为裸数字（完形 1、2、3），
+# 启用孤立数字替换；数理化填空位为下划线/空括号，数字密集，不启用孤立
+# 数字替换（避免误标普通数字），仅处理显式 {11} / （12） 标记。
+_TEXT_SUBJECTS = frozenset({"英语", "语文", "历史", "政治", "地理"})
+
+
+def _mark_blank_positions(
+    stem: str,
+    sub_qnos: list[str],
+    subject: str | None = None,
+) -> str:
+    """把题干/材料中的填空位标记为结构化 〔N〕。
+
+    规则（2026-08-28，P4E.1）：
+    1. 显式标记 `{11}` / `（12）` / `(37)` → `〔11〕`（所有科目，本身就是填空位标记）
+    2. 孤立数字 ∈ 子题 qno 集合 → `〔N〕`（仅文本科目；数理化填空位为
+       下划线/空括号，数字密集，不启用避免误标普通数字）
+    3. `______` / `（　　）` 等原样保留（数理化填空位）
+
+    前端读到 〔N〕 渲染为高亮空位标记，无需猜测。
+    """
+    text = stem or ""
+    # 规则 1：显式填空位标记（{11} / （12） / (37)）
+    text = re.sub(r"\{(\d+)\}", r"〔\1〕", text)
+    text = re.sub(r"[（(](\d+)[）)]", r"〔\1〕", text)
+    # 规则 2：孤立数字（文本科目，且 ∈ 子题 qno）
+    if subject in _TEXT_SUBJECTS and sub_qnos:
+        qno_set = set(sub_qnos)
+
+        def _repl(m: re.Match) -> str:
+            n = m.group(1)
+            return f"〔{n}〕" if n in qno_set else m.group(0)
+
+        # 孤立数字：前后均非数字/百分号/〔〕（〔N〕 已是结构化标记不再处理）；
+        # 允许数字后跟字母（英语 OCR 丢空格场景 "my 5was" → 〔5〕，2026-08-28
+        # 修正：原排除字母导致完形 5/6/7/8/10 漏标）；排除小数（"2.5" 不替换）。
+        # 文本科目才启用（数学不启用，见 _TEXT_SUBJECTS）。
+        text = re.sub(
+            r"(?<![〔\d%])(\d+)(?!\.\d|[\d〕])",
+            _repl,
+            text,
+        )
+    return text
+
+
 def slice_questions(
     annotation: L2DocumentAnnotation,
     doc: L1Document,
@@ -81,13 +128,15 @@ def slice_questions(
 
     for question in annotation.questions:
         sq = _slice_single_question(question, line_by_id, anchor_map)
-        # 综合题父题答案：LLM 常把答案写在 sub_questions[].answer 而父题 answer 为空
-        # （共享题图选择题组等）。父题 answer 由子题答案汇总构建，格式与
-        # _merge_question_group 的 merged_answer 一致："(1) C (2) B ..."。
-        # 仅当父题 answer 为空时构建，已有答案（如解答题从答案表匹配）不覆盖。
+        # 综合题父题答案：从子题答案汇总（格式 "(1) C (2) B ..."）。
+        # P4E.1（2026-08-28）：LLM 对 fill_in/short_answer 综合题父题 answer
+        # 常只给第一个子题裸值（东城英语 Q11 只给 "itself"，实际应为
+        # "(11) itself (12) to (13) to stay"）→ 父题答案截断。修复：父题
+        # 答案未覆盖全部子题（qno 未出现在父题答案中）时用汇总覆盖；
+        # 父题已覆盖全部子题（如答案表匹配的 "（1）已有答案"、LLM 完整
+        # 汇总 "(1) C (2) B ..."）保留父题（教师版答案优先，V1 3.8）。
         if (
             getattr(sq, "is_composite", False)
-            and not (sq.answer or "").strip()
             and sq.sub_questions
         ):
             sub_answers = [
@@ -96,7 +145,30 @@ def slice_questions(
                 if (sub.answer or "").strip()
             ]
             if sub_answers:
-                sq.answer = " ".join(sub_answers)
+                parent_ans = (sq.answer or "").strip()
+                if parent_ans:
+                    covered = sum(
+                        1
+                        for sub in sq.sub_questions
+                        if (sub.answer or "").strip()
+                        and str(sub.qno) in parent_ans
+                    )
+                    if covered < len(sub_answers):
+                        # 父题只覆盖部分子题（单值/截断）→ 用完整汇总
+                        sq.answer = " ".join(sub_answers)
+                else:
+                    sq.answer = " ".join(sub_answers)
+
+        # P4E.1（2026-08-28）：综合题题干/材料中的填空位标记为结构化 〔N〕，
+        # 前端渲染高亮（完形 1、2、3 → 〔1〕〔2〕〔3〕；语法填空 {11} → 〔11〕；
+        # 七选五 （37） → 〔37〕）。数理化填空位为下划线/空括号，原样保留。
+        if getattr(sq, "is_composite", False) and sq.sub_questions:
+            qnos = [str(sub.qno) for sub in sq.sub_questions if sub.qno]
+            sq.stem = _mark_blank_positions(
+                sq.stem,
+                qnos,
+                getattr(annotation, "subject", None),
+            )
         sliced.append(sq)
 
     # Task 2.3: 共享材料题 section_id 校验
@@ -257,12 +329,19 @@ def _merge_question_group(
                     answer=sub.answer,  # L2 标注层的子题答案（LLM 输出）
                     knowledge_points=sub.knowledge_points or q.knowledge_points or [],
                     score=sub.score or q.score,
+                    # P4E.1（2026-08-27）：按子题行号切片文本，链路全程保留。
+                    # 此前只透传行号、不切文本，入库/API/前端丢失子题内容
+                    # （完形 10 子题 A 聚合/子题无内容，LOG v6.43）。
+                    stem=_slice_lines(sub.stem_line_ids or [], line_by_id),
+                    options=_slice_options(sub.options_line_ids or {}, line_by_id),
                 ))
         else:
-            # 无 L2 子题时回退到 SlicedQuestion 层
+            # 无 L2 子题时回退到 SlicedQuestion 层（该层已有切片文本）
             sub_questions.append(L2SubQuestion(
                 qno=q.question_number,
                 question_type=q.question_type,
+                stem=q.stem,
+                options=q.options,
                 answer=q.answer,
                 knowledge_points=q.knowledge_points or [],
                 score=q.score,
@@ -452,6 +531,26 @@ def _slice_single_question(
     all_anchors = [a for a in [stem_anchor] if a]
     all_anchors.extend(option_anchors)
 
+    # P4E.1（2026-08-27）：LLM 标记的综合题直接透传子题——此处用行号切片
+    # 补齐子题 stem/options 文本（此前只透传行号，入库/API/前端丢失子题
+    # 内容，完形 10 子题 A 聚合/子题无内容，LOG v6.43 链路断裂 #1）。
+    from app.domains.document.schemas_l2 import L2SubQuestion
+    sub_questions_out: list[L2SubQuestion] | None = None
+    if question.sub_questions:
+        sub_questions_out = []
+        for sub in question.sub_questions:
+            sub_questions_out.append(L2SubQuestion(
+                qno=sub.qno,
+                question_type=sub.question_type,
+                stem_line_ids=sub.stem_line_ids or [],
+                options_line_ids=sub.options_line_ids or {},
+                answer=sub.answer,
+                knowledge_points=sub.knowledge_points or [],
+                score=sub.score,
+                stem=_slice_lines(sub.stem_line_ids or [], line_by_id),
+                options=_slice_options(sub.options_line_ids or {}, line_by_id),
+            ))
+
     return SlicedQuestion(
         question_number=question.question_number,
         question_type=_canonical_question_type(question.question_type),
@@ -474,7 +573,7 @@ def _slice_single_question(
         # 对非综合题会覆盖此值；综合题父题答案由 slice_questions 汇总逻辑或
         # 此透传值决定。
         answer=question.answer,
-        sub_questions=question.sub_questions,
+        sub_questions=sub_questions_out,
     )
 
 
@@ -495,21 +594,77 @@ def _slice_options(
     options_line_ids: dict[str, list[str]],
     line_by_id: dict[str, L1Line],
 ) -> list[dict[str, str]]:
-    """切片选项，返回 [{"label": "A", "text": "..."}] 列表。"""
-    result: list[dict[str, str]] = []
-    for label in sorted(options_line_ids.keys()):
-        lids = options_line_ids[label]
-        text_parts: list[str] = []
+    """切片选项，返回 [{"label": "A", "text": "..."}] 列表。
+
+    P4E.1（2026-08-27，V1_LESSONS 3.21）：每行只处理一次（行号先去重、
+    按行聚合 label 引用），行内多选项（`A.xxxB.yyyC.zzz` /
+    `①②③ | B. ①②③ | C. …`）按 label 拆分归属；无行内标记的整行
+    归其引用的 label。此前 `" ".join(text_parts)` 直接拼接导致
+    "完形 10 个子题的 A 拼成一个 A"（LOG v6.43）。
+    """
+    # line_id -> [labels]（同一行被哪些 label 引用；行号去重）
+    line_labels: dict[str, list[str]] = {}
+    for label, lids in (options_line_ids or {}).items():
         for lid in lids:
-            line = line_by_id.get(lid)
-            if line:
-                text = _strip_option_label(line.text, label)
-                text_parts.append(text)
-        result.append({
-            "label": label,
-            "text": " ".join(text_parts).strip(),
-        })
+            line_labels.setdefault(lid, []).append(label)
+
+    per_label: dict[str, list[str]] = {}
+    for lid, labels in line_labels.items():
+        line = line_by_id.get(lid)
+        if not line:
+            continue
+        inline = _inline_split_options(line.text)
+        if inline:
+            # 行内多选项：按拆分结果归属（忽略引用 label 上下文）
+            for lab, txt in inline:
+                per_label.setdefault(lab, []).append(txt)
+        else:
+            for lab in labels:
+                per_label.setdefault(lab, []).append(
+                    _strip_option_label(line.text, lab)
+                )
+
+    result: list[dict[str, str]] = []
+    for label in sorted(per_label.keys()):
+        text = " ".join(t for t in per_label[label] if t.strip()).strip()
+        if text:
+            result.append({"label": label, "text": text})
     return result
+
+
+# 行内选项标签标记：A. / A． / A、 / A: / (A) 等
+# 负向断言仅排除字母数字（防 "图2.B"、"xB." 误匹配）；紧凑格式
+# "件B.必要" 中 B 前是中文，必须允许匹配（P4E.1 修正，V1 3.21）。
+_INLINE_LABEL_RE = re.compile(
+    r"(?<![A-Za-z0-9])([A-D])\s*[.．、:：]\s*"
+)
+
+
+def _inline_split_options(text: str) -> list[tuple[str, str]]:
+    """行内选项拆分（V1_LESSONS 3.21，P4E.1）。
+
+    处理 OCR/排版紧凑格式：
+    - `A.充分不必要条件B.必要不充分条件C.充要条件D.既不充分也不必要条件`
+      → [(A, 充分不必要条件), (B, …), (C, …), (D, …)]
+    - `①②③ | B. ①②③ | C. ①②③ | D. ①②③④`（首段无 label，推断为 A）
+      → [(A, ①②③), (B, ①②③), (C, ①②③), (D, ①②③④)]
+    - 无多选项标记（普通题干/单选项行）→ 返回 []，整行归调用方 label。
+    """
+    matches = list(_INLINE_LABEL_RE.finditer(text))
+    if not matches:
+        return []
+    parts: list[tuple[str, str]] = []
+    for i, m in enumerate(matches):
+        label = m.group(1)
+        start = m.end()
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+        seg = text[start:end].strip()
+        parts.append((label, seg))
+    # 首段（第一个 label 前的内容）非空且无 label → 推断为 A（选项通常从 A 开始）
+    first = text[: matches[0].start()].strip()
+    if first:
+        parts.insert(0, ("A", first))
+    return parts
 
 
 def _strip_option_label(text: str, label: str) -> str:

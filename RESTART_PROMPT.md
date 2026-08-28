@@ -1,8 +1,8 @@
 # AI Tutor Personal Edition — RESTART_PROMPT
 
-Version: 6.41
+Version: 6.44
 Status: 文档治理已切换为精简快照模式；功能状态见 PROJECT_STATUS.md
-Date: 2026-08-27
+Date: 2026-08-28
 
 ---
 
@@ -34,6 +34,9 @@ Codex/Claude 重启后先读本文件恢复上下文。本文件只承载稳定�
 - Schema 变更必须 Alembic migration；知识树为空不得静默跳过映射。
 - 常规 pytest mock，live LLM/OCR 验证隔离。
 - 密钥/Token 只走 backend/.env，禁止硬编码。
+- **Token 成本（2026-08-28 实测教训）**：DSH/Codex 会话每轮重发全部历史，上下文
+  膨胀到 ~70 万 token 时每轮烧 ~69 万 token（10 次即 ~700 万）。长任务应拆子代理
+  或开新会话，不要在一个会话里无限堆积；不跑入库时用 `WORKER_ENABLED=0` API-only。
 - 完整规则见 `rules.md`，解析教训见 `Docs/05_Development/V1_LESSONS.md`。
 
 ---
@@ -88,9 +91,16 @@ docker start aitutor-postgres aitutor-minio aitutor-redis
 
 ```powershell
 cd D:\Project\AITutors-v2\backend
+# API-only 模式（无 LLM 消费，推荐日常开发/验证用）：
+$env:WORKER_ENABLED='0'
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --log-level warning
+# 需要跑文档入库（worker 消费 LLM）时才去掉 WORKER_ENABLED=0
 ```
 验证：`http://localhost:8000/api/admin/catalog` 返回 JSON（非 index.html）。
+
+> **成本防护（2026-08-28）**：`WORKER_ENABLED` gate 走环境变量，不写 .env；
+> 默认 1 启动 worker。13:16 曾出现 uvicorn 被外部重启后 worker 自动消费 LLM——
+> 不跑入库任务时务必设 `WORKER_ENABLED='0'`。
 
 ### 6.3 前端（vite dev，5173）
 

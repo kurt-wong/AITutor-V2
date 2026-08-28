@@ -31,7 +31,7 @@ from app.domains.document.native_markdown import (
     extract_l1_from_pdf,
 )
 from app.domains.document.ocr.providers import build_ocr_chain
-from app.domains.document.pipeline import (
+from app.domains.document.pipeline_shared import (
     PipelineResult,
     _build_question_images,
     _filter_by_page_range,

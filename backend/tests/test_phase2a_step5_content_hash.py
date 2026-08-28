@@ -565,3 +565,303 @@ async def test_ingestion_writes_content_hash_non_null(db, subject_id):
     q = await db.scalar(select(Question).where(Question.id == r.question_ids[0]))
     assert q.content_hash is not None
     assert len(q.content_hash) == 64
+
+
+# ═══════════════════════════════════════════════════════════════════
+# 3. content_hash 生命周期（P0，2026-08-27 审计修复）
+# ═══════════════════════════════════════════════════════════════════
+# 漏洞：apply_review 改题干/选项不重算 hash → 内容与 hash 漂移
+# （旧 hash 残留、新内容无法去重）。修复：统一领域入口
+# update_question_content()（apply_review 内部调用），内容变化 → 重算 hash
+# → 查 exact duplicate → 答案冲突标记审核。
+# 见 LOG.md 2026-08-27 21:30:00 审计执行决策 #1。
+
+
+async def _ingest_one_question(db, subject_id, *, filename: str, stem: str, answer: str, qno: str = "1"):
+    """通过 ingestion 创建一道真实 Question（含 content_hash/question_type）。返回 Question。"""
+    from app.domains.document.ingestion import ingest_pipeline_result
+    from app.models import Document
+
+    doc = Document(filename=filename, file_type="pdf",
+                   object_key=f"test/{filename}", subject="数学")
+    db.add(doc)
+    await db.flush()
+    r = await ingest_pipeline_result(
+        db,
+        pipeline_result=_make_pipeline_result(
+            qno, stem, [{"label": "A", "text": "选项A"}, {"label": "B", "text": "选项B"}]
+        ),
+        answer_result=_make_answer_result("数学", qno, answer),
+        document=doc,
+    )
+    assert r.ingested == 1, f"ingestion 失败: {r.errors}"
+    return await db.scalar(select(Question).where(Question.id == r.question_ids[0]))
+
+
+async def _question_service(db):
+    """构造 QuestionService（真实 Repository）。"""
+    from app.domains.question.repository import QuestionRepository
+    from app.domains.question.service import QuestionService
+
+    return QuestionService(repository=QuestionRepository(db))
+
+
+@pytest.mark.asyncio
+async def test_apply_review_stem_change_recomputes_hash(db, subject_id):
+    """审核改题干 → content_hash 重算为新值，旧 hash 不残留。"""
+    from app.domains.document.content_hash import compute_content_hash
+
+    q = await _ingest_one_question(
+        db, subject_id,
+        filename=f"lc_a_{uuid.uuid4().hex[:6]}.pdf",
+        stem="生命周期题干A", answer="A",
+    )
+    old_hash = q.content_hash
+
+    svc = await _question_service(db)
+    updated = await svc.apply_review(
+        q.id, status="approved", overrides={"stem": "生命周期题干A（修正）"}
+    )
+    assert updated is not None
+    expected = compute_content_hash(
+        stem="生命周期题干A（修正）",
+        options=[{"label": "A", "text": "选项A"}, {"label": "B", "text": "选项B"}],
+        question_type="single_choice",
+    )
+    assert updated.content_hash == expected, "改题干后 hash 应重算为新值"
+    assert updated.content_hash != old_hash, "旧 hash 不应残留"
+
+
+@pytest.mark.asyncio
+async def test_apply_review_answer_only_keeps_hash(db, subject_id):
+    """只改答案/详解（不涉及 stem/options）→ hash 不变。"""
+    q = await _ingest_one_question(
+        db, subject_id,
+        filename=f"lc_b_{uuid.uuid4().hex[:6]}.pdf",
+        stem="只改答案题干", answer="A",
+    )
+    old_hash = q.content_hash
+
+    svc = await _question_service(db)
+    updated = await svc.apply_review(
+        q.id, status="approved",
+        overrides={"answer": "C", "explanation": "新详解"},
+    )
+    assert updated.content_hash == old_hash, "只改答案/详解不应重算 hash"
+    assert updated.answer == "C"
+    assert updated.explanation == "新详解"
+
+
+@pytest.mark.asyncio
+async def test_apply_review_no_content_change_keeps_hash(db, subject_id):
+    """无 overrides（仅状态变更）→ hash 不变。"""
+    q = await _ingest_one_question(
+        db, subject_id,
+        filename=f"lc_c_{uuid.uuid4().hex[:6]}.pdf",
+        stem="仅状态题干", answer="A",
+    )
+    old_hash = q.content_hash
+
+    svc = await _question_service(db)
+    updated = await svc.apply_review(q.id, status="approved")
+    assert updated.content_hash == old_hash
+    assert updated.status == "approved"
+
+
+@pytest.mark.asyncio
+async def test_apply_review_stem_conflict_marks_reviewing(db, subject_id):
+    """改题干后 hash 与库中另一题相同且答案不同 → answer_conflict + 降 reviewing。"""
+    q_a = await _ingest_one_question(
+        db, subject_id,
+        filename=f"lc_d1_{uuid.uuid4().hex[:6]}.pdf",
+        stem="生命周期撞车题干", answer="A",
+    )
+    q_b = await _ingest_one_question(
+        db, subject_id,
+        filename=f"lc_d2_{uuid.uuid4().hex[:6]}.pdf",
+        stem="生命周期撞车题干B", answer="B",
+    )
+    assert q_a.content_hash != q_b.content_hash
+
+    svc = await _question_service(db)
+    updated = await svc.apply_review(
+        q_b.id, status="approved", overrides={"stem": "生命周期撞车题干"},
+    )
+    # hash 重算后与 q_a 相同（题干+选项+题型一致）
+    assert updated.content_hash == q_a.content_hash
+    # 答案不同 → 冲突标记审核
+    assert updated.review_reason is not None
+    assert updated.review_reason.startswith("answer_conflict:"), (
+        f"冲突应标记 answer_conflict，实际: {updated.review_reason}"
+    )
+    assert updated.status == "reviewing", "冲突时应降为 reviewing"
+
+
+@pytest.mark.asyncio
+async def test_apply_review_stem_collision_answers_equal_no_conflict(db, subject_id):
+    """改题干后 hash 撞车但答案归一化一致 → 不标记冲突，保持 approved。"""
+    q_a = await _ingest_one_question(
+        db, subject_id,
+        filename=f"lc_e1_{uuid.uuid4().hex[:6]}.pdf",
+        stem="生命周期同答案题干", answer="A",
+    )
+    q_b = await _ingest_one_question(
+        db, subject_id,
+        filename=f"lc_e2_{uuid.uuid4().hex[:6]}.pdf",
+        stem="生命周期同答案题干B", answer="A",
+    )
+
+    svc = await _question_service(db)
+    updated = await svc.apply_review(
+        q_b.id, status="approved", overrides={"stem": "生命周期同答案题干"},
+    )
+    assert updated.content_hash == q_a.content_hash
+    assert updated.review_reason is None, f"答案一致不应标记冲突，实际: {updated.review_reason}"
+    assert updated.status == "approved"
+
+
+@pytest.mark.asyncio
+async def test_update_question_content_options_recomputes_hash(db, subject_id):
+    """统一入口 update_question_content 改 options → hash 重算。"""
+    q = await _ingest_one_question(
+        db, subject_id,
+        filename=f"lc_f_{uuid.uuid4().hex[:6]}.pdf",
+        stem="生命周期选项题干", answer="A",
+    )
+    old_hash = q.content_hash
+    new_options = [{"label": "A", "text": "选项X"}, {"label": "B", "text": "选项Y"}]
+
+    svc = await _question_service(db)
+    updated = await svc.update_question_content(q.id, options=new_options)
+    assert updated is not None
+    assert updated.options == new_options
+    assert updated.content_hash != old_hash, "改 options 应重算 hash"
+
+    from app.domains.document.content_hash import compute_content_hash
+    expected = compute_content_hash(
+        stem="生命周期选项题干",
+        options=new_options,
+        question_type="single_choice",
+    )
+    assert updated.content_hash == expected
+
+
+@pytest.mark.asyncio
+async def test_update_question_content_unknown_question_returns_none(db, subject_id):
+    """update_question_content 对不存在的题目返回 None。"""
+    svc = await _question_service(db)
+    result = await svc.update_question_content(
+        uuid.uuid4(), stem="不存在的题"
+    )
+    assert result is None
+
+
+# ═══════════════════════════════════════════════════════════════════
+# 4. P4E.1：入库子题完整内容 + 父题 options 不拼接（2026-08-27）
+# 背景：完形 10 子题 A 聚合/子题内容链路丢失（LOG v6.43）。
+# ═══════════════════════════════════════════════════════════════════
+
+
+def _make_composite_pipeline_result(qno: str, stem: str, subs: list[dict]):
+    """构造选择题组综合题 PipelineResult（子题带切片文本）。"""
+    from app.domains.document.pipeline import PipelineResult
+    from app.domains.document.schemas_l2 import L2SubQuestion, SlicedQuestion
+
+    result = PipelineResult()
+    result.sliced_questions = [
+        SlicedQuestion(
+            question_number=qno,
+            question_type="single_choice",
+            stem=stem,
+            options=[],
+            answer="(1) A (2) B",
+            confidence=0.95,
+            is_composite=True,
+            sub_questions=[
+                L2SubQuestion(
+                    qno=s["qno"],
+                    question_type="single_choice",
+                    answer=s["answer"],
+                    stem_line_ids=s["stem_line_ids"],
+                    options_line_ids=s["options_line_ids"],
+                    stem=s["stem"],
+                    options=s["options"],
+                )
+                for s in subs
+            ],
+        )
+    ]
+    return result
+
+
+@pytest.mark.asyncio
+async def test_ingestion_persists_sub_question_content(db, subject_id):
+    """综合题入库：sub_questions 保存子题 stem/options/行号；父题 options 置空。"""
+    from app.domains.document.ingestion import ingest_pipeline_result
+    from app.models import Document, Question
+
+    subs = [
+        {
+            "qno": "1", "question_type": "single_choice", "answer": "A",
+            "stem_line_ids": ["P1L002"],
+            "options_line_ids": {"A": ["P1L003"], "B": ["P1L004"]},
+            "stem": "子题1题干", "options": [{"label": "A", "text": "开心"}, {"label": "B", "text": "难过"}],
+        },
+        {
+            "qno": "2", "question_type": "single_choice", "answer": "B",
+            "stem_line_ids": ["P1L005"],
+            "options_line_ids": {"A": ["P1L006"], "B": ["P1L007"]},
+            "stem": "子题2题干", "options": [{"label": "A", "text": "快"}, {"label": "B", "text": "慢"}],
+        },
+    ]
+    doc = Document(filename=f"subq_{uuid.uuid4().hex[:6]}.pdf", file_type="pdf",
+                   object_key="test/subq.pdf", subject="英语")
+    db.add(doc)
+    await db.flush()
+    r = await ingest_pipeline_result(
+        db,
+        pipeline_result=_make_composite_pipeline_result("1", "完形材料", subs),
+        answer_result=None,
+        document=doc,
+    )
+    assert r.ingested == 1
+    q = await db.scalar(select(Question).where(Question.id == r.question_ids[0]))
+    assert q.is_composite is True
+    # 父题 options 置空（选择题组综合题，子题选项归属子题）
+    assert q.options is None or q.options == []
+    stored = q.sub_questions
+    assert stored is not None and len(stored) == 2
+    s1 = stored[0]
+    assert s1["qno"] == "1"
+    assert s1["stem"] == "子题1题干"
+    assert s1["options"] == [{"label": "A", "text": "开心"}, {"label": "B", "text": "难过"}]
+    assert s1["options_line_ids"] == {"A": ["P1L003"], "B": ["P1L004"]}
+    assert s1["stem_line_ids"] == ["P1L002"]
+    s2 = stored[1]
+    assert s2["qno"] == "2"
+    assert s2["stem"] == "子题2题干"
+    assert s2["options"] == [{"label": "A", "text": "快"}, {"label": "B", "text": "慢"}]
+
+
+@pytest.mark.asyncio
+async def test_ingestion_inline_options_split_persisted(db, subject_id):
+    """单行紧凑选项（A.甲B.乙C.丙D.丁）经 _slice_options 拆分后入库。"""
+    from app.domains.document.ingestion import ingest_pipeline_result
+    from app.models import Document, Question
+
+    doc = Document(filename=f"inl_{uuid.uuid4().hex[:6]}.pdf", file_type="pdf",
+                   object_key="test/inl.pdf", subject="数学")
+    db.add(doc)
+    await db.flush()
+    r = await ingest_pipeline_result(
+        db,
+        pipeline_result=_make_pipeline_result(
+            "1", "紧凑选项题干", [{"label": "A", "text": "甲"}, {"label": "B", "text": "乙"}]
+        ),
+        answer_result=_make_answer_result("数学", "1", "A"),
+        document=doc,
+    )
+    assert r.ingested == 1
+    q = await db.scalar(select(Question).where(Question.id == r.question_ids[0]))
+    assert q.options is not None
+    assert [o["label"] for o in q.options] == ["A", "B"]

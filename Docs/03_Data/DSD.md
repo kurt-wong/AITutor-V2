@@ -175,7 +175,7 @@ AI 只能把题目映射到已有节点，不能创建新节点。
 | status | VARCHAR | approved / reviewing / rejected |
 | confidence | NUMERIC | 0-1 |
 | occurrence_count | INTEGER | 缓存字段，由 Instance COUNT 驱动 |
-| content_hash | VARCHAR(64) | SHA256，Step 5 实现 hash 逻辑，当前可为 NULL |
+| content_hash | VARCHAR(64) | SHA256（规范化题干+选项+题型），Step 5 已实现，可为 NULL（历史数据） |
 | is_composite | BOOLEAN | 是否为综合题，默认 false |
 | sub_questions | JSONB | 综合题子题元数据 |
 | review_reason | VARCHAR(200) | 审核原因分类 |
@@ -185,7 +185,7 @@ AI 只能把题目映射到已有节点，不能创建新节点。
 说明：
 
 - year / school 已迁移到 question_instances（Phase 2A Step 1，2026-08-21）。
-- content_hash 本步只加列，Step 5 实现 hash 逻辑。
+- content_hash 规范化/计算见 `app/domains/document/content_hash.py`（Step 5 已实现，20260821_0005 回填）。
 - occurrence_count 为缓存字段，由 COUNT(question_instances) 驱动更新。
 
 ### 4.6 question_images
@@ -509,38 +509,42 @@ L1（行编号原文）和 L2（LLM 标注镜像）是文档解析的中间态�
 
 ---
 
-## 8. Phase 2A 设计冻结（待实现）
+## 8. Phase 2A Schema（已实施）与未来 Family/Similarity 计划
 
-> 以下变更为 PLAN_QUESTION_FAMILY v2.0 冻结的 DSD 方向，尚未实现。当前 DB 仍为旧结构。
-> 实现时需要 Alembic migration。content_hash 规范化规则、唯一约束边界、综合题子题映射的承载方式属于 2A 实现细节。
-> 代码审计（2026-08-21）补充：Phase 2A 还包含审核写回 DB、Worker 失败语义修正、L2 完整持久化三项代码修复，详见 PLAN §7.1 和 ROADMAP P4A。
+> §8.1-8.3 描述的 Phase 2A schema 变更**已全部实施**（migration
+> `20260821_0003`、`20260821_0005`、`20260827_0001`，2026-08-21/27 执行，
+> `alembic current` 确认在 head）。当前 DB 即本节结构。
+> §8.4/8.5 的 Family/Similarity 部分为**未来计划**，Phase 2D 之前不建。
+> 代码审计（2026-08-21）补充：Phase 2A 还包含审核写回 DB、Worker 失败语义
+> 修正、L2 完整持久化三项代码修复，详见 PLAN §7.1 和 ROADMAP P4A。
 
-### 8.1 questions 表变更
+### 8.1 questions 表变更（已实施）
 
 | 变更 | 类型 | 说明 |
 |---|---|---|
 | 新增 content_hash | VARCHAR(64) | 规范化文本 SHA256，用于 exact dedup。覆盖题干+选项+题型。答案/详解冲突进审核不静默覆盖。 |
-| 移除 year | — | 移到 question_instances。Question 只保留内容事实。 |
-| 移除 school | — | 移到 question_instances。 |
-| occurrence_count | — | 改为派生值：COUNT(question_instances)。可保留为缓存字段但由 Instance 驱动更新。 |
+| 移除 year | — | 已移到 question_instances。Question 只保留内容事实。 |
+| 移除 school | — | 已移到 question_instances。 |
+| occurrence_count | — | 派生值：COUNT(question_instances)。保留为缓存字段但由 Instance 驱动更新。 |
 
-### 8.2 question_instances 表变更
+### 8.2 question_instances 表变更（已实施）
 
 | 变更 | 类型 | 说明 |
 |---|---|---|
-| 新增 document_id | UUID FK documents | 替代 source_document_name 文本字段。 |
-| 唯一约束 | — | (document_id, source_question_number) 不重复创建 instance。 |
+| 新增 document_id | UUID FK documents | 替代 source_document_name 文本字段（NOT NULL）。 |
+| 唯一约束 | — | 部分唯一索引 ix_question_instances_doc_qno：(document_id, source_question_number)（两者均非 NULL 时唯一）。 |
 
-### 8.3 question_knowledge 表变更
+### 8.3 question_knowledge 表变更（已实施）
 
 | 变更 | 类型 | 说明 |
 |---|---|---|
 | 新增 mapping_source | VARCHAR | llm / rule / manual，记录映射来源。 |
 | 新增 review_status | VARCHAR | approved / pending / rejected，低置信度映射进审核。 |
 
-综合题（is_composite=true）需要子题级知识点映射。具体承载方式（子题独立 Question vs 父题 sub_questions 字段关联）在 2A 实现时决定。
+综合题（is_composite=true）子题级知识点映射已承载：父题 `questions.sub_questions`
+JSONB 字段关联（Phase 2A 实现时决定并落地）。
 
-### 8.4 暂不建的表
+### 8.4 暂不建的表（未来计划）
 
 以下表在 Phase 2D 之前不建：
 
@@ -550,15 +554,22 @@ L1（行编号原文）和 L2（LLM 标注镜像）是文档解析的中间态�
 | question_similarity | Similarity 引擎未实现 |
 | question_annotations（独立表） | 当前 llm_annotated_markdown JSON 足够 |
 
-### 8.5 冻结的设计原则
+### 8.5 设计原则（已实施 vs 未来）
+
+已实施：
 
 | 原则 | 说明 |
 |---|---|
-| Primary Family 唯一归属 | 每道题只有一个 Primary Family，用于统计报表（未来） |
-| Family Membership N:M | 一道题可以属于多个 Family，用于检索/分析（未来） |
-| Knowledge Point ≠ Family | 同知识点不同任务属于不同 Family |
 | Annotation ≠ 事实 | LLM 输出的标注都带 source/confidence/version |
 | Structure Signature 存 L2 JSON | 不进 questions 主表，存在 llm_annotated_markdown 中 |
+
+未来（Family/Similarity 引擎落地时生效）：
+
+| 原则 | 说明 |
+|---|---|
+| Primary Family 唯一归属 | 每道题只有一个 Primary Family，用于统计报表 |
+| Family Membership N:M | 一道题可以属于多个 Family，用于检索/分析 |
+| Knowledge Point ≠ Family | 同知识点不同任务属于不同 Family |
 
 ---
 
@@ -611,3 +622,12 @@ DSD 必须与以下文档保持一致：
 - 索引变更：ix_questions_subject_grade_year → ix_questions_subject_grade（移除 year），新增 ix_questions_content_hash。
 - Alembic migration：20260821_0003_phase2a_data_foundation.py。
 - 版本升至 4.6。
+
+### 2026-08-27（P0 文档状态修正）
+
+- **§8 状态漂移修正**：标题/引言去掉「待实现/当前 DB 仍为旧结构」表述，改为
+  「已实施 + 未来计划」；§8.1-8.3 标注已实施（migration 20260821_0003/0005、
+  20260827_0001，`alembic current` 在 head）；§8.5 拆分为「已实施原则」与
+  「未来 Family/Similarity 原则」。
+- §4.5 两处过时说明同步修正：content_hash「当前可为 NULL」→「Step 5 已实现，
+  可为 NULL（历史数据）」；「本步只加列」→「Step 5 已实现，20260821_0005 回填」。

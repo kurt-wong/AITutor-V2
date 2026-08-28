@@ -20,9 +20,9 @@ from app.domains.document.schemas_l1 import L1Document, L1Image, L1Line, L1Page
 from app.domains.document.schemas_l2 import CorrectedAnchor, SlicedQuestion
 
 
-def _line(line_id: str, text: str, bbox: dict) -> L1Line:
+def _line(line_id: str, text: str, bbox: dict, page_no: int = 1) -> L1Line:
     return L1Line(
-        line_id=line_id, page_no=1, line_no_in_page=1, order=1,
+        line_id=line_id, page_no=page_no, line_no_in_page=1, order=1,
         text=text, block_type="text", bbox=bbox, source="ppsv3",
     )
 
@@ -144,8 +144,12 @@ class TestRealSlicedQuestionStructure:
         assert result[0]["placement"] == "stem"
 
     def test_answer_line_ids_still_supported(self):
-        """answer_line_ids 属性路径保留（答案区图片关联为 answer_area）。"""
-        ans_line = _line("P2L001", "1. C", {"x1": 100, "y1": 300, "x2": 200, "y2": 320})
+        """answer_line_ids 属性路径保留（答案区图片关联为 answer_area）。
+
+        P4E.1（2026-08-27）：配图关联新增 page 约束（img.page_no == line.page_no），
+        答案行 P2L001 与图同页（page 2）→ 仍走 answer 路径。
+        """
+        ans_line = _line("P2L001", "1. C", {"x1": 100, "y1": 300, "x2": 200, "y2": 320}, page_no=2)
         img = _image("img5", {"x1": 110, "y1": 305, "x2": 180, "y2": 325}, page_no=2)
         # 只放 P2L001 在 doc 中，stem/options 行都不在 → 走 answer 路径
         doc = _doc([ans_line], [img])

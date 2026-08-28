@@ -1,9 +1,15 @@
+import logging
 from decimal import Decimal
 from typing import Any
 from uuid import UUID
 
+from sqlalchemy import select
+
+from app.domains.document.content_hash import compact_answer, compute_content_hash
 from app.domains.question.repository import QuestionRepository
-from app.models import Question, QuestionImage
+from app.models import Question, QuestionImage, QuestionType
+
+logger = logging.getLogger(__name__)
 
 
 class QuestionService:
@@ -97,22 +103,148 @@ class QuestionService:
         - status: approved / rejected
         - overrides: 可选字段修正（stem/options/answer/explanation），
           只写回 overrides 中显式提供的键；options 为空列表时保留原值。
+        - 内容字段修正（stem/options）走统一入口 update_question_content：
+          重算 content_hash + exact duplicate 冲突检查（P0 生命周期修复，
+          2026-08-27：此前改题干不重算 hash，旧 hash 残留、新内容无法去重）。
         """
         question = await self.repository.get(question_id)
         if question is None:
             return None
         question.status = status
         if overrides:
-            if overrides.get("stem") is not None:
-                question.stem = overrides["stem"]
-            if overrides.get("answer") is not None:
-                question.answer = overrides["answer"]
-            if overrides.get("explanation") is not None:
-                question.explanation = overrides["explanation"]
-            if "options" in overrides and overrides.get("options"):
-                question.options = overrides["options"]
+            await self._apply_content_update(question, overrides)
         await self.repository.session.flush()
         return question
+
+    async def update_question_content(
+        self,
+        question_id: UUID,
+        *,
+        stem: str | None = None,
+        options: list[dict[str, Any]] | None = None,
+        answer: str | None = None,
+        explanation: str | None = None,
+        sub_questions: list[dict[str, Any]] | None = None,
+        question_type: str | None = None,
+    ) -> Question | None:
+        """统一领域入口：更新题目内容并维护 content_hash 生命周期。
+
+        - 参数为 None 表示该字段不变；显式传值才更新。
+        - 影响 hash 的字段（stem/options/sub_questions/question_type）变化时：
+          重算 content_hash → 查 exact duplicate（同学科同 hash 排除自身）→
+          答案不同则标记 answer_conflict 审核，不静默覆盖。
+        - question_type 为 canonical code（如 "single_choice"）；缺省时从
+          question_type_id 反查 QuestionType.code。
+
+        2026-08-27（P0 content_hash 生命周期）：apply_review 与外部调用
+        统一走本入口，保证内容与 hash 不漂移（旧 hash 不残留）。
+        """
+        question = await self.repository.get(question_id)
+        if question is None:
+            return None
+        updates: dict[str, Any] = {}
+        if stem is not None:
+            updates["stem"] = stem
+        if options is not None:
+            updates["options"] = options
+        if answer is not None:
+            updates["answer"] = answer
+        if explanation is not None:
+            updates["explanation"] = explanation
+        if sub_questions is not None:
+            updates["sub_questions"] = sub_questions
+        if question_type is not None:
+            updates["question_type"] = question_type
+        await self._apply_content_update(question, updates)
+        await self.repository.session.flush()
+        return question
+
+    async def _apply_content_update(
+        self,
+        question: Question,
+        updates: dict[str, Any],
+    ) -> None:
+        """统一内容更新实现：应用字段 → 检测 hash 相关变化 → 重算 hash → 冲突检查。
+
+        被 apply_review（overrides）与 update_question_content 共用，
+        保证「内容变化 → 重算 content_hash → 查 exact duplicate → 冲突标记审核」
+        的生命周期约束在所有写路径上一致。
+        """
+        hash_fields_changed = False
+
+        if updates.get("stem") is not None and updates["stem"] != question.stem:
+            question.stem = updates["stem"]
+            hash_fields_changed = True
+        if "options" in updates and updates.get("options"):
+            if updates["options"] != question.options:
+                question.options = updates["options"]
+                hash_fields_changed = True
+        if (
+            updates.get("sub_questions") is not None
+            and updates["sub_questions"] != question.sub_questions
+        ):
+            question.sub_questions = updates["sub_questions"]
+            hash_fields_changed = True
+        if updates.get("answer") is not None:
+            question.answer = updates["answer"]
+        if updates.get("explanation") is not None:
+            question.explanation = updates["explanation"]
+
+        # 非内容字段（仅 status 等）或内容未变化 → 不需要重算 hash
+        if not hash_fields_changed:
+            return
+
+        # 重算 content_hash：question_type 显式传入优先，否则从 question_type_id 反查
+        qtype = updates.get("question_type")
+        if qtype is None:
+            qtype = await self._resolve_question_type_code(question.question_type_id)
+        new_hash = compute_content_hash(
+            stem=question.stem,
+            options=question.options,
+            question_type=qtype,
+            sub_questions=question.sub_questions,
+        )
+
+        # 查 exact duplicate（同学科、同 hash、排除自身）
+        dup = await self.repository.find_by_content_hash_excluding(
+            new_hash, question.subject_id, question.id
+        )
+        if dup is not None:
+            existing_answer = (dup.answer or "").strip()
+            new_answer = (question.answer or "").strip()
+            if (
+                new_answer
+                and existing_answer
+                and compact_answer(new_answer) != compact_answer(existing_answer)
+            ):
+                # hash 相同但答案不同 → 冲突进审核（不静默覆盖，与 ingestion 一致）
+                question.review_reason = (
+                    f"answer_conflict:{question.source_document_name or 'review'}:{new_answer}"
+                )[:200]
+                if question.status == "approved":
+                    question.status = "reviewing"
+                logger.warning(
+                    "content update: question %s hash=%s collides with %s (answer conflict) → reviewing",
+                    question.id, new_hash[:12], dup.id,
+                )
+            else:
+                # hash 相同且答案归一化一致 → 同一题，不标记冲突
+                logger.info(
+                    "content update: question %s hash=%s collides with %s (answers equal)",
+                    question.id, new_hash[:12], dup.id,
+                )
+
+        question.content_hash = new_hash  # 旧 hash 不残留
+
+    async def _resolve_question_type_code(
+        self,
+        question_type_id: UUID | None,
+    ) -> str | None:
+        """从 question_type_id 反查 canonical code（重算 hash 需要题型字符串）。"""
+        if question_type_id is None:
+            return None
+        stmt = select(QuestionType.code).where(QuestionType.id == question_type_id)
+        return await self.repository.session.scalar(stmt)
 
     async def search(
         self,

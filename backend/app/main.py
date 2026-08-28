@@ -17,7 +17,11 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Application lifespan: start background worker on startup."""
+    """Application lifespan: start background worker on startup.
+
+    WORKER_ENABLED（2026-08-28，成本防护）：默认 1 启动 worker；设为 0 时
+    仅提供 API 不跑文档任务（避免 LLM 调用烧 token，如只看数据/前端验证）。
+    """
     from app.core.database import async_session_factory
     from app.domains.document.processor import DocumentProcessor
     from app.domains.document.repository import DocumentRepository, DocumentProcessingLogRepository
@@ -27,6 +31,9 @@ async def lifespan(app: FastAPI):
     from app.infrastructure.storage import MinIOStorage
     from app.ai.gateway import get_llm_gateway
     from app.worker.document_worker import document_parse_worker
+
+    import os as _os
+    worker_enabled = _os.environ.get("WORKER_ENABLED", "1") == "1"
 
     stop_event = asyncio.Event()
 
@@ -43,26 +50,31 @@ async def lifespan(app: FastAPI):
         log_repo = DocumentProcessingLogRepository(session)
         return session, TaskService(task_repo), DocumentService(doc_repo, log_repo)
 
-    worker_task = asyncio.create_task(
-        document_parse_worker(
-            storage=storage,
-            gateway=gateway,
-            create_task_services=create_task_services,
-            stop_event=stop_event,
+    worker_task = None
+    if worker_enabled:
+        worker_task = asyncio.create_task(
+            document_parse_worker(
+                storage=storage,
+                gateway=gateway,
+                create_task_services=create_task_services,
+                stop_event=stop_event,
+            )
         )
-    )
-    logger.info("Background worker started")
+        logger.info("Background worker started")
+    else:
+        logger.info("Background worker DISABLED (WORKER_ENABLED=0)")
 
     yield
 
     # 关闭
     stop_event.set()
-    worker_task.cancel()
-    try:
-        await worker_task
-    except asyncio.CancelledError:
-        pass
-    logger.info("Background worker stopped")
+    if worker_task is not None:
+        worker_task.cancel()
+        try:
+            await worker_task
+        except asyncio.CancelledError:
+            pass
+        logger.info("Background worker stopped")
 
 app = FastAPI(
     title=settings.app_name,

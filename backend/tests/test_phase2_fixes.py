@@ -78,6 +78,7 @@ class TestBuildQuestionImagesWithL1Bbox:
             "page_no": 1,
             "bbox": {"x1": 200, "y1": 210, "x2": 400, "y2": 250},
             "source": "ppsv3", "figure_id": "",
+            "url": None,  # 2026-08-27：_build_question_images 携带 img.url（v6.41）
         }]
 
     def test_image_outside_all_lines_not_associated(self):
@@ -121,6 +122,7 @@ class TestBuildQuestionImagesWithL1Bbox:
             "page_no": 1,
             "bbox": {"x1": 200, "y1": 230, "x2": 400, "y2": 250},
             "source": "ppsv3", "figure_id": "",
+            "url": None,  # 2026-08-27：_build_question_images 携带 img.url（v6.41）
         }]
 
     def test_no_bbox_image_not_associated(self):
@@ -199,6 +201,7 @@ class TestBuildQuestionImagesWithL1Bbox:
                 "bbox": {"x1": 200, "y1": 810, "x2": 400, "y2": 880},
                 "source": "ppsv3",
                 "figure_id": "",
+                "url": None,  # 2026-08-27：_build_question_images 携带 img.url（v6.41）
             }
         ]
 

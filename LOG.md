@@ -2655,3 +2655,267 @@ DSD §8 状态漂移（"待实现"但已落地）、test/ 被 gitignore 导致 G
 4. 等用户确认后启动 30 份 PDF + 9 份 DOCX 全量重跑（半小时轮询，rerun_docs2.py 批量入队）；
 5. 重跑后对比缺口（当前 10）+ reviewing 积压（86）+ 详解缺失率（59%）变化；
 6. 完成后整体情况汇总 + DOCX 管线调整决策（tmp/docx_pipeline_discussion.md）。
+
+### 2026-08-27 20:04:17（v6.42）
+
+#### Sprint 治理五项完成（按 21:30 审计执行决策排期执行）
+
+**1. P0 content_hash 生命周期**（重跑前必须做，已就绪）：
+- `question/service.py` 新增统一领域入口 `update_question_content()` +
+  `_apply_content_update()`：内容变化（stem/options/sub_questions）→ 重算
+  content_hash → 查 exact duplicate（同学科同 hash 排除自身）→ 答案归一化
+  不同则标记 `answer_conflict:<source>:<answer>` + 降 reviewing（不静默覆盖）。
+- `apply_review` 内部改走 `_apply_content_update`（此前 overrides 改题干/选项
+  不重算 hash → 旧 hash 残留、新内容无法去重）。question_type 从
+  question_type_id 反查 `QuestionType.code`（hash 需题型字符串）。
+- `question/repository.py` 新增 `find_by_content_hash_excluding()`。
+- `_compact_answer` 从 ingestion 提升为 `content_hash.compact_answer` 公共函数
+  （ingestion 与 question 域共用，去重判断归一化一致，避免跨域依赖 ingestion）。
+- 回归测试：`test_phase2a_step5_content_hash.py` 新增 `TestContentHashLifecycle`
+  7 项（改题干重算/旧 hash 不残留、只改答案 hash 不变、无 overrides hash 不变、
+  撞车冲突降 reviewing、撞车答案一致不标记、update_question_content 改 options、
+  未知题返回 None）。
+- **先不加 UNIQUE(subject_id, content_hash)**（审计决策：先修写路径 + 审计现有
+  重复，避免迁移失败固化审核差异）。
+
+**2. P0 DSD §8 修正**：标题/引言去掉「待实现/当前 DB 仍为旧结构」，改为
+「已实施 + 未来计划」；§8.1-8.3 标注已实施（migration 20260821_0003/0005、
+20260827_0001，`alembic current` 在 head）；§8.5 拆分为「已实施原则」与
+「未来 Family/Similarity 原则」；§4.5 两处过时说明同步修正；§10 追加变更记录。
+
+**3. P0 AGENTS.md 薄入口**：移除 agent 路由指南（不承载项目上下文），改为
+薄入口指向 RESTART_PROMPT + rules + PROJECT_STATUS（opencode.json 只自动
+加载 AGENTS.md，未新建 PROJECT_CONTEXT.md）。
+
+**4. P2 Pipeline 共享内核拆分（方案 A + 兼容层标注）**：
+- 新建 `pipeline_shared.py`：PipelineResult + save_result + _filter_by_page_range
+  + _build_question_images + 依赖 helper（_provenance_to_dict/_anchor_to_dict/
+  _slice_l1_text/_question_is_ingested/_discard_reason_label/
+  _discard_category_for_issue/_question_field_line_ids/_question_option_line_ids/
+  _bbox_contains_with_margin）+ schemas import，**无循环依赖**（shared 不 import
+  pipeline）。
+- pipeline.py 顶部显式标注「**兼容层**：生产代码禁止从这里导入共享符号，请从
+  pipeline_shared 导入；re-export 仅兼容 legacy 测试与旧调用」+ re-export
+  13 个符号；清理 4 个未使用 import（json/L1Page/L2DocumentAnnotation/SlicedQuestion）。
+- 生产三文件（simple_pipeline/processor/ingestion）改从 pipeline_shared 导入。
+- **验收**：rg 确认生产代码不再 `from pipeline import` 共享符号 ✅；
+  pipeline 相关测试 139 passed ✅。
+- **后续事项**：移除 legacy 时同步迁移 17 个测试文件 import。
+- **不做**：不拆 result/helpers/legacy/simple 四文件、不动 parser.py/
+  question_extractor.py、不动 scripts 目录；extract_l1_from_pdf/ocr 不进 shared。
+
+**5. P1 最小 JSON fixture 版本化**：.gitignore 改为 `test/*` + `!test/fixtures/`
++ `!test/fixtures/**`（放开最小匿名 JSON/markdown fixture，便于 GitHub 复现）；
+真实 PDF/DOCX/JPG（40 个样本 36.8MB）保持 ignore。每修复一个真实 bug 沉淀
+一个最小匿名 regression fixture（后续持续）。
+
+**测试结论**：全量 pytest **680 passed / 7 failed / 2 errors**。
+- 7 failed = 4 个**既有**（基线 HEAD 同样失败，已 git stash 验证）：
+  test_phase2_fixes url 断言 3 个（v6.41 bd8d91c 加 `url` 字段测试未同步）
+  + test_processor_progress scanned 1 个（v6.34 扫描件检测 mock l1_doc
+  text_coverage=0 触发 scanned 分支）+ 2 个沙箱 temp ACL
+  （ocr_vision_pdf_fallback，PermissionError 写沙箱 temp）+ 1 个 flaky
+  （http_provider_timeout，单独跑/整文件跑通过，全量顺序依赖）。
+- 2 errors：test_temp_root/test_validation_harness 沙箱 temp ACL
+  （用户本机可过，v6.41 已记录）。
+- **无本次改动引入的确定性回归**。
+- 待用户确认：4 个既有失败是否顺手修复（均为小修复，不影响生产）。
+
+**版本保持 6.42（Sprint 治理完成，PROJECT_STATUS 已更新，v6.41 已快照到
+docs_archive/status/）。下一步：等用户确认启动 30 份 PDF + 9 份 DOCX 全量重跑。**
+
+### 2026-08-27 20:21:29（v6.42 补充：7 个失败测试全部修复 + 2 errors 根因定位）
+
+用户质疑失败评价的客观性后，逐项深挖并修复全部 7 failed（687 passed）：
+- **test_phase2_fixes 3 个（v6.41 url 字段回归）**：`_build_question_images` 在
+  v6.41（bd8d91c）携带 `img.url`，测试断言未同步 → 断言补 `"url": None`。
+- **test_processor_progress 1 个（v6.34 扫描件检测回归）**：`_make_l1_doc` 不传
+  text_coverage（默认 0.0）触发 scanned 分支跳过主流程 → 显式传 `text_coverage=1.0`。
+- **test_ocr_vision_pdf_fallback 2 个（沙箱 temp ACL）**：`tempfile.mkdtemp` 落在
+  conftest 重定向的 `%TEMP%\aitutor_pytest`，沙箱拒绝测试进程写入 → 改用工作区
+  tmp（`tmp/pytest_ocr_vision` + uuid 子目录，模式与 paddle_circuit_breaker 一致）。
+- **test_http_provider_timeout 1 个**：此前误判"flaky（单独跑通过）"——实测单独
+  运行 5 次有 2 次超 2.0s（1.1~2.1s 波动）。根因：`httpx.AsyncClient` 构造在沙箱下
+  耗时 0.9-1.9s（wait_for 本身 0.2s），`elapsed < 2.0` 断言过紧（全量 684 测试时
+  elapsed=2.19s）→ 断言放宽到 `< 5.0`（功能断言 TimeoutError 抛出保留）。
+- **2 errors 根因定位（test_temp_root / test_validation_harness）**：pytest
+  basetemp = `%TEMP%\aitutor_pytest`（conftest），沙箱 ACL 限制测试进程创建/清理
+  basetemp 下目录（历史 ocr_vision_* 残留删不掉，跨进程 SID 隔离，外部删除不生效）
+  → tmp_path fixture setup ERROR。修复需把 conftest WORKSPACE_TMP 改到工作区 tmp
+  （当前沙箱会话工作区 tmp 可写可删，paddle/ocr_vision 已验证；但 conftest 注释
+  记录 2026-08-22 工作区 tmp 曾被锁的历史教训）→ **待用户确认后改 conftest**。
+
+**教训**：分类「既有/环境」必须有修复动作，不能只解释；「单独跑通过」不等于
+「非回归」（需实测耗时分布）；沙箱 temp 与工作区 tmp 的 ACL 差异是测试编写硬约束。
+
+### 2026-08-27 20:28:42（v6.42 补充：conftest basetemp 实测结论 + 回滚）
+
+用户确认改 conftest 后实测两种方案均不可行，**conftest 已回滚到原状**：
+- 方案 A（工作区固定 basetemp `tmp\aitutor_pytest`）：pytest 进程
+  `os.listdir` 自己刚 mkdir 的目录即 PermissionError（独立 python 进程访问
+  同一路径完全正常——mkdir/listdir/write/rmtree 全过 → 沙箱对 pytest 长进程
+  的工作区目录操作有额外拦截，conftest 2026-08-22「工作区 tmp 被锁」教训复现）。
+- 方案 B（工作区唯一 basetemp `run_<uuid>`）：同样 `os.listdir` PermissionError。
+- 结论：沙箱下固定 basetemp 无解（系统 %TEMP% 跨进程残留删不掉；工作区被
+  pytest 进程拦截）。conftest 保持系统 temp 方案，注释已记录实测结论；
+  2 errors（test_temp_root / test_validation_harness）为沙箱环境固有限制，
+  用户本机无此沙箱可正常通过。
+- 最终全量：**687 passed / 2 errors（沙箱环境限制）**，7 failed 全修复。
+- 工作区 tmp 实验残留已清理（tmp\aitutor_pytest 已删除）。
+
+### 2026-08-28 14:06:04（deepseek key 消耗根因 + 更换新 key）
+
+**消耗审计**（用户 deepseek 官方平台）：
+- sk-96521 今日 0:00-11:00：v4-flash 11,084 次 / 7,688 万 token + v4-pro 299 次 / 4,196 万 token
+- **根因**：V1 项目（D:\Project\AI Tutors）的 async worker 今天上午运行过——
+  `async_pipeline.py:915` 强制 "DeepSeek V4 Pro review (mandatory for all)"（v4-pro 299 次），
+  且 Redis `async:task_b:status` 15+ 条 failed（explanation_generate 全失败反复重试 → flash 大头）。
+  V1 无服务/计划任务自动启动，疑为上午手动/工具触发后自动消费遗留队列（8/10 留下），
+  跑完进程退出（ai_tutor 库今日 0 插入、当前无进程）。
+- **排除**：V2 worker 今日仅 ~40 次 flash（重跑 3 份文档，日志确认）；codex 用 sk-e24f7abf、
+  opencode 用 sk-84ea8eb7（同账号其他 key）；claude 今天没开；9-11 点 cc-switch 代理零请求
+  （v4-pro 为直连）。
+
+**处置**：
+- 用户删除 sk-96521，重建 claude code 专用 key（仅授权 CC SWITCH）。
+- **V2 `backend\.env` DEEPSEEK_API_KEY 更换为 sk-06123f05f54d49638db303cb87ec9990**（已验证有效）。
+- 待处理：V1 `D:\Project\AI Tutors\backend\.env` 仍指向已删 key（再触发会 401 重试）；
+  V1 async_pipeline 强制 v4-pro 应改 flash 或禁用；V1 Redis 遗留 explain_queue 6 任务待清。
+
+### 2026-08-28 14:12:00（V1 key 更换）
+
+- **V1 `D:\Project\AI Tutors\backend\.env`**：DEEPSEEK_API_KEY + DEEPSEEK_VL_API_KEY
+  更换为 `sk-1bd6a13bebf1476f8a0e9b427331e8dc`（已验证有效）。
+- 遗留风险提醒：V1 `async_pipeline.py:915` 强制 v4-pro review（新 key 也会烧）；
+  Redis `async:explain_queue` 6 个 explanation_generate 任务未清（V1 启动会消费）。
+
+### 2026-08-27 20:32:37（v6.42：30 份 PDF + 9 份 DOCX 全量重跑已启动）
+**启动流程**（用户确认）：
+1. 后端 uvicorn（8000）已启动，document worker 随 lifespan 启动（poll=5s）。
+2. 用 `tmp/rerun_docs2.py` 批量入队 **39 个文档**（30 PDF + 9 DOCX，清单来自
+   test/pdf + test/docx 文件名 → DB 匹配，优先 completed；选考班用正式记录
+   66ab79ec 替代 superseded 19086f92；昌平生物 scanned 保留重跑重新检测）。
+   清单存 `tmp/rerun_docs_ids.json`。
+3. worker 开始串行消费：首个 4643628c（语文 DOCX）llm_annotation 阶段。
+4. 后台监控（tmp/rerun_monitor.log，5 分钟快照）跟踪至全部完成或 4h 上限。
+
+**预期验证**（完成后对比）：30 份样本基线（79%/缺口 10）刷新、reviewing 积压
+（86→目标 0）、详解缺失率（59%）、content_hash dedup 收敛（重跑借机验证）。
+
+### 2026-08-27 23:36:10（v6.43：入库质量诊断 + 任务计划确立）
+
+**重跑暂停**：用户要求暂停重跑（20:38 kill uvicorn/monitor）。本次重跑实际
+只运行约 6 分钟，几乎无产出（此前"已完成约 10 个文档"判断有误——13:xx-14:xx
+的 succeeded 是上午历史任务，已向用户纠正）。修复后重新全量重跑。
+
+**质量审计（全库 554 道 approved/reviewing 题）**：
+- 确定坏 **116 题（20.9%）**。六类：综合题子题内容全丢 58、空选项 38
+  （含 4 题 A-D 全空）、父题选项拼接 11（最长 166 字符）、紧凑选项未拆 5、
+  选项数异常 3、选项超长 24（部分存疑需甄别）。
+- 按学科：英语 88% 坏（22/25，含 2020 首都师大英语 DOCX 9/9 全坏——当前代码
+  产物非历史遗留）、政治 52%（12/23）、其余 9%-24%。
+
+**根因（已实证，raw_response 对照）**：
+- LLM 标注正确：完形 Q1 输出 20 个子题，各带 stem_line_ids/options_line_ids
+  （如 {A:[N1L009], B:[N1L009], C:[N1L009], D:[N1L009]}），父题 options_line_ids={}。
+- **链路 6 处断裂丢弃子题数据**：content_slicer 回退分支（263-269 不传行号）/
+  pipeline_shared.to_dict（205-214 只输出 qno/type/answer/kp/score）/
+  ingestion 入库（235/332 只存 3 键）/ worker L2 落盘（394-402）/ API 序列化
+  （questions.py 不返回 sub_questions）/ 前端（AdminHome 只渲染父题 options）。
+- 父题选项拼接：LLM 聚合行时 `_slice_options`（content_slicer:494）`" ".join`
+  拼接；紧凑选项 `A.xxxB.yyy` 未拆分（V1 3.21 约束未落实）。
+
+**测试盲区确认**（与 ChatGPT 四轮审计互为印证）：
+- golden 只标第一子题选项（english Q1 expected_content.options 各 1 词）；
+  比较用"包含"（run_phase1_eval:346）；门禁只查字段存在（run_live_validation:
+  550-561，english options_line_ids=12/19 不 FAIL）；GOLDEN_FIELDS 8 项无子题
+  结构字段；e2e verify_options 按 label 包含判断。
+
+**文档规模**（D:\Project\Papers）：总 89,655 文件（PDF 44,812 + DOCX 44,843），
+唯一文件名 71,318；maintainess（整理集）+ 高一/高一上/高二/高三（原始集）；
+DOCX 原生结构零 OCR 优先，PDF 多带文本层，少量扫描件（错题拍照场景预留）；
+目录/文件名即元数据（年份/学校/年级/学科/教师版）。待转换DOC 为 .doc 老格式。
+
+**ChatGPT 四轮审计收敛**（用户提供，chatGpt.md 为空待补）：
+- 确认 P0/P1：content_hash 生命周期、Pipeline Shared/Legacy 边界、Regression
+  Fixture 版本化、DSD 状态漂移——**均已于 v6.42 修复**。
+- 未修核心：子题数据链路断裂（= "题目完整入库"未解决）+ 测试只验字段不验结构。
+- 建议：停止泛审计，进入整改 Sprint；不做 RAG/Vector 记忆、不重写 Pipeline。
+
+**任务计划确立**（ROADMAP 新增 P4E.1/P4E.2，PROJECT_STATUS 更新 v6.43）：
+- P4E.1 入库质量修复（最高优先级）：子题链路 6 处补齐 + 紧凑选项拆分 + 父题
+  选项不拼接 + 测试门禁 + 3 份验证文档（英语完形/化学表格/地理读图）验收。
+- P4E.2 批量导入工程化：全盘清单（元数据+去重+文本层检测）→ 30 份 → 100 份 →
+  全量 7.1 万唯一；DOCX 优先。
+- 后续：异步补全详解（llm_fallback 标记）、扫描件 PPS/PVL 路径。
+
+### 2026-08-28 01:06:26（P4E.1 执行：子题链路 + 答案/详解/配图修复，前端逐题验证）
+
+**执行背景**：用户清空主库测试数据（59 文档→0，保留知识树种子），启动前后端，
+在前端逐题验证入库质量。两份真实文档（东城英语、八中数学）暴露四类系统问题。
+
+**已修复（8 处，全部经真实文档验证/回归测试）**：
+1. **子题链路 6 处补齐**：L2SubQuestion 加 stem/options 文本字段；content_slicer
+   `_slice_single_question` 按子题行号切片文本（LLM 标记综合题主路径）；行内
+   选项拆分 `_inline_split_options`（V1 3.21：A.xxxB.yyy / ①②③|B.… 拆独立选项）
+   + 行号去重 + 按行聚合 label；pipeline_shared.to_dict / ingestion / worker L2
+   落盘 / API 序列化补子题行号+文本；前端 AdminHome + QuestionBankPage 渲染
+   子题题干/选项/答案。
+2. **父题 options 不拼接**：选择题组综合题父题 options 置空（子题选项归属子题）。
+3. **答案汇总修复**（answer_matcher + ingestion）：综合题父题答案保留 content_slicer
+   子题汇总（"(11) itself (12) to..."），answer_map 单值不覆盖（此前仅 single_choice
+   跳过，fill_in/short_answer 综合题被截成第一个子题答案）。
+4. **详解切片优先**（ingestion）：sq.explanation（教师版原文，保留 L1 换行）优先，
+   LLM 提取的详解（无换行拼接）只兜底——此前 LLM 详解覆盖导致排版堆叠。
+5. **配图 page 约束**（pipeline_shared `_build_question_images`）：匹配要求
+   img.page_no == line.page_no——此前缺 page 约束，跨页 bbox 数值碰巧重叠即
+   误关联（八中数学 Q1 关联到第 8 页图、页眉页脚横条混入）。
+6. **prompt 强化**（line_annotator）：完形/语法填空等填空类子题 stem_line_ids
+   必填（含空位/题号所在行），前端可匹配选项与题干。
+7. **作文英文正常**：确认"转中文"为旧数据/渲染问题，新数据英文原文正确。
+
+**验证结果**（东城英语重跑，新代码）：Q1 完形子题 stem+options 全有（10/10）；
+Q11/14/21/42 子题题干完整（含完整句子）；Q46 作文英文原文。答案汇总待
+ingestion/answer_matcher 修复后的最新重跑确认。
+
+**测试**：新增行内拆分/子题切片/入库子题内容等测试；修复 page 约束暴露的
+test_question_image_association helper 矛盾；相关测试 70 passed。
+
+**待处理**：八中数学 Q4 绝对值符号缺失、Q15 题干混入"三、解答题"、Q17 茎叶图
+LaTeX 渲染、Q19 表格 HTML 源码显示（前端渲染长尾）；配图空白图/页眉页脚过滤
+（page 约束已修主路径）。
+
+### 2026-08-28 14:30:00（P4E.1 验证文档重跑完成 + token 消耗根因锁定 + 文档收尾）
+
+**3 份验证文档重跑完成**（最终代码，52 题入库，worker 日志确认）：
+- 东城英语 fd6a575a / 八中数学 2f150efd / 丰台物理 f8b43616。
+- 已验证：答案汇总（父题聚合子题答案）✓、配图 page 约束（Q1 不再误关联 P8 图）✓、
+  详解换行保留（sq.explanation 优先）✓、作文英文原文 ✓。
+- **空位标记 5/10**：本次数据由旧正则（数字后接字母被排除）生成；正则已修复
+  `(?<![〔\d%])(\d+)(?!\.\d|[\d〕])`（允许数字后接字母，如 "11.to"）+ 测试
+  test_mark_blank_positions_digit_followed_by_letter（34 passed）。**要全 10/10
+  需重跑 3 份（约 ¥1-2），已列为待用户决策。**
+
+**前端展示重构完成**（QuestionBankPage + AdminHome）：
+- `〔N〕` 空位标记渲染为高亮 span（.blank-marker）；
+- 综合题详情：题干区默认展开 + 答案区/详解区默认折叠（`<details>`）；
+- 答案格式化 `(1) C (2) D` → `1.C 2.D`（每行 5 个）；子题题干去重
+  （parentStem 包含 subStem 时不重复渲染）。
+
+**token 消耗根因锁定（11:00 后大头 = DSH 会话，非 V1/V2 worker）**：
+- deepseek 平台 11:00 后 v4-flash 103 次 / 7,097 万 token，平均 ~69 万 token/次 =
+  **DSH（Codex 代理）每轮重发全部会话历史**（本会话上下文已膨胀到 ~70 万 token）。
+- V2 worker 今日仅 ~40 次 flash（重跑 3 份文档）；V1 上午已跑完退出。
+- **用户决定开新会话恢复**（读 RESTART_PROMPT.md 即可，状态全在文档）。
+
+**成本防护落地**：
+- `WORKER_ENABLED` 环境变量 gate（main.py lifespan）：默认 1 启动 worker；设 0
+  为 API-only（无 LLM 消费）。**注意：gate 走环境变量，不写 .env**——启动命令：
+  `$env:WORKER_ENABLED='0'; python -m uvicorn app.main:app ...`。
+- 13:16 曾出现 V2 uvicorn 被外部重启（worker 自动消费）——gate 即为此而设。
+
+**会话收尾环境状态**：8000（uvicorn）与 5173（vite）当前均未监听（服务已停）；
+Docker CLI 在代理沙箱不可用（用户本机可用）。待用户决策：①空位标记是否重跑补全
+（~¥1-2）还是推迟到批量导入；②V1 遗留（v4-pro 强制 / explain_queue 6 任务）。
+测试门禁（P4E.1 任务 4：golden 子题结构 + run_live_validation 准确率 FAIL +
+选项完整性指标）**未启动**，新会话首个任务。

@@ -398,6 +398,12 @@ def _serialize_l2_for_persistence(l2_annotation) -> dict:
                         "answer": s.answer,
                         "knowledge_points": s.knowledge_points,
                         "score": s.score,
+                        # P4E.1（2026-08-27）：L2 落盘补子题行号 + 切片文本
+                        # （此前丢失，LOG v6.43 链路断裂 #4）。
+                        "stem_line_ids": getattr(s, "stem_line_ids", None) or [],
+                        "options_line_ids": getattr(s, "options_line_ids", None) or {},
+                        "stem": getattr(s, "stem", "") or "",
+                        "options": getattr(s, "options", None) or [],
                     }
                     for s in (q.sub_questions or [])
                 ],

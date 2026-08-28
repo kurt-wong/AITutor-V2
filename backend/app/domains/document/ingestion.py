@@ -19,8 +19,8 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domains.document.answer_extractor import AnswerExtractionResult
-from app.domains.document.content_hash import compute_content_hash
-from app.domains.document.pipeline import PipelineResult
+from app.domains.document.content_hash import compact_answer, compute_content_hash
+from app.domains.document.pipeline_shared import PipelineResult
 from app.domains.document.schemas_l2 import SlicedQuestion
 from app.domains.document.schemas_l1 import L1Document
 from app.domains.knowledge.repository import KnowledgeNodeRepository, QuestionTypeRepository
@@ -202,21 +202,28 @@ async def _ingest_one_question(
     if not has_stem:
         return None  # 无题干，跳过
 
-    # 获取答案：优先用 LLM 提取的答案，回退到管线切片的答案
-    # 选择题组综合题（共享题图/材料）：父题答案 = 子题答案汇总
-    # （content_slicer 合并生成 "(1) C (2) B ..." 格式）。answer_map 按父题号
-    # 从文末答案表提取的是单字母（如 18→B），覆盖会丢失子题汇总 → 跳过。
+    # 获取答案：管线切片（教师版原文）优先，LLM 答案提取只做缺失兜底。
+    # 综合题（共享题图/材料）：父题答案 = content_slicer 子题答案汇总
+    # （"(1) C (2) B ..." / "(11) itself (12) to ..."）。answer_map 按父题号
+    # 从文末答案表提取的是单值（如 18→B、itself），覆盖会丢失子题汇总 →
+    # 综合题一律用 sq.answer（汇总），LLM 单值只兜底空。
+    # P4E.1（2026-08-27）：此前 is_choice_composite 仅覆盖 single_choice，
+    # fill_in/short_answer 综合题被单值覆盖（东城英语 Q11 只存 "itself"）；
+    # 详解此前 LLM 提取优先（无换行拼接），改回切片优先（保留 L1 换行）。
     llm_answer_data = answer_map.get(str(sq.question_number))
-    is_choice_composite = (
-        getattr(sq, "is_composite", False)
-        and sq.question_type in ("single_choice", "multiple_choice")
-    )
-    if llm_answer_data and llm_answer_data.answer.strip() and not is_choice_composite:
+    is_composite_q = bool(getattr(sq, "is_composite", False))
+    if (
+        llm_answer_data
+        and llm_answer_data.answer.strip()
+        and not is_composite_q
+    ):
         final_answer = llm_answer_data.answer
-        final_explanation = llm_answer_data.explanation or sq.explanation or ""
     else:
         final_answer = sq.answer or ""
-        final_explanation = sq.explanation or ""
+    # 详解：管线切片（保留换行/LaTeX 结构）优先，LLM 提取只兜底
+    final_explanation = sq.explanation or (
+        llm_answer_data.explanation if llm_answer_data else None
+    ) or ""
 
     # 确定状态和审核原因
     if is_high_conf and not is_blocked and final_answer.strip():
@@ -270,7 +277,7 @@ async def _ingest_one_question(
         if (
             new_answer
             and existing_answer
-            and _compact_answer(new_answer) != _compact_answer(existing_answer)
+            and compact_answer(new_answer) != compact_answer(existing_answer)
         ):
             # 持久化冲突详情：来源文档 + 冲突答案，供管理员审核时参考
             conflict_detail = f"answer_conflict:{document.filename}:{new_answer}"
@@ -310,6 +317,17 @@ async def _ingest_one_question(
     # 查找或创建题型
     question_type_id = await _get_question_type_id(session, sq.question_type, subject.id)
 
+    # P4E.1（2026-08-27）：选择题组综合题父题 options 不拼接——子题选项
+    # 归属子题（存 sub_questions），父题 options 置空（宁缺毋滥，LOG v6.43）。
+    parent_options = _normalize_options(sq.options)
+    if sq.is_composite and (sq.sub_questions or []):
+        has_sub_options = any(
+            getattr(s, "options", None) or getattr(s, "options_line_ids", None)
+            for s in sq.sub_questions
+        )
+        if has_sub_options:
+            parent_options = None
+
     question = Question(
         subject_id=subject.id,
         grade=document.grade,
@@ -318,7 +336,7 @@ async def _ingest_one_question(
         score=Decimal(str(sq.score)) if sq.score else None,
         difficulty=sq.difficulty,
         stem=sq.stem,
-        options=_normalize_options(sq.options),
+        options=parent_options,
         answer=final_answer,
         explanation=final_explanation,
         source_type="document",
@@ -329,8 +347,20 @@ async def _ingest_one_question(
         occurrence_count=1,  # 缓存字段，初始为 1
         is_composite=sq.is_composite or False,
         content_hash=content_hash,  # Phase 2A Step 5：规范化题干+选项+题型 SHA256
+        # P4E.1：子题保存完整内容（行号 + 切片文本）。此前只存
+        # qno/type/answer 三键，子题题干/选项丢失（LOG v6.43 链路断裂 #3）。
         sub_questions=[
-            {"qno": sub.qno, "question_type": sub.question_type, "answer": sub.answer}
+            {
+                "qno": sub.qno,
+                "question_type": sub.question_type,
+                "answer": sub.answer,
+                "knowledge_points": getattr(sub, "knowledge_points", None) or [],
+                "score": getattr(sub, "score", None),
+                "stem_line_ids": getattr(sub, "stem_line_ids", None) or [],
+                "options_line_ids": getattr(sub, "options_line_ids", None) or {},
+                "stem": getattr(sub, "stem", "") or "",
+                "options": getattr(sub, "options", None) or [],
+            }
             for sub in (sq.sub_questions or [])
         ] or None,
     )
@@ -410,49 +440,6 @@ async def _ingest_one_question(
 
 
 # ── 辅助函数 ──────────────────────────────────────────────────────
-
-
-def _compact_answer(text: str | None) -> str:
-    """答案比较用归一：格式统一后再比对，消除"同内容不同格式"的假冲突。
-
-    2026-08-25（BUG-026）：只去空白，语文朝阳 Q17 假冲突已修。
-    2026-08-26（数学 40 题 answer_conflict）：同一道题两次入库，答案内容
-    相同但格式不同（LLM/OCR 输出抖动）被误判冲突：
-    - LaTeX 包裹：`$0$` vs `0`、`$\\frac{3\\pi}{4}$` vs `\\frac{3\\pi}{4}`
-    - 全角/半角：`(1)` vs `（1）`、`；` vs `;`、`：` vs `:`
-    - 分隔符：换行 vs `；` 拼接
-    归一化顺序：去空白 → 全角转半角 → LaTeX 标记剥离 → 数学命令等价化。
-    仅用于去重冲突判断，不改变存储的原始答案。
-    """
-    if not text:
-        return ""
-    out = "".join(text.split())  # 去全部空白（含全角空格/换行）
-    # 圈号后点号/空白归一（`①.`/`①`/`①．` → `①`；LLM 输出圈号后点号有无抖动）
-    out = re.sub(r"([①②③④⑤⑥⑦⑧⑨⑩])\s*[.．、]?", r"\1", out)
-    # 全角 → 半角（常见标点；保留中文与圈号 ①②③）
-    out = out.replace("（", "(").replace("）", ")")
-    out = out.replace("；", ";").replace("：", ":").replace("，", ",")
-    out = out.replace("．", ".").replace("。", ".")
-    out = out.replace("－", "-").replace("～", "~")
-    # 换行/分号分隔统一（LLM 输出有时 \n 换行、有时 ；拼接，同内容）
-    out = out.replace("\\n", ";").replace("\n", ";")
-    # LaTeX 标记剥离（含 $ 或 \\ 时才处理，否则原样）
-    if "$" in out or "\\" in out:
-        out = re.sub(r"\$\$", "", out).replace("$", "")
-        out = out.replace(r"\(", "").replace(r"\)", "").replace(r"\[", "").replace(r"\]", "")
-        # \frac{a}{b} → a/b（保留分子分母内容，去掉命令外壳）
-        out = re.sub(r"\\frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}", r"\1/\2", out)
-        out = re.sub(r"\\dfrac\s*\{([^{}]*)\}\s*\{([^{}]*)\}", r"\1/\2", out)
-        out = re.sub(r"\\sqrt\s*\{([^{}]*)\}", r"sqrt(\1)", out)
-        # \text{...} / \mathrm{...} 等文本标记 → 取内容
-        out = re.sub(r"\\(?:text|mathrm|mathbf|mathit|mathrm|operatorname)\s*\{([^{}]*)\}", r"\1", out)
-        out = out.replace(r"\{", "{").replace(r"\}", "}")
-        out = out.replace(r"\pi", "π").replace(r"\mid", "|").replace(r"\le", "<=").replace(r"\ge", ">=")
-        # 间距/括号命令与 \command 外壳 → 去命令名保留字母（\sin→sin 等）
-        out = re.sub(r"\\(?:left|right|big|Big|bigg|Bigg|quad|qquad|;|,|!| )", "", out)
-        out = re.sub(r"\\([a-zA-Z]+)", r"\1", out)
-        out = out.replace("{", "").replace("}", "")
-    return out
 
 
 def _extract_review_reason(sq: SlicedQuestion, final_answer: str) -> str:

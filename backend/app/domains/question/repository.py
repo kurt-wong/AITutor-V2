@@ -353,6 +353,29 @@ class QuestionRepository(BaseRepository[Question]):
         )
         return await self.session.scalar(stmt)
 
+    async def find_by_content_hash_excluding(
+        self,
+        content_hash: str,
+        subject_id: UUID,
+        exclude_id: UUID,
+    ) -> Question | None:
+        """按 content_hash 查 exact duplicate（同学科、排除自身）。
+
+        Phase 2A Step 5 生命周期（2026-08-27）：update_question_content 重算
+        content_hash 后，用本方法判断新 hash 是否与库中其他题撞车
+        （答案冲突 → 标记审核，不静默覆盖）。
+        """
+        if not content_hash:
+            return None
+        stmt = (
+            select(Question)
+            .where(Question.subject_id == subject_id)
+            .where(Question.content_hash == content_hash)
+            .where(Question.id != exclude_id)
+            .limit(1)
+        )
+        return await self.session.scalar(stmt)
+
     async def list_images(self, question_id: UUID) -> list[QuestionImage]:
         """返回题目配图列表（按 image_order 排序）。
 

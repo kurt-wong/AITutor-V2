@@ -33,6 +33,9 @@ def _make_l1_doc() -> L1Document:
         lines=lines,
         source="native",
         total_pages=1,
+        # 2026-08-27：v6.34 扫描件检测（text_coverage<0.02 → scanned）后，
+        # 不传 text_coverage 默认 0.0 会触发 scanned 分支跳过主流程 → 显式传 1.0
+        text_coverage=1.0,
     )
 
 

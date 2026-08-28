@@ -3,7 +3,11 @@
 .env.*
 
 # Test documents and fixtures
-test/
+# 整目录 ignore，但放开 test/fixtures/（最小匿名 JSON/markdown fixture 可提交，
+# 便于 GitHub 复现；真实 PDF/DOCX/JPG 样本保持 ignore，2026-08-27 P1）
+test/*
+!test/fixtures/
+!test/fixtures/**
 
 # Agent / tool local state
 .claude/

@@ -13,6 +13,14 @@ from pathlib import Path
 # 2. 改 tmp/pytest_run 仍被锁（pytest 清理阶段创建后沙箱加锁）。
 # 结论：工作区 tmp 下固定 basetemp 在沙箱中不稳定；改回系统 temp 下的
 #   专属子目录（系统 temp 始终可写，专属名避免 dsh-* 随机目录问题）。
+# 2026-08-27 实测结论（用户确认尝试后回滚）：沙箱下固定 basetemp 无解——
+#   a) 系统 %TEMP%\aitutor_pytest：pytest 进程创建的目录跨进程删不掉
+#      （残留 ocr_vision_* 导致 tmp_path setup 清理 ERROR）；
+#   b) 工作区 tmp\aitutor_pytest（固定或 run_<uuid> 唯一子目录）：pytest
+#      进程 os.listdir 自己刚 mkdir 的目录也 PermissionError（独立 python
+#      进程访问同一路径完全正常 → 沙箱对 pytest 长进程的工作区目录操作
+#      有额外拦截）。因此 conftest 保持系统 temp 方案；2 errors 为沙箱
+#      环境固有限制（用户本机无此沙箱，可正常通过）。
 WORKSPACE_TMP = Path(tempfile.gettempdir()) / "aitutor_pytest"
 
 # 专用测试库（2026-08-25，v6.18）：同一 PostgreSQL 实例上的 <prod_db>_test

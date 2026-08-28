@@ -1,0 +1,2739 @@
+{
+  "filename": "2026北京朝阳高一（上）期末数学（教师版）.pdf",
+  "source": "ppsv3",
+  "postprocessed": true,
+  "pages": [
+    {
+      "page_no": 1,
+      "width": 595,
+      "height": 842
+    },
+    {
+      "page_no": 2,
+      "width": 595,
+      "height": 842
+    },
+    {
+      "page_no": 3,
+      "width": 595,
+      "height": 842
+    },
+    {
+      "page_no": 4,
+      "width": 595,
+      "height": 842
+    },
+    {
+      "page_no": 5,
+      "width": 595,
+      "height": 842
+    },
+    {
+      "page_no": 6,
+      "width": 595,
+      "height": 842
+    },
+    {
+      "page_no": 7,
+      "width": 595,
+      "height": 842
+    },
+    {
+      "page_no": 8,
+      "width": 595,
+      "height": 842
+    },
+    {
+      "page_no": 9,
+      "width": 595,
+      "height": 842
+    }
+  ],
+  "lines": [
+    {
+      "line_id": "P1L001",
+      "page_no": 1,
+      "line_no_in_page": 1,
+      "order": 1,
+      "text": "2026北京朝阳高一（上）期末",
+      "block_type": "text",
+      "bbox": {
+        "x1": 371.0,
+        "y1": 93.0,
+        "x2": 849.0,
+        "y2": 129.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L002",
+      "page_no": 1,
+      "line_no_in_page": 2,
+      "order": 2,
+      "text": "数学",
+      "block_type": "text",
+      "bbox": {
+        "x1": 537.0,
+        "y1": 164.0,
+        "x2": 684.0,
+        "y2": 199.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L003",
+      "page_no": 1,
+      "line_no_in_page": 3,
+      "order": 3,
+      "text": "2026.1",
+      "block_type": "text",
+      "bbox": {
+        "x1": 1022.0,
+        "y1": 243.0,
+        "x2": 1081.0,
+        "y2": 262.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L004",
+      "page_no": 1,
+      "line_no_in_page": 4,
+      "order": 4,
+      "text": "（考试时间120分钟满分150分）",
+      "block_type": "text",
+      "bbox": {
+        "x1": 439.0,
+        "y1": 291.0,
+        "x2": 758.0,
+        "y2": 312.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L005",
+      "page_no": 1,
+      "line_no_in_page": 5,
+      "order": 5,
+      "text": "本试卷分为选择题（共50分）和非选择题（共100分）两部分",
+      "block_type": "text",
+      "bbox": {
+        "x1": 302.0,
+        "y1": 348.0,
+        "x2": 883.0,
+        "y2": 372.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L006",
+      "page_no": 1,
+      "line_no_in_page": 6,
+      "order": 6,
+      "text": "第一部分 (选择题共50分)",
+      "block_type": "text",
+      "bbox": {
+        "x1": 439.0,
+        "y1": 412.0,
+        "x2": 737.0,
+        "y2": 439.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L007",
+      "page_no": 1,
+      "line_no_in_page": 7,
+      "order": 7,
+      "text": "一、选择题（本大题共10小题，每小题5分，共50分。在每小题列出的四个选项中，选出符合题目要求的一项）",
+      "block_type": "text",
+      "bbox": {
+        "x1": 102.0,
+        "y1": 476.0,
+        "x2": 1082.0,
+        "y2": 539.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L008",
+      "page_no": 1,
+      "line_no_in_page": 8,
+      "order": 8,
+      "text": "（1）（集团校自创题）",
+      "block_type": "text",
+      "bbox": {
+        "x1": 113.0,
+        "y1": 558.0,
+        "x2": 309.0,
+        "y2": 580.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L009",
+      "page_no": 1,
+      "line_no_in_page": 9,
+      "order": 9,
+      "text": "（2）下列函数中，在定义域内单调递减且值域为$(0,+\\infty)$ 的是",
+      "block_type": "text",
+      "bbox": {
+        "x1": 113.0,
+        "y1": 599.0,
+        "x2": 666.0,
+        "y2": 620.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L010",
+      "page_no": 1,
+      "line_no_in_page": 10,
+      "order": 10,
+      "text": "(A)$y=-x$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 135.0,
+        "y1": 644.0,
+        "x2": 791.0,
+        "y2": 687.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L011",
+      "page_no": 1,
+      "line_no_in_page": 11,
+      "order": 11,
+      "text": "(B)$y={\\frac{1}{x}}$",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L012",
+      "page_no": 1,
+      "line_no_in_page": 12,
+      "order": 12,
+      "text": "(C）$y=2^{-x}$",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L013",
+      "page_no": 1,
+      "line_no_in_page": 13,
+      "order": 13,
+      "text": "(D)$y=\\log_{0.5}x$",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L014",
+      "page_no": 1,
+      "line_no_in_page": 14,
+      "order": 14,
+      "text": "（3）命题$ \\text{\"}\\forall x>0\\text{\"}$ ，都有$\\sin x<x$ ”的否定为",
+      "block_type": "text",
+      "bbox": {
+        "x1": 113.0,
+        "y1": 706.0,
+        "x2": 534.0,
+        "y2": 728.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L015",
+      "page_no": 1,
+      "line_no_in_page": 15,
+      "order": 15,
+      "text": "(A)$\\exists x>0$ ，使得$\\sin x<x$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 134.0,
+        "y1": 747.0,
+        "x2": 756.0,
+        "y2": 811.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L016",
+      "page_no": 1,
+      "line_no_in_page": 16,
+      "order": 16,
+      "text": "(B)$\\exists x>0$ ，使得$\\sin x\\geqslant x$",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L017",
+      "page_no": 1,
+      "line_no_in_page": 17,
+      "order": 17,
+      "text": "(C)$\\forall x>0$ ，都有$\\sin x\\geqslant x$",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L018",
+      "page_no": 1,
+      "line_no_in_page": 18,
+      "order": 18,
+      "text": "(D)$\\forall x>0$ ，都有$\\sin x>x$",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L019",
+      "page_no": 1,
+      "line_no_in_page": 19,
+      "order": 19,
+      "text": "(4）（集团校自创题）",
+      "block_type": "text",
+      "bbox": {
+        "x1": 114.0,
+        "y1": 830.0,
+        "x2": 308.0,
+        "y2": 851.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L020",
+      "page_no": 1,
+      "line_no_in_page": 20,
+      "order": 20,
+      "text": "（5）已知$a=3^{0.1},\\quad b=\\log_310,\\quad c=\\log_{\\frac{1}{2}}2$ ，则",
+      "block_type": "text",
+      "bbox": {
+        "x1": 113.0,
+        "y1": 874.0,
+        "x2": 557.0,
+        "y2": 906.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L021",
+      "page_no": 1,
+      "line_no_in_page": 21,
+      "order": 21,
+      "text": "(A)$c<a<b$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 155.0,
+        "y1": 928.0,
+        "x2": 684.0,
+        "y2": 994.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L022",
+      "page_no": 1,
+      "line_no_in_page": 22,
+      "order": 22,
+      "text": "(B)$b<c<a$",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L023",
+      "page_no": 1,
+      "line_no_in_page": 23,
+      "order": 23,
+      "text": "(C)$c<b<a$",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L024",
+      "page_no": 1,
+      "line_no_in_page": 24,
+      "order": 24,
+      "text": "(D)$a<b<c$",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L025",
+      "page_no": 1,
+      "line_no_in_page": 25,
+      "order": 25,
+      "text": "（6）将函数$f(x)=\\sin2x$ 的图象向右平移$\\frac{\\pi}{6}$ 个单位长度后，得到函数$g(x)$ 的图象，则$g(x)$ 的图象的一个对称中心是",
+      "block_type": "text",
+      "bbox": {
+        "x1": 113.0,
+        "y1": 1020.0,
+        "x2": 1082.0,
+        "y2": 1101.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L026",
+      "page_no": 1,
+      "line_no_in_page": 26,
+      "order": 26,
+      "text": "(A)$(\\frac{\\pi}{3},0)$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 157.0,
+        "y1": 1127.0,
+        "x2": 262.0,
+        "y2": 1171.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L027",
+      "page_no": 1,
+      "line_no_in_page": 27,
+      "order": 27,
+      "text": "(B)$(\\frac{2\\pi}{3},0)$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 426.0,
+        "y1": 1123.0,
+        "x2": 532.0,
+        "y2": 1172.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L028",
+      "page_no": 1,
+      "line_no_in_page": 28,
+      "order": 28,
+      "text": "(C)$(-\\frac{\\pi}{6},0)$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 158.0,
+        "y1": 1199.0,
+        "x2": 267.0,
+        "y2": 1243.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L029",
+      "page_no": 1,
+      "line_no_in_page": 29,
+      "order": 29,
+      "text": "(D)$(-\\frac{2\\pi}{3},0)$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 436.0,
+        "y1": 1193.0,
+        "x2": 557.0,
+        "y2": 1242.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L030",
+      "page_no": 1,
+      "line_no_in_page": 30,
+      "order": 30,
+      "text": "（7）设函数$f(x)=\\left\\{\\begin{aligned}&(x+1)^{2},x\\leqslant0,\\\\&x+\\frac{1}{x},x>",
+      "block_type": "text",
+      "bbox": {
+        "x1": 112.0,
+        "y1": 1263.0,
+        "x2": 968.0,
+        "y2": 1369.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L031",
+      "page_no": 1,
+      "line_no_in_page": 31,
+      "order": 31,
+      "text": "0.\\end{aligned}\\right.$ 若函数$g(x)=f(x)-a$ 有两个不相同的零点，则实数a",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L032",
+      "page_no": 1,
+      "line_no_in_page": 32,
+      "order": 32,
+      "text": "的取值范围是",
+      "block_type": "text",
+      "bbox": {
+        "x1": 146.0,
+        "y1": 1383.0,
+        "x2": 275.0,
+        "y2": 1405.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L033",
+      "page_no": 1,
+      "line_no_in_page": 33,
+      "order": 33,
+      "text": "(A)(0,1]",
+      "block_type": "text",
+      "bbox": {
+        "x1": 154.0,
+        "y1": 1424.0,
+        "x2": 851.0,
+        "y2": 1452.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L034",
+      "page_no": 1,
+      "line_no_in_page": 34,
+      "order": 34,
+      "text": "(B)$(0,1]\\bigcup\\{2\\}$",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L035",
+      "page_no": 1,
+      "line_no_in_page": 35,
+      "order": 35,
+      "text": "(C) [1,2]",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L036",
+      "page_no": 1,
+      "line_no_in_page": 36,
+      "order": 36,
+      "text": "(D)$\\{1\\}\\bigcup[2,+\\infty)$",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L037",
+      "page_no": 1,
+      "line_no_in_page": 37,
+      "order": 37,
+      "text": "(8）“$\\varphi=-\\frac{\\pi}{2}+2k\\pi(k\\in\\mathbf{Z})$ ’是“函数$f(x)=\\sin(2x+\\varphi)$ 在$[-\\frac{\\pi}{2},0]$ 上单调递减”的",
+      "block_type": "text",
+      "bbox": {
+        "x1": 113.0,
+        "y1": 1476.0,
+        "x2": 869.0,
+        "y2": 1525.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P1L038",
+      "page_no": 1,
+      "line_no_in_page": 38,
+      "order": 38,
+      "text": "第1页/共9页",
+      "block_type": "text",
+      "bbox": {
+        "x1": 538.0,
+        "y1": 1655.0,
+        "x2": 648.0,
+        "y2": 1676.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L001",
+      "page_no": 2,
+      "line_no_in_page": 1,
+      "order": 39,
+      "text": "（A）充分不必要条件",
+      "block_type": "text",
+      "bbox": {
+        "x1": 154.0,
+        "y1": 91.0,
+        "x2": 739.0,
+        "y2": 155.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L002",
+      "page_no": 2,
+      "line_no_in_page": 2,
+      "order": 40,
+      "text": "（B）必要不充分条件",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L003",
+      "page_no": 2,
+      "line_no_in_page": 3,
+      "order": 41,
+      "text": "（C）充分必要条件",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L004",
+      "page_no": 2,
+      "line_no_in_page": 4,
+      "order": 42,
+      "text": "（D）既不充分也不必要条件",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L005",
+      "page_no": 2,
+      "line_no_in_page": 5,
+      "order": 43,
+      "text": "（9）在声学中，声音的强度级L(分贝）与声强I（瓦/平方米）的关系为：$L=10\\lg\\frac{I}{I_{0}}$ ，其中常数$I_{0}$ 是基准声强.某工厂声音的强度级为90(分贝)，现在传播途中设置吸音屏障，可使声强降为原来的$\\frac{1}{4}$ ，则声音的强度级约降为（参考数据：$\\lg2\\approx0.3010$ )",
+      "block_type": "text",
+      "bbox": {
+        "x1": 115.0,
+        "y1": 176.0,
+        "x2": 1066.0,
+        "y2": 347.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L006",
+      "page_no": 2,
+      "line_no_in_page": 6,
+      "order": 44,
+      "text": "（A）77分贝",
+      "block_type": "text",
+      "bbox": {
+        "x1": 133.0,
+        "y1": 367.0,
+        "x2": 787.0,
+        "y2": 392.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L007",
+      "page_no": 2,
+      "line_no_in_page": 7,
+      "order": 45,
+      "text": "（B）80分贝",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L008",
+      "page_no": 2,
+      "line_no_in_page": 8,
+      "order": 46,
+      "text": "（C）82分贝",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L009",
+      "page_no": 2,
+      "line_no_in_page": 9,
+      "order": 47,
+      "text": "（D）84分贝",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L010",
+      "page_no": 2,
+      "line_no_in_page": 10,
+      "order": 48,
+      "text": "（10）已知集合$U=\\left\\{n\\mid1\\leq n\\leq2026,n\\in\\mathbf{N}^*\\right\\}$ ，集合$M\\subseteq U$ ，且M中至少有两个元素.若对于M中的任意两个不同的元素x和y，都有$\\left|x-y\\right|\\ge3$ ，则M中元素个数的最大值是",
+      "block_type": "text",
+      "bbox": {
+        "x1": 113.0,
+        "y1": 413.0,
+        "x2": 1072.0,
+        "y2": 495.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L011",
+      "page_no": 2,
+      "line_no_in_page": 11,
+      "order": 49,
+      "text": "（A）506",
+      "block_type": "text",
+      "bbox": {
+        "x1": 142.0,
+        "y1": 517.0,
+        "x2": 934.0,
+        "y2": 538.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L012",
+      "page_no": 2,
+      "line_no_in_page": 12,
+      "order": 50,
+      "text": "（B）507",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L013",
+      "page_no": 2,
+      "line_no_in_page": 13,
+      "order": 51,
+      "text": "(C)675",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L014",
+      "page_no": 2,
+      "line_no_in_page": 14,
+      "order": 52,
+      "text": "（D）676",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L015",
+      "page_no": 2,
+      "line_no_in_page": 15,
+      "order": 53,
+      "text": "第二部分 (非选择题共100分)",
+      "block_type": "text",
+      "bbox": {
+        "x1": 424.0,
+        "y1": 560.0,
+        "x2": 753.0,
+        "y2": 586.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L016",
+      "page_no": 2,
+      "line_no_in_page": 16,
+      "order": 54,
+      "text": "二、填空题（本大题共6小题，每小题5分，共30分）",
+      "block_type": "text",
+      "bbox": {
+        "x1": 102.0,
+        "y1": 610.0,
+        "x2": 610.0,
+        "y2": 633.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L017",
+      "page_no": 2,
+      "line_no_in_page": 17,
+      "order": 55,
+      "text": "(11)$\\sin\\frac{3\\pi}{4}=\\underline{\\hspace{2cm}}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 114.0,
+        "y1": 656.0,
+        "x2": 303.0,
+        "y2": 704.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L018",
+      "page_no": 2,
+      "line_no_in_page": 18,
+      "order": 56,
+      "text": "（12）函数$f(x)=\\log_{2}(1-x)+\\frac{1}{x}$ 的定义域为",
+      "block_type": "text",
+      "bbox": {
+        "x1": 113.0,
+        "y1": 724.0,
+        "x2": 566.0,
+        "y2": 773.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L019",
+      "page_no": 2,
+      "line_no_in_page": 19,
+      "order": 57,
+      "text": "（13）已知$x>0$ ，则$x+{\\frac{x+9}{x}}$ 的最小值为",
+      "block_type": "text",
+      "bbox": {
+        "x1": 112.0,
+        "y1": 793.0,
+        "x2": 619.0,
+        "y2": 848.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L020",
+      "page_no": 2,
+      "line_no_in_page": 20,
+      "order": 58,
+      "text": "（14）能说明“关于x的不等式$x^{2}-ax+a>0$ 在R上恒成立”为假命题的实数a的一个取值为",
+      "block_type": "text",
+      "bbox": {
+        "x1": 112.0,
+        "y1": 870.0,
+        "x2": 1040.0,
+        "y2": 895.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L021",
+      "page_no": 2,
+      "line_no_in_page": 21,
+      "order": 59,
+      "text": "（15）某连锁超市推出会员账户充值优惠活动，会员可选择购买面值为300元，500元，1000元的充值卡为账户充值.超市规定：若单次充值总额超过700元，则账户实际到账金额会在充值总额的基础上额外再增加k元，此外使用会员账户金额购物时，实际支付的金额仅为商品总价的90%.",
+      "block_type": "text",
+      "bbox": {
+        "x1": 112.0,
+        "y1": 911.0,
+        "x2": 1083.0,
+        "y2": 1015.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L022",
+      "page_no": 2,
+      "line_no_in_page": 22,
+      "order": 60,
+      "text": "①当$k=70$ 时，若某会$ 员一次$ 购买了两张面值为300元的充值卡和一张面值为500元的充值卡为账户充值，则其账户实际到账金额能购买的商品总价为元；",
+      "block_type": "text",
+      "bbox": {
+        "x1": 107.0,
+        "y1": 1035.0,
+        "x2": 1073.0,
+        "y2": 1097.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L023",
+      "page_no": 2,
+      "line_no_in_page": 23,
+      "order": 61,
+      "text": "②为保证会员某次充值后实际到账金额能购买的商品总价不超过充值总额的1.2倍，则k的最大值为\n（16）关于定义域为R的函数$f{\\big(}x{\\big)}$ ，若对任意的正实数a，函数$y=f(x+a)-f(x)$ 在R上单调递增，则\n称$f{\\big(}x{\\big)}$ 具有性质M，给出下列四个结论：",
+      "block_type": "text",
+      "bbox": {
+        "x1": 108.0,
+        "y1": 1116.0,
+        "x2": 1083.0,
+        "y2": 1233.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L024",
+      "page_no": 2,
+      "line_no_in_page": 24,
+      "order": 62,
+      "text": "①任意在R上单调递增的函数均具有性质M；",
+      "block_type": "text",
+      "bbox": {
+        "x1": 143.0,
+        "y1": 1256.0,
+        "x2": 571.0,
+        "y2": 1279.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L025",
+      "page_no": 2,
+      "line_no_in_page": 25,
+      "order": 63,
+      "text": "②存在在R上单调递减的函数具有性质M；",
+      "block_type": "text",
+      "bbox": {
+        "x1": 143.0,
+        "y1": 1296.0,
+        "x2": 551.0,
+        "y2": 1319.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L026",
+      "page_no": 2,
+      "line_no_in_page": 26,
+      "order": 64,
+      "text": "③存在定义域为R的偶函数具有性质M；",
+      "block_type": "text",
+      "bbox": {
+        "x1": 143.0,
+        "y1": 1337.0,
+        "x2": 530.0,
+        "y2": 1359.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L027",
+      "page_no": 2,
+      "line_no_in_page": 27,
+      "order": 65,
+      "text": "④任意定义域为R的奇函数都不具有性质M.",
+      "block_type": "text",
+      "bbox": {
+        "x1": 144.0,
+        "y1": 1378.0,
+        "x2": 567.0,
+        "y2": 1400.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L028",
+      "page_no": 2,
+      "line_no_in_page": 28,
+      "order": 66,
+      "text": "其中正确结论的序号是",
+      "block_type": "text",
+      "bbox": {
+        "x1": 145.0,
+        "y1": 1419.0,
+        "x2": 420.0,
+        "y2": 1442.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L029",
+      "page_no": 2,
+      "line_no_in_page": 29,
+      "order": 67,
+      "text": "三、解答题（本大题共5小题，共70分。解答应写出文字说明，演算步骤或证明过程）（17）（本小题13分）",
+      "block_type": "text",
+      "bbox": {
+        "x1": 104.0,
+        "y1": 1459.0,
+        "x2": 904.0,
+        "y2": 1523.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P2L030",
+      "page_no": 2,
+      "line_no_in_page": 30,
+      "order": 68,
+      "text": "第2页/共9页",
+      "block_type": "text",
+      "bbox": {
+        "x1": 538.0,
+        "y1": 1655.0,
+        "x2": 648.0,
+        "y2": 1676.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L001",
+      "page_no": 3,
+      "line_no_in_page": 1,
+      "order": 69,
+      "text": "设函数$f(x)=x^{2}+(a-2)x-4\\quad(a\\in\\mathbf{R})$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 145.0,
+        "y1": 92.0,
+        "x2": 524.0,
+        "y2": 118.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L002",
+      "page_no": 3,
+      "line_no_in_page": 2,
+      "order": 70,
+      "text": "（I）当$a=0$ 时，解关于x的不等式$f(x)<-1$ ；",
+      "block_type": "text",
+      "bbox": {
+        "x1": 111.0,
+        "y1": 141.0,
+        "x2": 554.0,
+        "y2": 165.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L003",
+      "page_no": 3,
+      "line_no_in_page": 3,
+      "order": 71,
+      "text": "（Ⅱ）若$f{\\big(}x{\\big)}$ 在区间$\\left[-2,5\\right]$ 上是单调函数，求a的取值范围.",
+      "block_type": "text",
+      "bbox": {
+        "x1": 112.0,
+        "y1": 189.0,
+        "x2": 665.0,
+        "y2": 217.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L004",
+      "page_no": 3,
+      "line_no_in_page": 4,
+      "order": 72,
+      "text": "（18）（本小题13分）",
+      "block_type": "text",
+      "bbox": {
+        "x1": 113.0,
+        "y1": 238.0,
+        "x2": 308.0,
+        "y2": 260.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L005",
+      "page_no": 3,
+      "line_no_in_page": 5,
+      "order": 73,
+      "text": "已知函数$f(x)=\\frac{1-\\cos^{2}x}{\\sin x}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 146.0,
+        "y1": 292.0,
+        "x2": 411.0,
+        "y2": 352.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L006",
+      "page_no": 3,
+      "line_no_in_page": 6,
+      "order": 74,
+      "text": "（I）求$f{\\big(}x{\\big)}$ 的定义域；",
+      "block_type": "text",
+      "bbox": {
+        "x1": 112.0,
+        "y1": 385.0,
+        "x2": 343.0,
+        "y2": 411.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L007",
+      "page_no": 3,
+      "line_no_in_page": 7,
+      "order": 75,
+      "text": "（Ⅱ）若$f(\\theta)=\\frac{2\\sqrt{5}}{5},\\quad\\theta\\in\\left(\\frac{\\pi}{2},\\pi\\right)$ ，求tanθ与$\\cos(\\pi-2\\theta)$ 的值.",
+      "block_type": "text",
+      "bbox": {
+        "x1": 112.0,
+        "y1": 445.0,
+        "x2": 748.0,
+        "y2": 506.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L008",
+      "page_no": 3,
+      "line_no_in_page": 8,
+      "order": 76,
+      "text": "（19）（本小题14分）",
+      "block_type": "text",
+      "bbox": {
+        "x1": 113.0,
+        "y1": 525.0,
+        "x2": 308.0,
+        "y2": 546.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L009",
+      "page_no": 3,
+      "line_no_in_page": 9,
+      "order": 77,
+      "text": "已知函数$f(x)=\\sin\\omega x\\cos\\omega x+\\sqrt{3}\\cos^{2}\\omega x-\\frac{\\sqrt{3}}{2}(\\omega>0)$ ，且$f(x)$ 的最小正周期为元.",
+      "block_type": "text",
+      "bbox": {
+        "x1": 144.0,
+        "y1": 566.0,
+        "x2": 936.0,
+        "y2": 627.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L010",
+      "page_no": 3,
+      "line_no_in_page": 10,
+      "order": 78,
+      "text": "（I）求的值及$f(x)$ 的对称轴方程；",
+      "block_type": "text",
+      "bbox": {
+        "x1": 112.0,
+        "y1": 650.0,
+        "x2": 470.0,
+        "y2": 672.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L011",
+      "page_no": 3,
+      "line_no_in_page": 11,
+      "order": 79,
+      "text": "（Ⅱ）从条件①，条件②，条件③选择一个作为已知条件，求实数m的取值范围.",
+      "block_type": "text",
+      "bbox": {
+        "x1": 112.0,
+        "y1": 694.0,
+        "x2": 869.0,
+        "y2": 718.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L012",
+      "page_no": 3,
+      "line_no_in_page": 12,
+      "order": 80,
+      "text": "条件$\\textcircled{i}\\colon f(x)$ 在区间$(0,m)$ 上恰有两个不相同的零点；",
+      "block_type": "text",
+      "bbox": {
+        "x1": 121.0,
+        "y1": 736.0,
+        "x2": 628.0,
+        "y2": 758.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L013",
+      "page_no": 3,
+      "line_no_in_page": 13,
+      "order": 81,
+      "text": "条件$\\widehat{\\cdot\\bigcirc2}$ ：$f(x)$ 在区间$(0,m)$ 上单调递增；",
+      "block_type": "text",
+      "bbox": {
+        "x1": 123.0,
+        "y1": 776.0,
+        "x2": 500.0,
+        "y2": 799.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L014",
+      "page_no": 3,
+      "line_no_in_page": 14,
+      "order": 82,
+      "text": "条件③：在区间$(0,m)$ 上，$f(x)\\geqslant0$ 恒成立.",
+      "block_type": "text",
+      "bbox": {
+        "x1": 123.0,
+        "y1": 817.0,
+        "x2": 535.0,
+        "y2": 840.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L015",
+      "page_no": 3,
+      "line_no_in_page": 15,
+      "order": 83,
+      "text": "注：如果选择的条件不符合要求，第（Ⅱ）问得0分；如果选择多个符合要求的条件分别解答，按第一个解答计分.",
+      "block_type": "text",
+      "bbox": {
+        "x1": 103.0,
+        "y1": 859.0,
+        "x2": 1082.0,
+        "y2": 921.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L016",
+      "page_no": 3,
+      "line_no_in_page": 16,
+      "order": 84,
+      "text": "（20）（本小题15分）",
+      "block_type": "text",
+      "bbox": {
+        "x1": 113.0,
+        "y1": 941.0,
+        "x2": 308.0,
+        "y2": 962.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L017",
+      "page_no": 3,
+      "line_no_in_page": 17,
+      "order": 85,
+      "text": "已知函数$f(x)=\\frac{k}{4^{x}+2}\\quad(k\\in\\mathbf{R})$ ，且$f\\left(\\frac{1}{2}\\right)=\\frac{1}{4}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 144.0,
+        "y1": 983.0,
+        "x2": 591.0,
+        "y2": 1039.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L018",
+      "page_no": 3,
+      "line_no_in_page": 18,
+      "order": 86,
+      "text": "（I）求k的值；",
+      "block_type": "text",
+      "bbox": {
+        "x1": 112.0,
+        "y1": 1059.0,
+        "x2": 265.0,
+        "y2": 1081.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L019",
+      "page_no": 3,
+      "line_no_in_page": 19,
+      "order": 87,
+      "text": "（Ⅱ）用函数单调性的定义证明函数$f{\\big(}x{\\big)}$ 在R上单调递减，并直接写出$f{\\big(}x{\\big)}$ 的值域；",
+      "block_type": "text",
+      "bbox": {
+        "x1": 111.0,
+        "y1": 1105.0,
+        "x2": 897.0,
+        "y2": 1130.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L020",
+      "page_no": 3,
+      "line_no_in_page": 20,
+      "order": 88,
+      "text": "（Ⅲ）是否存在点$\\mathit{A}(a,b)$ 「，使得函数$f{\\big(}x{\\big)}$ 的图象关于点A对称，若存在，求实数$^{a,b}$ 的值；",
+      "block_type": "text",
+      "bbox": {
+        "x1": 112.0,
+        "y1": 1157.0,
+        "x2": 945.0,
+        "y2": 1181.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L021",
+      "page_no": 3,
+      "line_no_in_page": 21,
+      "order": 89,
+      "text": "若不存在，说明理由.",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 1204.0,
+        "x2": 367.0,
+        "y2": 1226.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L022",
+      "page_no": 3,
+      "line_no_in_page": 22,
+      "order": 90,
+      "text": "（21）（本小题15分）",
+      "block_type": "text",
+      "bbox": {
+        "x1": 113.0,
+        "y1": 1244.0,
+        "x2": 308.0,
+        "y2": 1265.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L023",
+      "page_no": 3,
+      "line_no_in_page": 23,
+      "order": 91,
+      "text": "已知集合$A_{n}=\\left\\{x\\in\\mathbf{N}^{*}\\mid\\frac{n}{x}\\in\\mathbf{N}^{*},\\frac{n}{x}\\neq1\\right\\}$ ，且$A_{n}$ 恰有$2m\\quad(m\\in\\mathbf{N}^{*}$ 且$m\\geqslant2$ 个元素．集合$B_{1},B_{2},\\cdots,B_{m}$ 满足：① .$B_{i}\\left(i=1,2,3,\\cdots,m\\right)$ 中有且只有两个元素；",
+      "block_type": "text",
+      "bbox": {
+        "x1": 142.0,
+        "y1": 1293.0,
+        "x2": 1090.0,
+        "y2": 1385.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L024",
+      "page_no": 3,
+      "line_no_in_page": 24,
+      "order": 92,
+      "text": "②$\\forall x\\in A_{n}$ ，存在唯一的$i\\in\\{1,2,\\cdots,m\\}$ ，使得$x\\in B_{i}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 142.0,
+        "y1": 1408.0,
+        "x2": 615.0,
+        "y2": 1432.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L025",
+      "page_no": 3,
+      "line_no_in_page": 25,
+      "order": 93,
+      "text": "记$B_{i}$ 中两个元素差的绝对值为$d_{i}$ .",
+      "block_type": "text",
+      "bbox": {
+        "x1": 143.0,
+        "y1": 1456.0,
+        "x2": 453.0,
+        "y2": 1480.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L026",
+      "page_no": 3,
+      "line_no_in_page": 26,
+      "order": 94,
+      "text": "（I）当$n{=}16$ 时，写出集合$A_{16}$ 及$d_{1}$ 的最大值；",
+      "block_type": "text",
+      "bbox": {
+        "x1": 112.0,
+        "y1": 1504.0,
+        "x2": 546.0,
+        "y2": 1528.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P3L027",
+      "page_no": 3,
+      "line_no_in_page": 27,
+      "order": 95,
+      "text": "第3页/共9页",
+      "block_type": "text",
+      "bbox": {
+        "x1": 538.0,
+        "y1": 1655.0,
+        "x2": 648.0,
+        "y2": 1676.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P4L001",
+      "page_no": 4,
+      "line_no_in_page": 1,
+      "order": 96,
+      "text": "（Ⅱ）求证：存在$x_{0}\\in A_{n}$ ，使得$n={x_{0}}^{2}$ ；",
+      "block_type": "text",
+      "bbox": {
+        "x1": 112.0,
+        "y1": 94.0,
+        "x2": 477.0,
+        "y2": 119.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P4L002",
+      "page_no": 4,
+      "line_no_in_page": 2,
+      "order": 97,
+      "text": "（）是否存在n以及$B_{1},B_{2},\\cdots,B_{m}$ ，使得$d_{1}=d_{2}=\\cdots=d_{m}?$ 说明理由.",
+      "block_type": "text",
+      "bbox": {
+        "x1": 112.0,
+        "y1": 141.0,
+        "x2": 746.0,
+        "y2": 168.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P4L003",
+      "page_no": 4,
+      "line_no_in_page": 3,
+      "order": 98,
+      "text": "第4页/共9页",
+      "block_type": "text",
+      "bbox": {
+        "x1": 538.0,
+        "y1": 1655.0,
+        "x2": 648.0,
+        "y2": 1676.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L001",
+      "page_no": 5,
+      "line_no_in_page": 1,
+      "order": 99,
+      "text": "参考答案",
+      "block_type": "text",
+      "bbox": {
+        "x1": 519.0,
+        "y1": 93.0,
+        "x2": 666.0,
+        "y2": 130.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L002",
+      "page_no": 5,
+      "line_no_in_page": 2,
+      "order": 100,
+      "text": "一、选择题(共10小题，每小题5分，共50分)",
+      "block_type": "text",
+      "bbox": {
+        "x1": 102.0,
+        "y1": 161.0,
+        "x2": 557.0,
+        "y2": 183.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L003",
+      "page_no": 5,
+      "line_no_in_page": 3,
+      "order": 101,
+      "text": "(1)A (2)C (3) B (4) C （5）A (6)B （7)B (8)C (9)D （10）D",
+      "block_type": "text",
+      "bbox": {
+        "x1": 144.0,
+        "y1": 202.0,
+        "x2": 868.0,
+        "y2": 266.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L004",
+      "page_no": 5,
+      "line_no_in_page": 4,
+      "order": 102,
+      "text": "二、填空题(共6小题，每小题5分，共30分)",
+      "block_type": "text",
+      "bbox": {
+        "x1": 102.0,
+        "y1": 282.0,
+        "x2": 546.0,
+        "y2": 307.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L005",
+      "page_no": 5,
+      "line_no_in_page": 5,
+      "order": 103,
+      "text": "(11)$\\frac{\\sqrt{2}}{2}$ (12)$(-\\infty,0)\\bigcup(0,1)$ （13）7",
+      "block_type": "text",
+      "bbox": {
+        "x1": 141.0,
+        "y1": 324.0,
+        "x2": 806.0,
+        "y2": 379.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L006",
+      "page_no": 5,
+      "line_no_in_page": 6,
+      "order": 104,
+      "text": "（14）0（答案不唯一）",
+      "block_type": "text",
+      "bbox": {
+        "x1": 141.0,
+        "y1": 396.0,
+        "x2": 355.0,
+        "y2": 418.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L007",
+      "page_no": 5,
+      "line_no_in_page": 7,
+      "order": 105,
+      "text": "（15)130064（16）②③④",
+      "block_type": "text",
+      "bbox": {
+        "x1": 141.0,
+        "y1": 437.0,
+        "x2": 527.0,
+        "y2": 460.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L008",
+      "page_no": 5,
+      "line_no_in_page": 8,
+      "order": 106,
+      "text": "三、解答题(共5小题，共70分）",
+      "block_type": "text",
+      "bbox": {
+        "x1": 103.0,
+        "y1": 477.0,
+        "x2": 422.0,
+        "y2": 500.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L009",
+      "page_no": 5,
+      "line_no_in_page": 9,
+      "order": 107,
+      "text": "(17）(共13分)",
+      "block_type": "text",
+      "bbox": {
+        "x1": 113.0,
+        "y1": 519.0,
+        "x2": 266.0,
+        "y2": 541.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L010",
+      "page_no": 5,
+      "line_no_in_page": 10,
+      "order": 108,
+      "text": "解：（I）当$a=0$ 时，$f(x)=x^{2}-2x-4$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 122.0,
+        "y1": 561.0,
+        "x2": 496.0,
+        "y2": 585.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L011",
+      "page_no": 5,
+      "line_no_in_page": 11,
+      "order": 109,
+      "text": "由$f(x)<-1$ ，得$x^{2}-2x-3<0$ ，即$(x-3)(x+1)<0$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 607.0,
+        "x2": 616.0,
+        "y2": 631.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L012",
+      "page_no": 5,
+      "line_no_in_page": 12,
+      "order": 110,
+      "text": "则$-1<x<3$ ·",
+      "block_type": "text",
+      "bbox": {
+        "x1": 167.0,
+        "y1": 651.0,
+        "x2": 274.0,
+        "y2": 673.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L013",
+      "page_no": 5,
+      "line_no_in_page": 13,
+      "order": 111,
+      "text": "所以不等式$f(x)<-1$ 的解集是$\\left\\{x\\middle|-1<x<3\\right\\}$ 6分",
+      "block_type": "text",
+      "bbox": {
+        "x1": 164.0,
+        "y1": 693.0,
+        "x2": 876.0,
+        "y2": 719.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L014",
+      "page_no": 5,
+      "line_no_in_page": 14,
+      "order": 112,
+      "text": "（Ⅱ）$f(x)=x^{2}+(a-2)x-4$ 的对称轴为$x=-\\frac{a-2}{2}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 741.0,
+        "x2": 630.0,
+        "y2": 785.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L015",
+      "page_no": 5,
+      "line_no_in_page": 15,
+      "order": 113,
+      "text": "若$f{\\big(}x{\\big)}$ 在区间$\\left[-2,5\\right]$ 上是单调函数，",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 804.0,
+        "x2": 485.0,
+        "y2": 828.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L016",
+      "page_no": 5,
+      "line_no_in_page": 16,
+      "order": 114,
+      "text": "则-\\frac{a-2}{2}\\leq-2 或 -\\frac{a-2}{2}\\geq5",
+      "block_type": "formula",
+      "bbox": {
+        "x1": 190.0,
+        "y1": 848.0,
+        "x2": 406.0,
+        "y2": 893.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L017",
+      "page_no": 5,
+      "line_no_in_page": 17,
+      "order": 115,
+      "text": "解得$a\\geqslant6$ 或$a\\leqslant-8$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 912.0,
+        "x2": 348.0,
+        "y2": 933.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L018",
+      "page_no": 5,
+      "line_no_in_page": 18,
+      "order": 116,
+      "text": "即$a\\in(-\\infty,-8]\\cup[6,+\\infty)$ …13分",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 951.0,
+        "x2": 857.0,
+        "y2": 976.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L019",
+      "page_no": 5,
+      "line_no_in_page": 19,
+      "order": 117,
+      "text": "(18)(共13分)",
+      "block_type": "text",
+      "bbox": {
+        "x1": 114.0,
+        "y1": 1031.0,
+        "x2": 266.0,
+        "y2": 1052.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L020",
+      "page_no": 5,
+      "line_no_in_page": 20,
+      "order": 118,
+      "text": "解：（I）依题意，$\\sin x\\neq0$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 122.0,
+        "y1": 1072.0,
+        "x2": 387.0,
+        "y2": 1094.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L021",
+      "page_no": 5,
+      "line_no_in_page": 21,
+      "order": 119,
+      "text": "所以$x\\neq k\\pi(k\\in\\mathbf{Z})$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 1114.0,
+        "x2": 346.0,
+        "y2": 1139.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L022",
+      "page_no": 5,
+      "line_no_in_page": 22,
+      "order": 120,
+      "text": "所以函数$f(x)$ 的定义域为$\\left\\{x\\mid x\\neq k\\pi,k\\in\\mathbf{Z}\\right\\}$ …4分",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 1163.0,
+        "x2": 887.0,
+        "y2": 1194.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L023",
+      "page_no": 5,
+      "line_no_in_page": 23,
+      "order": 121,
+      "text": "（Ⅱ）$f(x)=\\frac{1-\\cos^{2}x}{\\sin x}=\\frac{\\sin^{2}x}{\\sin x}=\\sin x$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 1215.0,
+        "x2": 507.0,
+        "y2": 1270.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L024",
+      "page_no": 5,
+      "line_no_in_page": 24,
+      "order": 122,
+      "text": "由$f(\\theta)=\\frac{2\\sqrt{5}}{5}$ ，得$\\sin\\theta=\\frac{2\\sqrt{5}}{5}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 168.0,
+        "y1": 1286.0,
+        "x2": 442.0,
+        "y2": 1343.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L025",
+      "page_no": 5,
+      "line_no_in_page": 25,
+      "order": 123,
+      "text": "又因为$\\theta\\in(\\frac{\\pi}{2},\\pi)$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 168.0,
+        "y1": 1368.0,
+        "x2": 333.0,
+        "y2": 1410.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L026",
+      "page_no": 5,
+      "line_no_in_page": 26,
+      "order": 124,
+      "text": "所以$\\cos\\theta=-\\sqrt{1-\\sin^{2}\\theta}=-\\sqrt{1-\\frac{4}{5}}=-\\frac{\\sqrt{5}}{5}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 1429.0,
+        "x2": 542.0,
+        "y2": 1486.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P5L027",
+      "page_no": 5,
+      "line_no_in_page": 27,
+      "order": 125,
+      "text": "第5页/共9页",
+      "block_type": "text",
+      "bbox": {
+        "x1": 538.0,
+        "y1": 1655.0,
+        "x2": 648.0,
+        "y2": 1676.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L001",
+      "page_no": 6,
+      "line_no_in_page": 1,
+      "order": 126,
+      "text": "所以$\\tan\\theta=\\frac{\\sin\\theta}{\\cos\\theta}=\\frac{\\frac{2\\sqrt{5}}{5}}{-\\frac{\\sqrt{5}}{5}}=-",
+      "block_type": "text",
+      "bbox": {
+        "x1": 167.0,
+        "y1": 93.0,
+        "x2": 445.0,
+        "y2": 204.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L002",
+      "page_no": 6,
+      "line_no_in_page": 2,
+      "order": 127,
+      "text": "2.$",
+      "block_type": "text",
+      "bbox": null,
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L003",
+      "page_no": 6,
+      "line_no_in_page": 3,
+      "order": 128,
+      "text": "所以$\\cos(\\pi-2\\theta)=-\\cos2\\theta=\\sin^2\\theta-\\cos^2\\theta=\\frac{3}{5}$ ……13分",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 223.0,
+        "x2": 903.0,
+        "y2": 275.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L004",
+      "page_no": 6,
+      "line_no_in_page": 4,
+      "order": 129,
+      "text": "(19）(共14分)",
+      "block_type": "text",
+      "bbox": {
+        "x1": 114.0,
+        "y1": 294.0,
+        "x2": 265.0,
+        "y2": 316.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L005",
+      "page_no": 6,
+      "line_no_in_page": 5,
+      "order": 130,
+      "text": "解：（I）由题意可知：$f(x)=\\sin\\omega x\\cos\\omega x+\\sqrt{3}\\cos^{2}\\omega x-\\frac{\\sqrt{3}}{2}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 123.0,
+        "y1": 335.0,
+        "x2": 687.0,
+        "y2": 389.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L006",
+      "page_no": 6,
+      "line_no_in_page": 6,
+      "order": 131,
+      "text": "\\begin{aligned}=&\\frac{1}{2}\\sin2\\omega x+\\frac{\\sqrt{3}}{2}\\cos2\\omega x\\\\=&\\sin2\\omega x\\cos\\frac{\\pi}{3}+\\cos2\\omega x\\sin\\frac{\\pi}{3}\\\\=&\\sin\\left(2\\omega x+\\frac{\\pi}{3}\\right).\\end{aligned}",
+      "block_type": "formula",
+      "bbox": {
+        "x1": 387.0,
+        "y1": 411.0,
+        "x2": 654.0,
+        "y2": 584.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L007",
+      "page_no": 6,
+      "line_no_in_page": 7,
+      "order": 132,
+      "text": "因为函数$f(x)$ 的最小正周期为元，所以$\\frac{2\\pi}{|2\\omega|}=\\pi$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 604.0,
+        "x2": 620.0,
+        "y2": 658.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L008",
+      "page_no": 6,
+      "line_no_in_page": 8,
+      "order": 133,
+      "text": "因为$\\omega>0$ ，所以$\\omega{=}1$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 678.0,
+        "x2": 385.0,
+        "y2": 701.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L009",
+      "page_no": 6,
+      "line_no_in_page": 9,
+      "order": 134,
+      "text": "所以$f(x)=\\sin\\left(2x+\\frac{\\pi}{3}\\right)$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 720.0,
+        "x2": 392.0,
+        "y2": 775.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L010",
+      "page_no": 6,
+      "line_no_in_page": 10,
+      "order": 135,
+      "text": "由$2x+\\frac{\\pi}{3}=\\frac{\\pi}{2}+k\\pi,k\\in\\mathbf{Z}$ ，得$x=\\frac{\\pi}{12}+\\frac{k\\pi}{2},k\\in\\mathbf{Z}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 168.0,
+        "y1": 800.0,
+        "x2": 579.0,
+        "y2": 848.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L011",
+      "page_no": 6,
+      "line_no_in_page": 11,
+      "order": 136,
+      "text": "所以函数$f(x)$ 的对称轴方程为$x=\\frac{\\pi}{12}+\\frac{k\\pi}{2},k\\in\\mathbf{Z}$ ……8分",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 868.0,
+        "x2": 876.0,
+        "y2": 915.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L012",
+      "page_no": 6,
+      "line_no_in_page": 12,
+      "order": 137,
+      "text": "（Ⅱ）由（I）知$f(x)=\\sin\\left(2x+\\frac{\\pi}{3}\\right)$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 934.0,
+        "x2": 498.0,
+        "y2": 987.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L013",
+      "page_no": 6,
+      "line_no_in_page": 13,
+      "order": 138,
+      "text": "因为$x\\in(0,m)$ ，所以$2x+\\frac{\\pi}{3}\\in\\left(\\frac{\\pi}{3},2m+\\frac{\\pi}{3}\\right)$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 1013.0,
+        "x2": 555.0,
+        "y2": 1059.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L014",
+      "page_no": 6,
+      "line_no_in_page": 14,
+      "order": 139,
+      "text": "选择①，因为$f(x)$ 在区间(0,m)上恰好有两个零点.",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 1076.0,
+        "x2": 645.0,
+        "y2": 1101.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L015",
+      "page_no": 6,
+      "line_no_in_page": 15,
+      "order": 140,
+      "text": "所以$2\\pi<2m+\\frac{\\pi}{3}\\leq3\\pi$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 167.0,
+        "y1": 1124.0,
+        "x2": 374.0,
+        "y2": 1167.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L016",
+      "page_no": 6,
+      "line_no_in_page": 16,
+      "order": 141,
+      "text": "所以$\\frac{5\\pi}{6}<m\\leq\\frac{4\\pi}{3}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 167.0,
+        "y1": 1189.0,
+        "x2": 337.0,
+        "y2": 1238.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L017",
+      "page_no": 6,
+      "line_no_in_page": 17,
+      "order": 142,
+      "text": "则m的取值范围是$(\\frac{5\\pi}{6}\\frac{4\\pi}{3}]$ …14分",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 1257.0,
+        "x2": 855.0,
+        "y2": 1308.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L018",
+      "page_no": 6,
+      "line_no_in_page": 18,
+      "order": 143,
+      "text": "选择②，因为$f(x)$ 在$(0,m)$ 上单调递增，",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 1325.0,
+        "x2": 539.0,
+        "y2": 1350.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L019",
+      "page_no": 6,
+      "line_no_in_page": 19,
+      "order": 144,
+      "text": "所以$\\frac{\\pi}{3}<2m+\\frac{\\pi}{3}\\leq\\frac{\\pi}{2}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 167.0,
+        "y1": 1373.0,
+        "x2": 369.0,
+        "y2": 1419.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L020",
+      "page_no": 6,
+      "line_no_in_page": 20,
+      "order": 145,
+      "text": "所以$0<m\\leq\\frac{\\pi}{12}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 1443.0,
+        "x2": 324.0,
+        "y2": 1485.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P6L021",
+      "page_no": 6,
+      "line_no_in_page": 21,
+      "order": 146,
+      "text": "第6页/共9页",
+      "block_type": "text",
+      "bbox": {
+        "x1": 539.0,
+        "y1": 1655.0,
+        "x2": 648.0,
+        "y2": 1676.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P7L001",
+      "page_no": 7,
+      "line_no_in_page": 1,
+      "order": 147,
+      "text": "则m的取值范围是$(0,\\frac{\\pi}{12}]$ 14分\n选择③，因为在区间$(0,m)$ 上有$f(x)\\geqslant0$ 恒成立.\n\n所以$\\frac{\\pi}{3}<2m+\\frac{\\pi}{3}\\leq\\pi$ \n\n所以$0<m\\leq\\frac{\\pi}{3}$ \n\n则m的取值范围是$(0,\\frac{\\pi}{3}]$ 14分\n(20)(共15分)\n\n解：（I）因为$f\\left(\\frac{1}{2}\\right)=\\frac{k}{4}=\\frac{1}{4}$ \n\n所以$k=1$ …3分\n（Ⅱ）对任意$x_{1},x_{2}\\in\\mathbf{R}$ ，且$x_{1}<x_{2}$ \n\n\n$f(x_{1})-f(x_{2})=\\frac{1}{4^{x_{1}}+2}-\\frac{1}{4^{x_{2}}+2}=\\frac{4^{x_{2}}+2-4^{x_{1}}-2}{(4^{x_{1}}+2)(4^{x_{2}}+2)}=\\frac{4^{x_{2}}-4^{x_{1}}}{(4^{x_{1}}+2)(4^{x_{2}}+2)}$ \n因为$x_{1}<x_{2}$ ，则$4^{x_{1}}<4^{x_{2}},\\quad4^{x_{2}}-4^{x_{1}}>0$ \n\n又$\\left(4^{x_{1}}+2\\right)\\left(4^{x_{2}}+2\\right)>0$ \n\n所以$\\frac{4^{x_{2}}-4^{x_{1}}}{\\left(4^{x_{1}}+2\\right)\\left(4^{x_{2}}+2\\right)}>0$ ，即$f(x_{1})-f(x_{2})>0$ \n\n所以$f(x_{1})>f(x_{2})$ \n\n所以函数$f{\\big(}x{\\big)}$ 在R上单调递减.\n\n函数$f{\\big(}x{\\big)}$ 的值域是$\\left(0,\\frac{1}{2}\\right)$ ……10分\n（Ⅲ）存在点$A\\left(\\frac{1}{2},\\frac{1}{4}\\right)$ ，使得$f{\\big(}x{\\big)}$ 的图象关于A对称.\n\n因为$f(1-x)=\\frac{1}{4^{1-x}+2}=\\frac{4^x}{4+2\\times4^x}=\\frac{4^x}{2(2+4^x)}$ \n\n则$f(x)+f(1-x)=\\frac{1}{4^{x}+2}+\\frac{4^{x}}{2(2+4^{x})}=\\frac{4^{x}+2}{2(2+4^{x})}=\\frac{1}{2}$ \n\n所以$f{\\big(}x{\\big)}$ 的图象关于点$\\left(\\frac{1}{2},\\frac{1}{4}\\right)$ 对称.\n\n所以$a=\\frac{1}{2},b=\\frac{1}{4}$ .15分\n(21）(共15分)\n\n解：（I）由题$n{=}16$ 时，$A_{16}=\\{1,2,4,8\\}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 125.0,
+        "y1": 92.0,
+        "x2": 919.0,
+        "y2": 1511.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P7L002",
+      "page_no": 7,
+      "line_no_in_page": 2,
+      "order": 148,
+      "text": "第7页/共9页",
+      "block_type": "text",
+      "bbox": {
+        "x1": 538.0,
+        "y1": 1655.0,
+        "x2": 648.0,
+        "y2": 1676.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L001",
+      "page_no": 8,
+      "line_no_in_page": 1,
+      "order": 149,
+      "text": "当$B_{1}=\\{1,8\\},\\quad B_{2}=\\{2,4\\}$ 时，$d_{1}$ 取得最大值7.4分（Ⅱ）存在.",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 93.0,
+        "x2": 912.0,
+        "y2": 161.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L002",
+      "page_no": 8,
+      "line_no_in_page": 2,
+      "order": 150,
+      "text": "不妨设$A_{n}=\\left\\{a_{1},a_{2},\\cdots,a_{2m}\\right\\}$ ,其中$1=a_{1}<a_{2}<\\cdots<a_{2m}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 182.0,
+        "x2": 651.0,
+        "y2": 209.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L003",
+      "page_no": 8,
+      "line_no_in_page": 3,
+      "order": 151,
+      "text": "\\frac{n}{a_{1}}>\\frac{n}{a_{2}}>\\cdots>\\frac{n}{a_{2m}} 且 \\frac{n}{a_{2}},\\cdots,\\frac{n}{a_{2m}}\\in A_{n},\\quad\\frac{n}{a_{1}}=n\\notin A_{n}",
+      "block_type": "formula",
+      "bbox": {
+        "x1": 168.0,
+        "y1": 232.0,
+        "x2": 641.0,
+        "y2": 285.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L004",
+      "page_no": 8,
+      "line_no_in_page": 4,
+      "order": 152,
+      "text": "\\left\\{a_{2},a_{3},\\cdots,a_{2m}\\right\\}=\\left\\{\\frac{n}{a_{2m}},\\frac{n}{a_{2m-1}},\\cdots,\\frac{n}{a_{2}}\\right\\}",
+      "block_type": "formula",
+      "bbox": {
+        "x1": 192.0,
+        "y1": 309.0,
+        "x2": 506.0,
+        "y2": 360.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L005",
+      "page_no": 8,
+      "line_no_in_page": 5,
+      "order": 153,
+      "text": "所以$\\frac{n}{a_{2m}}=a_{2},\\frac{n}{a_{2m-1}}=a_{3},\\cdots,\\frac{n}{a_{m+1}}=a_{m+1},\\cdots,\\frac{n}{a_{2}}=a_{2m}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 383.0,
+        "x2": 622.0,
+        "y2": 435.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L006",
+      "page_no": 8,
+      "line_no_in_page": 6,
+      "order": 154,
+      "text": "所以$n={a_{_{m+1}}}^{2}$ …9分",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 454.0,
+        "x2": 821.0,
+        "y2": 483.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L007",
+      "page_no": 8,
+      "line_no_in_page": 7,
+      "order": 155,
+      "text": "（）不存在，理由如下：",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 502.0,
+        "x2": 399.0,
+        "y2": 523.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L008",
+      "page_no": 8,
+      "line_no_in_page": 8,
+      "order": 156,
+      "text": "假设存在n以及$B_{1},B_{2},\\cdots,B_{m}$ ，使得.$d_{1}=d_{2}=\\cdots=d_{m}=C$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 544.0,
+        "x2": 683.0,
+        "y2": 570.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L009",
+      "page_no": 8,
+      "line_no_in_page": 9,
+      "order": 157,
+      "text": "不妨设$A_{n}=\\left\\{a_{1},a_{2},\\cdots,a_{2m}\\right\\},1=a_{1}<a_{2}<\\cdots<a_{2m},$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 593.0,
+        "x2": 597.0,
+        "y2": 619.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L010",
+      "page_no": 8,
+      "line_no_in_page": 10,
+      "order": 158,
+      "text": "$B_{i}=\\left\\{x_{i},y_{i}\\right\\}$ ，其中$x_{i}>y_{i},x_{1}=a_{2m}\\quad(i=1,2,3,\\cdots,m)$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 169.0,
+        "y1": 640.0,
+        "x2": 622.0,
+        "y2": 667.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L011",
+      "page_no": 8,
+      "line_no_in_page": 11,
+      "order": 159,
+      "text": "则$C=\\left|x_{1}-y_{1}\\right|=a_{2m}-y_{1}\\geqslant a_{2m}-a_{2m-1}.$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 167.0,
+        "y1": 687.0,
+        "x2": 501.0,
+        "y2": 715.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L012",
+      "page_no": 8,
+      "line_no_in_page": 12,
+      "order": 160,
+      "text": "又因为$A_{n}$ 中大于$a_{_{m+1}}$ 的元素共$m-1$ 个，",
+      "block_type": "text",
+      "bbox": {
+        "x1": 167.0,
+        "y1": 737.0,
+        "x2": 525.0,
+        "y2": 763.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L013",
+      "page_no": 8,
+      "line_no_in_page": 13,
+      "order": 161,
+      "text": "所以$x_{1},x_{2},\\cdots,x_{m}$ 中，必有一个数小于或等于$a_{_{m+1}}$ ，设$x_{2}\\leq a_{m+1}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 786.0,
+        "x2": 735.0,
+        "y2": 811.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L014",
+      "page_no": 8,
+      "line_no_in_page": 14,
+      "order": 162,
+      "text": "所以$C=\\left|x_{2}-y_{2}\\right|<x_{2}\\leq a_{m+1}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 167.0,
+        "y1": 830.0,
+        "x2": 422.0,
+        "y2": 858.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L015",
+      "page_no": 8,
+      "line_no_in_page": 15,
+      "order": 163,
+      "text": "由（Ⅱ）可知$a_{m+1}=\\sqrt{n}$ ，所以$a_{2m}-a_{2m-1}\\leq C<\\sqrt{n}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 167.0,
+        "y1": 878.0,
+        "x2": 632.0,
+        "y2": 911.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L016",
+      "page_no": 8,
+      "line_no_in_page": 16,
+      "order": 164,
+      "text": "所以$\\frac{n}{a_{2}}-\\frac{n}{a_{3}}<\\sqrt{n}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 167.0,
+        "y1": 933.0,
+        "x2": 335.0,
+        "y2": 982.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L017",
+      "page_no": 8,
+      "line_no_in_page": 17,
+      "order": 165,
+      "text": "因为$a_{\\gamma}$ 是n的除1外最小的因数，所以$a_{2}$ 为素数",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 1006.0,
+        "x2": 614.0,
+        "y2": 1029.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L018",
+      "page_no": 8,
+      "line_no_in_page": 18,
+      "order": 166,
+      "text": "①若$a_{3}$ 也是素数，则$\\frac{1}{a_{2}a_{3}}\\leqslant\\frac{a_{3}-a_{2}}{a_{2}a_{3}}<\\frac{1}{\\sqrt{n}}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 1052.0,
+        "x2": 549.0,
+        "y2": 1107.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L019",
+      "page_no": 8,
+      "line_no_in_page": 19,
+      "order": 167,
+      "text": "所以$\\sqrt{n}<a_{2}a_{3}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 167.0,
+        "y1": 1126.0,
+        "x2": 304.0,
+        "y2": 1156.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L020",
+      "page_no": 8,
+      "line_no_in_page": 20,
+      "order": 168,
+      "text": "因为$\\frac{n}{a_{2}}\\in\\mathbf{N}^{*},\\frac{n}{a_{3}}\\in\\mathbf{N}^{*}$ ，所以$\\frac{\\sqrt{n}}{a_{2}}\\in\\mathbf{N}^{*},\\frac{\\sqrt{n}}{a_{3}}\\in\\mathbf{N}^{*}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 1175.0,
+        "x2": 583.0,
+        "y2": 1237.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L021",
+      "page_no": 8,
+      "line_no_in_page": 21,
+      "order": 169,
+      "text": "所以$\\frac{\\sqrt{n}}{a_{2}a_{3}}\\in\\mathbf{N}^{*}$ .这与$\\sqrt{n}<a_{2}a_{3}$ 矛盾.",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 1256.0,
+        "x2": 488.0,
+        "y2": 1319.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L022",
+      "page_no": 8,
+      "line_no_in_page": 22,
+      "order": 170,
+      "text": "②若$a_{3}$ 不是素数，则$a_{3}={a_{2}}^{2}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 1341.0,
+        "x2": 439.0,
+        "y2": 1368.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L023",
+      "page_no": 8,
+      "line_no_in_page": 23,
+      "order": 171,
+      "text": "由$\\frac{a_{2}-1}{a_{2}^{2}}<\\frac{1}{\\sqrt{n}}$ 且_$a_{2}\\geqslant2$ ，可得$\\frac{1}{a_{2}^{2}}\\leqslant\\frac{a_{2}-1}{a_{2}^{2}}<\\frac{1}{\\sqrt{n}}$ ，所以$\\sqrt{n}<{a_{_2}}^{^2}$",
+      "block_type": "text",
+      "bbox": {
+        "x1": 167.0,
+        "y1": 1386.0,
+        "x2": 749.0,
+        "y2": 1442.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L024",
+      "page_no": 8,
+      "line_no_in_page": 24,
+      "order": 172,
+      "text": "所以$a_{m+1}<a_2^{2}=a_3$ ，与题设中$m\\geqslant2$ 矛盾.",
+      "block_type": "text",
+      "bbox": {
+        "x1": 166.0,
+        "y1": 1462.0,
+        "x2": 550.0,
+        "y2": 1489.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P8L025",
+      "page_no": 8,
+      "line_no_in_page": 25,
+      "order": 173,
+      "text": "第8页/共9页",
+      "block_type": "text",
+      "bbox": {
+        "x1": 538.0,
+        "y1": 1655.0,
+        "x2": 648.0,
+        "y2": 1676.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P9L001",
+      "page_no": 9,
+      "line_no_in_page": 1,
+      "order": 174,
+      "text": "综上不存在n以及$B_{1},B_{2},\\cdots,B_{m}$ ，使得$d_{1}=d_{2}=\\cdots=d_{m}$ ……15分",
+      "block_type": "text",
+      "bbox": {
+        "x1": 165.0,
+        "y1": 94.0,
+        "x2": 884.0,
+        "y2": 120.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    },
+    {
+      "line_id": "P9L002",
+      "page_no": 9,
+      "line_no_in_page": 2,
+      "order": 175,
+      "text": "第9页/共9页",
+      "block_type": "text",
+      "bbox": {
+        "x1": 539.0,
+        "y1": 1655.0,
+        "x2": 648.0,
+        "y2": 1676.0
+      },
+      "source": "ppsv3",
+      "continuation": false
+    }
+  ]
+}
