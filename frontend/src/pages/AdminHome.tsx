@@ -42,6 +42,7 @@ interface SubQuestion {
   options_line_ids?: Record<string, string[]>;
   stem?: string;
   options?: QuestionOption[] | null;
+  sub_sub_questions?: SubQuestion[];
 }
 
 interface ReviewDecision {
@@ -109,13 +110,24 @@ interface Provenance {
   evidence?: string;
 }
 
+
+interface AnswerStructure {
+  accepted_answers?: string[];
+  range?: { min?: string; max?: string };
+  error_span?: string;
+  explanation?: string;
+}
+
 interface Question {
   question_number?: string;
   question_type?: string;
+  original_question_type?: string | null;
   section_id?: string | null;
+  word_bank?: string[] | null;
   stem: string;
   options: QuestionOption[];
   answer?: string | null;
+  answer_structure?: AnswerStructure | null;
   explanation?: string | null;
   difficulty?: number | null;
   score?: number | null;
@@ -452,6 +464,68 @@ function MathText({ text, className = "" }: { text: string; className?: string }
   );
 }
 
+function SubQuestionList({ items, parentStem, depth = 0 }: { items: SubQuestion[]; parentStem: string; depth?: number }) {
+  return (
+    <div className={depth === 0 ? "subquestion-list" : "subquestion-list nested"}>
+      {items.map((sub, subIndex) => {
+        const subStem = sub.stem ?? "";
+        const redundant = subStem.length > 8 && parentStem.includes(subStem);
+        return (
+          <div key={sub.qno ?? subIndex} className="subquestion-row">
+            <div className="subquestion-head">
+              <span className="subquestion-qno">
+                {"\uff08"}{sub.qno ?? `\u5b50\u9898 ${subIndex + 1}`}{"\uff09"}
+              </span>
+              <span>{TYPE_LABELS[sub.question_type ?? ""] ?? sub.question_type ?? ""}</span>
+            </div>
+            {!redundant && sub.stem ? (
+              <div className="subquestion-stem">
+                <MathText text={sub.stem} />
+              </div>
+            ) : null}
+            {sub.options?.length ? (
+              <ol className="option-list subquestion-options">
+                {sub.options.map((option) => (
+                  <li key={option.label}>
+                    <strong>{option.label}.</strong> <MathText text={option.text} />
+                  </li>
+                ))}
+              </ol>
+            ) : null}
+            <div className="subquestion-answer">
+              {"\u7b54\u6848"} <MathText text={sub.answer || "\u7f3a\u7b54\u6848"} />
+            </div>
+            {sub.sub_sub_questions?.length ? (
+              <SubQuestionList items={sub.sub_sub_questions} parentStem={subStem || parentStem} depth={depth + 1} />
+            ) : null}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+
+function AnswerStructureView({ structure }: { structure?: AnswerStructure | null }) {
+  if (!structure) return null;
+  return (
+    <div className="answer-structure">
+      {structure.range ? (
+        <div>{"\u8303\u56f4"}{structure.range.min} ~ {structure.range.max}</div>
+      ) : null}
+      {structure.accepted_answers?.length ? (
+        <div>{"\u53ef\u9009\u7b54\u6848"}{structure.accepted_answers.join(" / ")}</div>
+      ) : null}
+      {structure.error_span ? (
+        <div>{"\u9519\u8bef\u90e8\u5206"}{structure.error_span}</div>
+      ) : null}
+      {structure.explanation ? (
+        <div>{"\u8bf4\u660e"}{structure.explanation}</div>
+      ) : null}
+    </div>
+  );
+}
+
 function QuestionImages({ images }: { images: ImageAsset[] }) {
   if (images.length === 0) {
     return null;
@@ -685,7 +759,7 @@ function QuestionCard({
       <div className="question-card-header">
         <div className="question-title">
           <strong>{key}</strong>
-          <span>{TYPE_LABELS[effective.question_type ?? ""] ?? effective.question_type ?? "未知题型"}</span>
+          <span>{TYPE_LABELS[effective.original_question_type ?? effective.question_type ?? ""] ?? effective.original_question_type ?? effective.question_type ?? "未知题型"}</span>
           {effective.section_id ? <span>{effective.section_id}</span> : null}
           {effective.is_composite ? <span>综合题</span> : null}
         </div>
@@ -754,6 +828,12 @@ function QuestionCard({
           ) : (
             <p className="muted">（题干为空）</p>
           )}
+          {effective.word_bank?.length ? (
+            <div className="word-bank-block">
+              <strong>{"\u8bcd\u5e93"}</strong>
+              <div>{effective.word_bank.join(" / ")}</div>
+            </div>
+          ) : null}
           {effective.options.length > 0 ? (
             <ol className="option-list">
               {effective.options.map((option) => (
@@ -780,37 +860,7 @@ function QuestionCard({
               <strong>子题</strong>
               {/* 2026-08-28：平铺展示——题干（与父题材料重叠时去重）→ 选项 → 答案；
                   题号包裹括号；顺序与用户反馈一致（先题干后答案）。 */}
-              {effective.sub_questions.map((sub, subIndex) => {
-                const subStem = sub.stem ?? "";
-                const parentStem = effective.stem ?? "";
-                const redundant =
-                  subStem.length > 8 && parentStem.includes(subStem);
-                return (
-                  <div key={sub.qno ?? subIndex} className="subquestion-row">
-                    <div className="subquestion-head">
-                      <span className="subquestion-qno">（{sub.qno ?? `子题 ${subIndex + 1}`}）</span>
-                      <span>{TYPE_LABELS[sub.question_type ?? ""] ?? sub.question_type ?? ""}</span>
-                    </div>
-                    {!redundant && sub.stem ? (
-                      <div className="subquestion-stem">
-                        <MathText text={sub.stem} />
-                      </div>
-                    ) : null}
-                    {sub.options?.length ? (
-                      <ol className="option-list subquestion-options">
-                        {sub.options.map((option) => (
-                          <li key={option.label}>
-                            <strong>{option.label}.</strong> <MathText text={option.text} />
-                          </li>
-                        ))}
-                      </ol>
-                    ) : null}
-                    <div className="subquestion-answer">
-                      答案 <MathText text={sub.answer || "缺答案"} />
-                    </div>
-                  </div>
-                );
-              })}
+              <SubQuestionList items={effective.sub_questions || []} parentStem={effective.stem || ""} />
             </div>
           ) : null}
         </details>
@@ -819,6 +869,7 @@ function QuestionCard({
         <details className="bank-section">
           <summary>答案</summary>
           <MathText text={formatAnswer(effective.answer) || "未匹配"} />
+          <AnswerStructureView structure={effective.answer_structure} />
           <dl className="answer-grid">
             <div>
               <dt>答案来源</dt>

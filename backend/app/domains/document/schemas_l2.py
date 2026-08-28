@@ -37,6 +37,7 @@ class L2SubQuestion:
     # 切片文本（P4E.1）：由 content_slicer 按行号切片填充，L2 标注层不产生。
     stem: str = ""              # 子题题干文本
     options: list[dict] | None = None  # 子题选项 [{"label": "A", "text": "..."}]
+    sub_sub_questions: list["L2SubQuestion"] | None = None  # recursive nested sub-questions
 
 
 # ── L2 标注 ──────────────────────────────────────────────────────
@@ -48,6 +49,7 @@ class L2QuestionAnnotation:
 
     question_number: str
     question_type: str         # single_choice / multiple_choice / fill_blank / ...
+    original_question_type: str | None = None  # LLM raw fine-grained type (cloze/grammar_fill/...)
     section_id: str | None = None     # 共享材料题的 section 标识（如 "cloze_1"）
     # 语义标记：LLM 只输出从原文复制的短标记，代码负责在 L1 中匹配并切片。
     stem_start_marker: str | None = None
@@ -58,6 +60,8 @@ class L2QuestionAnnotation:
     # 客观题短答案（如 "C"、"AB"）；非客观题由 answer_line_ids 定位后由代码切片。
     # 该字段仅允许从答案区逐字提取的短结果，不允许 LLM 生成题干/选项/详解内容。
     answer: str | None = None
+    answer_structure: dict | None = None
+    word_bank: list[str] | None = None
     answer_line_ids: list[str] = field(default_factory=list)       # 该题答案所在 L1 行
     explanation_line_ids: list[str] = field(default_factory=list)  # 该题详解/解题过程所在 L1 行
     difficulty: int | None = None     # 1-5
@@ -156,9 +160,12 @@ class SlicedQuestion:
 
     question_number: str
     question_type: str
+    original_question_type: str | None = None  # LLM raw fine-grained type (cloze/grammar_fill/...)
     stem: str = ""
     options: list[dict[str, str]] = field(default_factory=list)  # [{"label": "A", "text": "..."}]
     answer: str | None = None
+    answer_structure: dict | None = None
+    word_bank: list[str] | None = None
     explanation: str | None = None
     section_id: str | None = None
     shared_material_line_ids: list[str] = field(default_factory=list)  # 共享材料的 L1 行号

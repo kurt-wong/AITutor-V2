@@ -176,9 +176,7 @@ def slice_questions(
             subject = getattr(annotation, "subject", None)
             sq.stem = _mark_blank_positions(sq.stem, qnos, subject)
             for sub in (sq.sub_questions or []):
-                sub_stem = getattr(sub, "stem", None)
-                if sub_stem:
-                    sub.stem = _mark_blank_positions(sub_stem, qnos, subject)
+                _mark_sub_question_blanks(sub, qnos, subject)
         sliced.append(sq)
 
     # Task 2.3: 共享材料题 section_id 校验
@@ -329,22 +327,16 @@ def _merge_question_group(
         # 优先从 L2 子题元数据提取答案（_slice_single_question 传递的 question.sub_questions）
         l2_subs = q.sub_questions or []
         if l2_subs:
-            for sub in l2_subs:
-                sub_questions.append(L2SubQuestion(
-                    qno=sub.qno or q.question_number,
-                    question_type=sub.question_type or q.question_type,
-                    # 2026-08-26：选择题组综合题（共享题图）透传子题题干/选项行号
-                    stem_line_ids=sub.stem_line_ids or [],
-                    options_line_ids=sub.options_line_ids or {},
-                    answer=sub.answer,  # L2 标注层的子题答案（LLM 输出）
-                    knowledge_points=sub.knowledge_points or q.knowledge_points or [],
-                    score=sub.score or q.score,
-                    # P4E.1（2026-08-27）：按子题行号切片文本，链路全程保留。
-                    # 此前只透传行号、不切文本，入库/API/前端丢失子题内容
-                    # （完形 10 子题 A 聚合/子题无内容，LOG v6.43）。
-                    stem=_slice_lines(sub.stem_line_ids or [], line_by_id),
-                    options=_slice_options(sub.options_line_ids or {}, line_by_id),
-                ))
+            sub_questions.extend(
+                _slice_sub_question(
+                    sub,
+                    line_by_id,
+                    fallback_qno=q.question_number,
+                    fallback_kp=q.knowledge_points or [],
+                    fallback_score=q.score,
+                )
+                for sub in l2_subs
+            )
         else:
             # 无 L2 子题时回退到 SlicedQuestion 层（该层已有切片文本）
             sub_questions.append(L2SubQuestion(
@@ -410,6 +402,7 @@ def _merge_question_group(
     return SlicedQuestion(
         question_number=primary.question_number,
         question_type=primary.question_type,
+        original_question_type=primary.original_question_type,
         stem=stem,
         options=merged_options,
         section_id=primary.section_id,
@@ -426,6 +419,8 @@ def _merge_question_group(
         is_composite=True,
         sub_questions=sub_questions,
         answer=merged_answer,
+        answer_structure=primary.answer_structure,
+        word_bank=primary.word_bank,
         answer_line_ids=all_answer_lines,
         explanation_line_ids=all_explanation_lines,
     )
@@ -477,6 +472,48 @@ def _build_anchor_map(annotation: L2DocumentAnnotation) -> dict:
             result[q_num] = {}
         result[q_num][anchor.field] = anchor
     return result
+
+
+def _slice_sub_question(
+    sub,
+    line_by_id,
+    *,
+    fallback_qno=None,
+    fallback_kp=None,
+    fallback_score=None,
+):
+    """Slice a sub-question and its nested sub-questions from L1 line ids."""
+    from app.domains.document.schemas_l2 import L2SubQuestion
+    return L2SubQuestion(
+        qno=sub.qno or fallback_qno,
+        question_type=sub.question_type,
+        stem_line_ids=sub.stem_line_ids or [],
+        options_line_ids=sub.options_line_ids or {},
+        answer=sub.answer,
+        knowledge_points=sub.knowledge_points or fallback_kp or [],
+        score=sub.score or fallback_score,
+        stem=_slice_lines(sub.stem_line_ids or [], line_by_id),
+        options=_slice_options(sub.options_line_ids or {}, line_by_id),
+        sub_sub_questions=[
+            _slice_sub_question(
+                child,
+                line_by_id,
+                fallback_qno=sub.qno or fallback_qno,
+                fallback_kp=fallback_kp,
+                fallback_score=fallback_score,
+            )
+            for child in (getattr(sub, "sub_sub_questions", None) or [])
+        ] or None,
+    )
+
+
+def _mark_sub_question_blanks(sub, qnos, subject):
+    """Mark blanks recursively for parent and nested sub-question stems."""
+    sub_stem = getattr(sub, "stem", None)
+    if sub_stem:
+        sub.stem = _mark_blank_positions(sub_stem, qnos, subject)
+    for nested in (getattr(sub, "sub_sub_questions", None) or []):
+        _mark_sub_question_blanks(nested, qnos, subject)
 
 
 def _slice_single_question(
@@ -550,25 +587,15 @@ def _slice_single_question(
     # 补齐子题 stem/options 文本（此前只透传行号，入库/API/前端丢失子题
     # 内容，完形 10 子题 A 聚合/子题无内容，LOG v6.43 链路断裂 #1）。
     from app.domains.document.schemas_l2 import L2SubQuestion
-    sub_questions_out: list[L2SubQuestion] | None = None
-    if question.sub_questions:
-        sub_questions_out = []
-        for sub in question.sub_questions:
-            sub_questions_out.append(L2SubQuestion(
-                qno=sub.qno,
-                question_type=sub.question_type,
-                stem_line_ids=sub.stem_line_ids or [],
-                options_line_ids=sub.options_line_ids or {},
-                answer=sub.answer,
-                knowledge_points=sub.knowledge_points or [],
-                score=sub.score,
-                stem=_slice_lines(sub.stem_line_ids or [], line_by_id),
-                options=_slice_options(sub.options_line_ids or {}, line_by_id),
-            ))
+    sub_questions_out: list[L2SubQuestion] | None = [
+        _slice_sub_question(sub, line_by_id)
+        for sub in (question.sub_questions or [])
+    ] or None
 
     return SlicedQuestion(
         question_number=question.question_number,
         question_type=_canonical_question_type(question.question_type),
+        original_question_type=question.original_question_type or question.question_type,
         stem=stem,
         options=options,
         section_id=question.section_id,
@@ -588,6 +615,8 @@ def _slice_single_question(
         # 对非综合题会覆盖此值；综合题父题答案由 slice_questions 汇总逻辑或
         # 此透传值决定。
         answer=question.answer,
+        answer_structure=question.answer_structure,
+        word_bank=question.word_bank,
         sub_questions=sub_questions_out,
     )
 

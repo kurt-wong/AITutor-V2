@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 from app.domains.document.content_slicer import slice_questions
 from app.domains.document.schemas_l1 import L1Document, L1Line, L1Page
-from app.domains.document.schemas_l2 import L2DocumentAnnotation, L2QuestionAnnotation
+from app.domains.document.schemas_l2 import L2DocumentAnnotation, L2QuestionAnnotation, L2SubQuestion
 
 
 def _make_doc() -> L1Document:
@@ -236,6 +236,28 @@ def test_slice_canonicalizes_chinese_question_type():
 
     result = slice_questions(annotation, doc)
     assert result[0].question_type == "fill_in"
+
+
+def test_slice_preserves_original_question_type_and_section():
+    """Slice keeps the LLM fine-grained type and section_id for persistence."""
+    doc = _make_doc()
+    annotation = L2DocumentAnnotation(
+        filename="test.pdf",
+        questions=[
+            L2QuestionAnnotation(
+                question_number="1",
+                question_type="cloze",
+                section_id="cloze_1",
+                stem_line_ids=["P1L001"],
+                options_line_ids={},
+            )
+        ],
+    )
+
+    result = slice_questions(annotation, doc)
+    assert result[0].question_type == "single_choice"
+    assert result[0].original_question_type == "cloze"
+    assert result[0].section_id == "cloze_1"
 
 
 def test_section_validation_single_choice_no_section():
@@ -1143,3 +1165,89 @@ def test_seven_to_five_end_to_end_chain():
     assert "Think of the silver runner" not in texts["D"], "D 仍吞 E"
     assert texts["E"].startswith("Think of the silver runner")
     assert "〔37〕" in sq.sub_questions[0].stem, "子题空位未标记"
+
+def test_slice_nested_sub_questions():
+    """Nested sub-question stems/options are sliced recursively."""
+    doc = _make_doc()
+    annotation = L2DocumentAnnotation(
+        filename="test.pdf",
+        questions=[
+            L2QuestionAnnotation(
+                question_number="1",
+                question_type="short_answer",
+                is_composite=True,
+                stem_line_ids=["P1L001"],
+                sub_questions=[
+                    L2SubQuestion(
+                        qno="(3)",
+                        question_type="short_answer",
+                        stem_line_ids=["P1L002"],
+                        sub_sub_questions=[
+                            L2SubQuestion(
+                                qno="i",
+                                question_type="single_choice",
+                                stem_line_ids=["P1L003"],
+                                options_line_ids={"A": ["P1L004"]},
+                            )
+                        ],
+                    )
+                ],
+            )
+        ],
+    )
+    result = slice_questions(annotation, doc)
+    assert len(result) == 1
+    nested = result[0].sub_questions[0].sub_sub_questions[0]
+    assert nested.qno == "i"
+    assert "\uff08B\uff096" in nested.stem
+    assert "\uff08C\uff097" in nested.options[0]["text"]
+
+def test_slice_three_level_sub_questions():
+    """Three nested levels slice without errors."""
+    doc = _make_doc()
+    annotation = L2DocumentAnnotation(
+        filename="test.pdf",
+        questions=[
+            L2QuestionAnnotation(
+                question_number="1",
+                question_type="short_answer",
+                is_composite=True,
+                stem_line_ids=["P1L001"],
+                sub_questions=[
+                    L2SubQuestion(
+                        qno="a",
+                        stem_line_ids=["P1L002"],
+                        sub_sub_questions=[
+                            L2SubQuestion(
+                                qno="b",
+                                stem_line_ids=["P1L003"],
+                                sub_sub_questions=[
+                                    L2SubQuestion(qno="c", stem_line_ids=["P1L004"])
+                                ],
+                            )
+                        ],
+                    )
+                ],
+            )
+        ],
+    )
+    result = slice_questions(annotation, doc)
+    leaf = result[0].sub_questions[0].sub_sub_questions[0].sub_sub_questions[0]
+    assert leaf.qno == "c"
+
+def test_slice_preserves_word_bank():
+    """SlicedQuestion keeps word_bank metadata."""
+    doc = _make_doc()
+    annotation = L2DocumentAnnotation(
+        filename="test.pdf",
+        questions=[
+            L2QuestionAnnotation(
+                question_number="1",
+                question_type="fill_in",
+                word_bank=["pack", "confuse"],
+                stem_line_ids=["P1L001"],
+            )
+        ],
+    )
+    result = slice_questions(annotation, doc)
+    assert result[0].word_bank == ["pack", "confuse"]

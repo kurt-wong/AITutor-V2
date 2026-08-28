@@ -227,9 +227,13 @@ def _serialize_question(
         "question_type_id": str(q.question_type_id) if q.question_type_id else None,
         "question_type_name": (question_type_names or {}).get(str(q.question_type_id))
         if q.question_type_id else None,
+        "original_question_type": q.original_question_type,
+        "section_id": q.section_id,
         "stem": q.stem,
         "options": q.options,
         "answer": q.answer,
+        "answer_structure": getattr(q, "answer_structure", None),
+        "word_bank": getattr(q, "word_bank", None),
         "explanation": q.explanation,
         "difficulty": q.difficulty,
         "score": float(q.score) if q.score is not None else None,

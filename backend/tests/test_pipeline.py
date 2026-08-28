@@ -7,7 +7,7 @@ from pathlib import Path
 from app.ai.gateway import LLMGateway
 from app.ai.providers import MockLLMProvider
 from app.domains.document.pipeline import PipelineResult, run_pipeline
-from app.domains.document.schemas_l2 import SlicedQuestion
+from app.domains.document.schemas_l2 import L2SubQuestion, SlicedQuestion
 
 TEST_PDF = (
     Path(__file__).resolve().parents[2]
@@ -51,6 +51,27 @@ def test_pipeline_result_structure():
     assert result.sliced_questions == []
     assert result.errors == []
     assert result.to_dict()["question_count"] == 0
+
+
+def test_pipeline_result_keeps_original_question_type_and_section():
+    """PipelineResult output preserves fine-grained type and section_id."""
+    result = PipelineResult()
+    result.sliced_questions = [
+        SlicedQuestion(
+            question_number="37",
+            question_type="single_choice",
+            original_question_type="seven_to_five",
+            section_id="seven_to_five_1",
+            stem="s",
+            answer="B",
+            confidence=0.9,
+            issues=[],
+        )
+    ]
+
+    d = result.to_dict()
+    assert d["questions"][0]["original_question_type"] == "seven_to_five"
+    assert d["questions"][0]["section_id"] == "seven_to_five_1"
 
 
 def test_pipeline_result_ingest_lists():
@@ -153,3 +174,112 @@ async def test_pipeline_has_confidence():
         assert 0.0 <= sq.confidence <= 1.0
         assert hasattr(sq, "issues")
         assert isinstance(sq.issues, list)
+
+def test_pipeline_result_serializes_nested_sub_questions():
+    """PipelineResult.to_dict serializes recursive sub_questions."""
+    result = PipelineResult()
+    result.sliced_questions = [
+        SlicedQuestion(
+            question_number="1",
+            question_type="short_answer",
+            original_question_type="short_answer",
+            stem="s",
+            answer="(3) ok",
+            confidence=0.9,
+            issues=[],
+            sub_questions=[
+                L2SubQuestion(
+                    qno="(3)",
+                    question_type="short_answer",
+                    sub_sub_questions=[
+                        L2SubQuestion(qno="i", question_type="short_answer", answer="x"),
+                    ],
+                )
+            ],
+        )
+    ]
+    d = result.to_dict()
+    nested = d["questions"][0]["sub_questions"][0]["sub_sub_questions"][0]
+    assert nested["qno"] == "i"
+    assert nested["answer"] == "x"
+
+def test_pipeline_result_empty_nested_sub_questions_serialized_as_none():
+    """Empty [] sub_sub_questions are normalized to None in output."""
+    result = PipelineResult()
+    result.sliced_questions = [
+        SlicedQuestion(
+            question_number="1",
+            question_type="short_answer",
+            stem="s",
+            answer="x",
+            confidence=0.9,
+            issues=[],
+            sub_questions=[L2SubQuestion(qno="a", sub_sub_questions=[])],
+        )
+    ]
+    d = result.to_dict()
+    assert d["questions"][0]["sub_questions"][0]["sub_sub_questions"] is None
+
+
+def test_pipeline_result_serializes_three_level_sub_questions():
+    """Three levels of nested sub-questions survive serialization."""
+    result = PipelineResult()
+    result.sliced_questions = [
+        SlicedQuestion(
+            question_number="1",
+            question_type="short_answer",
+            stem="s",
+            answer="x",
+            confidence=0.9,
+            issues=[],
+            sub_questions=[
+                L2SubQuestion(
+                    qno="a",
+                    sub_sub_questions=[
+                        L2SubQuestion(
+                            qno="b",
+                            sub_sub_questions=[L2SubQuestion(qno="c", answer="leaf")],
+                        )
+                    ],
+                )
+            ],
+        )
+    ]
+    d = result.to_dict()
+    leaf = d["questions"][0]["sub_questions"][0]["sub_sub_questions"][0]["sub_sub_questions"][0]
+    assert leaf["qno"] == "c"
+    assert leaf["answer"] == "leaf"
+
+def test_pipeline_result_serializes_answer_structure():
+    """PipelineResult.to_dict preserves answer_structure metadata."""
+    result = PipelineResult()
+    result.sliced_questions = [
+        SlicedQuestion(
+            question_number="1",
+            question_type="short_answer",
+            stem="s",
+            answer="24.00~25.00",
+            answer_structure={"range": {"min": "24.00", "max": "25.00"}},
+            confidence=0.9,
+            issues=[],
+        )
+    ]
+    d = result.to_dict()
+    assert d["questions"][0]["answer_structure"] == {"range": {"min": "24.00", "max": "25.00"}}
+
+def test_pipeline_result_serializes_word_bank():
+    """PipelineResult.to_dict preserves word_bank."""
+    result = PipelineResult()
+    result.sliced_questions = [
+        SlicedQuestion(
+            question_number="1",
+            question_type="fill_in",
+            stem="s",
+            answer="confusing",
+            confidence=0.9,
+            issues=[],
+            word_bank=["confuse", "pack"],
+        )
+    ]
+    d = result.to_dict()
+    assert d["questions"][0]["word_bank"] == ["confuse", "pack"]

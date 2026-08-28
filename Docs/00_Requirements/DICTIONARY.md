@@ -133,11 +133,15 @@ Question Aggregate
 | subject_id | 学科 ID |
 | grade | 年级 |
 | question_type_id | 题型 ID |
+| original_question_type | LLM 原始细粒度题型 code（cloze/grammar_fill/seven_to_five 等），可为空 |
+| section_id | 来源卷面 section/共享材料区标识，可为空 |
 | score | 分值 |
 | difficulty | 难度 1-5 |
 | stem | 题干 |
 | options | 选项 |
 | answer | 标准答案 |
+| answer_structure | 结构化答案元数据：可包含 accepted_answers / range 等，可为空 |
+| word_bank | 选词填空题组共享词库，可为空 |
 | explanation | 详解 |
 | content_hash | 规范化文本 SHA256（Phase 2A 新增） |
 | source_type | 题目来源：document / generated / student |
@@ -434,3 +438,26 @@ Question Aggregate
 
 - `processing_status` 新增 `scanned` 状态：纯扫描版 PDF（无文本层，
   text_coverage 极低）OCR 题号不可靠，标记后跳过 OCR/LLM，后续集中处理。
+
+
+### 2026-08-28 23:50:00
+
+- questions 新增 original_question_type：LLM 原始细粒度题型 code。
+- questions 新增 section_id：来源 section/共享材料区标识。
+
+
+### 2026-08-29 00:05:00
+
+- sub_questions 支持递归 sub_sub_questions，用于多层子问结构。
+- P0-3 完成：后端数据结构、解析、切片、入库、API/JSONB、前端递归渲染均已支持。
+
+
+### 2026-08-29 00:15:00
+
+- questions 新增 answer_structure JSONB：多答案、数值范围、展示/判分扩展结构。
+
+
+### 2026-08-29 00:35:00
+
+- questions 新增 word_bank JSONB：词库独立存储。
+- 细粒度题型统计：question_type_id 可使用 cloze/grammar_fill/seven_to_five 等原始细粒度码。

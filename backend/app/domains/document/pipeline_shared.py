@@ -24,6 +24,25 @@ from app.domains.document.schemas_l2 import L2DocumentAnnotation, SlicedQuestion
 logger = logging.getLogger(__name__)
 
 
+def _serialize_sub_question(sq_sub) -> dict:
+    """Serialize a sub-question recursively for pipeline result output."""
+    return {
+        "qno": getattr(sq_sub, "qno", None),
+        "question_type": getattr(sq_sub, "question_type", None),
+        "answer": getattr(sq_sub, "answer", None),
+        "knowledge_points": getattr(sq_sub, "knowledge_points", None) or [],
+        "score": getattr(sq_sub, "score", None),
+        "stem_line_ids": getattr(sq_sub, "stem_line_ids", None) or [],
+        "options_line_ids": getattr(sq_sub, "options_line_ids", None) or {},
+        "stem": getattr(sq_sub, "stem", "") or "",
+        "options": getattr(sq_sub, "options", None) or [],
+        "sub_sub_questions": [
+            _serialize_sub_question(child)
+            for child in (getattr(sq_sub, "sub_sub_questions", None) or [])
+        ] or None,
+    }
+
+
 def _provenance_to_dict(prov) -> dict | None:
     """将 SourceProvenance 转换为可序列化的 dict。"""
     if prov is None:
@@ -178,12 +197,15 @@ class PipelineResult:
             {
                 "question_number": sq.question_number,
                 "question_type": sq.question_type,
+                "original_question_type": sq.original_question_type,
                 "section_id": sq.section_id,
                 "stem": sq.stem,
                 "stem_line_ids": sq.stem_anchor.corrected_line_ids if sq.stem_anchor else [],
                 "options": sq.options,
                 "options_line_ids": {a.field.replace("option_", ""): a.corrected_line_ids for a in sq.corrected_anchors if a.field.startswith("option_")},
                 "answer": sq.answer,
+                "answer_structure": sq.answer_structure,
+                "word_bank": sq.word_bank,
                 "explanation": sq.explanation,
                 "difficulty": sq.difficulty,
                 "score": sq.score,
@@ -203,20 +225,7 @@ class PipelineResult:
                 ),
                 "is_composite": sq.is_composite,
                 "sub_questions": [
-                    {
-                        "qno": sq_sub.qno,
-                        "question_type": sq_sub.question_type,
-                        "answer": sq_sub.answer,
-                        "knowledge_points": sq_sub.knowledge_points,
-                        "score": sq_sub.score,
-                        # P4E.1（2026-08-27）：补子题行号 + 切片文本。
-                        # 此前只输出 qno/type/answer/kp/score，子题 stem/options
-                        # 行号与文本在 to_dict 处丢失（LOG v6.43 链路断裂 #2）。
-                        "stem_line_ids": getattr(sq_sub, "stem_line_ids", None) or [],
-                        "options_line_ids": getattr(sq_sub, "options_line_ids", None) or {},
-                        "stem": getattr(sq_sub, "stem", "") or "",
-                        "options": getattr(sq_sub, "options", None) or [],
-                    }
+                    _serialize_sub_question(sq_sub)
                     for sq_sub in (sq.sub_questions or [])
                 ],
                 "review_notes": sq.review_notes or [],
@@ -258,12 +267,15 @@ class PipelineResult:
                 llm_questions.append({
                     "question_number": q.question_number,
                     "question_type": q.question_type,
+                    "original_question_type": q.original_question_type,
                     "section_id": q.section_id,
                     "stem_start_marker": q.stem_start_marker,
                     "stem_end_marker": q.stem_end_marker,
                     "stem_line_ids": q.stem_line_ids,
                     "options_line_ids": q.options_line_ids,
                     "answer_line_ids": q.answer_line_ids,
+                    "answer_structure": q.answer_structure,
+                    "word_bank": q.word_bank,
                     "explanation_line_ids": q.explanation_line_ids,
                     "stem_anchor": stem_anchor,
                     "option_anchors": {

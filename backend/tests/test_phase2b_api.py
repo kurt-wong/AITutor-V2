@@ -57,11 +57,12 @@ class FakeQuestionApplicationService:
 
     async def _fake_get_question(self, question_id):
         return SimpleNamespace(
-            id=question_id, subject_id=uuid4(), grade="高二", question_type_id=None,
+            id=question_id, subject_id=uuid4(), grade="高二", question_type_id=None, original_question_type="cloze", section_id="cloze_1", answer_structure={"accepted_answers": ["that", "which"]}, word_bank=["pack", "confuse"],
             stem="函数单调性选择题", options=[{"label": "A", "text": "增函数"}],
             answer="A", explanation="详解", difficulty=2, score=4.0,
             source_type="document", source_document_name="a.pdf", status="approved",
             confidence=0.9, occurrence_count=2, is_composite=False,
+            sub_questions=[{"qno": "(3)", "sub_sub_questions": [{"qno": "i", "answer": "x"}]}],
             created_at=None,
         )
 
@@ -69,11 +70,12 @@ class FakeQuestionApplicationService:
         self.last_search_kwargs = kwargs
         items = [
             SimpleNamespace(
-                id=uuid4(), subject_id=uuid4(), grade="高二", question_type_id=None,
+                id=uuid4(), subject_id=uuid4(), grade="高二", question_type_id=None, original_question_type="cloze", section_id="cloze_1", answer_structure={"accepted_answers": ["that", "which"]}, word_bank=["pack", "confuse"],
                 stem="函数单调性选择题", options=[{"label": "A", "text": "增函数"}],
                 answer="A", explanation="详解", difficulty=2, score=4.0,
                 source_type="document", source_document_name="a.pdf", status="approved",
                 confidence=0.9, occurrence_count=2, is_composite=False,
+            sub_questions=[{"qno": "(3)", "sub_sub_questions": [{"qno": "i", "answer": "x"}]}],
                 created_at=None,
             )
         ]
@@ -121,6 +123,11 @@ def test_search_questions_api() -> None:
         assert r.status_code == 200
         data = r.json()["data"]
         assert data["total"] == 1
+        assert data["items"][0]["original_question_type"] == "cloze"
+        assert data["items"][0]["section_id"] == "cloze_1"
+        assert data["items"][0]["sub_questions"][0]["sub_sub_questions"][0]["qno"] == "i"
+        assert data["items"][0]["answer_structure"] == {"accepted_answers": ["that", "which"]}
+        assert data["items"][0]["word_bank"] == ["pack", "confuse"]
         assert data["items"][0]["stem"] == "函数单调性选择题"
         assert data["page"] == 1
     finally:
@@ -261,4 +268,30 @@ def test_catalog_api() -> None:
         assert data[0]["grades"][0]["name"] == "高一"
     finally:
         del fake.get_catalog
+        _clear()
+
+def test_search_questions_api_handles_null_fine_grained_fields() -> None:
+    """Old/legacy rows without fine-grained fields still serialize safely."""
+    _override()
+    original_search = fake.search_questions
+    try:
+        async def _no_fine_grained(**kwargs):
+            return [SimpleNamespace(
+                id=uuid4(), subject_id=uuid4(), grade="??", question_type_id=None,
+                original_question_type=None, section_id=None, answer_structure=None,
+                stem="x", options=[], answer=None, explanation=None,
+                difficulty=None, score=None, source_type="document",
+                source_document_name="a.pdf", status="approved",
+                confidence=0.9, occurrence_count=1, is_composite=False,
+                created_at=None,
+            )], 1
+        fake.search_questions = _no_fine_grained
+        client = TestClient(app)
+        r = client.get("/api/admin/questions")
+        assert r.status_code == 200
+        item = r.json()["data"]["items"][0]
+        assert item["original_question_type"] is None
+        assert item["section_id"] is None
+    finally:
+        fake.search_questions = original_search
         _clear()

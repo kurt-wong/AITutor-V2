@@ -71,7 +71,11 @@ def normalize_sub_questions(sub_questions: list | None) -> str:
             qno = normalize_text(str(sub.get("qno", "")))
             qtype = normalize_text(str(sub.get("question_type", "")))
             answer = normalize_text(str(sub.get("answer", "")))
-            items.append(f"{qno}:{qtype}:{answer}")
+            nested = normalize_sub_questions(sub.get("sub_sub_questions"))
+            item = f"{qno}:{qtype}:{answer}"
+            if nested:
+                item += f"[{nested}]"
+            items.append(item)
     return "|".join(sorted(items))
 
 

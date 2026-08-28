@@ -2991,3 +2991,65 @@ section 标题）
 4. Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 
 **文档**：PROJECT_STATUS.md 已锁定 v3.1 状态与修复计划；bugs.md 新增 BUG-027 Open；未开始生产代码修复。
+
+### 2026-08-28 23:55:00（P0-1 完成：保留细粒度题型与 section）
+
+- 问题：对应 v3.1 P0-1，questions 表无法保留 cloze/grammar_fill/seven_to_five 等细粒度题型，也无法保留 section_id。
+- 修复：
+  - SlicedQuestion 新增 original_question_type，content_slicer 保留 LLM 原始细粒度题型。
+  - questions 新增 original_question_type VARCHAR(50)、section_id VARCHAR(100)。
+  - ingestion/API/frontend 全链路输出新字段，前端优先使用细粒度题型标签。
+  - Alembic migration：20260828_0001_add_question_original_type_section.py。
+- 验证：
+  - pytest：42 passed（test_content_slicer 全量 + pipeline 相关单元测试）。
+  - 新增 2 项回归测试：切片保留 original_question_type/section_id、PipelineResult.to_dict 输出新字段。
+  - frontend npm run build 通过。
+  - alembic current = 20260828_0001 (head)。
+  - validate_docs_vs_code.py 仅存在既有不匹配：answer_extraction_retries 表、两个 answer-retries 路由未入文档，与本次修复无关。
+- 文档：DSD/DICTIONARY 已同步；PROJECT_STATUS 暂未更新，待 Phase 1 全部完成后回写。
+
+
+### 2026-08-28 23:58:00（P0-1 对抗性审查修复）
+
+- 审查结论：P0-1 代码路径正确，但测试覆盖不足（T1-T5）；同时发现词库合并路径在 L2 阶段已将 vocabulary_fill 归一化为 fill_in，原始细粒度题型会丢失。
+- 修复：L2QuestionAnnotation 新增 original_question_type；line_annotator 保留 LLM 原始题型并在子题合并、无材料拆分、词库合并路径传递；content_slicer 优先使用 original_question_type。
+- 测试：新增 T1 入库持久化、T2 综合题合并、T3 词库合并、T4 API 序列化、T5 向后兼容；相关测试集 97 passed。
+- 测试库：aitutors_test stamp 到 20260827_0001 后执行 20260828_0001 migration，解决旧 schema 与 alembic 版本表漂移。
+- 状态：PROJECT_STATUS 标记 P0-1 完成；bugs.md BUG-027 标记 P0-1 已修复；下一环节 P0-3。
+
+
+### 2026-08-29 00:05:00（P0-3 完成：多层子问递归结构）
+
+- 实现：L2SubQuestion 新增递归 sub_sub_questions；line_annotator 解析并更新 prompt；content_slicer 递归切片与空位标记；ingestion/PipelineResult/API JSONB 递归序列化；前端新增递归 SubQuestionList 组件。
+- 测试：新增 4 项（L2 解析、切片、PipelineResult 序列化、ingestion 持久化）；相关集合 125 passed；frontend npm run build 通过。
+- 文档：DSD/DICTIONARY/PROJECT_STATUS/bugs/LOG 已同步；下一环节 P0-4。
+
+
+### 2026-08-29 00:10:00（P0-3 对抗性审查修复）
+
+- 修复：QuestionBankPage 子题题型显示调试残留，改为 TYPE_LABELS 映射；_slice_sub_question 递归传递 fallback_qno；pipeline/ingestion 序列化统一为 getattr 安全访问。
+- 补测试：T1 content_hash 嵌套子题、T2 API 透传嵌套、T3 空嵌套边界、T4 3 层递归深度。
+- 验证：相关集合 129 passed；frontend npm run build 通过。
+
+
+### 2026-08-29 00:20:00（P0-4 完成：结构化答案）
+
+- 实现：L2/SlicedQuestion 新增 answer_structure；questions 新增 answer_structure JSONB；ingestion 提供 _build_answer_structure 自动识别多答案与数值范围；API/PipelineResult 输出结构。
+- 迁移：20260829_0001_add_question_answer_structure.py，实际库与测试库均已 upgrade head。
+- 测试：新增结构推导、入库持久化、PipelineResult 输出、API 透传；相关集合 132 passed。
+- 状态：待 Claude 对抗性审查；下一环节 P1-1。
+
+
+### 2026-08-29 00:35:00（Phase 1 对抗性审查缺口全部修复）
+
+- P0-4：prompt 新增 answer_structure 契约；前端渲染 accepted_answers/range/error_span/explanation；去除中文 “或/或者” 自动拆分误判。
+- P1-1：单题词库也解析 word_bank；找词库行跳过 section 标题；词库字段入 DSD/DICTIONARY。
+- P0-1：入库优先使用 original_question_type 建立细粒度 question_type_id，支持完形/语法填空/七选五等统计。
+- 文档：DSD/DICTIONARY/PROJECT_STATUS/bugs/LOG 已同步。
+
+
+### 2026-08-29 00:45:00（Phase 1 全量回归）
+
+- 后端 pytest 全量：730 passed，5 failed。
+- 5 个 failed 均为 test_e2e_ingestion_verification：目标文档 042f5b90-4a11-4c03-aabd-bd0683442dfe 不在当前 documents 表，属环境/数据缺失，与 Phase 1 代码无关。
+- 前端 npm run build 通过；迁移 head=20260829_0002。

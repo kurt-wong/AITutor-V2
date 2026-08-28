@@ -49,9 +49,13 @@ interface QuestionRow {
   grade?: string | null;
   question_type_id?: string | null;
   question_type_name?: string | null;
+  original_question_type?: string | null;
+  section_id?: string | null;
+  word_bank?: string[] | null;
   stem: string;
   options: { label: string; text: string }[] | null;
   answer?: string | null;
+  answer_structure?: AnswerStructure | null;
   explanation?: string | null;
   difficulty?: number | null;
   score?: number | null;
@@ -85,6 +89,19 @@ interface QuestionRow {
     url?: string | null;
   }[];
 }
+
+
+type BankSubQuestion = NonNullable<QuestionRow["sub_questions"]>[number] & {
+  sub_sub_questions?: BankSubQuestion[];
+};
+
+type AnswerStructure = {
+  accepted_answers?: string[];
+  range?: { min?: string; max?: string };
+  error_span?: string;
+  explanation?: string;
+};
+
 
 const TYPE_LABELS: Record<string, string> = {
   single_choice: "单选",
@@ -225,6 +242,71 @@ function decodeName(value: string | null | undefined) {
   } catch {
     return value;
   }
+}
+
+function SubQuestionList({ items, parentStem, depth = 0 }: { items: BankSubQuestion[]; parentStem: string; depth?: number }) {
+  return (
+    <div className={depth === 0 ? "bank-subquestions" : "bank-subquestions nested"}>
+      {items.map((sub, si) => {
+        const subStem = sub.stem || "";
+        const redundant = subStem.length > 8 && parentStem.includes(subStem);
+        return (
+          <div key={sub.qno ?? si} className="bank-subquestion">
+            <div className="bank-subquestion-head">
+              <span className="bank-subquestion-qno">
+                {"\uff08"}{sub.qno ?? `\u5b50\u9898 ${si + 1}`}{"\uff09"}
+              </span>
+              {sub.question_type ? (
+                <span className="muted">{TYPE_LABELS[sub.question_type ?? ""] ?? sub.question_type ?? ""}</span>
+              ) : null}
+            </div>
+            {!redundant && subStem ? (
+              <div className="bank-subquestion-stem">
+                <MathText text={subStem} />
+              </div>
+            ) : null}
+            {sub.options && sub.options.length > 0 ? (
+              <ol className="option-list bank-subquestion-options">
+                {sub.options.map((option) => (
+                  <li key={option.label}>
+                    <strong>{option.label}.</strong>{" "}
+                    <MathText text={option.text} />
+                  </li>
+                ))}
+              </ol>
+            ) : null}
+            <div className="bank-subquestion-answer">
+              {"\u7b54\u6848"} <MathText text={sub.answer || "\u7f3a\u7b54\u6848"} />
+            </div>
+            {sub.sub_sub_questions?.length ? (
+              <SubQuestionList items={sub.sub_sub_questions} parentStem={subStem || parentStem} depth={depth + 1} />
+            ) : null}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+
+function AnswerStructureView({ structure }: { structure?: AnswerStructure | null }) {
+  if (!structure) return null;
+  return (
+    <div className="answer-structure">
+      {structure.range ? (
+        <div>{"\u8303\u56f4"}{structure.range.min} ~ {structure.range.max}</div>
+      ) : null}
+      {structure.accepted_answers?.length ? (
+        <div>{"\u53ef\u9009\u7b54\u6848"}{structure.accepted_answers.join(" / ")}</div>
+      ) : null}
+      {structure.error_span ? (
+        <div>{"\u9519\u8bef\u90e8\u5206"}{structure.error_span}</div>
+      ) : null}
+      {structure.explanation ? (
+        <div>{"\u8bf4\u660e"}{structure.explanation}</div>
+      ) : null}
+    </div>
+  );
 }
 
 function QuestionImages({ images }: { images: NonNullable<QuestionRow["images"]> }) {
@@ -619,9 +701,9 @@ export default function QuestionBankPage() {
                       {question.subject_name ? (
                         <span className="badge">{question.subject_name}</span>
                       ) : null}
-                      {question.question_type_name ? (
+                      {question.question_type_name || question.original_question_type ? (
                         <span className="badge">
-                          {TYPE_LABELS[question.question_type_name] ?? question.question_type_name}
+                          {TYPE_LABELS[question.original_question_type ?? ""] ?? question.question_type_name ?? question.original_question_type}
                         </span>
                       ) : null}
                       {question.difficulty ? (
@@ -647,6 +729,7 @@ export default function QuestionBankPage() {
                         <>
                           <div className="detail-meta">
                             {detail.grade ? <span>年级：{detail.grade}</span> : null}
+                            {detail.section_id ? <span>章节：{detail.section_id}</span> : null}
                             {detail.source_document_name ? (
                               <span>来源：{decodeName(detail.source_document_name)}</span>
                             ) : null}
@@ -660,6 +743,12 @@ export default function QuestionBankPage() {
                             <details open className="bank-section">
                               <summary>题干</summary>
                               <MathText className="stem-text" text={detail.stem || "（题干为空）"} />
+                              {detail.word_bank?.length ? (
+                                <div className="word-bank-block">
+                                  <strong>{"\u8bcd\u5e93"}</strong>
+                                  <div>{detail.word_bank.join(" / ")}</div>
+                                </div>
+                              ) : null}
                               {detail.options && detail.options.length > 0 ? (
                                 <ol className="option-list">
                                   {detail.options.map((option) => (
@@ -680,44 +769,7 @@ export default function QuestionBankPage() {
                               {detail.sub_questions && detail.sub_questions.length > 0 ? (
                                 <div className="bank-subquestions">
                                   <strong>子题</strong>
-                                  {detail.sub_questions.map((sub, si) => {
-                                    const subStem = sub.stem || "";
-                                    const parentStem = detail.stem || "";
-                                    // 子题题干是父题材料（或其长片段）时冗余 → 去重
-                                    const redundant =
-                                      subStem.length > 8 &&
-                                      parentStem.includes(subStem);
-                                    return (
-                                      <div key={sub.qno ?? si} className="bank-subquestion">
-                                        <div className="bank-subquestion-head">
-                                          <span className="bank-subquestion-qno">
-                                            （{sub.qno ?? `子题 ${si + 1}`}）
-                                          </span>
-                                          {sub.question_type ? (
-                                            <span className="muted">（{sub.question_type}）</span>
-                                          ) : null}
-                                        </div>
-                                        {!redundant && subStem ? (
-                                          <div className="bank-subquestion-stem">
-                                            <MathText text={subStem} />
-                                          </div>
-                                        ) : null}
-                                        {sub.options && sub.options.length > 0 ? (
-                                          <ol className="option-list bank-subquestion-options">
-                                            {sub.options.map((option) => (
-                                              <li key={option.label}>
-                                                <strong>{option.label}.</strong>{" "}
-                                                <MathText text={option.text} />
-                                              </li>
-                                            ))}
-                                          </ol>
-                                        ) : null}
-                                        <div className="bank-subquestion-answer">
-                                          答案 <MathText text={sub.answer || "缺答案"} />
-                                        </div>
-                                      </div>
-                                    );
-                                  })}
+                                  <SubQuestionList items={detail.sub_questions} parentStem={detail.stem || ""} />
                                 </div>
                               ) : null}
                             </details>
@@ -725,6 +777,7 @@ export default function QuestionBankPage() {
                             <details className="bank-section">
                               <summary>答案</summary>
                               <MathText text={formatAnswer(detail.answer) || "未匹配"} />
+                              <AnswerStructureView structure={detail.answer_structure} />
                             </details>
                             {/* 详解区：默认折叠 */}
                             {detail.explanation ? (

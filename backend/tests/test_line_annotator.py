@@ -8,6 +8,7 @@ from app.ai.gateway import LLMGateway
 from app.ai.providers import MockLLMProvider
 from app.domains.document.line_annotator import (
     _canonical_question_type,
+    _find_shared_wordbank_line,
     _merge_wordbank_fill_composites,
     _split_no_material_fill_composites,
     annotate_document,
@@ -736,3 +737,128 @@ def test_subquestion_normalization_feeds_short_answer_anchor_validation():
     assert len(corrected.questions) == 2
     assert corrected.questions[0].stem_line_ids == ["P1L001", "P1L002", "P1L003"]
     assert corrected.questions[1].stem_line_ids == ["P1L004", "P1L005", "P1L006"]
+
+def test_annotate_parses_nested_sub_questions():
+    """LLM nested sub_questions are parsed into L2SubQuestion recursively."""
+    doc = _make_simple_doc()
+    response = json.dumps({
+        "filename": "test.pdf",
+        "subject": "\u7269\u7406",
+        "questions": [
+            {
+                "question_number": "1",
+                "question_type": "short_answer",
+                "section_id": "\u5b9e\u9a8c\u9898_1",
+                "stem_line_ids": ["P1L002"],
+                "options_line_ids": {},
+                "is_composite": True,
+                "sub_questions": [
+                    {
+                        "qno": "(3)",
+                        "question_type": "short_answer",
+                        "stem_line_ids": ["P1L003"],
+                        "sub_sub_questions": [
+                            {
+                                "qno": "i",
+                                "question_type": "single_choice",
+                                "stem_line_ids": ["P1L004"],
+                                "options_line_ids": {"A": ["P1L005"]},
+                            }
+                        ],
+                    }
+                ],
+            }
+        ],
+        "metadata_confidence": 0.5,
+    })
+    gateway = LLMGateway(mode="live", providers=[MockLLMProvider(response=response)])
+    import asyncio
+    result = asyncio.run(annotate_document(doc, gateway))
+    nested = result.questions[0].sub_questions[0].sub_sub_questions[0]
+    assert nested.qno == "i"
+    assert nested.stem_line_ids == ["P1L004"]
+
+def test_parse_word_bank_line_splits_phrases():
+    """Word-bank lines split into stable words/phrases."""
+    from app.domains.document.line_annotator import _parse_word_bank_line
+
+    assert _parse_word_bank_line("pack; confuse; equal; contribute; athlete") == [
+        "pack", "confuse", "equal", "contribute", "athlete",
+    ]
+    assert _parse_word_bank_line("take up; put off; calm down") == [
+        "take up", "put off", "calm down",
+    ]
+
+
+def test_build_wordbank_composite_preserves_word_bank():
+    """Word-bank composite keeps a structured word_bank list."""
+    from app.domains.document.line_annotator import _build_wordbank_composite
+
+    doc = _make_simple_doc()
+    q1 = L2QuestionAnnotation(
+        question_number="1",
+        question_type="fill_in",
+        original_question_type="vocabulary_fill",
+        word_bank=["pack", "confuse"],
+        section_id="word_bank_1",
+        stem_line_ids=["P1L002"],
+    )
+    q2 = L2QuestionAnnotation(
+        question_number="2",
+        question_type="fill_in",
+        original_question_type="vocabulary_fill",
+        section_id="word_bank_1",
+        stem_line_ids=["P1L003"],
+    )
+    merged = _build_wordbank_composite([q1, q2], doc)
+    assert merged.word_bank == ["pack", "confuse"]
+
+
+def test_merge_wordbank_fill_single_attaches_word_bank():
+    """A single word-fill question still gets a structured word_bank."""
+    lines = [
+        L1Line("P2L001", 2, 1, 1, "\u7b2c\u4e8c\u8282 \u9009\u8bcd\u586b\u7a7a", "text"),
+        L1Line("P2L002", 2, 2, 2, "pack; confuse; equal", "text"),
+        L1Line("P2L003", 2, 3, 3, "21. It is too ________ to me.", "text"),
+    ]
+    doc = L1Document(
+        filename="test.pdf",
+        pages=[L1Page(page_no=2, lines=lines)],
+        lines=lines,
+        source="ppsv3",
+        total_pages=2,
+    )
+    q = L2QuestionAnnotation(
+        question_number="21",
+        question_type="fill_in",
+        section_id="\u9009\u8bcd\u586b\u7a7a",
+        stem_line_ids=["P2L003"],
+        shared_material_line_ids=[],
+    )
+    result = _merge_wordbank_fill_composites([q], doc)
+    assert result[0].word_bank == ["pack", "confuse", "equal"]
+    assert "P2L002" in result[0].shared_material_line_ids
+    assert "P2L002" in result[0].stem_line_ids
+
+
+def test_find_shared_wordbank_line_skips_section_header():
+    """Section headers are not mistaken for the word-bank line."""
+    lines = [
+        L1Line("P2L001", 2, 1, 1, "\u7b2c\u4e8c\u8282 \u9009\u8bcd\u586b\u7a7a", "text"),
+        L1Line("P2L002", 2, 2, 2, "pack; confuse; equal", "text"),
+        L1Line("P2L003", 2, 3, 3, "21. It is too ________ to me.", "text"),
+    ]
+    doc = L1Document(
+        filename="test.pdf",
+        pages=[L1Page(page_no=2, lines=lines)],
+        lines=lines,
+        source="ppsv3",
+        total_pages=2,
+    )
+    q = L2QuestionAnnotation(
+        question_number="21",
+        question_type="fill_in",
+        section_id="\u9009\u8bcd\u586b\u7a7a",
+        stem_line_ids=["P2L003"],
+    )
+    assert _find_shared_wordbank_line(doc, q) == "P2L002"

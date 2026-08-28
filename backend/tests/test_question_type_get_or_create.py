@@ -126,3 +126,14 @@ class TestGetQuestionTypeIdGetOrCreate:
         # 当前实现不按 subject_id 隔离题型，所以 subject_id 的值不阻断入库。
         qt = await db.get(QuestionType, qid_math)
         assert qt is not None
+
+
+@pytest.mark.asyncio
+async def test_creates_fine_grained_cloze_type(db):
+    """Fine-grained original types create their own question_type_id."""
+    subj = await _make_subject(db)
+    qid = await _get_question_type_id(db, "cloze", subj.id)
+    assert qid is not None
+    qt = await db.get(QuestionType, qid)
+    assert qt.code == "cloze"
+    assert qt.name == "完形填空"

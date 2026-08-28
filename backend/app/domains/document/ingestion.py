@@ -240,7 +240,7 @@ async def _ingest_one_question(
         options=sq.options,
         question_type=sq.question_type,
         sub_questions=[
-            {"qno": sub.qno, "question_type": sub.question_type, "answer": sub.answer}
+            _sub_question_to_dict(sub)
             for sub in (sq.sub_questions or [])
         ] or None,
     )
@@ -315,7 +315,11 @@ async def _ingest_one_question(
 
     # ── 创建新 Question ──────────────────────────────────────────
     # 查找或创建题型
-    question_type_id = await _get_question_type_id(session, sq.question_type, subject.id)
+    question_type_id = await _get_question_type_id(
+        session,
+        getattr(sq, "original_question_type", None) or sq.question_type,
+        subject.id,
+    )
 
     # P4E.1（2026-08-27）：选择题组综合题父题 options 不拼接——子题选项
     # 归属子题（存 sub_questions），父题 options 置空（宁缺毋滥，LOG v6.43）。
@@ -338,6 +342,8 @@ async def _ingest_one_question(
         stem=sq.stem,
         options=parent_options,
         answer=final_answer,
+        answer_structure=getattr(sq, "answer_structure", None) or _build_answer_structure(final_answer),
+        word_bank=getattr(sq, "word_bank", None),
         explanation=final_explanation,
         source_type="document",
         source_document_name=document.filename,
@@ -346,21 +352,13 @@ async def _ingest_one_question(
         review_reason=review_reason,
         occurrence_count=1,  # 缓存字段，初始为 1
         is_composite=sq.is_composite or False,
+        original_question_type=getattr(sq, "original_question_type", None),
+        section_id=getattr(sq, "section_id", None),
         content_hash=content_hash,  # Phase 2A Step 5：规范化题干+选项+题型 SHA256
         # P4E.1：子题保存完整内容（行号 + 切片文本）。此前只存
         # qno/type/answer 三键，子题题干/选项丢失（LOG v6.43 链路断裂 #3）。
         sub_questions=[
-            {
-                "qno": sub.qno,
-                "question_type": sub.question_type,
-                "answer": sub.answer,
-                "knowledge_points": getattr(sub, "knowledge_points", None) or [],
-                "score": getattr(sub, "score", None),
-                "stem_line_ids": getattr(sub, "stem_line_ids", None) or [],
-                "options_line_ids": getattr(sub, "options_line_ids", None) or {},
-                "stem": getattr(sub, "stem", "") or "",
-                "options": getattr(sub, "options", None) or [],
-            }
+            _sub_question_to_dict(sub)
             for sub in (sq.sub_questions or [])
         ] or None,
     )
@@ -652,11 +650,20 @@ async def _get_or_create_subject(session: AsyncSession, name: str) -> Subject:
 # canonical 题型 → 中文名（P0-2 修复：get-or-create 时写入 name）
 # 与 content_slicer._QUESTION_TYPE_CANONICAL 的 canonical 枚举保持一致
 _CANONICAL_QUESTION_TYPE_NAMES = {
-    "single_choice": "单选题",
-    "multiple_choice": "多选题",
-    "fill_in": "填空题",
-    "true_false": "判断题",
-    "short_answer": "解答题",
+    'single_choice': '单选题',
+    'multiple_choice': '多选题',
+    'fill_in': '填空题',
+    'true_false': '判断题',
+    'short_answer': '解答题',
+    'cloze': '完形填空',
+    'reading': '阅读理解',
+    'grammar_fill': '语法填空',
+    'vocabulary_fill': '选词填空',
+    'word_fill': '选词填空',
+    'seven_to_five': '七选五',
+    'reading_expression': '阅读表达',
+    'essay': '写作',
+    'writing': '写作',
 }
 
 
@@ -675,16 +682,17 @@ async def _get_question_type_id(
     """
     if not type_code:
         return None
-    # canonical 归一化（与 content_slicer 一致，避免 LLM 变体导致查不到）
+    # Fine-grained original type wins; unknown/Chinese variants fall back to canonical.
     from app.domains.document.content_slicer import _canonical_question_type
     canonical = _canonical_question_type(type_code)
+    code = type_code if type_code in _CANONICAL_QUESTION_TYPE_NAMES else canonical
 
-    stmt = select(QuestionType).where(QuestionType.code == canonical)
+    stmt = select(QuestionType).where(QuestionType.code == code)
     qt = await session.scalar(stmt)
     if qt:
         return qt.id
 
-    if canonical not in _CANONICAL_QUESTION_TYPE_NAMES:
+    if code not in _CANONICAL_QUESTION_TYPE_NAMES:
         logger.warning(
             "unknown question_type code=%r (canonical=%r), skipping type id",
             type_code, canonical,
@@ -693,15 +701,53 @@ async def _get_question_type_id(
 
     qt = QuestionType(
         subject_id=subject_id,
-        code=canonical,
-        name=_CANONICAL_QUESTION_TYPE_NAMES[canonical],
+        code=code,
+        name=_CANONICAL_QUESTION_TYPE_NAMES[code],
         sort_order=0,
     )
     session.add(qt)
     await session.flush()
     logger.info("question_type created: code=%s name=%s subject=%s",
-                canonical, qt.name, subject_id)
+                code, qt.name, subject_id)
     return qt.id
+
+
+def _build_answer_structure(answer_text: str | None) -> dict | None:
+    """Build a small structured answer envelope for range/multi-answer cases."""
+    if not answer_text:
+        return None
+    text = answer_text.strip()
+    structure: dict = {}
+    if "~" in text or "～" in text:
+        parts = re.split(r"[~～]", text, maxsplit=1)
+        if len(parts) == 2:
+            left = parts[0].strip()
+            right = parts[1].strip()
+            if left and right:
+                structure["range"] = {"min": left, "max": right}
+    accepted = [part.strip() for part in re.split(r"\s*(?:/|\||;|；)\s*", text) if part.strip()]
+    if len(accepted) > 1 and all(len(part) <= 200 for part in accepted):
+        structure["accepted_answers"] = accepted
+    return structure or None
+
+
+def _sub_question_to_dict(sub) -> dict:
+    """Serialize a sub-question recursively for Question.sub_questions JSONB."""
+    return {
+        "qno": getattr(sub, "qno", None),
+        "question_type": getattr(sub, "question_type", None),
+        "answer": getattr(sub, "answer", None),
+        "knowledge_points": getattr(sub, "knowledge_points", None) or [],
+        "score": getattr(sub, "score", None),
+        "stem_line_ids": getattr(sub, "stem_line_ids", None) or [],
+        "options_line_ids": getattr(sub, "options_line_ids", None) or {},
+        "stem": getattr(sub, "stem", "") or "",
+        "options": getattr(sub, "options", None) or [],
+        "sub_sub_questions": [
+            _sub_question_to_dict(child)
+            for child in (getattr(sub, "sub_sub_questions", None) or [])
+        ] or None,
+    }
 
 
 def _normalize_options(options: list[dict] | None) -> list[dict] | None:

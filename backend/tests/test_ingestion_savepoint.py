@@ -11,7 +11,7 @@ import pytest_asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 from uuid import uuid4
 
-from sqlalchemy import text
+from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 
@@ -19,7 +19,7 @@ from app.core.config import settings
 from app.domains.document.ingestion import ingest_pipeline_result, IngestionResult
 from app.domains.document.pipeline import PipelineResult
 from app.domains.document.schemas_l1 import L1Document, L1Line, L1Page
-from app.domains.document.schemas_l2 import CorrectedAnchor, SlicedQuestion
+from app.domains.document.schemas_l2 import CorrectedAnchor, L2SubQuestion, SlicedQuestion
 from app.models import Document, Question, QuestionInstance
 
 
@@ -265,3 +265,91 @@ class TestIngestionSavepointIsolation:
             f"failed={result.failed}, errors={result.errors}"
         )
         assert result.failed >= 1
+
+@pytest.mark.asyncio
+async def test_persists_original_question_type_and_section(db):
+    """Ingestion persists fine-grained type and section_id into questions."""
+    document = _make_document(db)
+    await db.flush()
+    q = _make_question("1", "Q1 original type")
+    q.original_question_type = "cloze"
+    q.section_id = "cloze_1"
+    result = await ingest_pipeline_result(
+        db,
+        pipeline_result=_make_pipeline_result([q]),
+        document=document,
+    )
+    assert result.ingested >= 1
+    saved = await db.scalar(select(Question).where(Question.stem == "Q1 original type"))
+    assert saved is not None
+    assert saved.original_question_type == "cloze"
+    assert saved.section_id == "cloze_1"
+
+@pytest.mark.asyncio
+async def test_persists_nested_sub_questions(db):
+    """Ingestion persists recursive sub_questions into questions JSONB."""
+    document = _make_document(db)
+    await db.flush()
+    q = _make_question("1", "Q1 nested")
+    q.sub_questions = [
+        L2SubQuestion(
+            qno="(3)",
+            question_type="short_answer",
+            sub_sub_questions=[L2SubQuestion(qno="i", question_type="short_answer", answer="x")],
+        )
+    ]
+    result = await ingest_pipeline_result(
+        db,
+        pipeline_result=_make_pipeline_result([q]),
+        document=document,
+    )
+    assert result.ingested >= 1
+    saved = await db.scalar(select(Question).where(Question.stem == "Q1 nested"))
+    assert saved is not None
+    assert saved.sub_questions[0]["sub_sub_questions"][0]["qno"] == "i"
+
+def test_build_answer_structure_range_and_accepted():
+    """Range and multi-answer strings produce structured answer metadata."""
+    from app.domains.document.ingestion import _build_answer_structure
+
+    assert _build_answer_structure("24.00~25.00") == {"range": {"min": "24.00", "max": "25.00"}}
+    assert _build_answer_structure("that/which") == {"accepted_answers": ["that", "which"]}
+    assert _build_answer_structure("plain answer") is None
+    assert _build_answer_structure("因为天气或交通原因") is None
+    assert _build_answer_structure("A；B") == {"accepted_answers": ["A", "B"]}
+
+
+@pytest.mark.asyncio
+async def test_persists_answer_structure(db):
+    """Ingestion persists structured answer metadata into questions JSONB."""
+    document = _make_document(db)
+    await db.flush()
+    q = _make_question("1", "Q1 answer structure")
+    q.answer = "that/which"
+    q.answer_structure = {"accepted_answers": ["that", "which"]}
+    result = await ingest_pipeline_result(
+        db,
+        pipeline_result=_make_pipeline_result([q]),
+        document=document,
+    )
+    assert result.ingested >= 1
+    saved = await db.scalar(select(Question).where(Question.stem == "Q1 answer structure"))
+    assert saved is not None
+    assert saved.answer_structure == {"accepted_answers": ["that", "which"]}
+
+@pytest.mark.asyncio
+async def test_persists_word_bank(db):
+    """Ingestion persists word_bank JSONB."""
+    document = _make_document(db)
+    await db.flush()
+    q = _make_question("1", "Q1 word bank")
+    q.word_bank = ["pack", "confuse"]
+    result = await ingest_pipeline_result(
+        db,
+        pipeline_result=_make_pipeline_result([q]),
+        document=document,
+    )
+    assert result.ingested >= 1
+    saved = await db.scalar(select(Question).where(Question.stem == "Q1 word bank"))
+    assert saved is not None
+    assert saved.word_bank == ["pack", "confuse"]

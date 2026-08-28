@@ -282,3 +282,34 @@ def test_build_wordbank_composite_preserves_structure_signature():
     merged = _build_wordbank_composite([q1, q2], doc)
 
     assert merged.structure_signature == sig
+
+def test_build_wordbank_composite_preserves_original_question_type():
+    """Word-bank composite keeps the original vocabulary_fill type."""
+    from app.domains.document.line_annotator import _build_wordbank_composite
+
+    doc = _make_simple_doc()
+    q1 = L2QuestionAnnotation(
+        question_number="1",
+        question_type="fill_in",
+        original_question_type="vocabulary_fill",
+        section_id="word_bank_1",
+        stem_line_ids=["P1L002"],
+    )
+    q2 = L2QuestionAnnotation(
+        question_number="2",
+        question_type="fill_in",
+        original_question_type="vocabulary_fill",
+        section_id="word_bank_1",
+        stem_line_ids=["P1L003"],
+    )
+    merged = _build_wordbank_composite([q1, q2], doc)
+    assert merged.original_question_type == "vocabulary_fill"
+
+
+def test_prompt_contains_answer_structure_and_word_bank():
+    """Prompt instructs LLM to emit structured answers and word_bank."""
+    from app.domains.document.line_annotator import build_annotation_prompt
+
+    prompt = build_annotation_prompt(_make_simple_doc())
+    assert "answer_structure" in prompt
+    assert "word_bank" in prompt

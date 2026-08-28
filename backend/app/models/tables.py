@@ -132,6 +132,8 @@ class Question(Base):
     stem: Mapped[str] = mapped_column(Text, nullable=False)
     options: Mapped[Any | None] = mapped_column(JSONB)
     answer: Mapped[str | None] = mapped_column(Text)
+    answer_structure: Mapped[Any | None] = mapped_column(JSONB)
+    word_bank: Mapped[Any | None] = mapped_column(JSONB)
     explanation: Mapped[str | None] = mapped_column(Text)
     source_type: Mapped[str] = mapped_column(String(20), default="document")
     source_document_name: Mapped[str | None] = mapped_column(String(255))
@@ -141,6 +143,8 @@ class Question(Base):
     content_hash: Mapped[str | None] = mapped_column(String(64))  # SHA256，Step 5 实现 hash 逻辑
     # 综合题支持
     is_composite: Mapped[bool] = mapped_column(Boolean, default=False)
+    original_question_type: Mapped[str | None] = mapped_column(String(50))
+    section_id: Mapped[str | None] = mapped_column(String(100))
     sub_questions: Mapped[Any | None] = mapped_column(JSONB)
     # 审核原因分类
     review_reason: Mapped[str | None] = mapped_column(String(200))  # answer_missing/stem_empty/anchor_uncertain/options_anomaly/answer_suspicious

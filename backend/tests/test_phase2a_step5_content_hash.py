@@ -865,3 +865,24 @@ async def test_ingestion_inline_options_split_persisted(db, subject_id):
     q = await db.scalar(select(Question).where(Question.id == r.question_ids[0]))
     assert q.options is not None
     assert [o["label"] for o in q.options] == ["A", "B"]
+
+def test_content_hash_nested_sub_questions_included():
+    """Nested sub_sub_questions participate in content hash."""
+    base = dict(
+        stem="s",
+        question_type="short_answer",
+        sub_questions=[{
+            "qno": "(3)",
+            "question_type": "short_answer",
+            "answer": "x",
+            "sub_sub_questions": [{"qno": "i", "question_type": "short_answer", "answer": "y"}],
+        }],
+    )
+    h1 = compute_content_hash(**base)
+    changed = {**base, "sub_questions": [{
+        "qno": "(3)",
+        "question_type": "short_answer",
+        "answer": "x",
+        "sub_sub_questions": [{"qno": "i", "question_type": "short_answer", "answer": "z"}],
+    }]}
+    assert h1 != compute_content_hash(**changed)

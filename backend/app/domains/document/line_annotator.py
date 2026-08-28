@@ -37,6 +37,10 @@ _PLACEHOLDER_QUESTION_RE = re.compile(
     r"^\s*[（(]\s*\d{1,3}\s*[）)]\s*[（(]集团(?:校)?自创题[）)]\s*$"
 )
 _WORDBANK_SECTION_RE = re.compile(r"选词填空|词汇填空|vocabulary|word_fill")
+_SECTION_HEADER_RE = re.compile(
+    r"^(?:第[一二三四五六七八九十]+[节部分]|Part\s+\w+|Section\s+\w+)",
+    re.IGNORECASE,
+)
 _QUESTION_NUMBER_RE = re.compile(
     r"^\s*(?:[（(]\s*(\d{1,3})\s*[）)]|(\d{1,3})\s*[.、．])\s*"
 )
@@ -171,7 +175,12 @@ def _merge_subquestion_group(
     return L2QuestionAnnotation(
         question_number=parent_number,
         question_type="short_answer",
+        original_question_type=next(
+            (q.original_question_type for q in group if q.original_question_type), None
+        ),
         section_id=section_id,
+        answer_structure=next((q.answer_structure for q in group if q.answer_structure), None),
+        word_bank=next((q.word_bank for q in group if q.word_bank), None),
         shared_material_line_ids=shared_ids,
         stem_line_ids=stem_ids,
         options_line_ids={},
@@ -304,7 +313,10 @@ def _split_no_material_fill_composites(
                 result.append(L2QuestionAnnotation(
                     question_number=qno,
                     question_type="fill_in",
+                    original_question_type=question.original_question_type,
                     section_id=question.section_id,
+                    answer_structure=question.answer_structure,
+                    word_bank=question.word_bank,
                     shared_material_line_ids=[],
                     stem_line_ids=list(question.stem_line_ids),
                     options_line_ids={},
@@ -347,6 +359,8 @@ def _find_shared_wordbank_line(
             continue
         if _QUESTION_NUMBER_RE.match(text) or _is_placeholder_question_line(text):
             continue
+        if _SECTION_HEADER_RE.match(text):
+            continue
         candidate = line
     return candidate.line_id if candidate is not None else None
 
@@ -360,12 +374,56 @@ def _is_wordbank_fill(question: L2QuestionAnnotation) -> bool:
     )
 
 
+def _attach_word_bank_to_question(
+    question: L2QuestionAnnotation,
+    doc: L1Document,
+) -> L2QuestionAnnotation:
+    """Attach a shared word-bank line to a single word-fill question."""
+    shared_id = _find_shared_wordbank_line(doc, question)
+    if not shared_id:
+        return question
+    line_by_id = {line.line_id: line for line in doc.lines}
+    if not question.word_bank and shared_id in line_by_id:
+        question.word_bank = _parse_word_bank_line(line_by_id[shared_id].text)
+    if shared_id not in (question.shared_material_line_ids or []):
+        question.shared_material_line_ids = [shared_id] + list(question.shared_material_line_ids or [])
+    if shared_id not in (question.stem_line_ids or []):
+        question.stem_line_ids = [shared_id] + list(question.stem_line_ids or [])
+    return question
+
+
+def _parse_word_bank_line(text: str) -> list[str]:
+    """Parse a word-bank line into a stable list of words/phrases."""
+    raw = (text or "").strip()
+    if not raw:
+        return []
+    if re.search(r"[;;；，,]", raw):
+        parts = re.split(r"[;;；，,]+", raw)
+    else:
+        parts = raw.split()
+    return [p.strip().strip(".;;；，,()（）") for p in parts if p.strip()]
+
+
+def _normalize_word_bank(value) -> list[str] | None:
+    """Normalize LLM word_bank output (list or string) for L2 metadata."""
+    if isinstance(value, list):
+        cleaned = [str(v).strip() for v in value if str(v).strip()]
+        return cleaned or None
+    if isinstance(value, str):
+        return _parse_word_bank_line(value) or None
+    return None
+
+
 def _build_wordbank_composite(
     group: list[L2QuestionAnnotation],
     doc: L1Document,
 ) -> L2QuestionAnnotation:
     first = group[0]
     shared_id = _find_shared_wordbank_line(doc, first)
+    line_by_id = {line.line_id: line for line in doc.lines}
+    word_bank = list(first.word_bank or [])
+    if not word_bank and shared_id and shared_id in line_by_id:
+        word_bank = _parse_word_bank_line(line_by_id[shared_id].text)
     stem_ids: list[str] = []
     if shared_id:
         stem_ids.append(shared_id)
@@ -401,7 +459,10 @@ def _build_wordbank_composite(
     return L2QuestionAnnotation(
         question_number=first.question_number,
         question_type="fill_in",
+        original_question_type=first.original_question_type,
         section_id=first.section_id,
+        answer_structure=first.answer_structure,
+        word_bank=word_bank,
         shared_material_line_ids=[shared_id] if shared_id else list(first.stem_line_ids),
         stem_line_ids=_unique_ordered(stem_ids),
         options_line_ids={},
@@ -443,7 +504,7 @@ def _merge_wordbank_fill_composites(
         if len(group) >= 2:
             result.append(_build_wordbank_composite(group, doc))
         else:
-            result.extend(group)
+            result.append(_attach_word_bank_to_question(group[0], doc))
     return result
 
 
@@ -455,7 +516,8 @@ ANNOTATION_PROMPT = """你是一个试卷文档标注助手。给定一份试卷
 ## 规则
 1. 每个题目必须包含：question_number, question_type, section_id, stem_line_ids, options_line_ids, answer_line_ids, explanation_line_ids；question_type 使用 canonical 枚举：single_choice / multiple_choice / fill_in / true_false / short_answer
 2. difficulty 为必填字段，取值 1-5 整数（1=基础，2=简单，3=中等，4=较难，5=困难），必须为每道题给出，禁止省略。判断依据：考查单一概念的直接套用=1~2；需两步以上推理或综合两个知识点=3；涉及多知识点综合、复杂计算或易错陷阱=4；压轴题、强综合、非常规思路=5。若确实无法判断，输出 3（中等），不得输出 null。
-2b. 可选字段：score, knowledge_points, answer
+2b. 可选字段：score, knowledge_points, answer, word_bank, answer_structure
+2c. answer_structure 可选，仅当答案存在多答案/范围/特殊标注格式时输出 JSON；例如 {{"accepted_answers": ["that", "which"]}}、{{"range": {{"min": "24.00", "max": "25.00"}}}}、{{"error_span": "...", "explanation": "..."}}
 2a. 可选字段 structure_signature（仅数学/物理/化学；其余科目输出 null）：结构签名，用于后续题族分析。格式为 JSON 对象，包含：
     - object: 考查对象（如 "函数单调性"、"匀变速直线运动"、"化学平衡"）
     - task: 题目任务（如 "求值"、"判断单调性"、"计算反应速率"）
@@ -545,6 +607,7 @@ ANNOTATION_PROMPT = """你是一个试卷文档标注助手。给定一份试卷
   - answer: 子题答案
   - knowledge_points: 知识点（可选）
   - score: 分值（可选）
+  - sub_sub_questions: 可选，子题下的更深层子问（如 ⅠⅡⅢⅣ / ①②③④），结构同 sub_questions，可递归。
 
 **⚠️ 子题 stem_line_ids 必须给出（2026-08-27 P4E.1 强化）**：
 - **完形填空/语法填空/词汇填空等填空类子题**：子题"题干"就是材料中该题号对应的
@@ -731,6 +794,31 @@ async def annotate_document(
     # 构建 L2DocumentAnnotation
     questions: list[L2QuestionAnnotation] = []
     valid_line_ids = {l.line_id for l in doc.lines}
+    def _parse_subs(raw_subs: list | None) -> list[L2SubQuestion] | None:
+        if not raw_subs:
+            return None
+        parsed_subs = []
+        for sq_data in raw_subs:
+            raw_sub_opts = sq_data.get("options_line_ids", {}) or {}
+            sub_options = {
+                label: _validate_line_ids(ids, valid_line_ids, "sub_options")
+                for label, ids in raw_sub_opts.items()
+            }
+            nested_raw = sq_data.get("sub_sub_questions") or sq_data.get("sub_questions") or []
+            parsed_subs.append(L2SubQuestion(
+                qno=str(sq_data.get("qno", "")),
+                question_type=sq_data.get("question_type"),
+                stem_line_ids=_validate_line_ids(
+                    sq_data.get("stem_line_ids", []), valid_line_ids, "sub_stem"
+                ),
+                options_line_ids=sub_options,
+                answer=sq_data.get("answer"),
+                knowledge_points=sq_data.get("knowledge_points", []),
+                score=sq_data.get("score"),
+                sub_sub_questions=_parse_subs(nested_raw),
+            ))
+        return parsed_subs
+
 
     for q_data in parsed.get("questions", []):
         # 验证行 ID 有效性
@@ -769,6 +857,7 @@ async def annotate_document(
         # 实验题/多小问题型归一化（WP5）：fill_in 但题干含多个小问标记（（1）（2）...）
         # → short_answer。物理实验题（"16． （1）...（2）...（3）..."）的 LLM 题型
         # 判定在 fill_in / short_answer 间不稳定，统一归 short_answer 使锚点扩展决策一致。
+        original_question_type = str(q_data.get("question_type", "")).strip() or None
         raw_type = q_data.get("question_type", "unknown")
         raw_type = _canonical_question_type(raw_type)
         if raw_type == "fill_in":
@@ -783,33 +872,13 @@ async def annotate_document(
         # 解析综合题字段
         is_composite = q_data.get("is_composite", False)
         raw_sub_questions = q_data.get("sub_questions")
-        sub_questions = None
-        if raw_sub_questions and isinstance(raw_sub_questions, list):
-            sub_questions = []
-            for sq_data in raw_sub_questions:
-                # 2026-08-26：选择题组综合题的子题带 stem_line_ids/options_line_ids
-                # （"读图完成 18-20 题"的共享题图选择题组），解析保留，供
-                # _merge_question_group 合并时保留子题题干与选项。
-                raw_sub_opts = sq_data.get("options_line_ids", {}) or {}
-                sub_options = {
-                    label: _validate_line_ids(ids, valid_line_ids, "sub_options")
-                    for label, ids in raw_sub_opts.items()
-                }
-                sub_questions.append(L2SubQuestion(
-                    qno=str(sq_data.get("qno", "")),
-                    question_type=sq_data.get("question_type"),
-                    stem_line_ids=_validate_line_ids(
-                        sq_data.get("stem_line_ids", []), valid_line_ids, "sub_stem"
-                    ),
-                    options_line_ids=sub_options,
-                    answer=sq_data.get("answer"),
-                    knowledge_points=sq_data.get("knowledge_points", []),
-                    score=sq_data.get("score"),
-                ))
-
+        sub_questions = _parse_subs(raw_sub_questions) if isinstance(raw_sub_questions, list) else None
         question = L2QuestionAnnotation(
             question_number=str(q_data.get("question_number", "")),
             question_type=raw_type,
+            original_question_type=original_question_type,
+            answer_structure=q_data.get("answer_structure") if isinstance(q_data.get("answer_structure"), dict) else None,
+            word_bank=_normalize_word_bank(q_data.get("word_bank")),
             section_id=q_data.get("section_id"),
             stem_start_marker=stem_start_marker,
             stem_end_marker=stem_end_marker,

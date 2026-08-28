@@ -223,3 +223,14 @@ def test_slice_questions_keeps_existing_parent_answer():
     sliced = slice_questions(annotation, doc)
     assert len(sliced) == 1
     assert sliced[0].answer == "（1）已有答案"  # 不覆盖
+
+def test_merge_question_group_keeps_original_question_type():
+    """Merged composite keeps the first question fine-grained type."""
+    doc = _doc()
+    line_by_id = {l.line_id: l for l in doc.lines}
+    q1 = _make_sub_q("1", "A")
+    q1.original_question_type = "cloze"
+    q2 = _make_sub_q("2", "B")
+    q2.original_question_type = "cloze"
+    merged = _merge_question_group([q1, q2], line_by_id)
+    assert merged.original_question_type == "cloze"

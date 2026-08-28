@@ -164,11 +164,15 @@ AI 只能把题目映射到已有节点，不能创建新节点。
 | subject_id | UUID | FK subjects |
 | grade | VARCHAR | 高一/高二/高三 |
 | question_type_id | UUID | FK question_types |
+| original_question_type | VARCHAR(50) | LLM 原始细粒度题型 code（cloze/grammar_fill/seven_to_five 等），可为空 |
+| section_id | VARCHAR(100) | 来源卷面 section/共享材料区标识，可为空 |
 | score | NUMERIC | 分值，可为空 |
 | difficulty | INTEGER | 1-5 |
 | stem | TEXT | 题干 |
 | options | JSONB | 选项数组 |
 | answer | TEXT | 标准答案 |
+| answer_structure | JSONB | 结构化答案元数据（多答案/范围/扩展结构），可为空 |
+| word_bank | JSONB | 选词填空题组共享词库，可为空 |
 | explanation | TEXT | 详解 |
 | source_type | VARCHAR | document / generated / student |
 | source_document_name | VARCHAR | 来源文档名 |
@@ -177,7 +181,7 @@ AI 只能把题目映射到已有节点，不能创建新节点。
 | occurrence_count | INTEGER | 缓存字段，由 Instance COUNT 驱动 |
 | content_hash | VARCHAR(64) | SHA256（规范化题干+选项+题型），Step 5 已实现，可为 NULL（历史数据） |
 | is_composite | BOOLEAN | 是否为综合题，默认 false |
-| sub_questions | JSONB | 综合题子题元数据 |
+| sub_questions | JSONB | 综合题子题元数据（可递归 sub_sub_questions） |
 | review_reason | VARCHAR(200) | 审核原因分类 |
 | created_at | TIMESTAMPTZ | |
 | updated_at | TIMESTAMPTZ | |
@@ -631,3 +635,29 @@ DSD 必须与以下文档保持一致：
   「未来 Family/Similarity 原则」。
 - §4.5 两处过时说明同步修正：content_hash「当前可为 NULL」→「Step 5 已实现，
   可为 NULL（历史数据）」；「本步只加列」→「Step 5 已实现，20260821_0005 回填」。
+
+
+### 2026-08-28 23:50:00
+
+- 新增 questions.original_question_type VARCHAR(50)：保留 LLM 原始细粒度题型（cloze/grammar_fill/seven_to_five 等）。
+- 新增 questions.section_id VARCHAR(100)：保留卷面 section/共享材料区标识。
+- Alembic migration：20260828_0001_add_question_original_type_section.py。
+
+
+### 2026-08-29 00:05:00
+
+- questions.sub_questions JSONB 支持递归 sub_sub_questions，用于化学综合题 ⅠⅡⅢⅣ / ①②③④ 等多层子问。
+- P0-3 实现：L2QuestionAnnotation/L2SubQuestion 递归结构、line_annotator 解析、content_slicer 切片、ingestion 序列化、前端递归渲染。
+
+
+### 2026-08-29 00:15:00
+
+- questions 新增 answer_structure JSONB：保存结构化答案（可包含 accepted_answers/range 等），原始答案仍保留在 answer TEXT。
+- Alembic migration：20260829_0001_add_question_answer_structure.py。
+
+
+### 2026-08-29 00:35:00
+
+- questions 新增 word_bank JSONB：词库独立存储，单题与多题词库路径均支持。
+- Alembic migration：20260829_0002_add_question_word_bank.py。
+- P0-1 统计补强：入库优先使用 original_question_type 建立细粒度 question_type_id。
