@@ -65,9 +65,9 @@ Phase 2A/2B/2C 已验收；OCR Provider 策略落地；Sprint 治理五项完成
 - V2 `backend\.env`：DEEPSEEK_API_KEY 已换新（已验证）；V1 遗留 v4-pro 强制 +
   explain_queue 6 任务待处理。
 
-## 当前焦点（修复优先）
+## 当前焦点
 
-1. **Phase 1 数据契约**：P0-1/P0-3/P0-4/P1-1，涉及 L2/Sliced/Question/API/前端、Alembic migration、DSD/DICTIONARY 同步。
+1. **Phase 1 数据契约**：已完成（P0-1/P0-3/P0-4/P1-1），下一步进入 Phase 2。
 2. **Phase 2 英语**：P0-2/P1-3/P1-4/P2，涉及题型映射、prompt、空位保护、七选五校验和展示增强。
 3. **Phase 3 理科**：P0-5/P1-2，涉及化学式标准化和答案图子题绑定。
 4. **Phase 4 验收**：新增回归测试 + golden + 重跑东城英语/样本卷。
