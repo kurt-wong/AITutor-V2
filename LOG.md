@@ -3084,3 +3084,10 @@ section 标题）
 - 第二部分：北京高考各科题型清单（2026年版），含统一高考与学考等级考模式说明。
 - 用户后续可继续补充北京卷细分题型；文档保留为题型分类与切片入库的基础契约。
 
+#### 2026-08-29 17:00:00 验收遗留项测试闭环
+
+- P2-2：新增 `frontend/tests/answer.test.mjs`，用 Node 24 原生 `node:test` 覆盖 `answerWithOptionText/isOptionCorrect` 多答案、单答案、空答案、非字母答案边界；`package.json` 新增 `npm test`。
+- P0-4：`test_build_answer_structure_range_and_accepted` 补强全角波浪范围、管道多答案、None/空/见解析边界。
+- INFO 化学式 pipeline 集成测试：`test_simple_pipeline_normalizes_chemistry_formulas` 已存在，验证 subject=化学 时完整管线自动归一化。
+- 验证：`npm test` 5 passed，`npm run build` 通过，后端相关测试 8 passed。
+

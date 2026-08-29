@@ -119,3 +119,9 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 - 新增 `Docs/00_Requirements/QUESTION_TYPE_TREE.md`：记录全国新高考九科题型树与北京高考 2026 题型清单。
 - 待补充：北京卷后续细分题型；该文档将作为题型分类与题库展示的基础。
 
+## 验收遗留项（2026-08-29）
+
+- P2-2 前端纯函数已补 Node 原生测试，`npm test` 5 passed。
+- P0-4 `_build_answer_structure` 独立测试已补强边界。
+- 化学式完整 pipeline 集成测试已存在并通过。
+

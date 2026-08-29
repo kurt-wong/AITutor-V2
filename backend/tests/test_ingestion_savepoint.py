@@ -317,6 +317,11 @@ def test_build_answer_structure_range_and_accepted():
     assert _build_answer_structure("plain answer") is None
     assert _build_answer_structure("因为天气或交通原因") is None
     assert _build_answer_structure("A；B") == {"accepted_answers": ["A", "B"]}
+    assert _build_answer_structure("25.00～26.00") == {"range": {"min": "25.00", "max": "26.00"}}
+    assert _build_answer_structure("A|B|C") == {"accepted_answers": ["A", "B", "C"]}
+    assert _build_answer_structure(None) is None
+    assert _build_answer_structure("") is None
+    assert _build_answer_structure("见解析") is None
 
 
 @pytest.mark.asyncio
