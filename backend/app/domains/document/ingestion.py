@@ -19,6 +19,7 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domains.document.answer_extractor import AnswerExtractionResult
+from app.domains.document.chemistry_formula import normalize_chemistry_question
 from app.domains.document.content_hash import compact_answer, compute_content_hash
 from app.domains.document.pipeline_shared import PipelineResult
 from app.domains.document.schemas_l2 import SlicedQuestion
@@ -128,6 +129,11 @@ async def ingest_pipeline_result(
     if not subject_name:
         subject_name = _FALLBACK_SUBJECT_NAME
     subject = await _get_or_create_subject(session, subject_name)
+    subject_name = subject.name
+
+    if subject_name == "化学":
+        for sq in sliced_questions:
+            normalize_chemistry_question(sq)
 
     # 获取答案映射
     answer_map = answer_result.answers if answer_result else {}
@@ -391,6 +397,7 @@ async def _ingest_one_question(
             page_no=img.get("page_no"),
             bbox=img.get("bbox"),
             placement=img.get("placement", "stem"),
+            sub_question_qno=img.get("sub_question_qno"),
             source=img.get("source", "paddleocr"),
             figure_id=img.get("figure_id"),
             url=img.get("url"),  # 2026-08-27：保存 OCR 图片 URL，前端可显示实际图片

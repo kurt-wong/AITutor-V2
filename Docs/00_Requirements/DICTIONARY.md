@@ -184,6 +184,7 @@ Question Aggregate
 | page_no | 配图来源页码 |
 | bbox | 配图在来源页面上的坐标 |
 | placement | 配图位置：stem / options / answer / explanation / page_context |
+| sub_question_qno | 答案图绑定的子题号，可为空 |
 | source | 配图来源：native / paddleocr / vl / manual |
 | figure_id | 同一物理图在文档级去重中的稳定标识 |
 
@@ -469,4 +470,9 @@ Question Aggregate
 - P1-4 七选五 A-G 完整性：子题选项标签缺失时生成 sub_options retry 锚点并触发重试。
 - P2-2 展示增强：前端高亮正确选项并在答案区显示对应选项文本。
 - P2-1 保持现状：指令文本继续保留在题干区，符合当前展示标准，不新增 instruction 字段。
+
+### 2026-08-29 15:30:00
+
+- P0-5 化学式标准化：新增 chemistry_formula.py，OCR 括号式下标/上标归一化为 Cl₂、OH⁻、Fe₂O₃、Fe³⁺、Mg(OH)₂ 等。
+- P1-2 答案图子题绑定：question_images 新增 sub_question_qno；空间邻近算法绑定答案图到最近子题。
 

@@ -23,6 +23,7 @@ from app.domains.document.anchor_corrector import (
     correct_anchors,
 )
 from app.domains.document.answer_matcher import match_answers
+from app.domains.document.chemistry_formula import normalize_chemistry_question
 from app.domains.document.content_slicer import slice_questions
 from app.domains.document.image_deduplicator import deduplicate_images
 from app.domains.document.line_annotator import annotate_document
@@ -571,6 +572,9 @@ async def run_simple_pipeline(
             await _emit_progress(f"answer_matching{suffix}", 0.7)
             stage_start = time.perf_counter()
             sliced = match_answers(sliced, doc, llm_annotation=annotation)
+            if (subject or "").strip() == "化学" or (annotation.subject or "").strip() == "化学":
+                for sq in sliced:
+                    normalize_chemistry_question(sq)
             matched = sum(1 for sq in sliced if sq.answer is not None)
             result.add_stage(
                 f"answer_matching{suffix}",

@@ -1,7 +1,7 @@
 # AI Tutor Personal Edition — PROJECT_STATUS
 
 Version: 6.45
-Status: v6.45 Phase 2 英语 P0-2/P1-3/P1-4/P2-2 已修复并回归通过；P2-1 保持题干区现状；下一步 Phase 3 理科。
+Status: v6.45 Phase 2/3 修复完成；P0-2/P1-3/P1-4/P2-2/P0-5/P1-2 已回归通过；P2-1 保持题干区现状；下一步 Phase 4 验收。
 Date: 2026-08-29
 
 ---
@@ -69,7 +69,7 @@ Phase 2A/2B/2C 已验收；OCR Provider 策略落地；Sprint 治理五项完成
 
 1. **Phase 1 数据契约**：已完成（P0-1/P0-3/P0-4/P1-1），下一步进入 Phase 2。
 2. **Phase 2 英语**：已完成（P0-2/P1-3/P1-4/P2-2；P2-1 保持题干区现状），下一步 Phase 3 理科。
-3. **Phase 3 理科**：P0-5/P1-2，涉及化学式标准化和答案图子题绑定。
+3. **Phase 3 理科**：已完成（P0-5 化学式标准化、P1-2 答案图子题绑定）。
 4. **Phase 4 验收**：新增回归测试 + golden + 重跑东城英语/样本卷。
 5. **异步富化**（暂缓）：待题型/答案结构修复稳定后重新设计。
 6. **批量导入（P4E.2）**：修复验收后按 清单 → 30 份 → 100 份 → 全量推进。
@@ -87,7 +87,7 @@ Phase 2A/2B/2C 已验收；OCR Provider 策略落地；Sprint 治理五项完成
 
 Phase 1 数据契约：全部完成（P0-1/P0-3/P0-4/P1-1），含细粒度题型、section、递归子问、answer_structure、word_bank。
 Phase 2 英语：已完成（P0-2/P1-3/P1-4/P2-2；P2-1 保持题干区现状）。
-Phase 3 理科：P0-5/P1-2，涉及化学式标准化和答案图子题绑定。
+Phase 3 理科：已完成（P0-5 化学式标准化、P1-2 答案图子题绑定）。
 Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 
 ## 历史与快照
@@ -106,5 +106,11 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 - 对抗性审查修复：P1-3 百分号误标封堵、P1-4 缺 sub_questions retry、P2-2 多答案高亮与共享工具。
 - P2-1：指令文本仍保留在题干区，符合当前展示标准，暂不新增 instruction 字段。
 - 验证：后端 739 passed（5 failed 仅为已知 e2e 目标文档缺失），前端 npm run build 通过。
-- 下一步：Phase 3 P0-5 化学式标准化、P1-2 答案图子题绑定。
+- 下一步：Phase 4 验收（golden + 重跑东城英语/样本卷）。
+
+## Phase 3 状态（2026-08-29）
+
+- P0-5：化学式标准化已接入 ingestion/pipeline/simple_pipeline；支持 Cl₂、OH⁻、Fe₂O₃、Fe³⁺、Mg(OH)₂ 等常见 OCR 形态。
+- P1-2：question_images.sub_question_qno 已落库，答案图按空间邻近绑定到子题，API/前端按子题过滤展示。
+- 验证：后端 746 passed（5 failed 仅为已知 e2e 目标文档缺失）；前端 npm run build 通过；真实库与测试库均升级到 20260829_0003。
 

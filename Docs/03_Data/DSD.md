@@ -205,6 +205,7 @@ AI 只能把题目映射到已有节点，不能创建新节点。
 | page_no | INTEGER | 配图来源页码 |
 | bbox | JSONB | 配图在来源页面上的坐标 |
 | placement | VARCHAR | stem / options / answer / explanation / page_context |
+| sub_question_qno | VARCHAR(100) | 答案图绑定的子题号，可为空 |
 | source | VARCHAR | native / paddleocr / vl / manual |
 | figure_id | VARCHAR | 同一物理图在文档级去重中的稳定标识 |
 | created_at | TIMESTAMPTZ | |
@@ -668,4 +669,9 @@ DSD 必须与以下文档保持一致：
 - P1-3：填空位标记增加普通数字上下文保护，英语正文数字误标风险收敛。
 - P1-4：七选五 A-G 标签完整性进入锚点校验，缺失时 retry。
 - P2-2：前端展示层增强，不涉及数据 schema。
+
+### 2026-08-29 15:30:00
+
+- P1-2：question_images 新增 sub_question_qno VARCHAR(100)，用于答案图子题粒度绑定；Alembic migration 20260829_0003。
+- P0-5：化学式文本标准化，无 schema 变更。
 

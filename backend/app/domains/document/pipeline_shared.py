@@ -341,6 +341,36 @@ def save_result(result: PipelineResult, output_path: Path) -> None:
     logger.info("pipeline result saved to %s", output_path)
 
 
+
+
+def _collect_sub_question_line_ids(sub) -> list[str]:
+    """Collect stem/option line IDs for a sub-question recursively."""
+    out = list(getattr(sub, "stem_line_ids", None) or [])
+    for ids in (getattr(sub, "options_line_ids", None) or {}).values():
+        out.extend(ids or [])
+    for nested in (getattr(sub, "sub_sub_questions", None) or []):
+        out.extend(_collect_sub_question_line_ids(nested))
+    return out
+
+
+def _find_sub_question_for_image(q, img, line_by_id) -> str | None:
+    """Return the nearest sub-question qno for an answer-area image."""
+    img_cx = (img.bbox["x1"] + img.bbox["x2"]) / 2
+    img_cy = (img.bbox["y1"] + img.bbox["y2"]) / 2
+    best_qno = None
+    best_dist = float("inf")
+    for sub in (getattr(q, "sub_questions", None) or []):
+        for lid in _collect_sub_question_line_ids(sub):
+            line = line_by_id.get(lid)
+            if line and line.bbox and line.page_no == img.page_no:
+                lcx = (line.bbox["x1"] + line.bbox["x2"]) / 2
+                lcy = (line.bbox["y1"] + line.bbox["y2"]) / 2
+                dist = (lcx - img_cx) ** 2 + (lcy - img_cy) ** 2
+                if dist < best_dist:
+                    best_dist = dist
+                    best_qno = sub.qno
+    return best_qno
+
 def _build_question_images(
     sliced: list,
     images: list,
@@ -384,6 +414,7 @@ def _build_question_images(
         img_cy = (img.bbox["y1"] + img.bbox["y2"]) / 2
 
         best_q = None
+        best_q_obj = None
         best_placement = None
         best_distance = float("inf")
 
@@ -403,6 +434,7 @@ def _build_question_images(
                     if _bbox_contains_with_margin(line.bbox, img_cx, img_cy, MARGIN):
                         if best_placement != "stem":
                             best_q = qno
+                            best_q_obj = q
                             best_placement = "stem"
                             best_distance = 0
 
@@ -414,6 +446,7 @@ def _build_question_images(
                     if _bbox_contains_with_margin(line.bbox, img_cx, img_cy, MARGIN):
                         if best_placement is None:
                             best_q = qno
+                            best_q_obj = q
                             best_placement = "options"
 
             # 检查 answer 行
@@ -423,11 +456,16 @@ def _build_question_images(
                     if _bbox_contains_with_margin(line.bbox, img_cx, img_cy, MARGIN):
                         if best_placement is None:
                             best_q = qno
+                            best_q_obj = q
                             best_placement = "answer_area"
 
         if best_q and best_placement:
+            sub_question_qno = None
+            if best_placement == "answer_area" and best_q_obj is not None:
+                sub_question_qno = _find_sub_question_for_image(best_q_obj, img, line_by_id)
             result.append({
                 "question_number": best_q,
+                "sub_question_qno": sub_question_qno,
                 "image_id": img.image_id,
                 "placement": best_placement,
                 # P1-8：补齐入库元数据（此前缺这 4 个 key，QuestionImage 行 bbox/page_no 全 None）

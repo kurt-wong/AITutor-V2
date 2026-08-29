@@ -74,7 +74,7 @@ class TestBuildQuestionImagesWithL1Bbox:
         result = _build_question_images([q1], doc.images, doc)
 
         assert result == [{
-            "question_number": "1", "image_id": "img1", "placement": "stem",
+            "question_number": "1", "sub_question_qno": None, "image_id": "img1", "placement": "stem",
             "page_no": 1,
             "bbox": {"x1": 200, "y1": 210, "x2": 400, "y2": 250},
             "source": "ppsv3", "figure_id": "",
@@ -118,7 +118,7 @@ class TestBuildQuestionImagesWithL1Bbox:
         result = _build_question_images([q1], doc.images, doc)
 
         assert result == [{
-            "question_number": "1", "image_id": "img1", "placement": "stem",
+            "question_number": "1", "sub_question_qno": None, "image_id": "img1", "placement": "stem",
             "page_no": 1,
             "bbox": {"x1": 200, "y1": 230, "x2": 400, "y2": 250},
             "source": "ppsv3", "figure_id": "",
@@ -195,6 +195,7 @@ class TestBuildQuestionImagesWithL1Bbox:
         assert result == [
             {
                 "question_number": "17",
+                "sub_question_qno": None,
                 "image_id": "P5IMG001",
                 "placement": "answer_area",
                 "page_no": 5,

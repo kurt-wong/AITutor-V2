@@ -67,6 +67,7 @@ interface QuestionImageRef {
   question_number: string;
   image_id: string;
   placement?: string;
+  sub_question_qno?: string | null;
 }
 
 interface ImageAsset {
@@ -81,6 +82,7 @@ interface ImageAsset {
   source?: string | null;
   figure_id?: string | null;
   placement?: string | null;
+  sub_question_qno?: string | null;
   url?: string | null;
   xref?: number | null;
 }
@@ -466,7 +468,7 @@ function MathText({ text, className = "" }: { text: string; className?: string }
   );
 }
 
-function SubQuestionList({ items, parentStem, depth = 0 }: { items: SubQuestion[]; parentStem: string; depth?: number }) {
+function SubQuestionList({ items, parentStem, depth = 0, images = [] }: { items: SubQuestion[]; parentStem: string; depth?: number; images?: ImageAsset[] }) {
   return (
     <div className={depth === 0 ? "subquestion-list" : "subquestion-list nested"}>
       {items.map((sub, subIndex) => {
@@ -494,11 +496,14 @@ function SubQuestionList({ items, parentStem, depth = 0 }: { items: SubQuestion[
                 ))}
               </ol>
             ) : null}
+            {images.length > 0 ? (
+              <QuestionImages images={images.filter((image) => image.sub_question_qno === sub.qno)} />
+            ) : null}
             <div className="subquestion-answer">
               {"\u7b54\u6848"} <MathText text={answerWithOptionText(sub.answer, sub.options) || sub.answer || "\u7f3a\u7b54\u6848"} />
             </div>
             {sub.sub_sub_questions?.length ? (
-              <SubQuestionList items={sub.sub_sub_questions} parentStem={subStem || parentStem} depth={depth + 1} />
+              <SubQuestionList items={sub.sub_sub_questions} parentStem={subStem || parentStem} depth={depth + 1} images={images} />
             ) : null}
           </div>
         );
@@ -848,7 +853,7 @@ function QuestionCard({
             <p className="muted">无选项</p>
           ) : null}
 
-          <QuestionImages images={images} />
+          <QuestionImages images={images.filter((image) => !image.sub_question_qno)} />
 
           {effective.shared_material ? (
             <div className="shared-material">
@@ -862,7 +867,7 @@ function QuestionCard({
               <strong>子题</strong>
               {/* 2026-08-28：平铺展示——题干（与父题材料重叠时去重）→ 选项 → 答案；
                   题号包裹括号；顺序与用户反馈一致（先题干后答案）。 */}
-              <SubQuestionList items={effective.sub_questions || []} parentStem={effective.stem || ""} />
+              <SubQuestionList items={effective.sub_questions || []} parentStem={effective.stem || ""} images={images} />
             </div>
           ) : null}
         </details>
@@ -1156,6 +1161,7 @@ export default function AdminHome() {
         list.push({
           ...asset,
           placement: ref.placement ?? asset.placement ?? null,
+          sub_question_qno: ref.sub_question_qno ?? null,
         });
         grouped.set(ref.question_number, list);
       }

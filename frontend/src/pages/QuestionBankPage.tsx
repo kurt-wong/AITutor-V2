@@ -85,6 +85,7 @@ interface QuestionRow {
     page_no?: number | null;
     bbox?: unknown;
     placement?: string | null;
+    sub_question_qno?: string | null;
     source?: string | null;
     figure_id?: string | null;
     url?: string | null;
@@ -246,7 +247,7 @@ function decodeName(value: string | null | undefined) {
   }
 }
 
-function SubQuestionList({ items, parentStem, depth = 0 }: { items: BankSubQuestion[]; parentStem: string; depth?: number }) {
+function SubQuestionList({ items, parentStem, depth = 0, images = [] }: { items: BankSubQuestion[]; parentStem: string; depth?: number; images?: NonNullable<QuestionRow["images"]> }) {
   return (
     <div className={depth === 0 ? "bank-subquestions" : "bank-subquestions nested"}>
       {items.map((sub, si) => {
@@ -277,11 +278,14 @@ function SubQuestionList({ items, parentStem, depth = 0 }: { items: BankSubQuest
                 ))}
               </ol>
             ) : null}
+            {images.length > 0 ? (
+              <QuestionImages images={images.filter((image) => image.sub_question_qno === sub.qno)} />
+            ) : null}
             <div className="bank-subquestion-answer">
               {"\u7b54\u6848"} <MathText text={answerWithOptionText(sub.answer, sub.options) || sub.answer || "\u7f3a\u7b54\u6848"} />
             </div>
             {sub.sub_sub_questions?.length ? (
-              <SubQuestionList items={sub.sub_sub_questions} parentStem={subStem || parentStem} depth={depth + 1} />
+              <SubQuestionList items={sub.sub_sub_questions} parentStem={subStem || parentStem} depth={depth + 1} images={images} />
             ) : null}
           </div>
         );
@@ -762,7 +766,7 @@ export default function QuestionBankPage() {
                               ) : isChoiceType(detail.question_type_name) ? (
                                 <p className="muted">无选项</p>
                               ) : null}
-                              <QuestionImages images={detail.images ?? []} />
+                              <QuestionImages images={(detail.images ?? []).filter((image) => !image.sub_question_qno)} />
                               {/* P4E.1：综合题平铺——材料（父题 stem）已在上方显示一次，
                                   子题列表：题干（与材料重叠时去重）→ 选项 → 答案。
                                   2026-08-28 按用户反馈重构：子题题干与父题材料重复
@@ -771,7 +775,7 @@ export default function QuestionBankPage() {
                               {detail.sub_questions && detail.sub_questions.length > 0 ? (
                                 <div className="bank-subquestions">
                                   <strong>子题</strong>
-                                  <SubQuestionList items={detail.sub_questions} parentStem={detail.stem || ""} />
+                                  <SubQuestionList items={detail.sub_questions} parentStem={detail.stem || ""} images={detail.images ?? []} />
                                 </div>
                               ) : null}
                             </details>

@@ -51,7 +51,7 @@
 
 ### BUG-027 英语/理科入库标准 v3.1 缺口
 
-- Status: Open（Phase 3 理科剩余）
+- Status: Resolved
 - Phase 1：P0-1/P0-3/P0-4/P1-1 已修复。
 - Phase 2：P0-2/P1-3/P1-4/P2-2 已修复；P2-1 保持题干区现状。
 - P0-4：已修复（answer_structure JSONB 全链路 + 多答案/范围自动识别）
@@ -62,9 +62,7 @@
   - P0-1 细粒度题型/section 入库后丢失
   - P0-3 多层嵌套子问不支持
   - P0-4 结构化答案格式缺失（条件化）
-  - P0-5 化学式下标/上标标准化
   - P1-1 词库无独立 word_bank 字段
-  - P1-2 答案图子题粒度绑定不精确
 - 验收条件：按 PROJECT_STATUS 修复计划完成 Phase 1-4，回归测试与样本重跑通过。
 
 
@@ -359,4 +357,11 @@
 - P2-1：保持现状，指令文本在题干区，不新增 instruction 字段。
 - 审查修复：百分号 regex 排除 %/％；七选五缺 sub_questions 触发 retry；前端多答案共享工具与多字母高亮。
 - 验证：后端 739 passed，5 failed 为已知 e2e 目标文档缺失；前端 npm run build 通过。
+
+### BUG-029 Phase 3 P0-5/P1-2
+
+- Status: Resolved
+- P0-5：新增 chemistry_formula.py，元素下标、离子上下标、化合物组下标（Mg(OH)(2) 等）统一标准化，接入三处管线/入库路径。
+- P1-2：question_images 新增 sub_question_qno；答案图按同页空间邻近绑定最近子题，API/前端透传展示。
+- 验证：后端 746 passed，5 failed 为已知 e2e 目标文档缺失；前端 npm run build 通过；migration 20260829_0003 已在真实库和测试库执行。
 

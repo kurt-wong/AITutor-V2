@@ -533,6 +533,53 @@ def test_text_layer_pdf_not_flagged_as_scanned():
     # 有文本层：不是 scanned（会继续走 OCR/标注，status 不可能是 scanned）
     assert result.status != "scanned"
 
+def test_simple_pipeline_normalizes_chemistry_formulas():
+    """P0-5: full pipeline normalizes chemistry formulas for subject=化学."""
+    lines = [
+        L1Line("P1L001", 1, 1, 1, "1. Cl(2)+2OH(﹣)", "text"),
+        L1Line("P1L002", 1, 2, 2, "Mg(OH)(2)", "text"),
+    ]
+    doc = L1Document(
+        filename="chemistry.pdf",
+        pages=[L1Page(page_no=1, lines=lines)],
+        lines=lines,
+        source="ppsv3",
+        total_pages=1,
+    )
+    response = json.dumps({
+        "filename": "chemistry.pdf",
+        "subject": "化学",
+        "questions": [
+            {
+                "question_number": "1",
+                "question_type": "short_answer",
+                "section_id": "化学综合题",
+                "stem_line_ids": ["P1L001"],
+                "options_line_ids": {},
+                "answer": "Mg(OH)(2)",
+                "answer_line_ids": ["P1L002"],
+                "difficulty": 3,
+            }
+        ],
+        "metadata_confidence": 0.9,
+    })
+    gateway = LLMGateway(
+        mode="live",
+        providers=[MockLLMProvider(response=response)],
+    )
+    result = asyncio.run(run_simple_pipeline(
+        ppsv3_doc=doc,
+        gateway=gateway,
+        subject="化学",
+    ))
+    assert result.status == "succeeded"
+    assert len(result.sliced_questions) == 1
+    q = result.sliced_questions[0]
+    assert "Cl₂" in q.stem
+    assert "OH⁻" in q.stem
+    assert q.answer == "Mg(OH)₂"
+
+
 def test_seven_to_five_missing_labels_build_retry_hint():
     """P1-4: missing A-G labels produce a retry hint for the LLM."""
     from app.domains.document.quality_gate import evaluate_quality

@@ -3070,3 +3070,10 @@ section 标题）
 - P2-2：新增 frontend/src/lib/answer.ts 共享答案工具，answerWithOptionText 支持 BD/ACD 多答案，isOptionCorrect 支持多字母高亮。
 - 验证：content_slicer/anchor_corrector/simple_pipeline 79 passed；前端 npm run build 通过。
 
+#### 2026-08-29 15:30:00 Phase 3 P0-5/P1-2
+
+- P0-5：新增 chemistry_formula.py；正则覆盖元素下标、离子电荷、化合物组下标；ingestion/pipeline/simple_pipeline 三入口按化学 subject 触发；修复 subject 别名归一化后未更新问题。
+- P1-2：_build_question_images 增加答案图到子题的空间邻近绑定；QuestionImage 新增 sub_question_qno；API/前端透传，父题区排除子题绑定图。
+- Schema：20260829_0003_add_question_image_sub_question.py，真实库/测试库均已 upgrade head。
+- 回归：后端 746 passed，5 failed 仅为已知 e2e 目标文档缺失；前端 npm run build 通过。
+

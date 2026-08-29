@@ -30,6 +30,7 @@ from typing import Any, Callable, Coroutine
 
 from app.ai.gateway import LLMGateway
 from app.domains.document.answer_matcher import match_answers
+from app.domains.document.chemistry_formula import normalize_chemistry_question
 from app.domains.document.anchor_corrector import correct_anchors
 from app.domains.document.content_slicer import slice_questions
 from app.domains.document.image_deduplicator import deduplicate_images
@@ -715,6 +716,9 @@ async def run_pipeline(
     stage_start = time.perf_counter()
     try:
         sliced = match_answers(sliced, doc)
+        if (annotation.subject or "").strip() == "化学":
+            for sq in sliced:
+                normalize_chemistry_question(sq)
         duration = int((time.perf_counter() - stage_start) * 1000)
         matched = sum(1 for sq in sliced if sq.answer is not None)
         result.add_stage("answer_matching", duration, matched=matched)

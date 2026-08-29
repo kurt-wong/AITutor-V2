@@ -176,6 +176,7 @@ class QuestionImage(Base):
     page_no: Mapped[int | None] = mapped_column(Integer)
     bbox: Mapped[Any | None] = mapped_column(JSONB)
     placement: Mapped[str | None] = mapped_column(String(30))  # stem/options/answer/explanation/page_context
+    sub_question_qno: Mapped[str | None] = mapped_column(String(100))  # answer image binding to a sub-question
     source: Mapped[str | None] = mapped_column(String(30))  # native/paddleocr/vl/manual
     figure_id: Mapped[str | None] = mapped_column(String(100))  # 文档级去重标识
     url: Mapped[str | None] = mapped_column(Text)  # 图片 URL（OCR 路径，2026-08-27 新增）

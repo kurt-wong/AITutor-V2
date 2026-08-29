@@ -186,3 +186,39 @@ class TestQuestionFieldLineIdsHelpers:
         q.options_line_ids = {"A": ["P1L002"], "B": ["P1L003"]}
         q.corrected_anchors = []
         assert sorted(_question_option_line_ids(q)) == ["P1L002", "P1L003"]
+
+def test_answer_image_bound_to_nearest_subquestion():
+    """P1-2: answer-area image gets sub_question_qno binding."""
+    from app.domains.document.schemas_l2 import L2SubQuestion
+
+    stem_line = _line("P1L001", "1. stem", {"x1": 100, "y1": 100, "x2": 400, "y2": 120}, page_no=1)
+    sub_line = _line("P2L001", "(1) sub stem", {"x1": 100, "y1": 200, "x2": 400, "y2": 220}, page_no=2)
+    answer_line = _line("P2L002", "answer graph", {"x1": 100, "y1": 300, "x2": 400, "y2": 320}, page_no=2)
+    img = _image("answer-img", {"x1": 120, "y1": 305, "x2": 300, "y2": 330}, page_no=2)
+    doc = _doc([stem_line, sub_line, answer_line], [img])
+
+    stem_anchor = CorrectedAnchor(
+        field="stem",
+        llm_line_ids=["P1L001"],
+        corrected_line_ids=["P1L001"],
+        anchor_status="exact",
+        validation_passed=True,
+    )
+    q = SlicedQuestion(
+        question_number="1",
+        question_type="short_answer",
+        stem="1. stem",
+        confidence=0.9,
+        stem_anchor=stem_anchor,
+        corrected_anchors=[stem_anchor],
+        answer_line_ids=["P2L002"],
+        sub_questions=[
+            L2SubQuestion(qno="(1)", stem_line_ids=["P2L001"]),
+        ],
+    )
+
+    result = _build_question_images([q], doc.images, doc)
+    assert len(result) == 1
+    assert result[0]["placement"] == "answer_area"
+    assert result[0]["sub_question_qno"] == "(1)"
+
