@@ -142,3 +142,11 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 - P0-4 `_build_answer_structure` 独立测试已补强边界。
 - 化学式完整 pipeline 集成测试已存在并通过。
 
+## 文档治理审计（2026-08-29）
+
+- **归档 5 份**：PLAN_QUESTION_FAMILY、T3_IMPLEMENTATION、TASK、Design → docs_archive/2026-08-29/；LOG.md 历史部分（2006 行）同目录归档。
+- **整合**：TASK.md 内容并入 ROADMAP v3.0（完成标准 §4 + 试卷结构门禁 §5）。
+- **精简**：LOG.md 3115→1118 行；docs/ 从 18 份→14 份（全部为规则/规划/契约类）。
+- **清理**：experiment_output.md → tmp/；删除 Codex 误生成空文件。
+- **更新**：rules.md 导航表、RESTART_PROMPT.md v6.46。
+- 详见 LOG.md `2026-08-29 20:00:00` 条目。

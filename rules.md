@@ -26,9 +26,7 @@
 | 系统架构 / DDD 限界上下文 / 模型路由 | `Docs/02_Architecture/SAD.md` |
 | 数据库结构 | `Docs/03_Data/DSD.md` |
 | 产品需求 | `Docs/01_Product/PRD.md` |
-| 任务执行规则 | `Docs/01_Product/TASK.md` |
 | 前端页面规范 | `Docs/02_Architecture/UI.md` |
-| 前端视觉风格 | `Docs/Design.md` |
 | 重启恢复 / 项目目标 / 系统现状 / 待办任务 | `RESTART_PROMPT.md` |
 
 ---

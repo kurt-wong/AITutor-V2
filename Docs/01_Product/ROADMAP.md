@@ -1,8 +1,8 @@
 # AI Tutor Personal Edition — 开发任务计划
 
-Version: 2.0
-Status: 执行基线（Phase 2 设计已冻结，见 PLAN_QUESTION_FAMILY v2.0）
-Date: 2026-08-21
+Version: 3.0
+Status: 执行基线（Phase 2 设计已冻结，见 PLAN_QUESTION_FAMILY v2.0；TASK.md 已整合）
+Date: 2026-08-29
 Source of truth: `Docs/00_Requirements/REQUIREMENTS_AND_SOLUTION.md`
 
 ---
@@ -265,7 +265,33 @@ Source of truth: `Docs/00_Requirements/REQUIREMENTS_AND_SOLUTION.md`
 
 ---
 
-## 4. 执行约束
+## 4. 任务完成标准
+
+一个任务完成必须满足：
+
+- 功能按文档实现，API 返回符合 ACS，数据写入符合 DSD。
+- 高置信度路径和低置信度审核路径都有覆盖。
+- 异步能力复用统一 Background Task，不另起状态表。
+- 文档解析结果必须可追溯：LLM 只输出行号/元数据，内容由代码从 L1 原文切片。
+- 配图必须携带 `page_no/bbox/placement/source`，无位置不自动关联。
+- 元数据来源优先级明确：文件名/上传表单优先，LLM 只填空或高置信度覆盖。
+- 表结构变更必须同步 Alembic migration。
+- live LLM/OCR 测试必须与常规 pytest 隔离。
+- 新字段、新功能同步维护到 `DICTIONARY.md`。
+- 重要变更在 `LOG.md` 文末追加完整时间戳记录。
+
+---
+
+## 5. 试卷结构门禁（Paper Structure Gate）
+
+- Manifest 位置：`test/annotations/structure/`
+- 校验内容：顶层题号、`is_composite`、子题、共享材料、底层题号覆盖、题型集合。
+- 接入位置：`test/scripts/run_live_validation.py`、`test/scripts/adversarial_check_live_validation.py`、`backend/tests/test_paper_structure_gate.py`。
+- 新增试卷：人工确认试卷结构 → 新建 manifest → 在 `paper_structure.PAPER_STRUCTURES` 增加映射 → 补回归测试。
+
+---
+
+## 6. 执行约束
 
 - 单任务制：同一时间只推进一个任务。
 - 每任务不超过 4 小时，必须产出可运行结果。
