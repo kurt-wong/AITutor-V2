@@ -1,7 +1,7 @@
 ﻿# AI Tutor Personal Edition — PROJECT_STATUS
 
 Version: 6.46
-Status: v6.46 题型树+知识节点库完成；Phase 1-3 全量修复；743 passed（5 failed 已知 e2e + 8 skipped）。
+Status: v6.46 题型树+知识节点库完成；Phase 1-3 全量修复；752 passed（8 skipped）。
 Date: 2026-08-29
 
 ---
@@ -186,3 +186,10 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 - 当前测试：743 passed + 5 failed（e2e 目标文档缺失）+ 8 skipped；validate_docs_vs_code ok。
 - 下一主任务：P4E.1 任务 4 测试门禁；前置恢复 test/results/golden 与 e2e 目标文档。
 - 待清理：test/results_to_delete/pytest-of-Kurtw（PID 6408 锁定）。
+
+## P4E.1 任务4 测试门禁（2026-08-29 20:59:00）
+
+- 真实库已恢复 `2026北京二中高一（上）期末数学（教师版）.pdf` e2e 文档，23 题入库。
+- golden 门禁新增：子题数、子题 `options_line_ids`、选项完整性；golden overall <80% 直接 FAIL。
+- 全量 pytest 752 passed + 8 skipped；e2e 9 passed。
+- 待办：P4E.1 任务5 三份验证文档重跑；`test/results_to_delete/pytest-of-Kurtw` 锁定残留清理。

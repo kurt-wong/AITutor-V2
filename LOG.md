@@ -1234,3 +1234,14 @@ section 标题）
 - commit c8d81e2：router.py 标注占位域状态。
 - 验证：743 passed + 5 failed（已知 e2e 目标文档缺失）+ 8 skipped；validate_docs_vs_code ok。
 - 遗留：test/results_to_delete/pytest-of-Kurtw 被 PID 6408 锁定；P4E.1 任务 4 测试门禁未启动。
+
+### 2026-08-29 20:59:00
+
+#### P4E.1 任务4 测试门禁实现 + e2e 数据恢复
+
+- 重灌 `2026北京二中高一（上）期末数学（教师版）.pdf` 到真实库，任务 succeeded，23 题全部入库。
+- e2e 验收测试 9 passed；全量 pytest 752 passed + 8 skipped。
+- `run_phase1_eval.py`：新增 `sub_questions_count`、`sub_question_options_line_ids`、`option_completeness` 指标。
+- `run_live_validation.py`：GOLDEN_FIELDS 扩展；golden overall 低于 80% 时直接 FAIL。
+- `test_validation_harness.py`：新增 4 个回归测试覆盖子题丢失、子题行号错误、紧凑选项未拆、golden <80% 门禁。
+- 待办：`test/results_to_delete/pytest-of-Kurtw` 锁定残留待会话结束清理；P4E.1 任务5 三份验证文档重跑。

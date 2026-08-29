@@ -359,3 +359,75 @@ def test_run_one_forwards_progress_callback(monkeypatch):
     assert result["status"] == "succeeded"
     assert ("dual_source_merge", 0.3) in seen
     assert ("llm_annotation", 0.4) in seen
+
+
+def test_report_fails_when_golden_accuracy_below_80():
+    """golden 综合准确率低于 80% 时 run_live_validation 必须 FAIL。"""
+    ga = _good_report_kwargs()["golden_accuracy"]
+    ga["english"] = {f: {"correct": 7, "total": 10} for f in GOLDEN_FIELDS}
+    report = rlv.generate_report(**_good_report_kwargs(golden_accuracy=ga))
+    assert report["overall"] == "FAIL"
+    assert any("golden:english" in f and "< 80%" in f for f in report["failures"])
+
+
+def test_evaluate_accuracy_detects_missing_sub_questions():
+    """综合题 expected 有子题但实际子题丢失时必须计为 0 准确率。"""
+    golden = {"questions": [{
+        "question_number": "11",
+        "question_type": "fill_in",
+        "options_line_ids": {},
+        "sub_questions": [
+            {"qno": "11", "options_line_ids": {"A": ["P1L020"], "B": ["P1L021"]}},
+        ],
+    }]}
+    actual = {"questions": [{
+        "question_number": "11",
+        "question_type": "fill_in",
+        "options_line_ids": {},
+        "sub_questions": [],
+        "options": [],
+    }]}
+    acc = rpe.evaluate_accuracy(actual["questions"], golden)
+    assert acc["sub_questions_count"] == [0, 1]
+    assert acc["sub_question_options_line_ids"] == [0, 1]
+
+
+def test_evaluate_accuracy_accepts_correct_sub_questions():
+    """综合题子题 qno 与每个子题 options_line_ids 精确匹配时计为通过。"""
+    golden = {"questions": [{
+        "question_number": "11",
+        "question_type": "fill_in",
+        "options_line_ids": {},
+        "sub_questions": [
+            {"qno": "11", "options_line_ids": {"A": ["P1L020"], "B": ["P1L021"]}},
+        ],
+    }]}
+    actual = {"questions": [{
+        "question_number": "11",
+        "question_type": "fill_in",
+        "options_line_ids": {},
+        "sub_questions": [
+            {"qno": "11", "options_line_ids": {"A": ["P1L020"], "B": ["P1L021"]}},
+        ],
+        "options": [],
+    }]}
+    acc = rpe.evaluate_accuracy(actual["questions"], golden)
+    assert acc["sub_questions_count"] == [1, 1]
+    assert acc["sub_question_options_line_ids"] == [1, 1]
+
+
+def test_evaluate_accuracy_detects_inline_option():
+    """单个选项文本内嵌多个选项标签时 option_completeness 必须失败。"""
+    golden = {"questions": [{
+        "question_number": "1",
+        "question_type": "single_choice",
+        "options_line_ids": {"A": ["P1L001"], "B": ["P1L002"], "C": ["P1L003"]},
+    }]}
+    actual = {"questions": [{
+        "question_number": "1",
+        "question_type": "single_choice",
+        "options_line_ids": {"A": ["P1L001"], "B": ["P1L002"], "C": ["P1L003"]},
+        "options": [{"label": "A", "text": "A.1 B.2 C.3"}],
+    }]}
+    acc = rpe.evaluate_accuracy(actual["questions"], golden)
+    assert acc["option_completeness"] == [0, 1]
