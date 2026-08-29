@@ -1,7 +1,7 @@
 ﻿# AI Tutor Personal Edition — PROJECT_STATUS
 
 Version: 6.46
-Status: v6.46 题型树+知识节点库完成；Phase 1-3 全量修复；755 passed（8 skipped）。
+Status: v6.46 题型树+知识节点库完成；Phase 1-3 全量修复；757 passed（8 skipped）。
 Date: 2026-08-29
 
 ---
@@ -226,3 +226,9 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 
 - golden 不约束题量、组数、子题数，只约束题型种类与展示结构。
 - 现有契约化 golden 中的数量仅为示例覆盖情况，不作为验收标准。
+
+## 答案噪音归一化（2026-08-29 22:58:18）
+
+- golden 答案比较按契约忽略格式噪音，不把全半角、引号、标点、题号前缀、OCR 转义视为内容不匹配。
+- `normalize_answer_text` 已增强并新增测试。
+- 东城英语真实入库结果对比 golden：归一化后 45/45 答案匹配。

@@ -10,6 +10,8 @@ test/*
 !test/fixtures/**
 !test/annotations/
 !test/annotations/**
+!test/scripts/
+!test/scripts/**
 
 # Agent / tool local state
 .claude/

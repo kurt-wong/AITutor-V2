@@ -431,3 +431,13 @@ def test_evaluate_accuracy_detects_inline_option():
     }]}
     acc = rpe.evaluate_accuracy(actual["questions"], golden)
     assert acc["option_completeness"] == [0, 1]
+
+
+def test_normalize_answer_text_ignores_full_width_and_quotes():
+    """全半角、弯引号、题号前缀、结尾标点属于噪音，应归一化后等价。"""
+    assert rpe.normalize_answer_text("44．I would say “Yes，I’m happy.”") == rpe.normalize_answer_text("44. I would say \"Yes, I'm happy\"")
+
+
+def test_normalize_answer_text_unifies_separator_noise():
+    """/、##、顿号、逗号等分隔符噪音应统一比较。"""
+    assert rpe.normalize_answer_text("that / which") == rpe.normalize_answer_text("that##which")
