@@ -158,3 +158,17 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 - **问题 3 修复**：`english_v2.py` 移除"七选五"；新增 `test_knowledge_tree_integrity.py` 防御性测试。
 - **问题 4 修复**：关键词计数从5012 修正为5010（小写去重）。
 - 详见 LOG.md `2026-08-29 21:00:00` 条目。
+
+## 测试文件治理审计（2026-08-29）
+
+- **删除 ~450 个文件**：backend/scripts/_tmp_*（26）、test/scripts/_*（64）、test/results/*.py（32）、test/results 日志（150+）、test/scripts 孤立脚本（33）、tmp/（707）。
+- **保留**：backend/tests/ 72 个（758 测试）、frontend/tests/ 1 个、test/scripts/ 15 个活跃脚本。
+- 753 passed，零回归。详见 LOG.md `2026-08-29 22:00:00`。
+
+## 代码治理审计（2026-08-29）
+
+- **删除 62 个文件（-7234 行）**：v1 tree_seed 7 个（DEAD）、celery_app.py（DEAD）、一次性数据修复脚本 36 个（ONE_SHOT）、阶段验证脚本 18 个（ONE_SHOT）。
+- **保留决策**：parser.py/question_extractor.py（DEPRECATED，有回归测试保护）、pipeline.py（兼容层，17+ 测试引用）、占位域骨架（未来功能）、3 个活跃工具脚本。
+- **对抗性审查通过**：全部生产模块 import 正常、753 passed 零回归、v1 别名正常工作、已删除脚本无活跃引用。
+- **遗留修复**：OCR_PROVIDER_POLICY.md 已更新删除的脚本引用。
+- 详见 LOG.md `2026-08-29 23:00:00`。
