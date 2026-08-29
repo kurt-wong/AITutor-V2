@@ -1213,3 +1213,14 @@ section 标题）
 - `backend/scripts/` 保留 3 个活跃工具：`seed_knowledge_tree.py`、`setup_test_db.py`、`validate_docs_vs_code.py`
 
 **验证**：后端全量 753 passed，零回归。
+
+### 2026-08-29 18:59:31
+
+#### 对抗性审查遗留修复（commit 3bcf49d）
+
+- docker-compose.yml：删除失效 celery worker 服务，backend 增加 `WORKER_ENABLED`。
+- DSD.md：新增 `§4.23 answer_extraction_retries`。
+- ACS.md：补齐 `/api/admin/catalog`、answer-retries、question-types 路由文档，并修正 catalog 响应字段。
+- pipeline.py：兼容层注释测试文件数 17→16。
+- 验证：`validate_docs_vs_code.py` 退出码 0。
+- 补录：commit 3bcf49d 未包含 LOG/PROJECT_STATUS 记录，本次追加。

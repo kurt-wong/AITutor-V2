@@ -172,3 +172,10 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 - **对抗性审查通过**：全部生产模块 import 正常、753 passed 零回归、v1 别名正常工作、已删除脚本无活跃引用。
 - **遗留修复**：OCR_PROVIDER_POLICY.md 已更新删除的脚本引用。
 - 详见 LOG.md `2026-08-29 23:00:00`。
+
+## 对抗性审查遗留修复（2026-08-29 18:59:31）
+
+- commit 3bcf49d：docker-compose worker 修复、DSD/ACS 文档补齐、pipeline.py 注释 17→16。
+- `validate_docs_vs_code.py` 退出码 0。
+- 本次仅补录 LOG/PROJECT_STATUS 记录。
+- 详见 LOG.md `2026-08-29 18:59:31` 条目。
