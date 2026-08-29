@@ -1,7 +1,7 @@
 # AI Tutor Personal Edition — PROJECT_STATUS
 
-Version: 6.45
-Status: v6.45 Phase 2/3 修复完成；P0-2/P1-3/P1-4/P2-2/P0-5/P1-2 已回归通过；P2-1 保持题干区现状；下一步 Phase 4 验收。
+Version: 6.46
+Status: v6.46 题型树+知识节点库完成；Phase 1-3 全量修复；748 passed。
 Date: 2026-08-29
 
 ---
@@ -113,6 +113,23 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 - P0-5：化学式标准化已接入 ingestion/pipeline/simple_pipeline；支持 Cl₂、OH⁻、Fe₂O₃、Fe³⁺、Mg(OH)₂ 等常见 OCR 形态。
 - P1-2：question_images.sub_question_qno 已落库，答案图按空间邻近绑定到子题，API/前端按子题过滤展示。
 - 验证：后端 746 passed（5 failed 仅为已知 e2e 目标文档缺失）；前端 npm run build 通过；真实库与测试库均升级到 20260829_0003。
+
+## 题型树（2026-08-29）
+
+- `question_types` 表新增 `level`/`description`/`keywords` 字段（migration 20260829_0004）。
+- 种子数据 229 个节点，覆盖九科（全国卷+北京卷统一池），3 级层级（L1 大题型 → L2 子类 → L3 细粒度）。
+- Seed 脚本 `question_type_seed/seed.py`（idempotent），写入 level/description/keywords。
+- API 端点 `GET /api/admin/question-types`，返回树形 JSON。
+- 测试：6 项种子完整性测试（parent_code 有效、无重复 code、层级正确）。
+
+## 知识节点库（2026-08-29）
+
+- **统一为 v2 课标教材体系**：917 个节点，九科全覆盖，L2(课程模块)→L3(章)→L4(知识点)。
+- v1 知识树（333 节点，考试能力分类）的关键词已全部合并到 v2 节点，index_builder 仅引用 v2。
+- `index_builder.py` 清理完毕：零 v1 引用，5012 个关键词。
+- 对抗性审查修复：移除 ENG-LEXA 上的题型关键词（cloze/七选五/完形）；补充"排列组合""电解""reading comprehension""函数单调性"等常用搜索词。
+- 数据来源：用户提供《高考九科知识点树状清单》（2026 课标教材体系）。
+- 与题型树正交：题型 = 怎么考，知识点 = 考什么，每道题同时标注两者。
 
 ## 题型树文档（2026-08-29）
 

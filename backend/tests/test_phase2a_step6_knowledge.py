@@ -215,10 +215,10 @@ async def test_composite_sub_questions_map_to_nodes(db):
     assert len(distinct_codes) >= 2, (
         f"子题应映射到不同知识点，实际全部塌缩到 {sub_nodes}"
     )
-    # 具体断言：三角函数子题应命中 MATH-ANA-03（最具体节点，非父节点 MATH-ANA）
+    # 具体断言：三角函数子题应命中 MATH-C1-CH5（v2 三角函数章，最具体节点）
     tri_nodes = [n for n in sub_nodes if "三角函数" in n[1]]
-    assert any("MATH-ANA-03" in code for code, _ in tri_nodes), (
-        f"三角函数应映射到 MATH-ANA-03，实际 {tri_nodes}"
+    assert any("MATH-C1-CH5" in code for code, _ in tri_nodes), (
+        f"三角函数应映射到 MATH-C1-CH5，实际 {tri_nodes}"
     )
 
 

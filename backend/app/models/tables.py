@@ -92,6 +92,9 @@ class QuestionType(Base):
     code: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     sort_order: Mapped[int] = mapped_column(Integer, default=0)
+    level: Mapped[int] = mapped_column(Integer, default=3)
+    description: Mapped[str | None] = mapped_column(Text)
+    keywords: Mapped[Any | None] = mapped_column(JSONB)
     created_at: Mapped[datetime] = created_at_column()
 
 

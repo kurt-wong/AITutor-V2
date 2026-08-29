@@ -1,7 +1,7 @@
 """
 多学科关键词索引构建器
 
-从 9 科知识树构建 {keyword → [node_code, ...]} 倒排索引。
+从 9 科知识树（v2 课标教材体系）构建 {keyword → [node_code, ...]} 倒排索引。
 每个关键词映射到其节点及其所有祖先节点代码。
 
 向后兼容: get_keyword_index() 签名不变，mapper.py 无需修改。
@@ -10,30 +10,28 @@
 from __future__ import annotations
 
 from app.domains.knowledge.tree_seed.types import KnowledgeTreeSeed
-from app.domains.knowledge.tree_seed.math import MATH_KNOWLEDGE_TREE
-from app.domains.knowledge.tree_seed.physics import PHYSICS_KNOWLEDGE_TREE
-from app.domains.knowledge.tree_seed.chemistry import CHEMISTRY_KNOWLEDGE_TREE
-from app.domains.knowledge.tree_seed.biology import BIOLOGY_KNOWLEDGE_TREE
-from app.domains.knowledge.tree_seed.chinese import CHINESE_KNOWLEDGE_TREE
-from app.domains.knowledge.tree_seed.english import ENGLISH_KNOWLEDGE_TREE
-from app.domains.knowledge.tree_seed.humanities import (
-    POLITICS_KNOWLEDGE_TREE,
-    HISTORY_KNOWLEDGE_TREE,
-    GEOGRAPHY_KNOWLEDGE_TREE,
-)
+from app.domains.knowledge.tree_seed.math_v2 import MATH_KNOWLEDGE_TREE_V2
+from app.domains.knowledge.tree_seed.physics_v2 import PHYSICS_KNOWLEDGE_TREE_V2
+from app.domains.knowledge.tree_seed.chemistry_v2 import CHEMISTRY_KNOWLEDGE_TREE_V2
+from app.domains.knowledge.tree_seed.biology_v2 import BIOLOGY_KNOWLEDGE_TREE_V2
+from app.domains.knowledge.tree_seed.chinese_v2 import CHINESE_KNOWLEDGE_TREE_V2
+from app.domains.knowledge.tree_seed.english_v2 import ENGLISH_KNOWLEDGE_TREE_V2
+from app.domains.knowledge.tree_seed.politics_v2 import POLITICS_KNOWLEDGE_TREE_V2
+from app.domains.knowledge.tree_seed.history_v2 import HISTORY_KNOWLEDGE_TREE_V2
+from app.domains.knowledge.tree_seed.geography_v2 import GEOGRAPHY_KNOWLEDGE_TREE_V2
 
-# ═══ 全科树汇总 ═══════════════════════════════════════════════════════════════════
+# ═══ 全科树（v2 单一节点库） ══════════════════════════════════════════════════════
 
 ALL_KNOWLEDGE_TREES: dict[str, list[KnowledgeTreeSeed]] = {
-    "MATH": MATH_KNOWLEDGE_TREE,
-    "PHYS": PHYSICS_KNOWLEDGE_TREE,
-    "CHEM": CHEMISTRY_KNOWLEDGE_TREE,
-    "BIO": BIOLOGY_KNOWLEDGE_TREE,
-    "CHN": CHINESE_KNOWLEDGE_TREE,
-    "ENG": ENGLISH_KNOWLEDGE_TREE,
-    "POLI": POLITICS_KNOWLEDGE_TREE,
-    "HIST": HISTORY_KNOWLEDGE_TREE,
-    "GEOG": GEOGRAPHY_KNOWLEDGE_TREE,
+    "MATH": MATH_KNOWLEDGE_TREE_V2,
+    "PHYS": PHYSICS_KNOWLEDGE_TREE_V2,
+    "CHEM": CHEMISTRY_KNOWLEDGE_TREE_V2,
+    "BIO": BIOLOGY_KNOWLEDGE_TREE_V2,
+    "CHN": CHINESE_KNOWLEDGE_TREE_V2,
+    "ENG": ENGLISH_KNOWLEDGE_TREE_V2,
+    "POLI": POLITICS_KNOWLEDGE_TREE_V2,
+    "HIST": HISTORY_KNOWLEDGE_TREE_V2,
+    "GEOG": GEOGRAPHY_KNOWLEDGE_TREE_V2,
 }
 
 ALL_NODES: list[KnowledgeTreeSeed] = []
@@ -42,13 +40,7 @@ for _tree in ALL_KNOWLEDGE_TREES.values():
 
 
 def build_keyword_index(subject: str | None = None) -> dict[str, list[str]]:
-    """构建 {keyword: [node_code, ...]} 倒排索引。
-
-    Args:
-        subject: 学科代码 (如 "MATH")，None=全科。
-
-    每个关键词映射到其节点代码及所有祖先代码。
-    """
+    """构建 {keyword: [node_code, ...]} 倒排索引。"""
     nodes = ALL_KNOWLEDGE_TREES[subject] if subject else ALL_NODES
 
     parents: dict[str, str | None] = {}

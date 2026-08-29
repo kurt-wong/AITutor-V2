@@ -3091,3 +3091,25 @@ section 标题）
 - INFO 化学式 pipeline 集成测试：`test_simple_pipeline_normalizes_chemistry_formulas` 已存在，验证 subject=化学 时完整管线自动归一化。
 - 验证：`npm test` 5 passed，`npm run build` 通过，后端相关测试 8 passed。
 
+#### 2026-08-29 18:00:00 题型树种子数据
+
+- 新增 `question_type_seed/` 模块（types.py + 9 科数据文件 + seed.py）。
+- 229 个题型节点，覆盖九科（全国卷+北京卷），3 级层级（L1 大题型 → L2 子类 → L3 细粒度）。
+- Schema：20260829_0004 新增 level/description/keywords 字段到 question_types 表。
+- API：`GET /api/admin/question-types` 题型树端点，支持 ?subject= 过滤。
+- 测试：6 项种子完整性测试。
+- 与知识树正交：题型 = 怎么考（question_types），知识点 = 考什么（knowledge_nodes）。
+
+#### 2026-08-29 19:00:00 知识节点库统一
+
+- 用户提供《高考九科知识点树状清单》（2026 课标教材体系），生成 v2 知识树（917 节点）。
+- v1 知识树（333 节点，考试能力分类）的关键词全部合并到 v2 节点（2030 个 v1 关键词零遗漏）。
+- index_builder.py 清理：删除所有 v1 import 和运行时补充逻辑，仅引用 v2 文件。
+- 九科覆盖：语文 99、数学 102、英语 99、物理 126、化学 90、生物 107、历史 127、政治 84、地理 83。
+- 5012 个关键词，支持学科内搜索/检索。
+- 对抗性审查修复：
+  - 移除 ENG-LEXA(词法) 上的题型关键词（cloze/七选五/完形），它们是题型不是知识点。
+  - 补充常用搜索词："排列组合"→计数原理、"电解"→化学反应与电能、"reading comprehension"→阅读技能、"函数单调性"→函数的概念与性质。
+- 测试库 seed 917 个 v2 节点。
+- 回归：后端 748 passed，0 failed。
+

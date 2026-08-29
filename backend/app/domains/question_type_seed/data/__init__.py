@@ -1,0 +1,43 @@
+"""
+Question Type Seed -- all subject data aggregated.
+
+Exports ALL_QUESTION_TYPE_SEEDS keyed by subject code.
+"""
+
+from __future__ import annotations
+
+from ..types import QuestionTypeSeed
+from .biology import BIOLOGY_QUESTION_TYPES
+from .chemistry import CHEMISTRY_QUESTION_TYPES
+from .chinese import CHINESE_QUESTION_TYPES
+from .english import ENGLISH_QUESTION_TYPES
+from .geography import GEOGRAPHY_QUESTION_TYPES
+from .history import HISTORY_QUESTION_TYPES
+from .math import MATH_QUESTION_TYPES
+from .physics import PHYSICS_QUESTION_TYPES
+from .politics import POLITICS_QUESTION_TYPES
+
+ALL_QUESTION_TYPE_SEEDS: dict[str, list[QuestionTypeSeed]] = {
+    "MATH": MATH_QUESTION_TYPES,
+    "PHYS": PHYSICS_QUESTION_TYPES,
+    "CHEM": CHEMISTRY_QUESTION_TYPES,
+    "BIO": BIOLOGY_QUESTION_TYPES,
+    "CHN": CHINESE_QUESTION_TYPES,
+    "ENG": ENGLISH_QUESTION_TYPES,
+    "POLI": POLITICS_QUESTION_TYPES,
+    "HIST": HISTORY_QUESTION_TYPES,
+    "GEOG": GEOGRAPHY_QUESTION_TYPES,
+}
+
+__all__ = [
+    "ALL_QUESTION_TYPE_SEEDS",
+    "BIOLOGY_QUESTION_TYPES",
+    "CHEMISTRY_QUESTION_TYPES",
+    "CHINESE_QUESTION_TYPES",
+    "ENGLISH_QUESTION_TYPES",
+    "GEOGRAPHY_QUESTION_TYPES",
+    "HISTORY_QUESTION_TYPES",
+    "MATH_QUESTION_TYPES",
+    "PHYSICS_QUESTION_TYPES",
+    "POLITICS_QUESTION_TYPES",
+]
