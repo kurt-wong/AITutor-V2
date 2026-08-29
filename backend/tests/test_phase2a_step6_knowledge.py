@@ -281,7 +281,7 @@ async def test_mapping_no_keyword_hit_goes_pending_unknown(db):
 async def test_ingestion_auto_maps_knowledge(db):
     """ingest_pipeline_result 入库时自动写入 question_knowledge。"""
     from app.domains.document.ingestion import ingest_pipeline_result
-    from app.domains.document.pipeline import PipelineResult
+    from app.domains.document.pipeline_shared import PipelineResult
     from app.domains.document.schemas_l2 import SlicedQuestion
 
     subject = await _make_math_subject(db)

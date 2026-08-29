@@ -87,6 +87,10 @@ docker start aitutor-postgres aitutor-minio aitutor-redis
 | aitutor-minio | localhost:9000 (API) / 9001 (控制台) | minioadmin/minioadmin，bucket=aitutors |
 | aitutor-redis | localhost:16379 | — |
 
+> **Docker Compose 方案**（端口/容器名不同）：`docker compose up --build` 使用
+> `docker-compose.yml`，postgres 5432 / redis 6379 / minio 9000，前端 8080。
+> 两套方案不兼容，不要同时启动。详见 `README.md`。
+
 ### 6.2 后端（uvicorn，8000）
 
 ```powershell

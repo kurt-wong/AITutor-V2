@@ -11,7 +11,7 @@
 修复后必须通过；同时断言输出补齐了 page_no/bbox/source/figure_id 元数据（P1-8）。
 """
 
-from app.domains.document.pipeline import (
+from app.domains.document.pipeline_shared import (
     _build_question_images,
     _question_field_line_ids,
     _question_option_line_ids,

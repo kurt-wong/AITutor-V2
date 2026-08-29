@@ -569,7 +569,7 @@ def test_section_inconsistent_shared_material_lines_flagged():
 
 def test_pipeline_result_to_dict_includes_shared_material_line_ids():
     """PipelineResult.to_dict() 输出 shared_material_line_ids。"""
-    from app.domains.document.pipeline import PipelineResult
+    from app.domains.document.pipeline_shared import PipelineResult
     from app.domains.document.schemas_l2 import SlicedQuestion
 
     r = PipelineResult()
@@ -785,7 +785,7 @@ def test_shared_material_full_chain_invalid_ids_filtered():
 
 def test_pipeline_result_to_dict_images_include_url_and_xref():
     """PipelineResult.to_dict() 输出图片的 url 和 xref 字段。"""
-    from app.domains.document.pipeline import PipelineResult
+    from app.domains.document.pipeline_shared import PipelineResult
     from app.domains.document.schemas_l1 import L1Document, L1Image, L1Page
 
     r = PipelineResult()

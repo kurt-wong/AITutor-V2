@@ -25,7 +25,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 
 from app.core.config import settings
-from app.domains.document.pipeline import PipelineResult
+from app.domains.document.pipeline_shared import PipelineResult
 from app.domains.document.schemas_l2 import (
     CorrectedAnchor,
     L2DocumentAnnotation,

@@ -1,4 +1,4 @@
-from fastapi import Depends
+from fastapi import Depends, Header, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.application.services import (
@@ -6,6 +6,7 @@ from app.application.services import (
     QuestionApplicationService,
     TaskApplicationService,
 )
+from app.core.config import settings
 from app.core.database import get_db_session
 from app.domains.document.repository import (
     DocumentProcessingLogRepository,
@@ -19,6 +20,20 @@ from app.domains.question.service import QuestionService
 from app.domains.task.repository import BackgroundTaskRepository
 from app.domains.task.service import TaskService
 from app.infrastructure.storage import MinIOStorage
+
+
+async def verify_admin_key(
+    x_api_key: str | None = Header(None, alias="X-API-Key"),
+) -> None:
+    """Admin API key verification. Reads ADMIN_API_KEY from config.
+
+    Skipped in development when key is the default 'change-me'.
+    """
+    expected = settings.admin_api_key
+    if expected == "change-me":
+        return  # dev mode, skip auth
+    if x_api_key != expected:
+        raise HTTPException(status_code=401, detail="Invalid or missing API key")
 
 
 def get_minio_storage() -> MinIOStorage:

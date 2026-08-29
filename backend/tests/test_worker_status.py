@@ -46,7 +46,7 @@ class TestWorkerStatusMapping:
         mock_doc.object_key = "test.pdf"
         mock_doc.filename = "test.pdf"
 
-        from app.domains.document.pipeline import PipelineResult
+        from app.domains.document.pipeline_shared import PipelineResult
         success_result = PipelineResult()
         success_result.status = "succeeded"
 
@@ -119,7 +119,7 @@ class TestWorkerStatusMapping:
         mock_doc.object_key = "test.pdf"
         mock_doc.filename = "test.pdf"
 
-        from app.domains.document.pipeline import PipelineResult
+        from app.domains.document.pipeline_shared import PipelineResult
         failed_result = PipelineResult()
         failed_result.status = "failed"
         failed_result.stage_errors = [{"stage": "llm_annotation", "error": "timeout"}]
@@ -201,7 +201,7 @@ class TestAtomicCommit:
         mock_doc.filename = "test.pdf"
         mock_doc.processing_status = "processing"
 
-        from app.domains.document.pipeline import PipelineResult
+        from app.domains.document.pipeline_shared import PipelineResult
         success_result = PipelineResult()
         success_result.status = "succeeded"
 
@@ -278,7 +278,7 @@ class TestAtomicCommit:
         mock_doc.filename = "test.pdf"
         mock_doc.processing_status = "processing"
 
-        from app.domains.document.pipeline import PipelineResult
+        from app.domains.document.pipeline_shared import PipelineResult
         success_result = PipelineResult()
         success_result.status = "succeeded"
 
@@ -437,7 +437,7 @@ class TestPartialFailedConsistency:
         mock_doc.filename = "test.pdf"
         mock_doc.processing_status = "processing"
 
-        from app.domains.document.pipeline import PipelineResult
+        from app.domains.document.pipeline_shared import PipelineResult
         partial_result = PipelineResult()
         partial_result.status = "partial_failed"
         partial_result.errors = ["partial error"]
@@ -522,7 +522,7 @@ class TestPartialFailedConsistency:
         mock_doc.object_key = "test.pdf"
         mock_doc.filename = "test.pdf"
 
-        from app.domains.document.pipeline import PipelineResult
+        from app.domains.document.pipeline_shared import PipelineResult
         partial_result = PipelineResult()
         partial_result.status = "partial_failed"
 
@@ -613,7 +613,7 @@ class TestCommitFailureRollback:
         mock_doc.filename = "test.pdf"
         mock_doc.processing_status = "processing"
 
-        from app.domains.document.pipeline import PipelineResult
+        from app.domains.document.pipeline_shared import PipelineResult
         success_result = PipelineResult()
         success_result.status = "succeeded"
 
@@ -898,7 +898,7 @@ class TestRollbackAtomicity:
     async def test_success_path_commit_failure_restores_document_state(self):
         """成功路径 commit 失败 → rollback 恢复 document.processing_status 到 pre-commit 状态。"""
         from app.worker.document_worker import document_parse_worker
-        from app.domains.document.pipeline import PipelineResult
+        from app.domains.document.pipeline_shared import PipelineResult
 
         # 初始状态：task=queued, doc=processing（第一次 commit 后）
         mock_task = _TrackedObject(

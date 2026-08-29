@@ -9,7 +9,8 @@ import asyncio
 from pathlib import Path
 from unittest.mock import MagicMock, AsyncMock, patch
 
-from app.domains.document.pipeline import _build_question_images, _merge_dual_source
+from app.domains.document.pipeline_shared import _build_question_images
+from app.domains.document.pipeline import _merge_dual_source
 from app.domains.document.schemas_l1 import L1Document, L1Line, L1Page, L1Image
 
 

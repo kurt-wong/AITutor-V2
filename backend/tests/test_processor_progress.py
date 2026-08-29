@@ -11,7 +11,7 @@ from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
 from uuid import UUID
 
-from app.domains.document.pipeline import PipelineResult
+from app.domains.document.pipeline_shared import PipelineResult
 from app.domains.document.schemas_l1 import L1Document, L1Line, L1Page
 from app.domains.document.schemas_l2 import (
     L2DocumentAnnotation,

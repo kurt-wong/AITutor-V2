@@ -17,7 +17,7 @@ from sqlalchemy.orm import sessionmaker
 
 from app.core.config import settings
 from app.domains.document.ingestion import ingest_pipeline_result, IngestionResult
-from app.domains.document.pipeline import PipelineResult
+from app.domains.document.pipeline_shared import PipelineResult
 from app.domains.document.schemas_l1 import L1Document, L1Line, L1Page
 from app.domains.document.schemas_l2 import CorrectedAnchor, L2SubQuestion, SlicedQuestion
 from app.models import Document, Question, QuestionInstance

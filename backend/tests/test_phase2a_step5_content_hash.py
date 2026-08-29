@@ -134,7 +134,7 @@ async def subject_id(db):
 
 def _make_pipeline_result(qno: str, stem: str, options: list[dict], qtype: str = "single_choice"):
     """构造最小 PipelineResult（一道高置信度题）。"""
-    from app.domains.document.pipeline import PipelineResult
+    from app.domains.document.pipeline_shared import PipelineResult
     from app.domains.document.schemas_l2 import SlicedQuestion
 
     result = PipelineResult()
@@ -764,7 +764,7 @@ async def test_update_question_content_unknown_question_returns_none(db, subject
 
 def _make_composite_pipeline_result(qno: str, stem: str, subs: list[dict]):
     """构造选择题组综合题 PipelineResult（子题带切片文本）。"""
-    from app.domains.document.pipeline import PipelineResult
+    from app.domains.document.pipeline_shared import PipelineResult
     from app.domains.document.schemas_l2 import L2SubQuestion, SlicedQuestion
 
     result = PipelineResult()

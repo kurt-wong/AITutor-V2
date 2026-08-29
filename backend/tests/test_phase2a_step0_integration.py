@@ -447,7 +447,7 @@ async def test_instance_without_document_id_fails(db, subject_id):
 
 def _make_pipeline_result(question_number: str, stem: str) -> Any:
     """构造最小 PipelineResult（带一道已通过质量门的题）。"""
-    from app.domains.document.pipeline import PipelineResult
+    from app.domains.document.pipeline_shared import PipelineResult
     from app.domains.document.schemas_l2 import SlicedQuestion
 
     result = PipelineResult()

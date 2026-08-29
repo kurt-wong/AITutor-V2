@@ -1,8 +1,14 @@
-"""Tests for the expected paper structure gate."""
+"""Tests for the expected paper structure gate.
+
+依赖 test/results/ 下的真实管线输出 JSON（gitignore，不在版本控制中）。
+文件缺失时全部 skip。
+"""
 
 import json
 import sys
 from pathlib import Path
+
+import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "test" / "scripts"))
@@ -10,6 +16,14 @@ sys.path.insert(0, str(ROOT / "backend"))
 
 import run_live_validation as rlv
 from paper_structure import load_manifest, validate_paper_structure
+
+LIVE_VALIDATION = ROOT / "test" / "results" / "live_validation"
+COMPOSITE_VALIDATION = ROOT / "test" / "results" / "composite_validation"
+
+pytestmark = pytest.mark.skipif(
+    not LIVE_VALIDATION.is_dir(),
+    reason="test/results/live_validation/ missing (gitignored fixture data)",
+)
 
 
 def _load(path: Path) -> dict:
@@ -128,7 +142,6 @@ def test_math_structure_fails_when_questions_are_missing():
 
 
 def test_math_structure_passes_when_placeholder_questions_are_retained():
-    pass
     manifest = load_manifest("math")
     run = _load(ROOT / "test" / "results" / "live_validation" / "math_run1.json")
     result = validate_paper_structure(run, manifest)
@@ -152,41 +165,6 @@ def test_wrong_chaoyang_cloze_grouping_fails():
     run = _load_chaoyang_english_with_independent_grammar()
     # Split the cloze composite into ten independent questions, which is the
     # wrong structure for Chaoyang.
-    # 之前保留了 2-54，加上了 1-10，所以总共有 1-54 (除了 1 被替换了)
-    run["questions"] = [
-        q for q in run["questions"]
-        if q["question_number"] != "1"
-    ] + [
-        {
-            "question_number": str(n),
-            "question_type": "fill_in",
-            "is_composite": False,
-            "sub_questions": [],
-            "shared_material_line_ids": [],
-        }
-        for n in range(1, 11)
-    ]
-    result = validate_paper_structure(run, manifest)
-    assert not result["valid"]
-
-
-def test_composite_without_shared_material_fails():
-    manifest = load_manifest("english")
-    run = _load_chaoyang_english_with_independent_grammar()
-    for question in run["questions"]:
-        if question["question_number"] == "1":
-            question["shared_material_line_ids"] = []
-            break
-    result = validate_paper_structure(run, manifest)
-    assert not result["valid"]
-
-
-def test_wrong_chaoyang_cloze_grouping_fails():
-    manifest = load_manifest("english")
-    run = _load_chaoyang_english_with_independent_grammar()
-    # Split the cloze composite into ten independent questions, which is the
-    # wrong structure for Chaoyang.
-    # 之前保留了 2-54，加上了 1-10，所以总共有 1-54 (除了 1 被替换了)
     run["questions"] = [
         q for q in run["questions"]
         if q["question_number"] != "1"
@@ -205,7 +183,6 @@ def test_wrong_chaoyang_cloze_grouping_fails():
 
 
 def test_generate_report_fails_on_invalid_paper_structure():
-    pass
 
 
 

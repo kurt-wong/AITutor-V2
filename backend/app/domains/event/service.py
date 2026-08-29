@@ -1,5 +1,3 @@
-from collections.abc import Awaitable, Callable
-from datetime import datetime, timezone
 from typing import Any
 from uuid import UUID
 
@@ -26,19 +24,6 @@ class EventService:
             payload_json=payload,
         )
         return await self.repository.add(event)
-
-    async def consume_pending(
-        self,
-        consumer: Callable[[DomainEvent], Awaitable[None]],
-        *,
-        limit: int = 100,
-    ) -> int:
-        events = await self.repository.list_pending(limit=limit)
-        for event in events:
-            await consumer(event)
-            event.processed_at = datetime.now(timezone.utc)
-        await self.repository.session.flush()
-        return len(events)
 
     async def commit(self) -> None:
         await self.repository.commit()

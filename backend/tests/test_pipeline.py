@@ -6,7 +6,8 @@ from pathlib import Path
 
 from app.ai.gateway import LLMGateway
 from app.ai.providers import MockLLMProvider
-from app.domains.document.pipeline import PipelineResult, run_pipeline
+from app.domains.document.pipeline_shared import PipelineResult
+from app.domains.document.pipeline import run_pipeline
 from app.domains.document.schemas_l2 import L2SubQuestion, SlicedQuestion
 
 TEST_PDF = (

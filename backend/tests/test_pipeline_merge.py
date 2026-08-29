@@ -106,7 +106,9 @@ class TestH2IntegrationPostprocessCount:
                   _merge_dual_source → postprocess_l1 (0次)
         总计恰好 2 次。
         """
-        from app.domains.document.pipeline import extract_l1_from_pdf, extract_l1_from_ocr, _merge_dual_source
+        from app.domains.document.native_markdown import extract_l1_from_pdf
+        from app.domains.document.ppsv3_l1 import extract_l1_from_ocr
+        from app.domains.document.pipeline import _merge_dual_source
         from app.domains.document.l1_postprocessor import postprocess_l1 as real_postprocess
 
         call_count = 0
@@ -172,7 +174,7 @@ class TestH2IntegrationPostprocessCount:
 
     def test_single_native_source_postprocess_called_once(self):
         """仅 native 路径：postprocess_l1 恰好调用 1 次。"""
-        from app.domains.document.pipeline import extract_l1_from_pdf
+        from app.domains.document.native_markdown import extract_l1_from_pdf
 
         call_count = 0
 
