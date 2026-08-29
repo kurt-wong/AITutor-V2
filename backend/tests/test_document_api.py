@@ -239,3 +239,38 @@ def test_document_review_rejects_non_object_overrides() -> None:
     assert response.status_code == 400
     assert response.json()["error"]["code"] == "VALIDATION_ERROR"
     app.dependency_overrides.clear()
+
+
+def test_admin_api_rejects_request_without_key_when_auth_enabled():
+    """When admin_api_key is not the dev default, missing X-API-Key returns 401."""
+    from app.core.config import settings
+
+    original_key = settings.admin_api_key
+    settings.admin_api_key = "real-secret-key"
+    try:
+        client = TestClient(app)
+        response = client.get("/api/admin/documents")
+        assert response.status_code == 401
+        assert "Invalid or missing API key" in response.json()["detail"]
+    finally:
+        settings.admin_api_key = original_key
+
+
+def test_admin_api_accepts_valid_key():
+    """When admin_api_key is set, valid X-API-Key passes auth."""
+    from app.core.config import settings
+
+    original_key = settings.admin_api_key
+    settings.admin_api_key = "real-secret-key"
+    try:
+        fake = FakeDocumentApplicationService()
+        _override_service(fake)
+        client = TestClient(app)
+        response = client.get(
+            "/api/admin/documents",
+            headers={"X-API-Key": "real-secret-key"},
+        )
+        assert response.status_code == 200
+    finally:
+        settings.admin_api_key = original_key
+        app.dependency_overrides.clear()
