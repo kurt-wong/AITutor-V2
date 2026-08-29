@@ -1171,3 +1171,25 @@ section 标题）
 - 关键词计数从5012 修正为5010（小写去重，含移除"七选五"后重算）。
 
 **验证**：7 passed（test_question_type_seed 6 + test_knowledge_tree_integrity 1）。
+
+### 2026-08-29 22:00:00
+
+#### 测试文件治理审计
+
+**治理规则**：后端业务测试 → `backend/tests/`；前端业务测试 → `frontend/tests/`；整体架构/验证脚本 → `test/`。
+
+**删除（合计 ~450 个文件）**：
+- `backend/scripts/_tmp_*.py`（26 个）：一次性诊断脚本，零外部引用
+- `test/scripts/_*.py`（64 个，保留 `_verify_env_keys.py`）：一次性诊断/上传/清理脚本
+- `test/results/*.py`（32 个）：错放的诊断脚本，不应在 results 目录
+- `test/results/` 日志/临时文件（150+ 个）：e2e_*.txt、pytest_*.txt、tmp*.pdf、*.log
+- `test/scripts/` 孤立脚本（33 个）：fix_golden 1-4、debug_options 1-2、batch_upload 等零引用脚本
+- `tmp/`（707 个文件，24MB）：processor 临时 PDF/DOCX 副本和一次性诊断脚本
+
+**保留**：
+- `backend/tests/`：72 个文件全部保留（758 测试全部收集正常）
+- `frontend/tests/`：1 个文件（answer.test.mjs）
+- `test/scripts/`：15 个活跃脚本（验证/评估/管线批处理/answer_verifier 等）
+- `_verify_env_keys.py`：bugs.md 引用的密钥轮换验证工具
+
+**验证**：后端全量 753 passed，5 failed（已知 e2e 数据前置），零回归。
