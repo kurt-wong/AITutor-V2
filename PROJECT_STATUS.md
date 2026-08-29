@@ -114,3 +114,8 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 - P1-2：question_images.sub_question_qno 已落库，答案图按空间邻近绑定到子题，API/前端按子题过滤展示。
 - 验证：后端 746 passed（5 failed 仅为已知 e2e 目标文档缺失）；前端 npm run build 通过；真实库与测试库均升级到 20260829_0003。
 
+## 题型树文档（2026-08-29）
+
+- 新增 `Docs/00_Requirements/QUESTION_TYPE_TREE.md`：记录全国新高考九科题型树与北京高考 2026 题型清单。
+- 待补充：北京卷后续细分题型；该文档将作为题型分类与题库展示的基础。
+
