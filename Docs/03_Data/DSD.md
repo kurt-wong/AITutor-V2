@@ -435,6 +435,25 @@ AI 只能把题目映射到已有节点，不能创建新节点。
 | created_at | TIMESTAMPTZ | |
 | processed_at | TIMESTAMPTZ | 消费者处理时间，可为空 |
 
+### 4.23 answer_extraction_retries
+
+答案提取重试队列。答案提取失败时写入，支持 worker 自动重试和人工触发。
+
+| Field | Type | Note |
+|---|---|---|
+| id | UUID | PK |
+| document_id | UUID | FK documents |
+| task_id | UUID | FK background_tasks，可空 |
+| error_detail | TEXT | 失败原因 |
+| retry_count | INTEGER | 默认 0 |
+| max_retries | INTEGER | 默认 3 |
+| status | VARCHAR(20) | pending / retrying / succeeded / failed |
+| last_retry_at | TIMESTAMPTZ | |
+| created_at | TIMESTAMPTZ | |
+| updated_at | TIMESTAMPTZ | |
+
+索引：`(status, created_at)`
+
 ---
 
 ## 5. 关系

@@ -276,6 +276,41 @@ Query:
 
 返回处理日志列表。
 
+#### GET /api/admin/documents/answer-retries
+
+答案提取重试队列。
+
+Query:
+
+- status: pending | retrying | succeeded | failed
+
+Response:
+
+```json
+{
+  "data": {
+    "items": [
+      {
+        "id": "uuid",
+        "document_id": "uuid",
+        "status": "pending",
+        "retry_count": 0,
+        "max_retries": 3,
+        "error_detail": "string",
+        "created_at": "iso8601",
+        "last_retry_at": "iso8601"
+      }
+    ],
+    "total": 0
+  },
+  "meta": {"request_id": "uuid", "latency_ms": 1234}
+}
+```
+
+#### POST /api/admin/documents/answer-retries/{retry_id}/retry
+
+人工触发重试：重置重试记录为 pending 状态。
+
 #### PUT /api/admin/documents/{document_id}/review
 
 保存解析结果的人工审核状态和修正内容。
@@ -325,6 +360,28 @@ Request:
 
 
 ### 5.3 题库管理
+
+#### GET /api/admin/catalog
+
+题库目录聚合：学科 → 年级 → 题目数（管理后台题库目录树）。
+
+Response:
+
+```json
+{
+  "data": [
+    {
+      "name": "数学",
+      "question_count": 123,
+      "grades": [
+        {"name": "高一", "question_count": 100},
+        {"name": null, "question_count": 23}
+      ]
+    }
+  ],
+  "meta": {"request_id": "uuid", "latency_ms": 1234}
+}
+```
 
 #### GET /api/admin/questions
 
@@ -503,6 +560,39 @@ Response:
 #### GET/PUT /api/admin/config/question-types
 
 查看和更新按学科维护的题型规范。
+
+#### GET /api/admin/question-types
+
+返回完整题型树层级结构。
+
+Query:
+
+- subject: MATH / ENG / ... （可选，按学科过滤）
+
+Response:
+
+```json
+{
+  "subjects": [
+    {
+      "code": "MATH",
+      "name": "数学",
+      "types": [
+        {
+          "code": "MATH-CHOICE",
+          "name": "选择题",
+          "level": 1,
+          "description": null,
+          "keywords": [],
+          "children": [
+            {"code": "MATH-CHOICE-SINGLE", "name": "单项选择", "level": 2, "children": null}
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
 
 ---
 

@@ -64,6 +64,7 @@ services:
       LLM_REQUEST_TIMEOUT_SECONDS: ${LLM_REQUEST_TIMEOUT_SECONDS:-60}
       OCR_MOCK_MODE: ${OCR_MOCK_MODE:-true}
       EMBEDDING_MOCK_MODE: ${EMBEDDING_MOCK_MODE:-true}
+      WORKER_ENABLED: ${WORKER_ENABLED:-1}
     ports:
       - "8000:8000"
     depends_on:
@@ -73,40 +74,6 @@ services:
         condition: service_started
       minio:
         condition: service_started
-
-  worker:
-    build: ./backend
-    command: celery -A app.tasks.celery_app worker --loglevel=info
-    environment:
-      APP_ENV: ${APP_ENV:-development}
-      ADMIN_API_KEY: ${ADMIN_API_KEY:-change-me}
-      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-aitutors}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-aitutors}
-      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
-      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-minio:9000}
-      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-aitutors}
-      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-change-me}
-      MINIO_BUCKET: ${MINIO_BUCKET:-aitutors}
-      MINIO_SECURE: ${MINIO_SECURE:-false}
-      LLM_GATEWAY_MODE: ${LLM_GATEWAY_MODE:-mock}
-      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
-      MIMO_API_KEY: ${MIMO_API_KEY:-}
-      PADDLEOCR_VL_TOKEN: ${PADDLEOCR_VL_TOKEN:-}
-      DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL:-}
-      DEEPSEEK_MODEL: ${DEEPSEEK_MODEL:-}
-      DEEPSEEK_VL_MODEL: ${DEEPSEEK_VL_MODEL:-deepseek-v4-flash-vision-exp}
-      MIMO_BASE_URL: ${MIMO_BASE_URL:-}
-      MIMO_MODEL: ${MIMO_MODEL:-}
-      MIMO_VL_MODEL: ${MIMO_VL_MODEL:-mimo-v2.5}
-      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-}
-      OLLAMA_MODEL: ${OLLAMA_MODEL:-}
-      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-ollama}
-      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-qwen3-embedding:4b}
-      EMBEDDING_DIMENSION: ${EMBEDDING_DIMENSION:-2560}
-      LLM_REQUEST_TIMEOUT_SECONDS: ${LLM_REQUEST_TIMEOUT_SECONDS:-60}
-      OCR_MOCK_MODE: ${OCR_MOCK_MODE:-true}
-      EMBEDDING_MOCK_MODE: ${EMBEDDING_MOCK_MODE:-true}
-    depends_on:
-      - backend
 
   frontend:
     build: ./frontend

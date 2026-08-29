@@ -18,7 +18,7 @@ Pipeline 流程：
 生产代码禁止从这里导入共享符号（PipelineResult / save_result /
 _filter_by_page_range / _build_question_images 等），请从
 `pipeline_shared` 导入。本文件底部的 re-export 仅兼容 legacy 测试与旧调用；
-移除 legacy 时需同步迁移 17 个测试文件的 import（见 LOG.md）。
+移除 legacy 时需同步迁移 16 个测试文件的 import（见 LOG.md）。
 """
 
 from __future__ import annotations
