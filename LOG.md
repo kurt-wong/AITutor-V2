@@ -1193,3 +1193,23 @@ section 标题）
 - `_verify_env_keys.py`：bugs.md 引用的密钥轮换验证工具
 
 **验证**：后端全量 753 passed，5 failed（已知 e2e 数据前置），零回归。
+
+### 2026-08-29 23:00:00
+
+#### 代码治理审计
+
+**审查方法**：逐文件 grep 依赖关系，分类为 ACTIVE/DEAD/DEPRECATED/PLACEHOLDER/ONE_SHOT。
+
+**删除（62 个文件）**：
+- v1 知识树（7 个 DEAD）：`tree_seed/math.py`、`physics.py`、`chemistry.py`、`biology.py`、`chinese.py`、`english.py`、`humanities.py`——全部被 v2 替代，`__init__.py` 和 `index_builder.py` 只引用 v2 文件
+- `tasks/celery_app.py`（DEAD）——零引用，worker 是自定义 asyncio 循环
+- `backend/scripts/` 一次性数据修复脚本（36 个 ONE_SHOT）：fix_*/backfill_*/retire_*/switch_*/toggle_*/mark_*/cleanup_*/retry_*
+- `backend/scripts/` 阶段验证脚本（18 个 ONE_SHOT）：step*_db_verify/e2e_*/verify_migration/p4e_pilot_upload
+
+**保留决策**：
+- `parser.py` + `question_extractor.py`（DEPRECATED）：运行时 guard 阻止生产调用，`test_question_extractor.py` 仍引用，保留作为回归保护
+- `pipeline.py`（兼容层）：17+ 测试文件引用其 re-export，迁移 import 是独立任务
+- 占位域（analytics/auth/embedding/generation/student/system/wrong_question）：模型已建表，域代码是未来功能骨架，保留
+- `backend/scripts/` 保留 3 个活跃工具：`seed_knowledge_tree.py`、`setup_test_db.py`、`validate_docs_vs_code.py`
+
+**验证**：后端全量 753 passed，零回归。
