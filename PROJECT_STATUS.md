@@ -221,3 +221,8 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 - 新增数学/化学/语文原生 L1 fixture。
 - `test_golden_contract.py` 覆盖四份新 golden 的字段与 line_id 校验。
 - 全量 pytest 755 passed + 8 skipped。
+
+## Golden 数量口径澄清（2026-08-29 22:25:33）
+
+- golden 不约束题量、组数、子题数，只约束题型种类与展示结构。
+- 现有契约化 golden 中的数量仅为示例覆盖情况，不作为验收标准。
