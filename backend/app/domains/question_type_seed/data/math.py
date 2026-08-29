@@ -42,6 +42,15 @@ _L2 = [
         description="单选题与多选题",
         keywords=["选择题", "multiple choice", "单选", "多选"],
     ),
+    # -- 北京卷特有
+    QuestionTypeSeed(
+        code="MATH-OBJ-MULTI",
+        name="多项选择",
+        level=2,
+        parent_code="MATH-OBJ",
+        description="北京卷特有：答案个数不确定的选择题（可能1-4个正确答案），判分逻辑与单选不同",
+        keywords=["多项选择", "multi-select", "不定项选择", "多选题"],
+    ),
     QuestionTypeSeed(
         code="MATH-OBJ-FILL",
         name="填空题",

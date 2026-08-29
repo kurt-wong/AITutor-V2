@@ -50,6 +50,23 @@ _L2 = [
         description="电学实验，含电阻测量、电动势与内阻、多用电表",
         keywords=["电学实验", "electromagnetism experiment", "电学"],
     ),
+    # -- 北京卷特有：实验题"一小一大"结构
+    QuestionTypeSeed(
+        code="PHYS-EXP-SMALL",
+        name="小实验",
+        level=2,
+        parent_code="PHYS-EXP",
+        description="北京卷特有：多角度设问的基础实验题，拓宽考查范围",
+        keywords=["小实验", "small experiment", "基础实验"],
+    ),
+    QuestionTypeSeed(
+        code="PHYS-EXP-LARGE",
+        name="大实验",
+        level=2,
+        parent_code="PHYS-EXP",
+        description="北京卷特有：基于课标实验的创新思维考查，含方案设计与问题解决",
+        keywords=["大实验", "large experiment", "创新实验", "实验设计"],
+    ),
     # -- 计算题
     QuestionTypeSeed(
         code="PHYS-CALC-MECH",

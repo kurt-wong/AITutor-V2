@@ -91,6 +91,23 @@ _L2 = [
         description="变量分析、步骤补充、结果预测、评价改进",
         keywords=["实验设计", "experimental design", "实验探究"],
     ),
+    # -- 北京卷特有
+    QuestionTypeSeed(
+        code="BIO-ESSAY-THINK",
+        name="科学思维路径",
+        level=2,
+        parent_code="BIO-ESSAY",
+        description="北京卷特有：按'提出问题-作出假设-科学验证-进一步假设'设计的递进式探究题",
+        keywords=["科学思维路径", "scientific thinking pathway", "递进探究"],
+    ),
+    QuestionTypeSeed(
+        code="BIO-ESSAY-OPEN",
+        name="开放性设问",
+        level=2,
+        parent_code="BIO-ESSAY",
+        description="北京卷特有：鼓励提出创造性解决方案的开放性试题",
+        keywords=["开放性设问", "open-ended question", "创造性方案"],
+    ),
 ]
 
 # ═══ Level 3: Specific types ═════════════════════════════════════════════════
