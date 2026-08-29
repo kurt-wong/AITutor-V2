@@ -1245,3 +1245,12 @@ section 标题）
 - `run_live_validation.py`：GOLDEN_FIELDS 扩展；golden overall 低于 80% 时直接 FAIL。
 - `test_validation_harness.py`：新增 4 个回归测试覆盖子题丢失、子题行号错误、紧凑选项未拆、golden <80% 门禁。
 - 待办：`test/results_to_delete/pytest-of-Kurtw` 锁定残留待会话结束清理；P4E.1 任务5 三份验证文档重跑。
+
+### 2026-08-29 21:38:34
+
+#### 题目展示与切片契约固化（DISPLAY_CONTRACT v0.4）
+
+- 新建 `Docs/00_Requirements/DISPLAY_CONTRACT.md` v0.4。
+- 覆盖英语、语文、理科的展示与切片规则。
+- 确认：展示标记仅作元数据；英语/语文默认综合题 + 子题；写作范文放 `answer`；化学式标准化；配图锚点统一；文言注释存 `shared_material_notes`；表格答案用 `answer_structure`；大写作直接按一道题建模。
+- 同步 `RESTART_PROMPT.md`、`rules.md`、`DICTIONARY.md`。

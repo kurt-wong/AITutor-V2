@@ -142,6 +142,10 @@ Question Aggregate
 | answer | 标准答案 |
 | answer_structure | 结构化答案元数据：可包含 accepted_answers / range 等，可为空 |
 | word_bank | 选词填空题组共享词库，可为空 |
+| shared_material | 综合题共享材料/文章/情境，可为空 |
+| shared_material_notes | 共享材料注释（如文言文注释），可为空 |
+| scoring_standard | 评分标准/作答要求，可为空 |
+| stem_region / answer_region / explanation_region | 展示区块边界元数据，可为空 |
 | explanation | 详解 |
 | content_hash | 规范化文本 SHA256（Phase 2A 新增） |
 | source_type | 题目来源：document / generated / student |
@@ -476,3 +480,9 @@ Question Aggregate
 - P0-5 化学式标准化：新增 chemistry_formula.py，OCR 括号式下标/上标归一化为 Cl₂、OH⁻、Fe₂O₃、Fe³⁺、Mg(OH)₂ 等。
 - P1-2 答案图子题绑定：question_images 新增 sub_question_qno；空间邻近算法绑定答案图到最近子题。
 
+
+### 2026-08-29 21:38:34
+
+- 固化 `Docs/00_Requirements/DISPLAY_CONTRACT.md` v0.4。
+- 新增展示契约字段：`shared_material`、`shared_material_notes`、`scoring_standard`、`stem_region/answer_region/explanation_region`。
+- 语文表格答案使用 `answer_structure`；写作范文放 `answer`；大写作直接按一道题建模。

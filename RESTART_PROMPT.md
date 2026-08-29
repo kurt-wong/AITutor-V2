@@ -51,6 +51,7 @@ Codex/Claude 重启后先读本文件恢复上下文。本文件只承载稳定�
 | `bugs.md` | 已知问题与修复记录 |
 | `docs_archive/status/` | 版本化状态快照 |
 | `Docs/00_Requirements/REQUIREMENTS_AND_SOLUTION.md` | 需求与方案基线 |
+| Docs/00_Requirements/DISPLAY_CONTRACT.md | 题目展示与切片契约 |
 | `Docs/01_Product/ROADMAP.md` | 阶段任务计划 |
 | `Docs/02_Architecture/SAD.md` | 系统架构 |
 | `Docs/02_Architecture/MIS.md` | MCP 工具规范 |

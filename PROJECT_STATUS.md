@@ -193,3 +193,10 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 - golden 门禁新增：子题数、子题 `options_line_ids`、选项完整性；golden overall <80% 直接 FAIL。
 - 全量 pytest 752 passed + 8 skipped；e2e 9 passed。
 - 待办：P4E.1 任务5 三份验证文档重跑；`test/results_to_delete/pytest-of-Kurtw` 锁定残留清理。
+
+## 题目展示与切片契约固化（2026-08-29 21:38:34）
+
+- `Docs/00_Requirements/DISPLAY_CONTRACT.md` v0.4 已固化。
+- 当前契约覆盖英语、语文、理科；后续实现将按此契约调整 golden、pipeline、API 与前端。
+- 同步更新 `RESTART_PROMPT.md`、`rules.md`、`DICTIONARY.md`。
+- 详见 LOG.md `2026-08-29 21:38:34` 条目。

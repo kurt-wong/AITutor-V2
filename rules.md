@@ -13,6 +13,7 @@
 | 要查的内容 | 权威文档 |
 |---|---|
 | 真实需求 / 方案基线 | `Docs/00_Requirements/REQUIREMENTS_AND_SOLUTION.md` |
+| 题目展示 / 切片契约 | Docs/00_Requirements/DISPLAY_CONTRACT.md |
 | 字段 / 功能 / 状态字典 | `Docs/00_Requirements/DICTIONARY.md` |
 | 项目定位 / 技术栈 / 当前状态 / 完成度 | `PROJECT_STATUS.md` |
 | 已知问题 / Bug 跟踪 | `bugs.md` |
