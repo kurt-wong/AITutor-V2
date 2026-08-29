@@ -1,7 +1,7 @@
-# AI Tutor Personal Edition — PROJECT_STATUS
+﻿# AI Tutor Personal Edition — PROJECT_STATUS
 
 Version: 6.46
-Status: v6.46 题型树+知识节点库完成；Phase 1-3 全量修复；748 passed。
+Status: v6.46 题型树+知识节点库完成；Phase 1-3 全量修复；743 passed（5 failed 已知 e2e + 8 skipped）。
 Date: 2026-08-29
 
 ---
@@ -179,3 +179,10 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 - `validate_docs_vs_code.py` 退出码 0。
 - 本次仅补录 LOG/PROJECT_STATUS 记录。
 - 详见 LOG.md `2026-08-29 18:59:31` 条目。
+
+## 状态同步（2026-08-29 20:31:16）
+
+- HEAD c8d81e2；f4e7ac0 + 7abe2e0 + c8d81e2 已完成对抗性审查后续修复。
+- 当前测试：743 passed + 5 failed（e2e 目标文档缺失）+ 8 skipped；validate_docs_vs_code ok。
+- 下一主任务：P4E.1 任务 4 测试门禁；前置恢复 test/results/golden 与 e2e 目标文档。
+- 待清理：test/results_to_delete/pytest-of-Kurtw（PID 6408 锁定）。

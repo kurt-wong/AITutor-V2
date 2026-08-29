@@ -1224,3 +1224,13 @@ section 标题）
 - pipeline.py：兼容层注释测试文件数 17→16。
 - 验证：`validate_docs_vs_code.py` 退出码 0。
 - 补录：commit 3bcf49d 未包含 LOG/PROJECT_STATUS 记录，本次追加。
+
+### 2026-08-29 20:31:16
+
+#### 对抗性审查后续修复与测试基线同步
+
+- commit f4e7ac0：pipeline import 迁移、删除 deprecated parser/question_extractor、admin X-API-Key、删除 EventService consume_pending、TODO 转设计说明、RESTART_PROMPT compose 说明、paper_structure_gate skip。
+- commit 7abe2e0：tasks router 补挂 verify_admin_key，新增 401/valid-key 测试。
+- commit c8d81e2：router.py 标注占位域状态。
+- 验证：743 passed + 5 failed（已知 e2e 目标文档缺失）+ 8 skipped；validate_docs_vs_code ok。
+- 遗留：test/results_to_delete/pytest-of-Kurtw 被 PID 6408 锁定；P4E.1 任务 4 测试门禁未启动。
