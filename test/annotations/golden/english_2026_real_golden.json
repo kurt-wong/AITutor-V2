@@ -1,0 +1,4316 @@
+{
+  "filename": "2026北京朝阳高一（上）期末英语（教师版）.pdf",
+  "created_at": "2026-08-15T02:09:54",
+  "annotator": "dsh_draft_from_native_live",
+  "version": "0.1-draft",
+  "postprocessed": false,
+  "l1_fixture": "l1_native_english_2026.json",
+  "source_note": "草稿（非验收 golden）：由 native-only live 结果生成，未经人工核对。answer 为空的题标注 answer_needs_manual=true。待真实 PP L1 建立后必须由人工核对替换，不得直接用于 Task 2.5 验收。",
+  "questions": [
+    {
+      "question_number": "1",
+      "question_type": "single_choice",
+      "section_id": "完形填空_1",
+      "stem_line_ids": [
+        "P1L019"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L020"
+        ],
+        "B": [
+          "P1L021"
+        ],
+        "C": [
+          "P1L022"
+        ],
+        "D": [
+          "P1L023"
+        ]
+      },
+      "answer": "D2.C3.A4.C5.C6.D7.B8.D9.A10.B",
+      "answer_line_ids": [
+        "P9L009",
+        "P18L012"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "1.",
+        "options": {
+          "A": "relaxing",
+          "B": "interesting",
+          "C": "shocking",
+          "D": "satisfying"
+        },
+        "answer": "D2.C3.A4.C5.C6.D7.B8.D9.A10.B"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L019"
+        ],
+        "options_line_ids": [
+          [
+            "P1L020"
+          ],
+          [
+            "P1L021"
+          ],
+          [
+            "P1L022"
+          ],
+          [
+            "P1L023"
+          ]
+        ],
+        "answer_line_ids": [
+          "P9L009",
+          "P18L012"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "2",
+      "question_type": "single_choice",
+      "section_id": "完形填空_1",
+      "stem_line_ids": [
+        "P1L024"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L025"
+        ],
+        "B": [
+          "P1L026"
+        ],
+        "C": [
+          "P1L027"
+        ],
+        "D": [
+          "P1L028"
+        ]
+      },
+      "answer": "C3.A4.C5.C6.D7.B8.D9.A10.B",
+      "answer_line_ids": [
+        "P9L009",
+        "P18L017"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "2.",
+        "options": {
+          "A": "running",
+          "B": "cheering",
+          "C": "crying",
+          "D": "shouting"
+        },
+        "answer": "C3.A4.C5.C6.D7.B8.D9.A10.B"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L024"
+        ],
+        "options_line_ids": [
+          [
+            "P1L025"
+          ],
+          [
+            "P1L026"
+          ],
+          [
+            "P1L027"
+          ],
+          [
+            "P1L028"
+          ]
+        ],
+        "answer_line_ids": [
+          "P9L009",
+          "P18L017"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "3",
+      "question_type": "single_choice",
+      "section_id": "完形填空_1",
+      "stem_line_ids": [
+        "P1L029"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L030"
+        ],
+        "B": [
+          "P1L031"
+        ],
+        "C": [
+          "P1L032"
+        ],
+        "D": [
+          "P1L033"
+        ]
+      },
+      "answer": "A4.C5.C6.D7.B8.D9.A10.B",
+      "answer_line_ids": [
+        "P9L009"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "3.",
+        "options": {
+          "A": "injured",
+          "B": "scared",
+          "C": "annoyed",
+          "D": "defeated"
+        },
+        "answer": "A4.C5.C6.D7.B8.D9.A10.B"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L029"
+        ],
+        "options_line_ids": [
+          [
+            "P1L030"
+          ],
+          [
+            "P1L031"
+          ],
+          [
+            "P1L032"
+          ],
+          [
+            "P1L033"
+          ]
+        ],
+        "answer_line_ids": [
+          "P9L009"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "4",
+      "question_type": "single_choice",
+      "section_id": "完形填空_1",
+      "stem_line_ids": [
+        "P1L034"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L035"
+        ],
+        "B": [
+          "P1L036"
+        ],
+        "C": [
+          "P1L037"
+        ],
+        "D": [
+          "P1L038"
+        ]
+      },
+      "answer": "C5.C6.D7.B8.D9.A10.B",
+      "answer_line_ids": [
+        "P9L009"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "4.",
+        "options": {
+          "A": "go on",
+          "B": "break down",
+          "C": "fly by",
+          "D": "drag on"
+        },
+        "answer": "C5.C6.D7.B8.D9.A10.B"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L034"
+        ],
+        "options_line_ids": [
+          [
+            "P1L035"
+          ],
+          [
+            "P1L036"
+          ],
+          [
+            "P1L037"
+          ],
+          [
+            "P1L038"
+          ]
+        ],
+        "answer_line_ids": [
+          "P9L009"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "5",
+      "question_type": "single_choice",
+      "section_id": "完形填空_1",
+      "stem_line_ids": [
+        "P1L039"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L040"
+        ],
+        "B": [
+          "P1L041"
+        ],
+        "C": [
+          "P1L042"
+        ],
+        "D": [
+          "P1L043"
+        ]
+      },
+      "answer": "C6.D7.B8.D9.A10.B",
+      "answer_line_ids": [
+        "P9L009"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "5.",
+        "options": {
+          "A": "attention",
+          "B": "curiosity",
+          "C": "confidence",
+          "D": "excitement"
+        },
+        "answer": "C6.D7.B8.D9.A10.B"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L039"
+        ],
+        "options_line_ids": [
+          [
+            "P1L040"
+          ],
+          [
+            "P1L041"
+          ],
+          [
+            "P1L042"
+          ],
+          [
+            "P1L043"
+          ]
+        ],
+        "answer_line_ids": [
+          "P9L009"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "6",
+      "question_type": "single_choice",
+      "section_id": "完形填空_1",
+      "stem_line_ids": [
+        "P1L044"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L045"
+        ],
+        "B": [
+          "P1L046"
+        ],
+        "C": [
+          "P1L047"
+        ],
+        "D": [
+          "P1L048"
+        ]
+      },
+      "answer": "D7.B8.D9.A10.B",
+      "answer_line_ids": [
+        "P9L009"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "6.",
+        "options": {
+          "A": "start",
+          "B": "expect",
+          "C": "offer",
+          "D": "promise"
+        },
+        "answer": "D7.B8.D9.A10.B"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L044"
+        ],
+        "options_line_ids": [
+          [
+            "P1L045"
+          ],
+          [
+            "P1L046"
+          ],
+          [
+            "P1L047"
+          ],
+          [
+            "P1L048"
+          ]
+        ],
+        "answer_line_ids": [
+          "P9L009"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "7",
+      "question_type": "single_choice",
+      "section_id": "完形填空_1",
+      "stem_line_ids": [
+        "P1L049"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L050"
+        ],
+        "B": [
+          "P1L051"
+        ],
+        "C": [
+          "P1L052"
+        ],
+        "D": [
+          "P1L053"
+        ]
+      },
+      "answer": "B8.D9.A10.B",
+      "answer_line_ids": [
+        "P9L009"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "7.",
+        "options": {
+          "A": "deepest",
+          "B": "funniest",
+          "C": "strangest",
+          "D": "saddest"
+        },
+        "answer": "B8.D9.A10.B"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L049"
+        ],
+        "options_line_ids": [
+          [
+            "P1L050"
+          ],
+          [
+            "P1L051"
+          ],
+          [
+            "P1L052"
+          ],
+          [
+            "P1L053"
+          ]
+        ],
+        "answer_line_ids": [
+          "P9L009"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "8",
+      "question_type": "single_choice",
+      "section_id": "完形填空_1",
+      "stem_line_ids": [
+        "P1L054"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L055"
+        ],
+        "B": [
+          "P1L056"
+        ],
+        "C": [
+          "P1L057"
+        ],
+        "D": [
+          "P1L058"
+        ]
+      },
+      "answer": "D9.A10.B",
+      "answer_line_ids": [
+        "P9L009"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "8.",
+        "options": {
+          "A": "fortunately",
+          "B": "carefully",
+          "C": "independently",
+          "D": "unknowingly"
+        },
+        "answer": "D9.A10.B"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L054"
+        ],
+        "options_line_ids": [
+          [
+            "P1L055"
+          ],
+          [
+            "P1L056"
+          ],
+          [
+            "P1L057"
+          ],
+          [
+            "P1L058"
+          ]
+        ],
+        "answer_line_ids": [
+          "P9L009"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "9",
+      "question_type": "single_choice",
+      "section_id": "完形填空_1",
+      "stem_line_ids": [
+        "P1L059"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L060"
+        ],
+        "B": [
+          "P1L061"
+        ],
+        "C": [
+          "P1L062"
+        ],
+        "D": [
+          "P1L063"
+        ]
+      },
+      "answer": "A10.B",
+      "answer_line_ids": [
+        "P9L009"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "9.",
+        "options": {
+          "A": "rules",
+          "B": "plans",
+          "C": "chances",
+          "D": "choices"
+        },
+        "answer": "A10.B"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L059"
+        ],
+        "options_line_ids": [
+          [
+            "P1L060"
+          ],
+          [
+            "P1L061"
+          ],
+          [
+            "P1L062"
+          ],
+          [
+            "P1L063"
+          ]
+        ],
+        "answer_line_ids": [
+          "P9L009"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "10",
+      "question_type": "single_choice",
+      "section_id": "完形填空_1",
+      "stem_line_ids": [
+        "P1L018"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L065"
+        ],
+        "B": [
+          "P1L066"
+        ],
+        "C": [
+          "P1L067"
+        ],
+        "D": [
+          "P1L068"
+        ]
+      },
+      "answer": "B",
+      "answer_line_ids": [
+        "P9L009"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "10. And, make sure your stories are interesting enough — most will happily enjoy your stories.",
+        "options": {
+          "A": "surprised",
+          "B": "entertained",
+          "C": "protected",
+          "D": "challenged"
+        },
+        "answer": "B"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L018"
+        ],
+        "options_line_ids": [
+          [
+            "P1L065"
+          ],
+          [
+            "P1L066"
+          ],
+          [
+            "P1L067"
+          ],
+          [
+            "P1L068"
+          ]
+        ],
+        "answer_line_ids": [
+          "P9L009"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "11",
+      "question_type": "fill_in",
+      "section_id": "语法填空_1",
+      "stem_line_ids": [
+        "P2L005"
+      ],
+      "options_line_ids": {},
+      "answer": "wouldattend",
+      "answer_line_ids": [
+        "P10L033"
+      ],
+      "explanation_line_ids": [
+        "P10L034"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "expected_content": {
+        "stem": "11. I promised that I (attend) the meeting the following week. (所给词的适当形式填空)",
+        "options": {},
+        "answer": "wouldattend"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L005"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P10L033"
+        ],
+        "explanation_line_ids": [
+          "P10L034"
+        ]
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.95,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "12",
+      "question_type": "fill_in",
+      "section_id": "语法填空_1",
+      "stem_line_ids": [
+        "P2L006"
+      ],
+      "options_line_ids": {},
+      "answer": "to become",
+      "answer_line_ids": [
+        "P10L035"
+      ],
+      "explanation_line_ids": [
+        "P11L001"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "expected_content": {
+        "stem": "12. His ambition is (become) a professional pianist in the future.(所给词的适当形式填空)",
+        "options": {},
+        "answer": "to become"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L006"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P10L035"
+        ],
+        "explanation_line_ids": [
+          "P11L001"
+        ]
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.95,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "13",
+      "question_type": "fill_in",
+      "section_id": "语法填空_1",
+      "stem_line_ids": [
+        "P2L007"
+      ],
+      "options_line_ids": {},
+      "answer": "to take",
+      "answer_line_ids": [
+        "P11L002"
+      ],
+      "explanation_line_ids": [
+        "P11L003"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "expected_content": {
+        "stem": "13. It is our duty (take) care of the environment for future generations. (所给词的适当形式填空)",
+        "options": {},
+        "answer": "to take"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L007"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L002"
+        ],
+        "explanation_line_ids": [
+          "P11L003"
+        ]
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.95,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "14",
+      "question_type": "fill_in",
+      "section_id": "语法填空_1",
+      "stem_line_ids": [
+        "P2L008"
+      ],
+      "options_line_ids": {},
+      "answer": "wasorganized",
+      "answer_line_ids": [
+        "P11L004"
+      ],
+      "explanation_line_ids": [
+        "P11L005"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "expected_content": {
+        "stem": "14. A wonderful English party (organize) in our school hall last Friday.(所给词的适当形式填空)",
+        "options": {},
+        "answer": "wasorganized"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L008"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L004"
+        ],
+        "explanation_line_ids": [
+          "P11L005"
+        ]
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.95,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "15",
+      "question_type": "fill_in",
+      "section_id": "语法填空_1",
+      "stem_line_ids": [
+        "P2L009"
+      ],
+      "options_line_ids": {},
+      "answer": "where",
+      "answer_line_ids": [
+        "P11L006"
+      ],
+      "explanation_line_ids": [
+        "P11L007"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "expected_content": {
+        "stem": "15.A group of visitors visited the factory the famous electric cars are made. (用适当的词填空)",
+        "options": {},
+        "answer": "where"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L009"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L006"
+        ],
+        "explanation_line_ids": [
+          "P11L007"
+        ]
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.95,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "16",
+      "question_type": "fill_in",
+      "section_id": "语法填空_1",
+      "stem_line_ids": [
+        "P2L010"
+      ],
+      "options_line_ids": {},
+      "answer": "willbebuilt",
+      "answer_line_ids": [
+        "P11L008"
+      ],
+      "explanation_line_ids": [
+        "P11L009"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "expected_content": {
+        "stem": "16.A new bridge (build) over the river next year to ease the traffic pressure. (所给词的适当形式填空)",
+        "options": {},
+        "answer": "willbebuilt"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L010"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L008"
+        ],
+        "explanation_line_ids": [
+          "P11L009"
+        ]
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.95,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "17",
+      "question_type": "fill_in",
+      "section_id": "语法填空_1",
+      "stem_line_ids": [
+        "P2L011"
+      ],
+      "options_line_ids": {},
+      "answer": "whose",
+      "answer_line_ids": [
+        "P11L010"
+      ],
+      "explanation_line_ids": [
+        "P11L011"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "expected_content": {
+        "stem": "17. Our class voted for the student positive attitude has influenced the whole class. (用适当的词填空)",
+        "options": {},
+        "answer": "whose"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L011"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L010"
+        ],
+        "explanation_line_ids": [
+          "P11L011"
+        ]
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.95,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "18",
+      "question_type": "fill_in",
+      "section_id": "语法填空_1",
+      "stem_line_ids": [
+        "P2L012"
+      ],
+      "options_line_ids": {},
+      "answer": "playing",
+      "answer_line_ids": [
+        "P11L012"
+      ],
+      "explanation_line_ids": [
+        "P11L013"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "expected_content": {
+        "stem": "18. My brother enjoys (play) chess because it can improve his concentration. (所给词的适当形式填空)",
+        "options": {},
+        "answer": "playing"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L012"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L012"
+        ],
+        "explanation_line_ids": [
+          "P11L013"
+        ]
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.95,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "19",
+      "question_type": "fill_in",
+      "section_id": "语法填空_1",
+      "stem_line_ids": [
+        "P2L013"
+      ],
+      "options_line_ids": {},
+      "answer": "to buy",
+      "answer_line_ids": [
+        "P11L014"
+      ],
+      "explanation_line_ids": [
+        "P11L015"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "expected_content": {
+        "stem": "19. The young man saved pocket money for months (buy) a birthday gift for his mother. (所给词的适当形式填空)",
+        "options": {},
+        "answer": "to buy"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L013"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L014"
+        ],
+        "explanation_line_ids": [
+          "P11L015"
+        ]
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.95,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "20",
+      "question_type": "fill_in",
+      "section_id": "语法填空_1",
+      "stem_line_ids": [
+        "P2L014"
+      ],
+      "options_line_ids": {},
+      "answer": "encouraged",
+      "answer_line_ids": [
+        "P11L016"
+      ],
+      "explanation_line_ids": [
+        "P11L017"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "expected_content": {
+        "stem": "20. With their classmates' support, the players felt (encourage) before the final match.(所给词的适当形式填空)",
+        "options": {},
+        "answer": "encouraged"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L014"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L016"
+        ],
+        "explanation_line_ids": [
+          "P11L017"
+        ]
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.95,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "21",
+      "question_type": "fill_in",
+      "section_id": "选词填空_1",
+      "stem_line_ids": [
+        "P2L018"
+      ],
+      "options_line_ids": {},
+      "answer": "a variety of",
+      "answer_line_ids": [
+        "P11L020"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "21. The shopping mall offers goods to meet the different needs of customers.",
+        "options": {},
+        "answer": "a variety of"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L018"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L020"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "22",
+      "question_type": "fill_in",
+      "section_id": "选词填空_1",
+      "stem_line_ids": [
+        "P2L019"
+      ],
+      "options_line_ids": {},
+      "answer": "prohibited",
+      "answer_line_ids": [
+        "P11L021"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "22. Smoking is strictly on campus according to the school rules.",
+        "options": {},
+        "answer": "prohibited"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L019"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L021"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "23",
+      "question_type": "fill_in",
+      "section_id": "选词填空_1",
+      "stem_line_ids": [
+        "P2L020"
+      ],
+      "options_line_ids": {},
+      "answer": "ahead of",
+      "answer_line_ids": [
+        "P11L022"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "23. With a clear plan and full preparations, you will surely stay your competitors.",
+        "options": {},
+        "answer": "ahead of"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L020"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L022"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "24",
+      "question_type": "fill_in",
+      "section_id": "选词填空_1",
+      "stem_line_ids": [
+        "P2L021"
+      ],
+      "options_line_ids": {},
+      "answer": "reward",
+      "answer_line_ids": [
+        "P11L023"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "24.As a for his excellent academic performance, the school offered him a scholarship.",
+        "options": {},
+        "answer": "reward"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L021"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L023"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "25",
+      "question_type": "fill_in",
+      "section_id": "选词填空_1",
+      "stem_line_ids": [
+        "P2L022"
+      ],
+      "options_line_ids": {},
+      "answer": "put up",
+      "answer_line_ids": [
+        "P11L024"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "25.We several tents in the backyard for the upcoming camping party last night.",
+        "options": {},
+        "answer": "put up"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L022"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L024"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "26",
+      "question_type": "fill_in",
+      "section_id": "选词填空_1",
+      "stem_line_ids": [
+        "P2L023"
+      ],
+      "options_line_ids": {},
+      "answer": "shock",
+      "answer_line_ids": [
+        "P11L025"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "26.It came as a to me that the hot favourite came third in the final competition.",
+        "options": {},
+        "answer": "shock"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L023"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L025"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "27",
+      "question_type": "fill_in",
+      "section_id": "选词填空_1",
+      "stem_line_ids": [
+        "P2L024"
+      ],
+      "options_line_ids": {},
+      "answer": "have selected",
+      "answer_line_ids": [
+        "P11L026"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "27. The judges the best three paintings to display in the city art gallery so far.",
+        "options": {},
+        "answer": "have selected"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L024"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L026"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "28",
+      "question_type": "fill_in",
+      "section_id": "选词填空_1",
+      "stem_line_ids": [
+        "P2L025"
+      ],
+      "options_line_ids": {},
+      "answer": "be capable of",
+      "answer_line_ids": [
+        "P11L027"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "28. Senior high school students should taking responsibility for their learning choices.",
+        "options": {},
+        "answer": "be capable of"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L025"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L027"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "29",
+      "question_type": "fill_in",
+      "section_id": "选词填空_1",
+      "stem_line_ids": [
+        "P2L026"
+      ],
+      "options_line_ids": {},
+      "answer": "inspire",
+      "answer_line_ids": [
+        "P11L028"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "29. Currently, we badly need someone who can our team to set higher goals.",
+        "options": {},
+        "answer": "inspire"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L026"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L028"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "30",
+      "question_type": "fill_in",
+      "section_id": "选词填空_1",
+      "stem_line_ids": [
+        "P2L027"
+      ],
+      "options_line_ids": {},
+      "answer": "apply for",
+      "answer_line_ids": [
+        "P11L029"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "30. Many students hope to the exchange program to experience different cultures.",
+        "options": {},
+        "answer": "apply for"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L027"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P11L029"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 1.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "31",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_A",
+      "stem_line_ids": [
+        "P3L021"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P3L022"
+        ],
+        "B": [
+          "P3L023"
+        ],
+        "C": [
+          "P3L024"
+        ],
+        "D": [
+          "P3L025",
+          "P3L026"
+        ]
+      },
+      "answer": "A32.B33.D",
+      "answer_line_ids": [
+        "P13L003"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "31. Applicants for QS ImpACT scholarships must",
+        "options": {
+          "A": "prepare a personal essay",
+          "B": "perform community service",
+          "C": "win study awards",
+          "D": "organize a QS Event"
+        },
+        "answer": "A32.B33.D"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P3L021"
+        ],
+        "options_line_ids": [
+          [
+            "P3L022"
+          ],
+          [
+            "P3L023"
+          ],
+          [
+            "P3L024"
+          ],
+          [
+            "P3L025",
+            "P3L026"
+          ]
+        ],
+        "answer_line_ids": [
+          "P13L003"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 3,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "32",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_A",
+      "stem_line_ids": [
+        "P3L027"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P3L028"
+        ],
+        "B": [
+          "P3L029"
+        ],
+        "C": [
+          "P3L030"
+        ],
+        "D": [
+          "P3L031"
+        ]
+      },
+      "answer": "B33.D",
+      "answer_line_ids": [
+        "P13L003"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "32. To be an outstanding scholarship applicant, you should",
+        "options": {
+          "A": "takecoursesin leadershipskills",
+          "B": "show your efforts in self - improvement",
+          "C": "do research on your subject",
+          "D": "report on your community work"
+        },
+        "answer": "B33.D"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P3L027"
+        ],
+        "options_line_ids": [
+          [
+            "P3L028"
+          ],
+          [
+            "P3L029"
+          ],
+          [
+            "P3L030"
+          ],
+          [
+            "P3L031"
+          ]
+        ],
+        "answer_line_ids": [
+          "P13L003"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 3,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "33",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_A",
+      "stem_line_ids": [
+        "P3L032"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P3L033"
+        ],
+        "B": [
+          "P3L034"
+        ],
+        "C": [
+          "P3L035"
+        ],
+        "D": [
+          "P4L001"
+        ]
+      },
+      "answer": "D",
+      "answer_line_ids": [
+        "P13L003"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "33. A high-quality cover letter should________.",
+        "options": {
+          "A": "have a flexible format",
+          "B": "nclu more an oe pi",
+          "C": "provide as many details as possible",
+          "D": "attract readers with a strong introduction"
+        },
+        "answer": "D"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P3L032"
+        ],
+        "options_line_ids": [
+          [
+            "P3L033"
+          ],
+          [
+            "P3L034"
+          ],
+          [
+            "P3L035"
+          ],
+          [
+            "P4L001"
+          ]
+        ],
+        "answer_line_ids": [
+          "P13L003"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 3,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "34",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_B",
+      "stem_line_ids": [
+        "P4L007"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P4L008"
+        ],
+        "B": [
+          "P4L009"
+        ],
+        "C": [
+          "P4L010"
+        ],
+        "D": [
+          "P4L011"
+        ]
+      },
+      "answer": "B35.C36.B37.C",
+      "answer_line_ids": [
+        "P13L012"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "34. What can we learn about Frank Mundus in Paragraph 1?",
+        "options": {
+          "A": "He caught the largest shark in the world.",
+          "B": "He changed his attitude towards shark fishing.",
+          "C": "He became famous after the movie Jaws was shown.",
+          "D": "He called for traditional fishing methods in his later years."
+        },
+        "answer": "B35.C36.B37.C"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P4L007"
+        ],
+        "options_line_ids": [
+          [
+            "P4L008"
+          ],
+          [
+            "P4L009"
+          ],
+          [
+            "P4L010"
+          ],
+          [
+            "P4L011"
+          ]
+        ],
+        "answer_line_ids": [
+          "P13L012"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 4,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "35",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_B",
+      "stem_line_ids": [
+        "P4L012"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P4L013"
+        ],
+        "B": [
+          "P4L014"
+        ],
+        "C": [
+          "P4L015"
+        ],
+        "D": [
+          "P4L016"
+        ]
+      },
+      "answer": "C36.B37.C",
+      "answer_line_ids": [
+        "P13L012"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "35.According to the passage, Michel Goff",
+        "options": {
+          "A": "balances tourism and conservation efforts",
+          "B": "works to relieve concerns about the ocean",
+          "C": "inspires people to speak up for the environment",
+          "D": "studies ocean biology for his filmmaking career"
+        },
+        "answer": "C36.B37.C"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P4L012"
+        ],
+        "options_line_ids": [
+          [
+            "P4L013"
+          ],
+          [
+            "P4L014"
+          ],
+          [
+            "P4L015"
+          ],
+          [
+            "P4L016"
+          ]
+        ],
+        "answer_line_ids": [
+          "P13L012"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 4,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "36",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_B",
+      "stem_line_ids": [
+        "P4L017"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P4L018"
+        ],
+        "B": [
+          "P4L019"
+        ],
+        "C": [
+          "P4L020"
+        ],
+        "D": [
+          "P4L021"
+        ]
+      },
+      "answer": "B37.C",
+      "answer_line_ids": [
+        "P13L012"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "36. What do we know about the fishermen in the passage?",
+        "options": {
+          "A": "They see themselves as owners of the sea.",
+          "B": "They realize the importance of conservation.",
+          "C": "They see conservation as a short - term solution.",
+          "D": "They focus on building ocean reserves worldwide."
+        },
+        "answer": "B37.C"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P4L017"
+        ],
+        "options_line_ids": [
+          [
+            "P4L018"
+          ],
+          [
+            "P4L019"
+          ],
+          [
+            "P4L020"
+          ],
+          [
+            "P4L021"
+          ]
+        ],
+        "answer_line_ids": [
+          "P13L012"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 4,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "37",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_B",
+      "stem_line_ids": [
+        "P4L022"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P5L001"
+        ],
+        "B": [
+          "P5L002"
+        ],
+        "C": [
+          "P5L003"
+        ],
+        "D": [
+          "P5L004"
+        ]
+      },
+      "answer": "C",
+      "answer_line_ids": [
+        "P13L012"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "37. What is the main idea of the passage?",
+        "options": {
+          "A": "The importance of protecting sea life.",
+          "B": "The harm of commercial fishing to the ocean.",
+          "C": "The shift of fishermen from hunters to protectors.",
+          "D": "The history of shark hunting in different countries."
+        },
+        "answer": "C"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P4L022"
+        ],
+        "options_line_ids": [
+          [
+            "P5L001"
+          ],
+          [
+            "P5L002"
+          ],
+          [
+            "P5L003"
+          ],
+          [
+            "P5L004"
+          ]
+        ],
+        "answer_line_ids": [
+          "P13L012"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 4,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "38",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_C",
+      "stem_line_ids": [
+        "P5L013"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P5L014"
+        ],
+        "B": [
+          "P5L015"
+        ],
+        "C": [
+          "P5L016"
+        ],
+        "D": [
+          "P5L017"
+        ]
+      },
+      "answer": "C39.A40.B41.D",
+      "answer_line_ids": [
+        "P14L007"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "38. What can be inferred about the search phrases chosen by participants?",
+        "options": {
+          "A": "They challenged participants' beliefs.",
+          "B": "They were shaped by social media",
+          "C": "They made \"echo chambers\" worse.",
+          "D": "They were diverse among participants."
+        },
+        "answer": "C39.A40.B41.D"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P5L013"
+        ],
+        "options_line_ids": [
+          [
+            "P5L014"
+          ],
+          [
+            "P5L015"
+          ],
+          [
+            "P5L016"
+          ],
+          [
+            "P5L017"
+          ]
+        ],
+        "answer_line_ids": [
+          "P14L007"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 5,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "39",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_C",
+      "stem_line_ids": [
+        "P5L018"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P5L019"
+        ],
+        "B": [
+          "P5L020"
+        ],
+        "C": [
+          "P5L021"
+        ],
+        "D": [
+          "P5L022"
+        ]
+      },
+      "answer": "A40.B41.D",
+      "answer_line_ids": [
+        "P14L007"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "39. What does the phrase \"align with\" underlined in Paragraph 3 probably mean?",
+        "options": {
+          "A": "Match.",
+          "B": "Remove.",
+          "C": "Question.",
+          "D": "Change."
+        },
+        "answer": "A40.B41.D"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P5L018"
+        ],
+        "options_line_ids": [
+          [
+            "P5L019"
+          ],
+          [
+            "P5L020"
+          ],
+          [
+            "P5L021"
+          ],
+          [
+            "P5L022"
+          ]
+        ],
+        "answer_line_ids": [
+          "P14L007"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 5,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "40",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_C",
+      "stem_line_ids": [
+        "P5L023"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P5L024"
+        ],
+        "B": [
+          "P5L025"
+        ],
+        "C": [
+          "P5L026"
+        ],
+        "D": [
+          "P5L027"
+        ]
+      },
+      "answer": "B41.D",
+      "answer_line_ids": [
+        "P14L007"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "40. What does the author intend to do by writing this passage?",
+        "options": {
+          "A": "Make a comparison.",
+          "B": "Give a suggestion.",
+          "C": "Explain a concept.",
+          "D": "Predict a trend."
+        },
+        "answer": "B41.D"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P5L023"
+        ],
+        "options_line_ids": [
+          [
+            "P5L024"
+          ],
+          [
+            "P5L025"
+          ],
+          [
+            "P5L026"
+          ],
+          [
+            "P5L027"
+          ]
+        ],
+        "answer_line_ids": [
+          "P14L007"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 5,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "41",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_C",
+      "stem_line_ids": [
+        "P5L028"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P6L001"
+        ],
+        "B": [
+          "P6L002"
+        ],
+        "C": [
+          "P6L003"
+        ],
+        "D": [
+          "P6L004"
+        ]
+      },
+      "answer": "D",
+      "answer_line_ids": [
+        "P14L007"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "41. Which would be the best title for the passage?",
+        "options": {
+          "A": "The Charm of Broad Searching",
+          "B": "The Secret of Search Algorithms",
+          "C": "How You Can Improve Search Phrases",
+          "D": "How You Search Can Deepen Your Beliefs"
+        },
+        "answer": "D"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P5L028"
+        ],
+        "options_line_ids": [
+          [
+            "P6L001"
+          ],
+          [
+            "P6L002"
+          ],
+          [
+            "P6L003"
+          ],
+          [
+            "P6L004"
+          ]
+        ],
+        "answer_line_ids": [
+          "P14L007"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 5,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "42",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_D",
+      "stem_line_ids": [
+        "P6L012"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P6L013"
+        ],
+        "B": [
+          "P6L014"
+        ],
+        "C": [
+          "P6L015"
+        ],
+        "D": [
+          "P6L016"
+        ]
+      },
+      "answer": "A43.B44.D",
+      "answer_line_ids": [
+        "P15L004"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "42. What can we know from the first two paragraphs?",
+        "options": {
+          "A": "Introverts can become extroverts.",
+          "B": "Modern therapy culture has become popular.",
+          "C": "Digital coaching helps with personality stability.",
+          "D": "Personality affects our views on weather change."
+        },
+        "answer": "A43.B44.D"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P6L012"
+        ],
+        "options_line_ids": [
+          [
+            "P6L013"
+          ],
+          [
+            "P6L014"
+          ],
+          [
+            "P6L015"
+          ],
+          [
+            "P6L016"
+          ]
+        ],
+        "answer_line_ids": [
+          "P15L004"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 6,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "43",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_D",
+      "stem_line_ids": [
+        "P6L017"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P6L018"
+        ],
+        "B": [
+          "P6L019"
+        ],
+        "C": [
+          "P6L020"
+        ],
+        "D": [
+          "P6L021"
+        ]
+      },
+      "answer": "B44.D",
+      "answer_line_ids": [
+        "P15L004"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "43. What can be inferred from the passage?",
+        "options": {
+          "A": "Introverts handle mental stress well.",
+          "B": "Social relationships influence happiness.",
+          "C": "Extroversion is necessary for physical health.",
+          "D": "Caring about self-image ensures social comfrt."
+        },
+        "answer": "B44.D"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P6L017"
+        ],
+        "options_line_ids": [
+          [
+            "P6L018"
+          ],
+          [
+            "P6L019"
+          ],
+          [
+            "P6L020"
+          ],
+          [
+            "P6L021"
+          ]
+        ],
+        "answer_line_ids": [
+          "P15L004"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 6,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "44",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_D",
+      "stem_line_ids": [
+        "P6L022"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P6L023"
+        ],
+        "B": [
+          "P6L024"
+        ],
+        "C": [
+          "P6L025"
+        ],
+        "D": [
+          "P6L026"
+        ]
+      },
+      "answer": "D",
+      "answer_line_ids": [
+        "P15L004"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "44. What is the author's attitude towards personality change?",
+        "options": {
+          "A": "Neutral.",
+          "B": "Doubtful.",
+          "C": "Uncertain.",
+          "D": "Supportive."
+        },
+        "answer": "D"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P6L022"
+        ],
+        "options_line_ids": [
+          [
+            "P6L023"
+          ],
+          [
+            "P6L024"
+          ],
+          [
+            "P6L025"
+          ],
+          [
+            "P6L026"
+          ]
+        ],
+        "answer_line_ids": [
+          "P15L004"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 6,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "45",
+      "question_type": "single_choice",
+      "section_id": "七选五_1",
+      "stem_line_ids": [
+        "P16L004"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P7L009"
+        ],
+        "B": [
+          "P7L010"
+        ],
+        "C": [
+          "P7L011"
+        ],
+        "D": [
+          "P7L012"
+        ],
+        "E": [
+          "P7L013"
+        ],
+        "F": [
+          "P7L014"
+        ],
+        "G": [
+          "P7L015"
+        ]
+      },
+      "answer": "G46.D47.A48.C49.F",
+      "answer_line_ids": [
+        "P16L004"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "45.G46.D47.A48.C49.F",
+        "options": {
+          "A": "It is just a short break from your social ties.",
+          "B": "There is no ideal balance between solitude and socialization.",
+          "C": "You don't need to spend a week in a cabin to enjoy the benefits of time alone.",
+          "D": "They asked 178 participants to report their daily activities and satisfaction levels.",
+          "E": "In this new social aloneness, people are disconnected both physically and virtually.",
+          "F": "Ross and Nguyen agree that getting the most from alone time requires purpose and choice.",
+          "G": "They've found that being alone helps people manage strong feelings like excitement and anger."
+        },
+        "answer": "G46.D47.A48.C49.F"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P16L004"
+        ],
+        "options_line_ids": [
+          [
+            "P7L009"
+          ],
+          [
+            "P7L010"
+          ],
+          [
+            "P7L011"
+          ],
+          [
+            "P7L012"
+          ],
+          [
+            "P7L013"
+          ],
+          [
+            "P7L014"
+          ],
+          [
+            "P7L015"
+          ]
+        ],
+        "answer_line_ids": [
+          "P16L004"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.4,
+      "source_page": 7,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "46",
+      "question_type": "single_choice",
+      "section_id": "七选五_1",
+      "stem_line_ids": [
+        "P7L005"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P7L006"
+        ],
+        "B": [
+          "P7L005"
+        ],
+        "C": [
+          "P7L011"
+        ],
+        "D": [
+          "P7L012"
+        ],
+        "E": [
+          "P7L013"
+        ],
+        "F": [
+          "P7L014"
+        ],
+        "G": [
+          "P7L015"
+        ]
+      },
+      "answer": "D47.A48.C49.F",
+      "answer_line_ids": [
+        "P16L004"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "But how do people make use of these benefits? To Nguyen, solitude only helps when it is a matter of choice. In a 2023 study, she and her colleagues looked at the benefits and harms of solitude.46The researchers found that more time alone generally reduced satisfaction, but those who chose to be alone felt just as satisfied as when they were not alone.",
+        "options": {
+          "A": "Another researcher Morgan Ross encourages a deeper look at what it means to be alone. In a 2024 paper, he introduced the idea of \"shades(程度)of solitude\", which range from deep solitude — such as being alone in a cabin (小木屋)without a phone— to light solitude, like spending an afternoon alone watching videos or reading. In the lightest shade, you're still engaged with someone else's thoughts, whether written in a book or posted on social media.47You can talk to them before or after.",
+          "B": "But how do people make use of these benefits? To Nguyen, solitude only helps when it is a matter of choice. In a 2023 study, she and her colleagues looked at the benefits and harms of solitude.46The researchers found that more time alone generally reduced satisfaction, but those who chose to be alone felt just as satisfied as when they were not alone.",
+          "C": "You don't need to spend a week in a cabin to enjoy the benefits of time alone.",
+          "D": "They asked 178 participants to report their daily activities and satisfaction levels.",
+          "E": "In this new social aloneness, people are disconnected both physically and virtually.",
+          "F": "Ross and Nguyen agree that getting the most from alone time requires purpose and choice.",
+          "G": "They've found that being alone helps people manage strong feelings like excitement and anger."
+        },
+        "answer": "D47.A48.C49.F"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P7L005"
+        ],
+        "options_line_ids": [
+          [
+            "P7L006"
+          ],
+          [
+            "P7L005"
+          ],
+          [
+            "P7L011"
+          ],
+          [
+            "P7L012"
+          ],
+          [
+            "P7L013"
+          ],
+          [
+            "P7L014"
+          ],
+          [
+            "P7L015"
+          ]
+        ],
+        "answer_line_ids": [
+          "P16L004"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.4,
+      "source_page": 7,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "47",
+      "question_type": "single_choice",
+      "section_id": "七选五_1",
+      "stem_line_ids": [
+        "P7L006"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P7L006"
+        ],
+        "B": [
+          "P7L010"
+        ],
+        "C": [
+          "P7L011"
+        ],
+        "D": [
+          "P7L012"
+        ],
+        "E": [
+          "P7L013"
+        ],
+        "F": [
+          "P7L014"
+        ],
+        "G": [
+          "P7L015"
+        ]
+      },
+      "answer": "A48.C49.F",
+      "answer_line_ids": [
+        "P16L004"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "Another researcher Morgan Ross encourages a deeper look at what it means to be alone. In a 2024 paper, he introduced the idea of \"shades(程度)of solitude\", which range from deep solitude — such as being alone in a cabin (小木屋)without a phone— to light solitude, like spending an afternoon alone watching videos or reading. In the lightest shade, you're still engaged with someone else's thoughts, whether written in a book or posted on social media.47You can talk to them before or after.",
+        "options": {
+          "A": "Another researcher Morgan Ross encourages a deeper look at what it means to be alone. In a 2024 paper, he introduced the idea of \"shades(程度)of solitude\", which range from deep solitude — such as being alone in a cabin (小木屋)without a phone— to light solitude, like spending an afternoon alone watching videos or reading. In the lightest shade, you're still engaged with someone else's thoughts, whether written in a book or posted on social media.47You can talk to them before or after.",
+          "B": "There is no ideal balance between solitude and socialization.",
+          "C": "You don't need to spend a week in a cabin to enjoy the benefits of time alone.",
+          "D": "They asked 178 participants to report their daily activities and satisfaction levels.",
+          "E": "In this new social aloneness, people are disconnected both physically and virtually.",
+          "F": "Ross and Nguyen agree that getting the most from alone time requires purpose and choice.",
+          "G": "They've found that being alone helps people manage strong feelings like excitement and anger."
+        },
+        "answer": "A48.C49.F"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P7L006"
+        ],
+        "options_line_ids": [
+          [
+            "P7L006"
+          ],
+          [
+            "P7L010"
+          ],
+          [
+            "P7L011"
+          ],
+          [
+            "P7L012"
+          ],
+          [
+            "P7L013"
+          ],
+          [
+            "P7L014"
+          ],
+          [
+            "P7L015"
+          ]
+        ],
+        "answer_line_ids": [
+          "P16L004"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.4,
+      "source_page": 7,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "48",
+      "question_type": "single_choice",
+      "section_id": "七选五_1",
+      "stem_line_ids": [
+        "P7L007"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P7L009"
+        ],
+        "B": [
+          "P7L010"
+        ],
+        "C": [
+          "P7L011"
+        ],
+        "D": [
+          "P7L012"
+        ],
+        "E": [
+          "P7L013"
+        ],
+        "F": [
+          "P7L014"
+        ],
+        "G": [
+          "P7L015"
+        ]
+      },
+      "answer": "C49.F",
+      "answer_line_ids": [
+        "P16L004"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "Solitude can be beneficial in everyday moments._48_Asolitary(独自的)walk in thepark,afew minutes in your room with a book and a cup of tea, with your phone nearby if you choose, can also offer benefits.",
+        "options": {
+          "A": "It is just a short break from your social ties.",
+          "B": "There is no ideal balance between solitude and socialization.",
+          "C": "You don't need to spend a week in a cabin to enjoy the benefits of time alone.",
+          "D": "They asked 178 participants to report their daily activities and satisfaction levels.",
+          "E": "In this new social aloneness, people are disconnected both physically and virtually.",
+          "F": "Ross and Nguyen agree that getting the most from alone time requires purpose and choice.",
+          "G": "They've found that being alone helps people manage strong feelings like excitement and anger."
+        },
+        "answer": "C49.F"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P7L007"
+        ],
+        "options_line_ids": [
+          [
+            "P7L009"
+          ],
+          [
+            "P7L010"
+          ],
+          [
+            "P7L011"
+          ],
+          [
+            "P7L012"
+          ],
+          [
+            "P7L013"
+          ],
+          [
+            "P7L014"
+          ],
+          [
+            "P7L015"
+          ]
+        ],
+        "answer_line_ids": [
+          "P16L004"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.4,
+      "source_page": 7,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "49",
+      "question_type": "single_choice",
+      "section_id": "七选五_1",
+      "stem_line_ids": [
+        "P7L008"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P7L009"
+        ],
+        "B": [
+          "P7L010"
+        ],
+        "C": [
+          "P7L011"
+        ],
+        "D": [
+          "P7L012"
+        ],
+        "E": [
+          "P7L013"
+        ],
+        "F": [
+          "P7L014"
+        ],
+        "G": [
+          "P7L015"
+        ]
+      },
+      "answer": "F",
+      "answer_line_ids": [
+        "P16L004"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "49That is, solitude helps if you seek it out rather than find yourself stuck in it. To make the most of your alone time, Nguyen suggests exploring what works best for you, making sure it feels purposeful.",
+        "options": {
+          "A": "It is just a short break from your social ties.",
+          "B": "There is no ideal balance between solitude and socialization.",
+          "C": "You don't need to spend a week in a cabin to enjoy the benefits of time alone.",
+          "D": "They asked 178 participants to report their daily activities and satisfaction levels.",
+          "E": "In this new social aloneness, people are disconnected both physically and virtually.",
+          "F": "Ross and Nguyen agree that getting the most from alone time requires purpose and choice.",
+          "G": "They've found that being alone helps people manage strong feelings like excitement and anger."
+        },
+        "answer": "F"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P7L008"
+        ],
+        "options_line_ids": [
+          [
+            "P7L009"
+          ],
+          [
+            "P7L010"
+          ],
+          [
+            "P7L011"
+          ],
+          [
+            "P7L012"
+          ],
+          [
+            "P7L013"
+          ],
+          [
+            "P7L014"
+          ],
+          [
+            "P7L015"
+          ]
+        ],
+        "answer_line_ids": [
+          "P16L004"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.4,
+      "source_page": 7,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "50",
+      "question_type": "short_answer",
+      "section_id": "阅读表达_1",
+      "stem_line_ids": [
+        "P8L005"
+      ],
+      "options_line_ids": {},
+      "answer": "He avoided speaking.",
+      "answer_line_ids": [
+        "P17L008"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "50. What did the author do to deal with his stutter when he was a child?",
+        "options": {},
+        "answer": "He avoided speaking."
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P8L005"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P17L008"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 8,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "51",
+      "question_type": "short_answer",
+      "section_id": "阅读表达_1",
+      "stem_line_ids": [
+        "P8L006"
+      ],
+      "options_line_ids": {},
+      "answer": "Because he had too little mental space left to devote to preparing to speak.",
+      "answer_line_ids": [
+        "P17L009"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "51. Why did the author's stutter return when he became an assistant professor?",
+        "options": {},
+        "answer": "Because he had too little mental space left to devote to preparing to speak."
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P8L006"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P17L009"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 2.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 8,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "52",
+      "question_type": "short_answer",
+      "section_id": "阅读表达_1",
+      "stem_line_ids": [
+        "P8L007"
+      ],
+      "options_line_ids": {},
+      "answer": "When the author failed to say \"equilibrium\" in class, his feeling of shame was relieved by his students'reaction.Explanation: The students seemed to brush aside his difficulty, but a feeling of shame remained.",
+      "answer_line_ids": [
+        "P17L010"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "52.Please decide which part is false in the following statement,then underline it and explai why When the author failed to say \"equilibrium\" in class, his feeling of shame was relieved by his students'reaction.",
+        "options": {},
+        "answer": "When the author failed to say \"equilibrium\" in class, his feeling of shame was relieved by his students'reaction.Explanation: The students seemed to brush aside his difficulty, but a feeling of shame remained."
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P8L007"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P17L010"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 8,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "53",
+      "question_type": "short_answer",
+      "section_id": "阅读表达_1",
+      "stem_line_ids": [
+        "P8L008"
+      ],
+      "options_line_ids": {},
+      "answer": "I can face my weakness bravely, try to improve it through learning and practice, and also accept it with a positive attitude.",
+      "answer_line_ids": [
+        "P17L011"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "53. How can you deal with your weakness in your daily life? (In about 40 words)",
+        "options": {},
+        "answer": "I can face my weakness bravely, try to improve it through learning and practice, and also accept it with a positive attitude."
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P8L008"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P17L011"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 5.0,
+      "knowledge_points": [],
+      "confidence": 0.9,
+      "source_page": 8,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "54",
+      "question_type": "short_answer",
+      "section_id": "书面表达_写作",
+      "stem_line_ids": [
+        "P8L010",
+        "P8L011",
+        "P8L012",
+        "P8L013",
+        "P8L014",
+        "P8L015"
+      ],
+      "options_line_ids": {},
+      "answer": "例文",
+      "answer_line_ids": [
+        "P18L006"
+      ],
+      "explanation_line_ids": [
+        "P18L011"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "expected_content": {
+        "stem": "54.假设你是红星中学高一学生李华。你的英国好友Jim打算在寒假通过一项体育运动来锻炼身体，并就此征求你的建议。请你用英文给他回一封邮件，内容如下：\n1.你建议的体育项目；\n2.就以上建议说明理由。\n注意：\n1.词数80左右；\n2.开头和结尾已给出，不计入总词数。",
+        "options": {},
+        "answer": "例文"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P8L010",
+          "P8L011",
+          "P8L012",
+          "P8L013",
+          "P8L014",
+          "P8L015"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P18L006"
+        ],
+        "explanation_line_ids": [
+          "P18L011"
+        ]
+      },
+      "difficulty": null,
+      "score": 20.0,
+      "knowledge_points": [],
+      "confidence": 0.95,
+      "source_page": 8,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    }
+  ],
+  "display_contract_version": "0.4"
+}

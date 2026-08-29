@@ -1,0 +1,665 @@
+{
+  "filename": "english_exercise_2024.pdf",
+  "created_at": "2026-08-11T00:00:00Z",
+  "annotator": "human_golden",
+  "version": "3.1",
+  "postprocessed": true,
+  "l1_fixture": "l1_snapshot_english.json",
+  "questions": [
+    {
+      "question_number": "1",
+      "question_type": "single_choice",
+      "section_id": "Part I",
+      "stem_line_ids": [
+        "P1L003"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L004"
+        ],
+        "B": [
+          "P1L005"
+        ],
+        "C": [
+          "P1L006"
+        ],
+        "D": [
+          "P1L007"
+        ]
+      },
+      "answer": "A",
+      "explanation": "被动语态：The book was published by the famous author last year.",
+      "answer_line_ids": [
+        "P1L049"
+      ],
+      "explanation_line_ids": [
+        "P1L060"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "image_ids": [],
+      "expected_content": {
+        "stem": "The book ______ by the famous author last year.",
+        "options": {
+          "A": "was published",
+          "B": "published",
+          "C": "has been published",
+          "D": "is published"
+        },
+        "answer": "A",
+        "explanation": "被动语态：The book was published by the famous author last year."
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L003"
+        ],
+        "options_line_ids": [
+          "P1L004",
+          "P1L005",
+          "P1L006",
+          "P1L007"
+        ],
+        "answer_line_ids": [
+          "P1L049"
+        ],
+        "explanation_line_ids": [
+          "P1L060"
+        ]
+      },
+      "difficulty": 2,
+      "score": 2.0,
+      "knowledge_points": [
+        "passive voice",
+        "tense"
+      ],
+      "confidence": 1.0,
+      "source_page": 1
+    },
+    {
+      "question_number": "2",
+      "question_type": "single_choice",
+      "section_id": "Part I",
+      "stem_line_ids": [
+        "P1L008"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L009"
+        ],
+        "B": [
+          "P1L010"
+        ],
+        "C": [
+          "P1L011"
+        ],
+        "D": [
+          "P1L012"
+        ]
+      },
+      "answer": "B",
+      "explanation": "虚拟语气：与过去事实相反，if 从句用 had done，主句用 would have done。",
+      "answer_line_ids": [
+        "P1L050"
+      ],
+      "explanation_line_ids": [
+        "P1L061"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "image_ids": [],
+      "expected_content": {
+        "stem": "If I ______ harder, I would have passed the exam.",
+        "options": {
+          "A": "studied",
+          "B": "had studied",
+          "C": "would study",
+          "D": "have studied"
+        },
+        "answer": "B",
+        "explanation": "虚拟语气：与过去事实相反，if 从句用 had done，主句用 would have done。"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L008"
+        ],
+        "options_line_ids": [
+          "P1L009",
+          "P1L010",
+          "P1L011",
+          "P1L012"
+        ],
+        "answer_line_ids": [
+          "P1L050"
+        ],
+        "explanation_line_ids": [
+          "P1L061"
+        ]
+      },
+      "difficulty": 3,
+      "score": 2.0,
+      "knowledge_points": [
+        "subjunctive mood",
+        "conditional"
+      ],
+      "confidence": 1.0,
+      "source_page": 1
+    },
+    {
+      "question_number": "3",
+      "question_type": "single_choice",
+      "section_id": "Part I",
+      "stem_line_ids": [
+        "P1L013"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L014"
+        ],
+        "B": [
+          "P1L015"
+        ],
+        "C": [
+          "P1L016"
+        ],
+        "D": [
+          "P1L017"
+        ]
+      },
+      "answer": "A",
+      "explanation": "定语从句：the reason 后用 that 引导表语从句，不用 which。",
+      "answer_line_ids": [
+        "P1L051"
+      ],
+      "explanation_line_ids": [
+        "P1L062"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "image_ids": [],
+      "expected_content": {
+        "stem": "The reason ______ he was late was that he missed the bus.",
+        "options": {
+          "A": "that",
+          "B": "which",
+          "C": "why",
+          "D": "for which"
+        },
+        "answer": "A",
+        "explanation": "定语从句：the reason 后用 that 引导表语从句，不用 which。"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L013"
+        ],
+        "options_line_ids": [
+          "P1L014",
+          "P1L015",
+          "P1L016",
+          "P1L017"
+        ],
+        "answer_line_ids": [
+          "P1L051"
+        ],
+        "explanation_line_ids": [
+          "P1L062"
+        ]
+      },
+      "difficulty": 2,
+      "score": 2.0,
+      "knowledge_points": [
+        "relative clause",
+        "reason"
+      ],
+      "confidence": 1.0,
+      "source_page": 1
+    },
+    {
+      "question_number": "4",
+      "question_type": "fill_blank",
+      "section_id": "Part II",
+      "stem_line_ids": [
+        "P1L019"
+      ],
+      "options_line_ids": {},
+      "answer": "since",
+      "explanation": "since + 时间点，表示从 2015 年至今，用现在完成进行时。",
+      "answer_line_ids": [
+        "P1L052"
+      ],
+      "explanation_line_ids": [
+        "P1L063"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "image_ids": [],
+      "expected_content": {
+        "stem": "She has been working as a teacher ______ 2015.",
+        "answer": "since",
+        "explanation": "since + 时间点，表示从 2015 年至今，用现在完成进行时。"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L019"
+        ],
+        "answer_line_ids": [
+          "P1L052"
+        ],
+        "explanation_line_ids": [
+          "P1L063"
+        ]
+      },
+      "difficulty": 2,
+      "score": 2.0,
+      "knowledge_points": [
+        "preposition",
+        "since"
+      ],
+      "confidence": 1.0,
+      "source_page": 1
+    },
+    {
+      "question_number": "5",
+      "question_type": "fill_blank",
+      "section_id": "Part II",
+      "stem_line_ids": [
+        "P1L020"
+      ],
+      "options_line_ids": {},
+      "answer": "will be completed",
+      "explanation": "by next month 表示将来，project 与 complete 是被动关系，用一般将来时被动语态。",
+      "answer_line_ids": [
+        "P1L053"
+      ],
+      "explanation_line_ids": [
+        "P1L064"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "image_ids": [],
+      "expected_content": {
+        "stem": "The project ______ (complete) by next month.",
+        "answer": "will be completed",
+        "explanation": "by next month 表示将来，project 与 complete 是被动关系，用一般将来时被动语态。"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L020"
+        ],
+        "answer_line_ids": [
+          "P1L053"
+        ],
+        "explanation_line_ids": [
+          "P1L064"
+        ]
+      },
+      "difficulty": 3,
+      "score": 2.0,
+      "knowledge_points": [
+        "future passive",
+        "will be completed"
+      ],
+      "confidence": 1.0,
+      "source_page": 1
+    },
+    {
+      "question_number": "6",
+      "question_type": "single_choice",
+      "section_id": "Part III: Cloze",
+      "shared_material_line_ids": [
+        "P1L022"
+      ],
+      "stem_line_ids": [
+        "P1L023"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L024"
+        ],
+        "B": [
+          "P1L025"
+        ],
+        "C": [
+          "P1L026"
+        ],
+        "D": [
+          "P1L027"
+        ]
+      },
+      "answer": "A",
+      "explanation": "with 表示伴随，with the development of technology = 随着技术的发展。",
+      "answer_line_ids": [
+        "P1L054"
+      ],
+      "explanation_line_ids": [
+        "P1L065"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "image_ids": [],
+      "expected_content": {
+        "stem": "6. ______ the development of technology, people can now share information more quickly than ever before.",
+        "options": {
+          "A": "With",
+          "B": "For",
+          "C": "By",
+          "D": "On"
+        },
+        "answer": "A",
+        "explanation": "with 表示伴随，with the development of technology = 随着技术的发展。"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L023"
+        ],
+        "options_line_ids": [
+          "P1L024",
+          "P1L025",
+          "P1L026",
+          "P1L027"
+        ],
+        "answer_line_ids": [
+          "P1L054"
+        ],
+        "explanation_line_ids": [
+          "P1L065"
+        ]
+      },
+      "difficulty": 2,
+      "score": 2.0,
+      "knowledge_points": [
+        "preposition",
+        "with"
+      ],
+      "confidence": 1.0,
+      "source_page": 1
+    },
+    {
+      "question_number": "7",
+      "question_type": "single_choice",
+      "section_id": "Part III: Cloze",
+      "shared_material_line_ids": [
+        "P1L022"
+      ],
+      "stem_line_ids": [
+        "P1L028"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L029"
+        ],
+        "B": [
+          "P1L030"
+        ],
+        "C": [
+          "P1L031"
+        ],
+        "D": [
+          "P1L032"
+        ]
+      },
+      "answer": "A",
+      "explanation": "陈述客观事实用一般现在时；email and social media 是复数主语，用 allow。",
+      "answer_line_ids": [
+        "P1L055"
+      ],
+      "explanation_line_ids": [
+        "P1L066"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "image_ids": [],
+      "expected_content": {
+        "stem": "7. Email and social media ______ for faster communication between friends and family.",
+        "options": {
+          "A": "allow",
+          "B": "are allowed",
+          "C": "will be allowed",
+          "D": "have allowed"
+        },
+        "answer": "A",
+        "explanation": "陈述客观事实用一般现在时；email and social media 是复数主语，用 allow。"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L028"
+        ],
+        "options_line_ids": [
+          "P1L029",
+          "P1L030",
+          "P1L031",
+          "P1L032"
+        ],
+        "answer_line_ids": [
+          "P1L055"
+        ],
+        "explanation_line_ids": [
+          "P1L066"
+        ]
+      },
+      "difficulty": 2,
+      "score": 2.0,
+      "knowledge_points": [
+        "tense",
+        "subject-verb agreement"
+      ],
+      "confidence": 1.0,
+      "source_page": 1
+    },
+    {
+      "question_number": "8",
+      "question_type": "single_choice",
+      "section_id": "Part III: Cloze",
+      "shared_material_line_ids": [
+        "P1L022"
+      ],
+      "stem_line_ids": [
+        "P1L033"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L034"
+        ],
+        "B": [
+          "P1L035"
+        ],
+        "C": [
+          "P1L036"
+        ],
+        "D": [
+          "P1L037"
+        ]
+      },
+      "answer": "B",
+      "explanation": "of 是介词，后面接动名词 spending。",
+      "answer_line_ids": [
+        "P1L056"
+      ],
+      "explanation_line_ids": [
+        "P1L067"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "image_ids": [],
+      "expected_content": {
+        "stem": "8. However, some people worry about the negative effects of ______ too much time online.",
+        "options": {
+          "A": "spend",
+          "B": "spending",
+          "C": "spent",
+          "D": "to spend"
+        },
+        "answer": "B",
+        "explanation": "of 是介词，后面接动名词 spending。"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L033"
+        ],
+        "options_line_ids": [
+          "P1L034",
+          "P1L035",
+          "P1L036",
+          "P1L037"
+        ],
+        "answer_line_ids": [
+          "P1L056"
+        ],
+        "explanation_line_ids": [
+          "P1L067"
+        ]
+      },
+      "difficulty": 2,
+      "score": 2.0,
+      "knowledge_points": [
+        "gerund",
+        "preposition"
+      ],
+      "confidence": 1.0,
+      "source_page": 1
+    },
+    {
+      "question_number": "9",
+      "question_type": "single_choice",
+      "section_id": "Part III: Cloze",
+      "shared_material_line_ids": [
+        "P1L022"
+      ],
+      "stem_line_ids": [
+        "P1L038"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L039"
+        ],
+        "B": [
+          "P1L040"
+        ],
+        "C": [
+          "P1L041"
+        ],
+        "D": [
+          "P1L042"
+        ]
+      },
+      "answer": "A",
+      "explanation": "陈述客观事实/研究结论用一般现在时；students 是复数，用 achieve。",
+      "answer_line_ids": [
+        "P1L057"
+      ],
+      "explanation_line_ids": [
+        "P1L068"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "image_ids": [],
+      "expected_content": {
+        "stem": "9. Studies show that students who use the Internet wisely ______ better results in their studies.",
+        "options": {
+          "A": "achieve",
+          "B": "achieved",
+          "C": "have achieved",
+          "D": "are achieving"
+        },
+        "answer": "A",
+        "explanation": "陈述客观事实/研究结论用一般现在时；students 是复数，用 achieve。"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L038"
+        ],
+        "options_line_ids": [
+          "P1L039",
+          "P1L040",
+          "P1L041",
+          "P1L042"
+        ],
+        "answer_line_ids": [
+          "P1L057"
+        ],
+        "explanation_line_ids": [
+          "P1L068"
+        ]
+      },
+      "difficulty": 2,
+      "score": 2.0,
+      "knowledge_points": [
+        "tense",
+        "objective fact"
+      ],
+      "confidence": 1.0,
+      "source_page": 1
+    },
+    {
+      "question_number": "10",
+      "question_type": "single_choice",
+      "section_id": "Part III: Cloze",
+      "shared_material_line_ids": [
+        "P1L022"
+      ],
+      "stem_line_ids": [
+        "P1L043"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L044"
+        ],
+        "B": [
+          "P1L045"
+        ],
+        "C": [
+          "P1L046"
+        ],
+        "D": [
+          "P1L047"
+        ]
+      },
+      "answer": "B",
+      "explanation": "定语从句：先行词 tool 是物，用 which 引导。",
+      "answer_line_ids": [
+        "P1L058"
+      ],
+      "explanation_line_ids": [
+        "P1L069"
+      ],
+      "answer_source": "document_answer_table",
+      "explanation_source": "document_inline_explanation",
+      "image_ids": [],
+      "expected_content": {
+        "stem": "10. In conclusion, the Internet is a useful tool ______ we must learn to use properly.",
+        "options": {
+          "A": "what",
+          "B": "which",
+          "C": "who",
+          "D": "where"
+        },
+        "answer": "B",
+        "explanation": "定语从句：先行词 tool 是物，用 which 引导。"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L043"
+        ],
+        "options_line_ids": [
+          "P1L044",
+          "P1L045",
+          "P1L046",
+          "P1L047"
+        ],
+        "answer_line_ids": [
+          "P1L058"
+        ],
+        "explanation_line_ids": [
+          "P1L069"
+        ]
+      },
+      "difficulty": 2,
+      "score": 2.0,
+      "knowledge_points": [
+        "relative clause",
+        "which"
+      ],
+      "confidence": 1.0,
+      "source_page": 1
+    }
+  ]
+}

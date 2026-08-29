@@ -1254,3 +1254,12 @@ section 标题）
 - 覆盖英语、语文、理科的展示与切片规则。
 - 确认：展示标记仅作元数据；英语/语文默认综合题 + 子题；写作范文放 `answer`；化学式标准化；配图锚点统一；文言注释存 `shared_material_notes`；表格答案用 `answer_structure`；大写作直接按一道题建模。
 - 同步 `RESTART_PROMPT.md`、`rules.md`、`DICTIONARY.md`。
+
+### 2026-08-29 21:44:37
+
+#### golden 展示契约迁移
+
+- `.gitignore` 放开 `test/annotations/`，golden 纳入版本管理。
+- `english_2026_real_golden.json`、`math_real_golden.json`、`physics_2026_real_golden.json` 增加 `display_contract_version=0.4` 与展示契约字段：`stem_region`、`answer_region`、`explanation_region`、`shared_material_notes`、`scoring_standard`、`is_composite`、`sub_questions`、`word_bank`、`answer_structure`、`images`、`answer_images` 等。
+- 新增 `backend/tests/test_golden_contract.py` 校验 golden 契约字段。
+- 验证：全量 pytest 754 passed + 8 skipped。

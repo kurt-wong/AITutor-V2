@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "subject": "math",
+  "source_file": "2026北京朝阳高一（上）期末数学（教师版）.pdf",
+  "bottom_question_numbers": [
+    "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+    "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"
+  ],
+  "groups": [
+    {"question_number": "1", "kind": "independent", "question_types": ["single_choice", "choice"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "2", "kind": "independent", "question_types": ["single_choice", "choice"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "3", "kind": "independent", "question_types": ["single_choice", "choice"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "4", "kind": "independent", "question_types": ["single_choice", "choice"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "5", "kind": "independent", "question_types": ["single_choice", "choice"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "6", "kind": "independent", "question_types": ["single_choice", "choice"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "7", "kind": "independent", "question_types": ["single_choice", "choice"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "8", "kind": "independent", "question_types": ["single_choice", "choice"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "9", "kind": "independent", "question_types": ["single_choice", "choice"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "10", "kind": "independent", "question_types": ["single_choice", "choice"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "11", "kind": "independent", "question_types": ["fill_in", "fill_blank"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "12", "kind": "independent", "question_types": ["fill_in", "fill_blank"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "13", "kind": "independent", "question_types": ["fill_in", "fill_blank"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "14", "kind": "independent", "question_types": ["fill_in", "fill_blank"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "15", "kind": "independent", "question_types": ["fill_in", "fill_blank"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "16", "kind": "independent", "question_types": ["fill_in", "fill_blank"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "17", "kind": "independent", "question_types": ["short_answer"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "18", "kind": "independent", "question_types": ["short_answer"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "19", "kind": "independent", "question_types": ["short_answer"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "20", "kind": "independent", "question_types": ["short_answer"], "sub_questions": [], "shared_material": "forbidden"},
+    {"question_number": "21", "kind": "independent", "question_types": ["short_answer"], "sub_questions": [], "shared_material": "forbidden"}
+  ]
+}

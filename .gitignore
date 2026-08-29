@@ -8,6 +8,8 @@
 test/*
 !test/fixtures/
 !test/fixtures/**
+!test/annotations/
+!test/annotations/**
 
 # Agent / tool local state
 .claude/

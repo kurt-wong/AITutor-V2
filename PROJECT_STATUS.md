@@ -1,7 +1,7 @@
 ﻿# AI Tutor Personal Edition — PROJECT_STATUS
 
 Version: 6.46
-Status: v6.46 题型树+知识节点库完成；Phase 1-3 全量修复；752 passed（8 skipped）。
+Status: v6.46 题型树+知识节点库完成；Phase 1-3 全量修复；754 passed（8 skipped）。
 Date: 2026-08-29
 
 ---
@@ -200,3 +200,10 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 - 当前契约覆盖英语、语文、理科；后续实现将按此契约调整 golden、pipeline、API 与前端。
 - 同步更新 `RESTART_PROMPT.md`、`rules.md`、`DICTIONARY.md`。
 - 详见 LOG.md `2026-08-29 21:38:34` 条目。
+
+## Golden 展示契约迁移（2026-08-29 21:44:37）
+
+- `test/annotations/` 已从 gitignore 放开，golden 纳入版本管理。
+- 三个验收 golden 已按 `DISPLAY_CONTRACT.md` v0.4 增加展示结构字段。
+- 新增 `test_golden_contract.py` 契约字段校验。
+- 全量 pytest 754 passed + 8 skipped。

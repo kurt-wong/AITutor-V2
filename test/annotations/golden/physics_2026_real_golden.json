@@ -1,0 +1,1792 @@
+{
+  "filename": "2026北京朝阳高一（上）期末物理（教师版）.pdf",
+  "created_at": "2026-08-15T02:09:54",
+  "annotator": "dsh_draft_from_native_live",
+  "version": "0.1-draft",
+  "postprocessed": false,
+  "l1_fixture": "l1_native_physics_2026.json",
+  "source_note": "草稿（非验收 golden）：由 native-only live 结果生成，未经人工核对。answer 为空的题标注 answer_needs_manual=true。待真实 PP L1 建立后必须由人工核对替换，不得直接用于 Task 2.5 验收。",
+  "questions": [
+    {
+      "question_number": "1",
+      "question_type": "single_choice",
+      "section_id": "一、单项选择题",
+      "stem_line_ids": [
+        "P1L005"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L006"
+        ],
+        "B": [
+          "P1L007"
+        ],
+        "C": [
+          "P1L008"
+        ],
+        "D": [
+          "P1L008"
+        ]
+      },
+      "answer": "B (2分)",
+      "answer_line_ids": [
+        "P9L007",
+        "P9L008",
+        "P9L020",
+        "P10L002",
+        "P10L007",
+        "P10L014"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "1.下列物理量中，属于矢量的是（）",
+        "options": {
+          "A": "路程",
+          "B": "质量",
+          "C": "加速度D时间",
+          "D": "C.加速度D时间"
+        },
+        "answer": "B (2分)"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L005"
+        ],
+        "options_line_ids": [
+          [
+            "P1L006"
+          ],
+          [
+            "P1L007"
+          ],
+          [
+            "P1L008"
+          ],
+          [
+            "P1L008"
+          ]
+        ],
+        "answer_line_ids": [
+          "P9L007",
+          "P9L008",
+          "P9L020",
+          "P10L002",
+          "P10L007",
+          "P10L014"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.44999999999999996,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "2",
+      "question_type": "single_choice",
+      "section_id": "一、单项选择题",
+      "stem_line_ids": [
+        "P1L009"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L010"
+        ],
+        "B": [
+          "P1L011"
+        ],
+        "C": [
+          "P1L012"
+        ],
+        "D": [
+          "P1L013"
+        ]
+      },
+      "answer": "使小车所受合力大小等于绳上的拉力大小（2分）",
+      "answer_line_ids": [
+        "P9L007",
+        "P9L009",
+        "P9L021",
+        "P10L003",
+        "P10L010",
+        "P10L015"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "2.一辆汽车以10m/s的速度匀速行驶，制动后做匀减速直线运动，经2s停止，则汽车制动过程中加速度的大小为（）",
+        "options": {
+          "A": "$10\\mathrm{m}/\\mathrm{s}^{2}$",
+          "B": "$5\\mathrm{m}/\\mathrm{s}^{2}$",
+          "C": "$2.5\\mathrm{m}/\\mathrm{s}^{2}$",
+          "D": "$2\\mathrm{m}/\\mathrm{s}^{2}$"
+        },
+        "answer": "使小车所受合力大小等于绳上的拉力大小（2分）"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L009"
+        ],
+        "options_line_ids": [
+          [
+            "P1L010"
+          ],
+          [
+            "P1L011"
+          ],
+          [
+            "P1L012"
+          ],
+          [
+            "P1L013"
+          ]
+        ],
+        "answer_line_ids": [
+          "P9L007",
+          "P9L009",
+          "P9L021",
+          "P10L003",
+          "P10L010",
+          "P10L015"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.85,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "3",
+      "question_type": "single_choice",
+      "section_id": "一、单项选择题",
+      "stem_line_ids": [
+        "P1L014",
+        "P1L015"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L016"
+        ],
+        "B": [
+          "P1L017"
+        ],
+        "C": [
+          "P1L018"
+        ],
+        "D": [
+          "P1L019"
+        ]
+      },
+      "answer": "左 (1分)0.45（0.43~0.46均可）（2分）",
+      "answer_line_ids": [
+        "P9L007",
+        "P9L010",
+        "P9L022",
+        "P10L004",
+        "P10L012",
+        "P10L026"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "3.在“探究两个互成角度的力的合成规律”的实验中，某同学用一个弹簧测力计拉细绳套使结点到O点，弹簧测力计示数如图所示。改用两个弹簧测力计拉细绳套仍使结点到0点，则此时两个弹簧测力计的示数不可能为（）\n4.5\n\n5.0",
+        "options": {
+          "A": "4.90N、4.90N",
+          "B": "3.00N、4.00N",
+          "C": "2.50N、3.50N",
+          "D": "2.00N、2.50N"
+        },
+        "answer": "左 (1分)0.45（0.43~0.46均可）（2分）"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L014",
+          "P1L015"
+        ],
+        "options_line_ids": [
+          [
+            "P1L016"
+          ],
+          [
+            "P1L017"
+          ],
+          [
+            "P1L018"
+          ],
+          [
+            "P1L019"
+          ]
+        ],
+        "answer_line_ids": [
+          "P9L007",
+          "P9L010",
+          "P9L022",
+          "P10L004",
+          "P10L012",
+          "P10L026"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.85,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "4",
+      "question_type": "single_choice",
+      "section_id": "一、单项选择题",
+      "stem_line_ids": [
+        "P6L028"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P7L002"
+        ],
+        "B": [
+          "P7L003"
+        ],
+        "C": [
+          "P7L004"
+        ],
+        "D": [
+          "P7L005"
+        ]
+      },
+      "answer": "C(3分)",
+      "answer_line_ids": [
+        "P9L011"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "（4）如图3，某同学为了进一步探究细线对小车的拉力与沙和沙桶重力之间的关系，在小车和细线的连接处安装了拉力传感器，测出不同m对应的细线拉力F，作出$F-m g$ 图像最接近下图中的哪一个（）",
+        "options": {
+          "A": "",
+          "B": "",
+          "C": "",
+          "D": "O $mg$O mg O $\\gg$0\\$"
+        },
+        "answer": "C(3分)"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P6L028"
+        ],
+        "options_line_ids": [
+          [
+            "P7L002"
+          ],
+          [
+            "P7L003"
+          ],
+          [
+            "P7L004"
+          ],
+          [
+            "P7L005"
+          ]
+        ],
+        "answer_line_ids": [
+          "P9L011"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.85,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "5",
+      "question_type": "single_choice",
+      "section_id": "一、单项选择题",
+      "stem_line_ids": [
+        "P1L025"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P1L026"
+        ],
+        "B": [
+          "P1L027"
+        ],
+        "C": [
+          "P1L028"
+        ],
+        "D": [
+          "P1L029"
+        ]
+      },
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "answer_source": "llm_fallback",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "5.如图所示，在固定斜面上不同位置同时由静止释放两个质量不同的滑块。若两滑块与斜面间动摩擦因数相同，则它们在下滑过程中（）",
+        "options": {
+          "A": "距离越来越近",
+          "B": "距离越来越远",
+          "C": "距离不变",
+          "D": "质量大的滑块加速度大"
+        },
+        "answer": null
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L025"
+        ],
+        "options_line_ids": [
+          [
+            "P1L026"
+          ],
+          [
+            "P1L027"
+          ],
+          [
+            "P1L028"
+          ],
+          [
+            "P1L029"
+          ]
+        ],
+        "answer_line_ids": [],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.35000000000000003,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": true,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "6",
+      "question_type": "single_choice",
+      "section_id": "一、单项选择题",
+      "stem_line_ids": [
+        "P1L030",
+        "P2L001",
+        "P2L002"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P2L003"
+        ],
+        "B": [
+          "P2L004"
+        ],
+        "C": [
+          "P2L005"
+        ],
+        "D": [
+          "P2L006"
+        ]
+      },
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "answer_source": "llm_fallback",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "6.甲、乙两辆汽车分别在同一平直公路的两条车道上同向行驶，$t=0$ 时刻它们恰好经过同一路标。$0\\sim t_{2}$\n时间内，两辆车的$v-t$ 图像如图所示，则（）\n↑\n\nV1\n\n甲\n\n乙\n\nV2\n\nO t1t21一",
+        "options": {
+          "A": "$t_{2}$ 时刻两车位置相同",
+          "B": "$0\\sim t_{2}$ 时间内乙车的加速度逐渐增大",
+          "C": "$0\\sim t_{\\mathrm{{p}}}$ 时间内甲车位移大于乙车位移",
+          "D": "$0\\sim t_{2}$ 时间内乙车的平均速度小于$\\frac{v_{_1}+v_{_2}}{2}$"
+        },
+        "answer": null
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L030",
+          "P2L001",
+          "P2L002"
+        ],
+        "options_line_ids": [
+          [
+            "P2L003"
+          ],
+          [
+            "P2L004"
+          ],
+          [
+            "P2L005"
+          ],
+          [
+            "P2L006"
+          ]
+        ],
+        "answer_line_ids": [],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.35000000000000003,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": true,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "7",
+      "question_type": "single_choice",
+      "section_id": "一、单项选择题",
+      "stem_line_ids": [
+        "P2L007",
+        "P2L008"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P2L009"
+        ],
+        "B": [
+          "P2L010"
+        ],
+        "C": [
+          "P2L011"
+        ],
+        "D": [
+          "P2L012"
+        ]
+      },
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "answer_source": "llm_fallback",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "7.随着中国航母事业的发展，舰载机着舰这一“刀尖上的舞蹈”已被我们的飞行员熟练掌握，其关键之一在于成功钩住阻拦索后的减速过程。设想一个简化模型（如图）：航母甲板为水平面，阻拦索两端固定且与甲板平行，舰载机从正中央钩住阻拦索（钩住瞬间绳索即绷紧）。下列关于该减速过程的说法正确的是(\nO \n\n步\nO",
+        "options": {
+          "A": "舰载机钩住阻拦索继续向前运动的过程中，阻拦索对舰载机的弹力不变",
+          "B": "阻拦索对舰载机的作用力与舰载机对阻拦索的作用力大小相等",
+          "C": "舰载机钩住阻拦索继续向前运动的过程中，舰载机受到向前的冲力",
+          "D": "舰载机落在航母上钩住阻拦索后，只受重力、阻拦索的拉力和航母平面的摩擦力三个力作用"
+        },
+        "answer": null
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L007",
+          "P2L008"
+        ],
+        "options_line_ids": [
+          [
+            "P2L009"
+          ],
+          [
+            "P2L010"
+          ],
+          [
+            "P2L011"
+          ],
+          [
+            "P2L012"
+          ]
+        ],
+        "answer_line_ids": [],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.35000000000000003,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": true,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "8",
+      "question_type": "single_choice",
+      "section_id": "一、单项选择题",
+      "stem_line_ids": [
+        "P2L013"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P2L014"
+        ],
+        "B": [
+          "P2L015"
+        ],
+        "C": [
+          "P2L016"
+        ],
+        "D": [
+          "P2L017"
+        ]
+      },
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "answer_source": "llm_fallback",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "8.无人机运输脐橙，有效降低了农产品运出大山的成本。在一次运输中，无人机匀速吊运一筐总质量为\n30kg的脐橙，果筐四角由四根相同的轻绳连接，绳与竖直方向夹角均为45°，且空气阻力可忽略。重力加\n速度g取$10\\mathrm{m}/\\mathrm{s}^{2}$ ，则每根绳的拉力大小为（）",
+        "options": {
+          "A": "75N",
+          "B": "$75{\\sqrt{2}}\\mathrm{N}$",
+          "C": "300N",
+          "D": "$150\\sqrt{2}\\mathrm{N}$"
+        },
+        "answer": null
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L013"
+        ],
+        "options_line_ids": [
+          [
+            "P2L014"
+          ],
+          [
+            "P2L015"
+          ],
+          [
+            "P2L016"
+          ],
+          [
+            "P2L017"
+          ]
+        ],
+        "answer_line_ids": [],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.35000000000000003,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": true,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "9",
+      "question_type": "single_choice",
+      "section_id": "一、单项选择题",
+      "stem_line_ids": [
+        "P2L018",
+        "P3L001"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P3L001"
+        ],
+        "B": [
+          "P3L003"
+        ],
+        "C": [
+          "P3L004",
+          "P3L005"
+        ],
+        "D": [
+          "P3L006"
+        ]
+      },
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "answer_source": "llm_fallback",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "9.一辆货车运载着相同规格的圆柱形光滑油桶。在车厢底层油桶平整排列，相互紧贴并被牢牢固定，上层只有一只桶C自由摆放在桶A、B间，随车一起在平直公路上匀速行驶。空桶C的质量为m，重力加速度为g。下列说法正确的是（）\nA B",
+        "options": {
+          "A": "A B",
+          "B": "桶C装满油与装半桶油时所受桶B的支持力方向不同",
+          "C": "若货车以大小为a的加速度向前加速运动，且空桶C相对于桶 A、B的位置未发生改变，则桶B对空桶C的支持力大小为$m\\sqrt{a^{2}+g^{2}}$",
+          "D": "若货车刹车的加速度大小为${\\frac{2}{3}}g$ ·，则空桶C一定会与桶B分离滚向桶A顶端"
+        },
+        "answer": null
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P2L018",
+          "P3L001"
+        ],
+        "options_line_ids": [
+          [
+            "P3L001"
+          ],
+          [
+            "P3L003"
+          ],
+          [
+            "P3L004",
+            "P3L005"
+          ],
+          [
+            "P3L006"
+          ]
+        ],
+        "answer_line_ids": [],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.35000000000000003,
+      "source_page": 2,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": true,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "10",
+      "question_type": "single_choice",
+      "section_id": "一、单项选择题",
+      "stem_line_ids": [
+        "P3L007",
+        "P3L008",
+        "P3L009"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P3L010"
+        ],
+        "B": [
+          "P3L011"
+        ],
+        "C": [
+          "P3L012"
+        ],
+        "D": [
+          "P3L013"
+        ]
+      },
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "answer_source": "llm_fallback",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "10.动车组列车是我国高端装备制造的代表，其技术水平体现了我国强大的综合国力。下表所示为CRH5型动车组的部分技术参数：\n<html><body><table><tr><td>参数</td><td>数值</td></tr><tr><td>最高运营速度</td><td>200km/h（约56m/s)</td></tr><tr><td>最高试验速度</td><td>250km/h（约70m/s）</td></tr><tr><td>编组质量</td><td>450t（即 - $4.5\\times10^{5}\\mathrm{k g}$</td></tr><tr><td>启动加速度</td><td>$0.5\\mathrm{m}/\\mathrm{s}^{2}$</td></tr><tr><td>紧急制动距离（制动初速度 200km/h)</td><td>$\\le2000\\mathrm{m}$</td></tr></table></body></html>\n根据以上信息，下列说法错误的是（）",
+        "options": {
+          "A": "动车组启动时，合力大小为$2.25\\times10^{5}\\mathrm{N}$",
+          "B": "动车组以最高运营速度紧急制动时，平均加速度大小最小值约为$0.78\\mathrm{m}/\\mathrm{s}^{2}$",
+          "C": "若动车组以相同的制动力刹车，制动初速度加倍时，制动距离也加倍",
+          "D": "若动车组以启动加速度从静止匀加速至最高试验速度，所需时间约为140s"
+        },
+        "answer": null
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P3L007",
+          "P3L008",
+          "P3L009"
+        ],
+        "options_line_ids": [
+          [
+            "P3L010"
+          ],
+          [
+            "P3L011"
+          ],
+          [
+            "P3L012"
+          ],
+          [
+            "P3L013"
+          ]
+        ],
+        "answer_line_ids": [],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 3.0,
+      "knowledge_points": [],
+      "confidence": 0.35000000000000003,
+      "source_page": 3,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": true,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "11",
+      "question_type": "multiple_choice",
+      "section_id": "二、多项选择题",
+      "stem_line_ids": [
+        "P3L015",
+        "P3L016"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P3L017"
+        ],
+        "B": [
+          "P3L018"
+        ],
+        "C": [
+          "P3L019"
+        ],
+        "D": [
+          "P3L020"
+        ]
+      },
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "answer_source": "llm_fallback",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "11.如图所示，长方体物块受到一个沿斜面向上的拉力F静止于固定的斜面上，物块受力的个数可能为()\nF □",
+        "options": {
+          "A": "2",
+          "B": "3",
+          "C": "4",
+          "D": "5"
+        },
+        "answer": null
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P3L015",
+          "P3L016"
+        ],
+        "options_line_ids": [
+          [
+            "P3L017"
+          ],
+          [
+            "P3L018"
+          ],
+          [
+            "P3L019"
+          ],
+          [
+            "P3L020"
+          ]
+        ],
+        "answer_line_ids": [],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 4.0,
+      "knowledge_points": [],
+      "confidence": 0.35000000000000003,
+      "source_page": 3,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": true,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "12",
+      "question_type": "multiple_choice",
+      "section_id": "二、多项选择题",
+      "stem_line_ids": [
+        "P3L021",
+        "P4L001",
+        "P4L002",
+        "P4L003",
+        "P4L004",
+        "P4L005",
+        "P4L006",
+        "P4L007"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P4L008"
+        ],
+        "B": [
+          "P4L009"
+        ],
+        "C": [
+          "P4L010"
+        ],
+        "D": [
+          "P4L011"
+        ]
+      },
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "answer_source": "llm_fallback",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "12.物理课上老师介绍，手机上的phyphox软件可以调用手机全部的传感器，轻松记录高度、速度、加速度\n等参数。放学后，小明同学利用phyphox软件对电梯运行情况进行了实验探究。实验过程中，手机水平放置，屏幕朝上，以竖直向上为正方向，软件记录下了电梯运行过程中的三组图像，如图所示。由图像可知下列说法正确的是（）\n高度\n\nh(m)802\n\n0000\n(）回\nz \ny \nx\n草垂\n\n2.0\n\n(s/)a 0.\n51.\n51.0\n\n20时间(秒)40\nz轴加速度\n\n0\n\na/(m/s2)00\n\n00040\n时间(秒)",
+        "options": {
+          "A": "由$h-t$ 图像可知电梯正在上升",
+          "B": "由$v-t$ 图像可估算，$20\\mathrm{s}\\sim40\\mathrm{s}$ 内电梯的上升高度大于40m",
+          "C": "电梯加速过程中$a-t$ 图像面积与减速过程中$a-t$ 图像面积的绝对值相等",
+          "D": "实验过程中，电梯加速的距离约为$20\\mathrm{m}$"
+        },
+        "answer": null
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P3L021",
+          "P4L001",
+          "P4L002",
+          "P4L003",
+          "P4L004",
+          "P4L005",
+          "P4L006",
+          "P4L007"
+        ],
+        "options_line_ids": [
+          [
+            "P4L008"
+          ],
+          [
+            "P4L009"
+          ],
+          [
+            "P4L010"
+          ],
+          [
+            "P4L011"
+          ]
+        ],
+        "answer_line_ids": [],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 4.0,
+      "knowledge_points": [],
+      "confidence": 0.0,
+      "source_page": 3,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": true,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "13",
+      "question_type": "multiple_choice",
+      "section_id": "二、多项选择题",
+      "stem_line_ids": [
+        "P4L012",
+        "P4L013"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P4L014"
+        ],
+        "B": [
+          "P4L015"
+        ],
+        "C": [
+          "P4L016"
+        ],
+        "D": [
+          "P4L017"
+        ]
+      },
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "answer_source": "llm_fallback",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "13.雨滴从数千米的高空落下，为何不会对人造成伤害？因为雨滴在空气中竖直下落的速度较大时，受到的空气阻力$f$ 与雨滴（可看成球形）的最大横截面积S成正比，与下落速度V的平方成正比，即\n$f=k S v^{2}$ ，其中k为比例系数，当阻力增大到跟雨滴的重力平衡时，雨滴匀速下落。已知水的密度为ρ，重力加速度为g，球体的体积公式$V=\\frac{4}{3}\\pi r^{3}$ ，r为球体半径，雨滴间无相互作用且质量不变。下列说法正确的是（）",
+        "options": {
+          "A": "比例系数k的单位是$\\mathrm{k g/m}^{3}$",
+          "B": "若两个雨滴半径r之比为1:2，则它们匀速下落的速度之比为1:2",
+          "C": "雨滴匀速下落过程中，速度大小与雨滴的密度无关",
+          "D": "雨滴从开始下落到匀速过程中，加速度逐渐减小至零"
+        },
+        "answer": null
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P4L012",
+          "P4L013"
+        ],
+        "options_line_ids": [
+          [
+            "P4L014"
+          ],
+          [
+            "P4L015"
+          ],
+          [
+            "P4L016"
+          ],
+          [
+            "P4L017"
+          ]
+        ],
+        "answer_line_ids": [],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 4.0,
+      "knowledge_points": [],
+      "confidence": 0.35000000000000003,
+      "source_page": 4,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": true,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "14",
+      "question_type": "multiple_choice",
+      "section_id": "二、多项选择题",
+      "stem_line_ids": [
+        "P4L018",
+        "P5L001"
+      ],
+      "options_line_ids": {
+        "A": [
+          "P5L001"
+        ],
+        "B": [
+          "P5L003"
+        ],
+        "C": [
+          "P5L004",
+          "P5L005"
+        ],
+        "D": [
+          "P5L006"
+        ]
+      },
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "answer_source": "llm_fallback",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "14.如图所示，两位同学在教学楼上做自由落体实验，甲同学在三、四楼交接处先将小球A释放，当下落距离为h时，乙同学在二、三楼交接处将小球B释放，小球B释放时间t后，两球恰好同时落地。小球A、B不在同一条竖直线上，每层楼高度相等，不计空气阻力，重力加速度为g。下列说法中正确的是（)\nA B",
+        "options": {
+          "A": "A B",
+          "B": "甲同学释放点离地高度为$\\frac{1}{2}gt^{2}+\\sqrt{2ght^{2}}+h$",
+          "C": "在下落的过程中， A、B间高度差随时间均匀变化",
+          "D": "若两位同学均各上一层楼重做以上实验，需要增大h，两小球才能同时落地"
+        },
+        "answer": null
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P4L018",
+          "P5L001"
+        ],
+        "options_line_ids": [
+          [
+            "P5L001"
+          ],
+          [
+            "P5L003"
+          ],
+          [
+            "P5L004",
+            "P5L005"
+          ],
+          [
+            "P5L006"
+          ]
+        ],
+        "answer_line_ids": [],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 4.0,
+      "knowledge_points": [],
+      "confidence": 0.35000000000000003,
+      "source_page": 4,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": true,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "15",
+      "question_type": "fill_in",
+      "section_id": "三、实验题",
+      "stem_line_ids": [
+        "P5L008",
+        "P5L009",
+        "P5L010",
+        "P5L011",
+        "P5L012",
+        "P5L013",
+        "P5L014",
+        "P5L015",
+        "P5L016",
+        "P6L001",
+        "P6L002",
+        "P6L003",
+        "P6L004",
+        "P6L005",
+        "P6L006",
+        "P6L007",
+        "P6L008",
+        "P6L009",
+        "P6L010"
+      ],
+      "options_line_ids": {},
+      "answer": "(1）1.50 (2分)(2）不能 (2分）（3）0.50(2分）100(2分)",
+      "answer_line_ids": [
+        "P9L007"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "15.实验小组利用如图1所示的实验装置来测量橡皮绳的劲度系数k。将手机悬挂在橡皮绳下，用手机软件中的位移传感器，可以测量手机在竖直方向上的位移。该实验小组进行了如下主要的实验步骤：\n2\n图1\na.将橡皮绳分别与手机和铁架台相连接，使手机重心和橡皮绳在同一竖直线上。\nb.用手掌托着手机，使橡皮绳处于原长状态，打开手机中的位移传感器软件。\nc.缓慢释放手机，当手机平衡时记录手机下降的高度$x_{0}$ 。\nd.在手机正下方悬挂不同个数的钩码，每个钩码的质量$m=50\\mathrm{g}$ _，缓慢释放，当钩码平衡时，记录下从橡皮绳原长开始下降的伸长量x。\ne.重复上述d步操作。\nf.作出悬挂钩码数量n和对应的伸长量x的关系图像，如图2所示。\n↑n/个\n\n3\n\n2\n\n1\n\n→/cm\n00.\n51.\n01.5 2.0 2.\n53.0 3.5 4.0\n图2\n根据$n-x$ 图像，回答以下问题：\n（1）不挂钩码时，橡皮绳的伸长量为$x_{0}=\\underline{\\hspace{1cm}}cm$\n（2）为了测量更多的数据，______（选填“能”或“不能”）任意增加钩码个数。\n（3）每增加一个钩码，橡皮绳的形变量增加cm。若取$g=10\\mathrm{m}/\\mathrm{s}^{2}$ ，代入相关数据，计算出该橡皮绳的劲度系数$k=\\frac{\\sum\\sum N/m}{\\sum}$ 0",
+        "options": {},
+        "answer": "(1）1.50 (2分)(2）不能 (2分）（3）0.50(2分）100(2分)"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P5L008",
+          "P5L009",
+          "P5L010",
+          "P5L011",
+          "P5L012",
+          "P5L013",
+          "P5L014",
+          "P5L015",
+          "P5L016",
+          "P6L001",
+          "P6L002",
+          "P6L003",
+          "P6L004",
+          "P6L005",
+          "P6L006",
+          "P6L007",
+          "P6L008",
+          "P6L009",
+          "P6L010"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P9L007"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 8.0,
+      "knowledge_points": [],
+      "confidence": 0.85,
+      "source_page": 5,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "16",
+      "question_type": "fill_in",
+      "section_id": "三、实验题",
+      "stem_line_ids": [
+        "P6L011",
+        "P6L012",
+        "P6L013",
+        "P6L014",
+        "P6L015",
+        "P6L016",
+        "P6L017",
+        "P6L018",
+        "P6L019",
+        "P6L020",
+        "P6L021",
+        "P6L022",
+        "P6L023",
+        "P6L024",
+        "P6L025",
+        "P6L026",
+        "P6L028",
+        "P7L001",
+        "P7L002",
+        "P7L003",
+        "P7L004",
+        "P7L005"
+      ],
+      "options_line_ids": {},
+      "answer": "(1)B (2分)",
+      "answer_line_ids": [
+        "P9L008"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "16.图1为“验证牛顿第二定律”的实验装置，小桶和桶内沙子总质量记为m，小桶通过细线拉动小车在长木板上做匀加速直线运动，验证小车质量M一定时，其加速度与合外力成正比。重力加速度为$g$ 。\n滑轮细线小车打点计时器Q 纸带沙桶图1\n（1）下列实验操作正确的是（  ）\nA.先释放小车后接通电源\nB.调整定滑轮使细线与长木板平行\nC.让小桶和桶内沙子总质量远大于小车的质量\n（2）本实验需要调整长木板倾斜角度以平衡小车受到的阻力，目的是：______。\n（3）图2是实验中得到的一段纸带，\n1、\n2、\n3、\n4、5为计数点，可以判断纸带的（填“左”或\n“右”）端与小车相连。每相邻两个计数点间有四个点未画出，电源的频率为50Hz，小车运动的加速度a \n=$\\mathrm{m}/\\mathrm{s}^{2}$ （结果保留两位有效数字）。\n12345\n5.83\n\n←\n12.09↑\n\n→\n18.81\n25.98单位:cm\n（4）如图3，某同学为了进一步探究细线对小车的拉力与沙和沙桶重力之间的关系，在小车和细线的连接处安装了拉力传感器，测出不同m对应的细线拉力F，作出$F-m g$ 图像最接近下图中的哪一个（）\n滑轮\n\n纸带\n\n沙桶图3\n\nF F  F↑\nA.\nB.\nC.\nD.\nO $mg$O mg O $\\gg$0\\$",
+        "options": {},
+        "answer": "(1)B (2分)"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P6L011",
+          "P6L012",
+          "P6L013",
+          "P6L014",
+          "P6L015",
+          "P6L016",
+          "P6L017",
+          "P6L018",
+          "P6L019",
+          "P6L020",
+          "P6L021",
+          "P6L022",
+          "P6L023",
+          "P6L024",
+          "P6L025",
+          "P6L026",
+          "P6L028",
+          "P7L001",
+          "P7L002",
+          "P7L003",
+          "P7L004",
+          "P7L005"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P9L008"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 10.0,
+      "knowledge_points": [],
+      "confidence": 0.85,
+      "source_page": 6,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "17",
+      "question_type": "short_answer",
+      "section_id": "四、解答题",
+      "stem_line_ids": [
+        "P7L007",
+        "P7L008",
+        "P7L009",
+        "P7L010"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [
+        "P9L019"
+      ],
+      "answer_source": "llm_fallback",
+      "explanation_source": "document_inline_explanation",
+      "expected_content": {
+        "stem": "17.在空间站的失重环境下，需借助动力学方法测量质量。一种“质量测量仪”的工作原理如下：航天员被固定在一个能提供恒定拉力为14N的支架上，由静止开始运动。一套光栅测速系统监测到：航天员在2s 的时间内速度增加了0.4m/s。求该航天员：\n（1）在此过程中加速度的大小a：\n(2）质量m;\n（3）由静止开始运动，在2s内的位移大小x。",
+        "options": {},
+        "answer": null
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P7L007",
+          "P7L008",
+          "P7L009",
+          "P7L010"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [],
+        "explanation_line_ids": [
+          "P9L019"
+        ]
+      },
+      "difficulty": null,
+      "score": 7.0,
+      "knowledge_points": [],
+      "confidence": 0.45,
+      "source_page": 7,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": true,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "18",
+      "question_type": "short_answer",
+      "section_id": "四、解答题",
+      "stem_line_ids": [
+        "P7L011",
+        "P7L012",
+        "P7L013",
+        "P7L014",
+        "P7L015"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [
+        "P9L023"
+      ],
+      "answer_source": "llm_fallback",
+      "explanation_source": "document_inline_explanation",
+      "expected_content": {
+        "stem": "18.如图所示，质量为0.2kg的小灯笼用轻绳连接，并悬挂于0点，在稳定水平风力作用下发生倾斜，悬绳与竖直方向的夹角为37°，$\\cos37^{\\circ}=0.8$ $\\sin37^{\\circ}=0.6$ ，重力加速度$g=10\\mathrm{m}/\\mathrm{s}^{2}$ 0\n1O 37°\n（1）画出灯笼的受力示意图；\n（2）求风力的大小F；\n（3）若风力增大，试分析轻绳与竖直方向夹角、轻绳拉力大小分别会怎样变化。",
+        "options": {},
+        "answer": null
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P7L011",
+          "P7L012",
+          "P7L013",
+          "P7L014",
+          "P7L015"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [],
+        "explanation_line_ids": [
+          "P9L023"
+        ]
+      },
+      "difficulty": null,
+      "score": 9.0,
+      "knowledge_points": [],
+      "confidence": 0.45,
+      "source_page": 7,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": true,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "19",
+      "question_type": "short_answer",
+      "section_id": "四、解答题",
+      "stem_line_ids": [
+        "P7L016",
+        "P7L017",
+        "P7L018",
+        "P7L019",
+        "P8L001",
+        "P8L002"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [
+        "P10L006"
+      ],
+      "answer_source": "llm_fallback",
+      "explanation_source": "document_inline_explanation",
+      "expected_content": {
+        "stem": "19.在一段限速为40km/h（约11m/s）的水平城市道路上，发生了一起汽车与行人的碰撞事故。汽车运动过程如图所示。交警在现场勘测发现：汽车在紧急刹车阶段留下了一段长度为5.4m的刹车痕，汽车受到的制动力（汽车制动时所受到的全部阻力）为$1.5\\times10^{4}\\mathrm{N}$ ，汽车质量约为2000kg，重力加速度$g=10\\mathrm{m}/\\mathrm{s}^{2}$ 0\n匝道下坡阶段轻踩刹车阶段紧急刹车阶段8***©*\n（1）通过计算判断紧急刹车阶段汽车是否超速；\n（2）司机叙述，他在水平路段先轻踩刹车，然后紧急刹车，才留下的刹车痕，经调查取证，汽车轻踩刹车过程中前进的距离为24m，车内行车记录仪显示车内挂件与竖直方向夹角始终为17°，通过计算判断轻\n踩刹车阶段汽车是否超速（$\\tan17^{\\circ}\\approx0.3$ );\n（3）与轻踩刹车路段相接的是一段长约30m、倾角约为$6^{\\circ}$ 的下坡匝道。司机称因下坡时刹车故障，制动力不够，导致了事故的发生。坡顶固定测速仪显示车速为80km/h（约22m/s），厂家提供数据显示：刹车正常时，汽车制动力范围为8000N~15000N。通过计算判断下坡阶段刹车是否出现故障（$\\sin6^{\\circ}\\approx0.1$ )。",
+        "options": {},
+        "answer": null
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P7L016",
+          "P7L017",
+          "P7L018",
+          "P7L019",
+          "P8L001",
+          "P8L002"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [],
+        "explanation_line_ids": [
+          "P10L006"
+        ]
+      },
+      "difficulty": null,
+      "score": 9.0,
+      "knowledge_points": [],
+      "confidence": 0.45,
+      "source_page": 7,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": true,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "20",
+      "question_type": "short_answer",
+      "section_id": "四、解答题",
+      "stem_line_ids": [
+        "P8L003",
+        "P8L004",
+        "P8L005",
+        "P8L006",
+        "P8L007",
+        "P8L008",
+        "P8L009",
+        "P8L010",
+        "P8L011"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [
+        "P10L013"
+      ],
+      "answer_source": "llm_fallback",
+      "explanation_source": "document_inline_explanation",
+      "expected_content": {
+        "stem": "20.摩擦现象中蕴藏着丰富的力学原理，对其规律的探索是解决众多生活与工程问题的关键。\n书脊\n\n字典字典\n图1\n图3\n图4\n图5\n（1）如图1所示，拖把是生活中常用的清洁工具，由拖杆（可视为轻杆）和拖把头构成。沿拖杆方向施加大小为F的力推动拖把在水平地板上匀速移动，拖杆与竖直方向的夹角为θ。求拖把受到地面的摩擦力大小$f$ ;\n（2）机场地勤工作人员利用传送带从飞机上卸行李。如图2所示，以恒定速率$v_{1}=0.6m/s$ 运行的传送带与水平面间的夹角$\\theta=37^{\\circ}$ ，两转轴间距$L=3.95m$ i。工作人员沿传送方向以速度$v_{2}=1.6\\mathrm{m/s}$ 从传送带顶端推下一件小包裹（可视为质点）。小包裹与传送带间的动摩擦因数$\\mu{=}0.8$ 。重力加速度$g=10\\mathrm{m}/\\mathrm{s}^{2}$ ,$\\sin37^{\\circ}=0.6,\\quad\\cos37^{\\circ}=0.8$ 。求小包裹通过传送带所需的时间t；\n（3）在传动装置中，用三角皮带（截面如图3）较普通皮带更不易打滑，小明为了探究其中蕴含的物理原理，进行了相关的实验模拟：先将字典按图4方式平放在倾斜的平板上，再将字典按图5方式两侧对称放在截面为等腰梯形的倾斜长柱体上，平板及长柱体底面与水平面的夹角相同且固定。已知等腰梯形的底角为θ，两种情况字典都处于静止状态，字典与平板及长柱体表面间的动摩擦因数相同。假设最大静摩擦力等于滑动摩擦力，垂直于书脊方向的摩擦力远小于书的重力，可忽略。求两种情况下字典的最大静摩擦力之比。",
+        "options": {},
+        "answer": null
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P8L003",
+          "P8L004",
+          "P8L005",
+          "P8L006",
+          "P8L007",
+          "P8L008",
+          "P8L009",
+          "P8L010",
+          "P8L011"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [],
+        "explanation_line_ids": [
+          "P10L013"
+        ]
+      },
+      "difficulty": null,
+      "score": 11.0,
+      "knowledge_points": [],
+      "confidence": 0.45,
+      "source_page": 8,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": true,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    }
+  ],
+  "display_contract_version": "0.4"
+}
