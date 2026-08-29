@@ -1263,3 +1263,13 @@ section 标题）
 - `english_2026_real_golden.json`、`math_real_golden.json`、`physics_2026_real_golden.json` 增加 `display_contract_version=0.4` 与展示契约字段：`stem_region`、`answer_region`、`explanation_region`、`shared_material_notes`、`scoring_standard`、`is_composite`、`sub_questions`、`word_bank`、`answer_structure`、`images`、`answer_images` 等。
 - 新增 `backend/tests/test_golden_contract.py` 校验 golden 契约字段。
 - 验证：全量 pytest 754 passed + 8 skipped。
+
+### 2026-08-29 22:01:41
+
+#### 东城英语契约化 golden
+
+- 基于 `2026北京东城高一（上）期末英语（教师版）.pdf` 原生 L1 生成 `test/annotations/golden/english_2026_dongcheng_real_golden.json`。
+- 11 组综合题、45 个子题，覆盖完形、语法填空、词库、阅读理解、七选五、阅读表达、写作。
+- 生成 `test/fixtures/l1_native_english_dongcheng_2026.json` 作为 golden 的 L1 fixture。
+- `test_golden_contract.py` 纳入新 golden 并校验组题与子题契约字段。
+- 验证：全量 pytest 754 passed + 8 skipped。

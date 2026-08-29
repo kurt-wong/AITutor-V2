@@ -1,0 +1,3610 @@
+{
+  "filename": "2026北京东城高一（上）期末英语（教师版）.pdf",
+  "subject": "英语",
+  "grade": "高一",
+  "year": 2026,
+  "school": "北京东城",
+  "l1_fixture": "l1_native_english_dongcheng_2026.json",
+  "display_contract_version": "0.4",
+  "questions": [
+    {
+      "question_number": "1-10",
+      "question_type": "cloze",
+      "section_id": "完形填空_1",
+      "stem": "第一节(共10 小题;每小题1.5 分，共15 分) 阅读下面短文，掌握其大意，从每题所给的 A、 B、 C、D 四个选项中，选出最佳选项，并在 答题卡上将该项涂黑。",
+      "stem_line_ids": [
+        "N1L007",
+        "N1L008",
+        "N1L009",
+        "N1L010",
+        "N1L011",
+        "N1L012"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": "The Ultimate Goal\nI sat in the dressing room before my first major ____1____, feeling anxious. I looked like a pianist, but I\ndidn’t feel like one. My teacher, Kurt, had told me, “You’ve practiced, and you are well-prepared,” but the thought\nthat I would soon have to play for such a large audience was ____2____.\nWhen the stage manager called me, I left the dressing room, feeling extremely nervous. The lights were so\nbright that I was almost blinded. “Where is the piano? I can’t see anything!” My heart was ____3____. But then I\nforced myself to stay ____4____: You know the way. You know what you have to do. Trusting my ____5____ was\nthe only thing that could keep me cool.\nI began to ____6____ the space between the wings of the stage and the piano. The audience applauded and\nthis wave of sound seemed to draw me across the stage. I ____7____ reached the piano and slowly took my seat,\ntrying to keep my breathing regular.\nI raised my hands and began to play, reminding myself of the final words of advice: go with the music, don’t\n____8____ mistakes and stay in the moment. Everything was falling into place. I wasn’t thinking about winning or\nfailing. The notes floated from my hands and the warmth of the audience encouraged me. I was ____9____ in the\nmusic.\nThat was the very first time I performed in the competition. A week later, I returned for the finals and won!\nI’ve also been accepted by the Juilliard School of Music. It might feel like I’ve ____10____ it. But, in reality, I\nknow that I’ve only started.",
+      "shared_material_line_ids": [
+        "N1L013",
+        "N1L014",
+        "N1L015",
+        "N1L016",
+        "N1L017",
+        "N1L018",
+        "N1L019",
+        "N1L020",
+        "N1L021",
+        "N1L022",
+        "N1L023",
+        "N1L024",
+        "N1L025",
+        "N1L026",
+        "N1L027",
+        "N1L028",
+        "N1L029",
+        "N1L030"
+      ],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": "共10小题，每空1.5分，共15分",
+      "images": [],
+      "answer_images": [],
+      "is_composite": true,
+      "sub_questions": [
+        {
+          "question_number": "1",
+          "question_type": "single_choice",
+          "section_id": "完形填空_1",
+          "stem": "1.",
+          "stem_line_ids": [
+            "N1L031"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "exercise"
+            },
+            {
+              "label": "B",
+              "text": "exhibition"
+            },
+            {
+              "label": "C",
+              "text": "competition"
+            },
+            {
+              "label": "D",
+              "text": "exploration"
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N1L032"
+            ],
+            "B": [
+              "N1L033"
+            ],
+            "C": [
+              "N1L034"
+            ],
+            "D": [
+              "N1L035"
+            ]
+          },
+          "answer": "C",
+          "answer_line_ids": [
+            "N9L009"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 1.5,
+          "difficulty": null
+        },
+        {
+          "question_number": "2",
+          "question_type": "single_choice",
+          "section_id": "完形填空_1",
+          "stem": "2.",
+          "stem_line_ids": [
+            "N1L036"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "annoying"
+            },
+            {
+              "label": "B",
+              "text": "interesting"
+            },
+            {
+              "label": "C",
+              "text": "exciting"
+            },
+            {
+              "label": "D",
+              "text": "frightening"
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N1L037"
+            ],
+            "B": [
+              "N1L038"
+            ],
+            "C": [
+              "N1L039"
+            ],
+            "D": [
+              "N1L040"
+            ]
+          },
+          "answer": "D",
+          "answer_line_ids": [
+            "N9L010"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 1.5,
+          "difficulty": null
+        },
+        {
+          "question_number": "3",
+          "question_type": "single_choice",
+          "section_id": "完形填空_1",
+          "stem": "3.",
+          "stem_line_ids": [
+            "N1L041"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "racing"
+            },
+            {
+              "label": "B",
+              "text": "dancing"
+            },
+            {
+              "label": "C",
+              "text": "aching"
+            },
+            {
+              "label": "D",
+              "text": "breaking"
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N1L042"
+            ],
+            "B": [
+              "N1L043"
+            ],
+            "C": [
+              "N1L044"
+            ],
+            "D": [
+              "N1L045"
+            ]
+          },
+          "answer": "A",
+          "answer_line_ids": [
+            "N9L011"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 1.5,
+          "difficulty": null
+        },
+        {
+          "question_number": "4",
+          "question_type": "single_choice",
+          "section_id": "完形填空_1",
+          "stem": "4.",
+          "stem_line_ids": [
+            "N1L046"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "awake"
+            },
+            {
+              "label": "B",
+              "text": "calm"
+            },
+            {
+              "label": "C",
+              "text": "safe"
+            },
+            {
+              "label": "D",
+              "text": "quiet"
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N1L047"
+            ],
+            "B": [
+              "N1L048"
+            ],
+            "C": [
+              "N1L049"
+            ],
+            "D": [
+              "N1L050"
+            ]
+          },
+          "answer": "B",
+          "answer_line_ids": [
+            "N9L012"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 1.5,
+          "difficulty": null
+        },
+        {
+          "question_number": "5",
+          "question_type": "single_choice",
+          "section_id": "完形填空_1",
+          "stem": "5.",
+          "stem_line_ids": [
+            "N1L051"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "gift"
+            },
+            {
+              "label": "B",
+              "text": "plans"
+            },
+            {
+              "label": "C",
+              "text": "decisions"
+            },
+            {
+              "label": "D",
+              "text": "preparation"
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N1L052"
+            ],
+            "B": [
+              "N1L053"
+            ],
+            "C": [
+              "N1L054"
+            ],
+            "D": [
+              "N1L055"
+            ]
+          },
+          "answer": "D",
+          "answer_line_ids": [
+            "N9L013"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 1.5,
+          "difficulty": null
+        },
+        {
+          "question_number": "6",
+          "question_type": "single_choice",
+          "section_id": "完形填空_1",
+          "stem": "6.",
+          "stem_line_ids": [
+            "N1L056"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "fill"
+            },
+            {
+              "label": "B",
+              "text": "use"
+            },
+            {
+              "label": "C",
+              "text": "cross"
+            },
+            {
+              "label": "D",
+              "text": "clear"
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N1L057"
+            ],
+            "B": [
+              "N1L058"
+            ],
+            "C": [
+              "N1L059"
+            ],
+            "D": [
+              "N1L060"
+            ]
+          },
+          "answer": "C",
+          "answer_line_ids": [
+            "N9L014"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 1.5,
+          "difficulty": null
+        },
+        {
+          "question_number": "7",
+          "question_type": "single_choice",
+          "section_id": "完形填空_1",
+          "stem": "7.",
+          "stem_line_ids": [
+            "N1L061"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "proudly"
+            },
+            {
+              "label": "B",
+              "text": "hardly"
+            },
+            {
+              "label": "C",
+              "text": "finally"
+            },
+            {
+              "label": "D",
+              "text": "secretly"
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N1L062"
+            ],
+            "B": [
+              "N1L063"
+            ],
+            "C": [
+              "N1L064"
+            ],
+            "D": [
+              "N1L065"
+            ]
+          },
+          "answer": "C",
+          "answer_line_ids": [
+            "N9L015"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 1.5,
+          "difficulty": null
+        },
+        {
+          "question_number": "8",
+          "question_type": "single_choice",
+          "section_id": "完形填空_1",
+          "stem": "8.",
+          "stem_line_ids": [
+            "N1L066"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "put right"
+            },
+            {
+              "label": "B",
+              "text": "worry about"
+            },
+            {
+              "label": "C",
+              "text": "point out"
+            },
+            {
+              "label": "D",
+              "text": "give up"
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N1L067"
+            ],
+            "B": [
+              "N1L068"
+            ],
+            "C": [
+              "N1L069"
+            ],
+            "D": [
+              "N1L070"
+            ]
+          },
+          "answer": "B",
+          "answer_line_ids": [
+            "N9L016"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 1.5,
+          "difficulty": null
+        },
+        {
+          "question_number": "9",
+          "question_type": "single_choice",
+          "section_id": "完形填空_1",
+          "stem": "9.",
+          "stem_line_ids": [
+            "N1L071"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "skilled"
+            },
+            {
+              "label": "B",
+              "text": "interested"
+            },
+            {
+              "label": "C",
+              "text": "trapped"
+            },
+            {
+              "label": "D",
+              "text": "lost"
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N1L072"
+            ],
+            "B": [
+              "N1L073"
+            ],
+            "C": [
+              "N1L074"
+            ],
+            "D": [
+              "N1L075"
+            ]
+          },
+          "answer": "D",
+          "answer_line_ids": [
+            "N9L017"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 1.5,
+          "difficulty": null
+        },
+        {
+          "question_number": "10",
+          "question_type": "single_choice",
+          "section_id": "完形填空_1",
+          "stem": "10.",
+          "stem_line_ids": [
+            "N2L001"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "made"
+            },
+            {
+              "label": "B",
+              "text": "got"
+            },
+            {
+              "label": "C",
+              "text": "beaten"
+            },
+            {
+              "label": "D",
+              "text": "taken"
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N2L002"
+            ],
+            "B": [
+              "N2L003"
+            ],
+            "C": [
+              "N2L004"
+            ],
+            "D": [
+              "N2L005"
+            ]
+          },
+          "answer": "A",
+          "answer_line_ids": [
+            "N9L018"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 1.5,
+          "difficulty": null
+        }
+      ],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": null,
+      "difficulty": null
+    },
+    {
+      "question_number": "11-13",
+      "question_type": "grammar_fill",
+      "section_id": "语法填空_1",
+      "stem": "A 阅读下面短文，根据短文内容填空。在未给提示词的空白处仅填写1 个恰当的单词，在给出提示词的空白 处用括号内所给词的正确形式填空。请在答题卡指定区域作答。",
+      "stem_line_ids": [
+        "N2L007",
+        "N2L008",
+        "N2L009"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": "Tangshan started to revive ____11____ (it) and get back up on its feet. With strong support from the\ngovernment and the tireless efforts of the city’s people, a new Tangshan was built upon the earthquake ruins. The\nnew city has become a home ____12____ more than seven million people, with great improvements in\ntransportation, industry, and environment. Tangshan city has proved to China and the rest of the world that in times\nof disaster, people must unify and show the wisdom ____13____ (stay) positive and rebuild for a brighter future.",
+      "shared_material_line_ids": [
+        "N2L010",
+        "N2L011",
+        "N2L012",
+        "N2L013",
+        "N2L014"
+      ],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": "共3小题，每空1分，共3分",
+      "images": [],
+      "answer_images": [],
+      "is_composite": true,
+      "sub_questions": [
+        {
+          "question_number": "11",
+          "question_type": "fill_in",
+          "section_id": "语法填空_1",
+          "stem": "Tangshan started to revive ____11____ (it) and get back up on its feet. With strong support from the",
+          "stem_line_ids": [
+            "N2L010"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "itself",
+          "answer_line_ids": [
+            "N9L020"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "12",
+          "question_type": "fill_in",
+          "section_id": "语法填空_1",
+          "stem": "new city has become a home ____12____ more than seven million people, with great improvements in",
+          "stem_line_ids": [
+            "N2L012"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "to",
+          "answer_line_ids": [
+            "N9L021"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "13",
+          "question_type": "fill_in",
+          "section_id": "语法填空_1",
+          "stem": "of disaster, people must unify and show the wisdom ____13____ (stay) positive and rebuild for a brighter future.",
+          "stem_line_ids": [
+            "N2L014"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "to stay",
+          "answer_line_ids": [
+            "N9L022"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        }
+      ],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": null,
+      "difficulty": null
+    },
+    {
+      "question_number": "14-17",
+      "question_type": "grammar_fill",
+      "section_id": "语法填空_1",
+      "stem": "阅读下面短文，根据短文内容填空。在未给提示词的空白处仅填写1 个恰当的单词，在给出提示词的空白 处用括号内所给词的正确形式填空。请在答题卡指定区域作答。",
+      "stem_line_ids": [
+        "N2L016",
+        "N2L017"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": "Anger is an emotion that almost everyone experiences. We feel it on days ____14____ a classmate borrows\nour things without ____15____ (ask). However, getting mad too often can lead to serious health issues. Luckily,\nthere are useful ways ____16____ can help stop anger from doing much harm, like taking deep breaths or doing\nsports. So next time you feel angry, try these easy ways and you ____17____ (feel) better soon.",
+      "shared_material_line_ids": [
+        "N2L018",
+        "N2L019",
+        "N2L020",
+        "N2L021"
+      ],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": "共4小题，每空1分，共4分",
+      "images": [],
+      "answer_images": [],
+      "is_composite": true,
+      "sub_questions": [
+        {
+          "question_number": "14",
+          "question_type": "fill_in",
+          "section_id": "语法填空_1",
+          "stem": "Anger is an emotion that almost everyone experiences. We feel it on days ____14____ a classmate borrows",
+          "stem_line_ids": [
+            "N2L018"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "when",
+          "answer_line_ids": [
+            "N9L023"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "15",
+          "question_type": "fill_in",
+          "section_id": "语法填空_1",
+          "stem": "our things without ____15____ (ask). However, getting mad too often can lead to serious health issues. Luckily,",
+          "stem_line_ids": [
+            "N2L019"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "asking",
+          "answer_line_ids": [
+            "N9L024"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "16",
+          "question_type": "fill_in",
+          "section_id": "语法填空_1",
+          "stem": "there are useful ways ____16____ can help stop anger from doing much harm, like taking deep breaths or doing",
+          "stem_line_ids": [
+            "N2L020"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "that / which",
+          "answer_line_ids": [
+            "N9L025"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "17",
+          "question_type": "fill_in",
+          "section_id": "语法填空_1",
+          "stem": "sports. So next time you feel angry, try these easy ways and you ____17____ (feel) better soon.",
+          "stem_line_ids": [
+            "N2L021"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "will feel",
+          "answer_line_ids": [
+            "N9L026"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        }
+      ],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": null,
+      "difficulty": null
+    },
+    {
+      "question_number": "18-20",
+      "question_type": "grammar_fill",
+      "section_id": "语法填空_1",
+      "stem": "阅读下面短文，根据短文内容填空。在未给提示词的空白处仅填写1 个恰当的单词，在给出提示词的空白 处用括号内所给词的正确形式填空。请在答题卡指定区域作答。",
+      "stem_line_ids": [
+        "N2L023",
+        "N2L024"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": "The International Olympic Committee (IOC) announced that Chinese volleyball legend and former head coach\nLang Ping ____18____ (award) the IOC Coaches Lifetime Achievement Award on November 24, 2025. Lang was a\ndefining figure in Chinese women’s volleyball. She enjoyed huge success as a player and, after retiring, continued\nto make her mark as a coach. Returning to China in 2013, Lang ____19____ (lead) the national team to two World\nCup ____20____ (title) and, in 2016, helped them secure Olympic gold, making Lang the first in volleyball history\nto win Olympic gold as both a player and a coach.",
+      "shared_material_line_ids": [
+        "N2L025",
+        "N2L026",
+        "N2L027",
+        "N2L028",
+        "N2L029",
+        "N2L030"
+      ],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": "共3小题，每空1分，共3分",
+      "images": [],
+      "answer_images": [],
+      "is_composite": true,
+      "sub_questions": [
+        {
+          "question_number": "18",
+          "question_type": "fill_in",
+          "section_id": "语法填空_1",
+          "stem": "Lang Ping ____18____ (award) the IOC Coaches Lifetime Achievement Award on November 24, 2025. Lang was a",
+          "stem_line_ids": [
+            "N2L026"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "was awarded",
+          "answer_line_ids": [
+            "N9L027"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "19",
+          "question_type": "fill_in",
+          "section_id": "语法填空_1",
+          "stem": "to make her mark as a coach. Returning to China in 2013, Lang ____19____ (lead) the national team to two World",
+          "stem_line_ids": [
+            "N2L028"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "led",
+          "answer_line_ids": [
+            "N9L028"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "20",
+          "question_type": "fill_in",
+          "section_id": "语法填空_1",
+          "stem": "Cup ____20____ (title) and, in 2016, helped them secure Olympic gold, making Lang the first in volleyball history",
+          "stem_line_ids": [
+            "N2L029"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "titles",
+          "answer_line_ids": [
+            "N9L029"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        }
+      ],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": null,
+      "difficulty": null
+    },
+    {
+      "question_number": "21-25",
+      "question_type": "word_bank",
+      "section_id": "选词填空_1",
+      "stem": "A. 请用方框中的单词完成句子。 (本题见校本卷) B. 请用方框中单词的正确形式完成句子。",
+      "stem_line_ids": [
+        "N2L032",
+        "N2L033",
+        "N2L034",
+        "N2L035"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": "A. 请用方框中的单词完成句子。\n(本题见校本卷)\nB.\n请用方框中单词的正确形式完成句子。\npack     confuse     equal     contribute     athlete",
+      "shared_material_line_ids": [
+        "N2L032",
+        "N2L033",
+        "N2L034",
+        "N2L035",
+        "N2L036"
+      ],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": "共5小题，每空1分，共5分",
+      "images": [],
+      "answer_images": [],
+      "is_composite": true,
+      "sub_questions": [
+        {
+          "question_number": "21",
+          "question_type": "fill_in",
+          "section_id": "选词填空_1",
+          "stem": "21. Thank you for trying to give me directions, but it’s too ________ to me. Would you mind drawing a map for me?",
+          "stem_line_ids": [
+            "N2L037",
+            "N2L038"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "confusing",
+          "answer_line_ids": [
+            "N9L033"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "22",
+          "question_type": "fill_in",
+          "section_id": "选词填空_1",
+          "stem": "22. Jim is a(n) ________ young boy who is strong and loves sports.",
+          "stem_line_ids": [
+            "N2L039"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "athletic",
+          "answer_line_ids": [
+            "N9L034"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "23",
+          "question_type": "fill_in",
+          "section_id": "选词填空_1",
+          "stem": "23. I opened the ________ and found it was a gift.",
+          "stem_line_ids": [
+            "N2L040"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "package",
+          "answer_line_ids": [
+            "N9L035"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "24",
+          "question_type": "fill_in",
+          "section_id": "选词填空_1",
+          "stem": "24. I firmly believe that each of us can make a(n) ________ to the future of the world.",
+          "stem_line_ids": [
+            "N3L001"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "contribution",
+          "answer_line_ids": [
+            "N9L036"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "25",
+          "question_type": "fill_in",
+          "section_id": "选词填空_1",
+          "stem": "25. Do you believe in ________ between men and women?",
+          "stem_line_ids": [
+            "N3L002"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "equality",
+          "answer_line_ids": [
+            "N9L037"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        }
+      ],
+      "word_bank": {
+        "title": "请用方框中的单词完成句子。",
+        "words": [
+          "pack",
+          "confuse",
+          "equal",
+          "contribute",
+          "athlete"
+        ],
+        "line_ids": [
+          "N2L036"
+        ]
+      },
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": null,
+      "difficulty": null
+    },
+    {
+      "question_number": "26-28",
+      "question_type": "reading",
+      "section_id": "阅读理解_A",
+      "stem": "第一节(共11 小题;每小题2 分，共22 分) 阅读下列短文，从每题所给的 A、 B、 C、D 四个选项中，选出最佳选项，并在答题卡上将该 项涂黑。",
+      "stem_line_ids": [
+        "N3L004",
+        "N3L005",
+        "N3L006",
+        "N3L007",
+        "N3L008",
+        "N3L009"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": "",
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": "共3小题，每题2分，共6分",
+      "images": [],
+      "answer_images": [],
+      "is_composite": true,
+      "sub_questions": [
+        {
+          "question_number": "26",
+          "question_type": "single_choice",
+          "section_id": "阅读理解_A",
+          "stem": "26. What do The Voyage Camp and The Summit Camp have in common?",
+          "stem_line_ids": [
+            "N4L004"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "They both offer outdoor experiences."
+            },
+            {
+              "label": "B",
+              "text": "They are focused on cultural exploration."
+            },
+            {
+              "label": "C",
+              "text": "They are designed for the same age group."
+            },
+            {
+              "label": "D",
+              "text": "They both include games and competitions."
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N4L005"
+            ],
+            "B": [
+              "N4L006"
+            ],
+            "C": [
+              "N4L007"
+            ],
+            "D": [
+              "N4L008"
+            ]
+          },
+          "answer": "A",
+          "answer_line_ids": [
+            "N9L045"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        },
+        {
+          "question_number": "27",
+          "question_type": "single_choice",
+          "section_id": "阅读理解_A",
+          "stem": "27. Who would enjoy The Spark Camp the most?",
+          "stem_line_ids": [
+            "N4L009"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "Those who prefer science activities."
+            },
+            {
+              "label": "B",
+              "text": "Those who enjoy studying local wildlife."
+            },
+            {
+              "label": "C",
+              "text": "Those who hope to learn a new language."
+            },
+            {
+              "label": "D",
+              "text": "Those who want to develop musical skills."
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N4L010"
+            ],
+            "B": [
+              "N4L011"
+            ],
+            "C": [
+              "N4L012"
+            ],
+            "D": [
+              "N4L013"
+            ]
+          },
+          "answer": "D",
+          "answer_line_ids": [
+            "N9L046"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        },
+        {
+          "question_number": "28",
+          "question_type": "single_choice",
+          "section_id": "阅读理解_A",
+          "stem": "28. Where can we probably find this passage?",
+          "stem_line_ids": [
+            "N4L014"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "In a geography textbook."
+            },
+            {
+              "label": "B",
+              "text": "In a vacation brochure."
+            },
+            {
+              "label": "C",
+              "text": "On a school’s official website."
+            },
+            {
+              "label": "D",
+              "text": "In a science magazine."
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N4L015"
+            ],
+            "B": [
+              "N4L016"
+            ],
+            "C": [
+              "N4L017"
+            ],
+            "D": [
+              "N4L018"
+            ]
+          },
+          "answer": "B",
+          "answer_line_ids": [
+            "N9L047"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        }
+      ],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": null,
+      "difficulty": null
+    },
+    {
+      "question_number": "29-32",
+      "question_type": "reading",
+      "section_id": "阅读理解_B",
+      "stem": "B",
+      "stem_line_ids": [
+        "N4L019"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": "A study published in Ageing, Neuropsychology and Cognition by researchers at the University of Birmingham\nfound that monolingual (单语的) seniors who completed a six-month exercise programme were quicker at\ncompleting language processing tests compared to a control group — but bilinguals didn’t show similar\nimprovement.\nIn the study, participants who followed a six-month home-based exercise programme were asked to complete a\nmix of workout plans each week. Following the experiment, the exercise groups for both monolingual and bilingual\nparticipants greatly improved their fitness levels. They were tested before and after the exercise programme on their\nability to recognize target words in a spoken sentence. The monolingual participants who followed the exercise\nprogramme were 7% faster at detecting the correct words after their fitness increased, while the bilingual\nparticipants showed very few language gains.\nDr Segart, an author of the study, said: “This is the first study we know of that establishes a causal link\nbetween improving fitness and language processing, particularly with older adults. Language processing is an\nimportant and interesting area of study, as the ability to communicate plays a key role in everyone’s daily life. The\nresults from the monolingual group provide strong evidence that increasing fitness correlates with better cognition\n(认知), highlighting the importance of regular exercise for healthy ageing.”\n“Among bilingual participants in the study, despite seeing increases in the fitness levels within the exercise\ngroup, there was no relationship with improved scores in the language processing tests and the results were very\nsimilar to those of the control group. The finding might be explained by the lifetime patination (积淀) produced in\ntheir neural pathways thanks to the lifelong use of several languages — that is, a cognitive reserve that has already\noffset age-related loss. Older adults who are bilingual may enhance cognitive reserve, thus reducing the additional\nbenefits gained from exercise,” he added.\nWhile the study establishes a clear link between physical fitness and language processing, follow-up research\nis needed to explore the broader benefits of physical activity for cognitive development. Also, further research will\nfocus on the lasting influence of exercise on cognitive health among other age groups, which may provide much\nbetter solutions to age-related language loss.\nA. The monolinguals could identify certain words faster.\nB. Both groups made great progress in language learning.\nC. The bilinguals improved their speaking ability gradually.\nD. The participants were quicker at finishing cognitive tests.",
+      "shared_material_line_ids": [
+        "N4L020",
+        "N4L021",
+        "N4L022",
+        "N4L023",
+        "N4L024",
+        "N4L025",
+        "N4L026",
+        "N4L027",
+        "N4L028",
+        "N4L029",
+        "N4L030",
+        "N4L031",
+        "N4L032",
+        "N4L033",
+        "N4L034",
+        "N4L035",
+        "N4L036",
+        "N4L037",
+        "N4L038",
+        "N4L039",
+        "N4L040",
+        "N4L041",
+        "N4L042",
+        "N4L043",
+        "N4L044",
+        "N5L001",
+        "N5L002",
+        "N5L003",
+        "N5L004"
+      ],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": "共4小题，每题2分，共8分",
+      "images": [],
+      "answer_images": [],
+      "is_composite": true,
+      "sub_questions": [
+        {
+          "question_number": "29",
+          "question_type": "single_choice",
+          "section_id": "阅读理解_B",
+          "stem": "29. What happened after the participants followed an exercise programme?",
+          "stem_line_ids": [
+            "N4L045"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "The monolinguals could identify certain words faster."
+            },
+            {
+              "label": "B",
+              "text": "Both groups made great progress in language learning."
+            },
+            {
+              "label": "C",
+              "text": "The bilinguals improved their speaking ability gradually."
+            },
+            {
+              "label": "D",
+              "text": "The participants were quicker at finishing cognitive tests."
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N5L001"
+            ],
+            "B": [
+              "N5L002"
+            ],
+            "C": [
+              "N5L003"
+            ],
+            "D": [
+              "N5L004"
+            ]
+          },
+          "answer": "A",
+          "answer_line_ids": [
+            "N9L048"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        },
+        {
+          "question_number": "30",
+          "question_type": "single_choice",
+          "section_id": "阅读理解_B",
+          "stem": "30. What does Paragraph 3 intend to tell us?",
+          "stem_line_ids": [
+            "N5L005"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "The value of the research."
+            },
+            {
+              "label": "B",
+              "text": "The key role of communication."
+            },
+            {
+              "label": "C",
+              "text": "The effect of language processing."
+            },
+            {
+              "label": "D",
+              "text": "The area covered by the experiment."
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N5L006"
+            ],
+            "B": [
+              "N5L007"
+            ],
+            "C": [
+              "N5L008"
+            ],
+            "D": [
+              "N5L009"
+            ]
+          },
+          "answer": "A",
+          "answer_line_ids": [
+            "N9L049"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        },
+        {
+          "question_number": "31",
+          "question_type": "single_choice",
+          "section_id": "阅读理解_B",
+          "stem": "31. What does the underlined word “offset” probably mean in Paragraph 4?",
+          "stem_line_ids": [
+            "N5L010"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "Resulted in."
+            },
+            {
+              "label": "B",
+              "text": "Taken off."
+            },
+            {
+              "label": "C",
+              "text": "Taken control of."
+            },
+            {
+              "label": "D",
+              "text": "Balanced out."
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N5L011"
+            ],
+            "B": [
+              "N5L012"
+            ],
+            "C": [
+              "N5L013"
+            ],
+            "D": [
+              "N5L014"
+            ]
+          },
+          "answer": "D",
+          "answer_line_ids": [
+            "N9L050"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        },
+        {
+          "question_number": "32",
+          "question_type": "single_choice",
+          "section_id": "阅读理解_B",
+          "stem": "32. What will the further research most likely focus on?",
+          "stem_line_ids": [
+            "N5L015"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "Measures to calm fear of age-related language loss."
+            },
+            {
+              "label": "B",
+              "text": "The effect of exercise on teenagers’ test-taking skills."
+            },
+            {
+              "label": "C",
+              "text": "Additional advantages of exercise for cognitive growth."
+            },
+            {
+              "label": "D",
+              "text": "The connection between exercise and language cognition."
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N5L016"
+            ],
+            "B": [
+              "N5L017"
+            ],
+            "C": [
+              "N5L018"
+            ],
+            "D": [
+              "N5L019"
+            ]
+          },
+          "answer": "C",
+          "answer_line_ids": [
+            "N9L051"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        }
+      ],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": null,
+      "difficulty": null
+    },
+    {
+      "question_number": "33-36",
+      "question_type": "reading",
+      "section_id": "阅读理解_C",
+      "stem": "C",
+      "stem_line_ids": [
+        "N5L020"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": "I’ve been a psychology professor since 2012. In the past six years, I’ve seen students of all ages procrastinate\n(拖延) on papers, avoid presentation days, miss schoolwork, and let due dates fly by.\nI don’t think laziness was ever at fault.\nEver.\nI’m a social psychologist, so I’m interested in the situational factors that drive human behaviour. When you’re\nseeking to predict or explain a person’s actions, looking at the social expectations, and the person’s context — their\nday-to-day reality, their problems and hard times — is usually safe. Situational limits typically predict behaviour far\nbetter than personality, intelligence, or other personal qualities. So, when it comes to behavioral “laziness”, I’m\nmoved to ask: what are the blocks to action that I can’t see?\nThere are always blocks. Recognizing those blocks and viewing them as reasonable — is often the first step to\nbreaking “lazy” behaviour patterns (模式). It’s really helpful to respond to a person’s ineffective behaviour with\ncuriosity rather than judgment. If a person’s behaviour doesn’t make sense to you, it is because you are missing a\npart of their context. Let’s look at a sign of academic “laziness” that I believe is anything but procrastination.\nPeople think procrastinators cause their own problems. Putting off work sure looks lazy. Even the people who\nare actively doing the procrastinating can mistake their behaviour for laziness. You’re supposed to be doing\nsomething, and you’re not doing it. That means you’re weak-willed, not motivated, and lazy, doesn’t it?\nFor decades, psychological research has been able to explain procrastination as a functioning problem, not a\nresult of laziness. When a person fails to begin a project that they care about, it’s typically due to either anxiety\nabout their efforts not being “good enough” or confusion about what the first steps of the task are. Not laziness. In\nfact, procrastination is more likely when the task is meaningful and the individual cares about doing it well.\nWhen you’re paralyzed with fear of failure, or you don’t even know how to begin a massive, challenging task,\nit’s extremely hard to get it done. It has nothing to do with desire or motivation.\nThe solution, instead, is to look for what is holding the procrastinator back. If anxiety is the major block, the\nprocrastinator actually needs to take part in a relaxing activity. Being judged “lazy” by other people is likely to lead\nto the exact opposite behaviour.\nPeople do not choose to fail or disappoint. No one wants to feel incapable or ineffective. There is always an\nexplanation. There are always blocks. Just because you can’t see them, or don’t view them as reasonable, doesn’t\nmean they’re not. Look harder.",
+      "shared_material_line_ids": [
+        "N5L021",
+        "N5L022",
+        "N5L023",
+        "N5L024",
+        "N5L025",
+        "N5L026",
+        "N5L027",
+        "N5L028",
+        "N5L029",
+        "N5L030",
+        "N5L031",
+        "N5L032",
+        "N5L033",
+        "N5L034",
+        "N5L035",
+        "N5L036",
+        "N5L037",
+        "N5L038",
+        "N5L039",
+        "N5L040",
+        "N5L041",
+        "N5L042",
+        "N5L043",
+        "N5L044",
+        "N6L001",
+        "N6L002",
+        "N6L003",
+        "N6L004"
+      ],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": "共4小题，每题2分，共8分",
+      "images": [],
+      "answer_images": [],
+      "is_composite": true,
+      "sub_questions": [
+        {
+          "question_number": "33",
+          "question_type": "single_choice",
+          "section_id": "阅读理解_C",
+          "stem": "33. According to the author, what affects people’s behaviour the most?",
+          "stem_line_ids": [
+            "N6L005"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "Mental blocks."
+            },
+            {
+              "label": "B",
+              "text": "Limited experience."
+            },
+            {
+              "label": "C",
+              "text": "Personal qualities."
+            },
+            {
+              "label": "D",
+              "text": "Contextual factors."
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N6L006"
+            ],
+            "B": [
+              "N6L007"
+            ],
+            "C": [
+              "N6L008"
+            ],
+            "D": [
+              "N6L009"
+            ]
+          },
+          "answer": "D",
+          "answer_line_ids": [
+            "N9L052"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        },
+        {
+          "question_number": "34",
+          "question_type": "single_choice",
+          "section_id": "阅读理解_C",
+          "stem": "34. Some people can’t begin a project they care about because they ________.",
+          "stem_line_ids": [
+            "N6L010"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "question its meaning"
+            },
+            {
+              "label": "B",
+              "text": "are not strong-willed"
+            },
+            {
+              "label": "C",
+              "text": "fear they can’t meet expectations"
+            },
+            {
+              "label": "D",
+              "text": "are confused about how to finish it"
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N6L011"
+            ],
+            "B": [
+              "N6L012"
+            ],
+            "C": [
+              "N6L013"
+            ],
+            "D": [
+              "N6L014"
+            ]
+          },
+          "answer": "C",
+          "answer_line_ids": [
+            "N9L053"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        },
+        {
+          "question_number": "35",
+          "question_type": "single_choice",
+          "section_id": "阅读理解_C",
+          "stem": "35. What does “the exact opposite behaviour” in Paragraph 9 most probably refer to?",
+          "stem_line_ids": [
+            "N6L015"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "Talking to an advisor."
+            },
+            {
+              "label": "B",
+              "text": "Avoiding taking action."
+            },
+            {
+              "label": "C",
+              "text": "Quitting responsibilities halfway."
+            },
+            {
+              "label": "D",
+              "text": "Looking into the causes of laziness."
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N6L016"
+            ],
+            "B": [
+              "N6L017"
+            ],
+            "C": [
+              "N6L018"
+            ],
+            "D": [
+              "N6L019"
+            ]
+          },
+          "answer": "B",
+          "answer_line_ids": [
+            "N9L054"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        },
+        {
+          "question_number": "36",
+          "question_type": "single_choice",
+          "section_id": "阅读理解_C",
+          "stem": "36. What does the author mainly do in this passage?",
+          "stem_line_ids": [
+            "N6L020"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "Start a debate."
+            },
+            {
+              "label": "B",
+              "text": "Question a belief."
+            },
+            {
+              "label": "C",
+              "text": "Explain a situation."
+            },
+            {
+              "label": "D",
+              "text": "Introduce a method."
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N6L021"
+            ],
+            "B": [
+              "N6L022"
+            ],
+            "C": [
+              "N6L023"
+            ],
+            "D": [
+              "N6L024"
+            ]
+          },
+          "answer": "B",
+          "answer_line_ids": [
+            "N9L055"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        }
+      ],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": null,
+      "difficulty": null
+    },
+    {
+      "question_number": "37-41",
+      "question_type": "seven_to_five",
+      "section_id": "七选五_1",
+      "stem": "第二节(共5 小题;每小题2 分，共10 分) 根据短文内容，从短文后的七个选项中选出能填入空白处的最佳选项，并在答题卡上将该项 涂黑。选项中有两项为多余选项。",
+      "stem_line_ids": [
+        "N6L025",
+        "N6L026",
+        "N6L027"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": "We live in a culture addicted to winning. The spotlight shines brightest on the people who reach the finish line\nfirst, while those who come close slip into the shadows.\n____37____ The inventor who had the right idea at the wrong time. The poet whose words only mattered long\nafter they were gone. They seldom make headlines, but their efforts change the world in ways we only notice later.\nThe truth is that the “almosts” aren’t failures. Sometimes they push society forward more than the celebrated\nvictims.\nNikola Tesla is remembered today as a genius (天才), but during his lifetime, he was largely overshadowed by\nThomas Edison. Emily Dickinson’s case is quieter but no less surprising. ____38____ Only later would her simple\nyet powerful words change American poetry. Or take Katherine Johnson, whose math made spaceflight possible\nthough her work went unmentioned for decades. ____39____\nWhen we honor the “almosts”, we change what success means beyond headlines. Winning becomes about the\ncourage to try, fall, and continue. ____40____ Or the small business that fails, only for its owners to learn and build\nsomething more resilient (坚韧的). Even in art, those uncelebrated in their time often touch souls for future\ngenerations. The beauty of the “almost” is that it reminds us success is about daring to set out first. There’s\nsomething deeply human about the “almosts”. They remind us effort is valuable even without recognition.\n____41____\nTheir stories belong to all of us because most of us are “almosts” in some part of our lives. Few take first\nplace. Yet we matter.",
+      "shared_material_line_ids": [
+        "N6L028",
+        "N6L029",
+        "N6L030",
+        "N6L031",
+        "N6L032",
+        "N6L033",
+        "N6L034",
+        "N6L035",
+        "N6L036",
+        "N6L037",
+        "N6L038",
+        "N6L039",
+        "N6L040",
+        "N6L041",
+        "N6L042",
+        "N6L043",
+        "N6L044",
+        "N6L045"
+      ],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [
+        {
+          "label": "A",
+          "text": "The truth lies in history."
+        },
+        {
+          "label": "B",
+          "text": "But what about the “almosts”?"
+        },
+        {
+          "label": "C",
+          "text": "That struggle itself has meaning."
+        },
+        {
+          "label": "D",
+          "text": "Her “almost” wasn’t a failure at that time."
+        },
+        {
+          "label": "E",
+          "text": "Think of the silver runner who returns stronger, inspired by that close loss."
+        },
+        {
+          "label": "F",
+          "text": "These stories remind us not getting recognition doesn’t mean making no difference."
+        },
+        {
+          "label": "G",
+          "text": "Nearly all her poems sat in a drawer while she lived, considered strange or unfinished."
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "N6L046"
+        ],
+        "B": [
+          "N6L047"
+        ],
+        "C": [
+          "N7L001"
+        ],
+        "D": [
+          "N7L002"
+        ],
+        "E": [
+          "N7L003"
+        ],
+        "F": [
+          "N7L004"
+        ],
+        "G": [
+          "N7L005"
+        ]
+      },
+      "answer": null,
+      "answer_line_ids": [],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": "共5小题，每题2分，共10分",
+      "images": [],
+      "answer_images": [],
+      "is_composite": true,
+      "sub_questions": [
+        {
+          "question_number": "37",
+          "question_type": "seven_to_five",
+          "section_id": "七选五_1",
+          "stem": "____37____ The inventor who had the right idea at the wrong time. The poet whose words only mattered long",
+          "stem_line_ids": [
+            "N6L030"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "The truth lies in history."
+            },
+            {
+              "label": "B",
+              "text": "But what about the “almosts”?"
+            },
+            {
+              "label": "C",
+              "text": "That struggle itself has meaning."
+            },
+            {
+              "label": "D",
+              "text": "Her “almost” wasn’t a failure at that time."
+            },
+            {
+              "label": "E",
+              "text": "Think of the silver runner who returns stronger, inspired by that close loss."
+            },
+            {
+              "label": "F",
+              "text": "These stories remind us not getting recognition doesn’t mean making no difference."
+            },
+            {
+              "label": "G",
+              "text": "Nearly all her poems sat in a drawer while she lived, considered strange or unfinished."
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N6L046"
+            ],
+            "B": [
+              "N6L047"
+            ],
+            "C": [
+              "N7L001"
+            ],
+            "D": [
+              "N7L002"
+            ],
+            "E": [
+              "N7L003"
+            ],
+            "F": [
+              "N7L004"
+            ],
+            "G": [
+              "N7L005"
+            ]
+          },
+          "answer": "B",
+          "answer_line_ids": [
+            "N9L059"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        },
+        {
+          "question_number": "38",
+          "question_type": "seven_to_five",
+          "section_id": "七选五_1",
+          "stem": "Thomas Edison. Emily Dickinson’s case is quieter but no less surprising. ____38____ Only later would her simple",
+          "stem_line_ids": [
+            "N6L035"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "The truth lies in history."
+            },
+            {
+              "label": "B",
+              "text": "But what about the “almosts”?"
+            },
+            {
+              "label": "C",
+              "text": "That struggle itself has meaning."
+            },
+            {
+              "label": "D",
+              "text": "Her “almost” wasn’t a failure at that time."
+            },
+            {
+              "label": "E",
+              "text": "Think of the silver runner who returns stronger, inspired by that close loss."
+            },
+            {
+              "label": "F",
+              "text": "These stories remind us not getting recognition doesn’t mean making no difference."
+            },
+            {
+              "label": "G",
+              "text": "Nearly all her poems sat in a drawer while she lived, considered strange or unfinished."
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N6L046"
+            ],
+            "B": [
+              "N6L047"
+            ],
+            "C": [
+              "N7L001"
+            ],
+            "D": [
+              "N7L002"
+            ],
+            "E": [
+              "N7L003"
+            ],
+            "F": [
+              "N7L004"
+            ],
+            "G": [
+              "N7L005"
+            ]
+          },
+          "answer": "G",
+          "answer_line_ids": [
+            "N9L060"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        },
+        {
+          "question_number": "39",
+          "question_type": "seven_to_five",
+          "section_id": "七选五_1",
+          "stem": "though her work went unmentioned for decades. ____39____",
+          "stem_line_ids": [
+            "N6L037"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "The truth lies in history."
+            },
+            {
+              "label": "B",
+              "text": "But what about the “almosts”?"
+            },
+            {
+              "label": "C",
+              "text": "That struggle itself has meaning."
+            },
+            {
+              "label": "D",
+              "text": "Her “almost” wasn’t a failure at that time."
+            },
+            {
+              "label": "E",
+              "text": "Think of the silver runner who returns stronger, inspired by that close loss."
+            },
+            {
+              "label": "F",
+              "text": "These stories remind us not getting recognition doesn’t mean making no difference."
+            },
+            {
+              "label": "G",
+              "text": "Nearly all her poems sat in a drawer while she lived, considered strange or unfinished."
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N6L046"
+            ],
+            "B": [
+              "N6L047"
+            ],
+            "C": [
+              "N7L001"
+            ],
+            "D": [
+              "N7L002"
+            ],
+            "E": [
+              "N7L003"
+            ],
+            "F": [
+              "N7L004"
+            ],
+            "G": [
+              "N7L005"
+            ]
+          },
+          "answer": "F",
+          "answer_line_ids": [
+            "N9L061"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        },
+        {
+          "question_number": "40",
+          "question_type": "seven_to_five",
+          "section_id": "七选五_1",
+          "stem": "courage to try, fall, and continue. ____40____ Or the small business that fails, only for its owners to learn and build",
+          "stem_line_ids": [
+            "N6L039"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "The truth lies in history."
+            },
+            {
+              "label": "B",
+              "text": "But what about the “almosts”?"
+            },
+            {
+              "label": "C",
+              "text": "That struggle itself has meaning."
+            },
+            {
+              "label": "D",
+              "text": "Her “almost” wasn’t a failure at that time."
+            },
+            {
+              "label": "E",
+              "text": "Think of the silver runner who returns stronger, inspired by that close loss."
+            },
+            {
+              "label": "F",
+              "text": "These stories remind us not getting recognition doesn’t mean making no difference."
+            },
+            {
+              "label": "G",
+              "text": "Nearly all her poems sat in a drawer while she lived, considered strange or unfinished."
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N6L046"
+            ],
+            "B": [
+              "N6L047"
+            ],
+            "C": [
+              "N7L001"
+            ],
+            "D": [
+              "N7L002"
+            ],
+            "E": [
+              "N7L003"
+            ],
+            "F": [
+              "N7L004"
+            ],
+            "G": [
+              "N7L005"
+            ]
+          },
+          "answer": "E",
+          "answer_line_ids": [
+            "N9L062"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        },
+        {
+          "question_number": "41",
+          "question_type": "seven_to_five",
+          "section_id": "七选五_1",
+          "stem": "____41____",
+          "stem_line_ids": [
+            "N6L043"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [
+            {
+              "label": "A",
+              "text": "The truth lies in history."
+            },
+            {
+              "label": "B",
+              "text": "But what about the “almosts”?"
+            },
+            {
+              "label": "C",
+              "text": "That struggle itself has meaning."
+            },
+            {
+              "label": "D",
+              "text": "Her “almost” wasn’t a failure at that time."
+            },
+            {
+              "label": "E",
+              "text": "Think of the silver runner who returns stronger, inspired by that close loss."
+            },
+            {
+              "label": "F",
+              "text": "These stories remind us not getting recognition doesn’t mean making no difference."
+            },
+            {
+              "label": "G",
+              "text": "Nearly all her poems sat in a drawer while she lived, considered strange or unfinished."
+            }
+          ],
+          "options_line_ids": {
+            "A": [
+              "N6L046"
+            ],
+            "B": [
+              "N6L047"
+            ],
+            "C": [
+              "N7L001"
+            ],
+            "D": [
+              "N7L002"
+            ],
+            "E": [
+              "N7L003"
+            ],
+            "F": [
+              "N7L004"
+            ],
+            "G": [
+              "N7L005"
+            ]
+          },
+          "answer": "C",
+          "answer_line_ids": [
+            "N9L063"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        }
+      ],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": null,
+      "difficulty": null,
+      "extra_options": 2
+    },
+    {
+      "question_number": "42-45",
+      "question_type": "reading_expression",
+      "section_id": "阅读表达_1",
+      "stem": "第一节(共4 小题;第 48、49 题各2 分，第50 题3 分，第51 题5 分，共12 分) 阅读下面短文，根据题目要求用英文回答问题。请在答题卡指定区域作答。",
+      "stem_line_ids": [
+        "N7L007",
+        "N7L008",
+        "N7L009"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": "What if you quit your job, grabbed a camera, and hit the road with one simple question for every stranger you\nmet. “Are you happy?”\nFive years ago, filmmaker Eric did exactly that. The question surprised most people, but the answers he\nreceived were honest. For one woman, pure joy was her child. Another man credited his happiness to simple things:\n“food, fresh air, good weather.”\nEric posted the interviews online, and they quickly went viral, reaching 15 million people a month. Yet as his\nplatform grew, he realized he was uncovering something deeper than fame or success. Happiness, he discovered,\nisn’t a product of what happens to us.\nThe most powerful proof came from a man with Stage 4 cancer. He was truly happy just to be alive to watch\nhis son skateboard — an everyday moment he never thought he would live to see.\nThat’s when it clicked for Eric. He saw the dividing line between the happy and the unhappy wasn’t wealth,\nsuccess, or perfect health. It was something simpler, yet more powerful: an appreciation for small things. “I think\nthe difference,” Eric reflected, “is being able to say, ‘This sandwich is really making me happy.’”\nHe has come to believe that happiness is often a choice and a skill you can practice. When you concentrate on\nfinding the good in things, you start to change the chemistry in your brain to turn unexpected changes in your life\ninto positives. Over time, this way of thinking becomes a natural part of who you are.\nSo, when people ask Eric if he’s happy, he smiles. “Yeah,” he says. “Because I’ve got my family. I think\npeople take that for granted. But if you have that, you really are in the top one percent of the happiest people in the\nworld.”",
+      "shared_material_line_ids": [
+        "N7L010",
+        "N7L011",
+        "N7L012",
+        "N7L013",
+        "N7L014",
+        "N7L015",
+        "N7L016",
+        "N7L017",
+        "N7L018",
+        "N7L019",
+        "N7L020",
+        "N7L021",
+        "N7L022",
+        "N7L023",
+        "N7L024",
+        "N7L025",
+        "N7L026",
+        "N7L027",
+        "N7L028"
+      ],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": "42/43各2分，44题3分，45题5分，共12分",
+      "images": [],
+      "answer_images": [],
+      "is_composite": true,
+      "sub_questions": [
+        {
+          "question_number": "42",
+          "question_type": "short_answer",
+          "section_id": "阅读表达_1",
+          "stem": "42. How did most people feel about Eric’s question? _______________________________________________________________________",
+          "stem_line_ids": [
+            "N7L029",
+            "N7L030"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "Most people felt surprised (at Eric’s question).",
+          "answer_line_ids": [
+            "N9L067"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "43",
+          "question_type": "short_answer",
+          "section_id": "阅读表达_1",
+          "stem": "43. What is the dividing line between the happy and the unhappy? _______________________________________________________________________",
+          "stem_line_ids": [
+            "N7L031",
+            "N7L032"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "An appreciation for small things.",
+          "answer_line_ids": [
+            "N9L068"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "44",
+          "question_type": "short_answer",
+          "section_id": "阅读表达_1",
+          "stem": "44. Please decide which part is false in the following statement, then underline it and explain why. When you focus on finding the good, your life will change unexpectedly. _______________________________________________________________________",
+          "stem_line_ids": [
+            "N7L033",
+            "N7L034",
+            "N7L035"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "44. When you focus on finding the good, your life will change unexpectedly. According to the passage, when you concentrate on finding the good in things, you start to change the chemistry in your brain to turn unexpected changes in your life into positives, which means you can turn unexpected changes into positive things rather than your life changing unexpectedly.",
+          "answer_line_ids": [
+            "N9L069",
+            "N9L070",
+            "N9L071",
+            "N9L072"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "45",
+          "question_type": "short_answer",
+          "section_id": "阅读表达_1",
+          "stem": "45. If Eric asked you “Are you happy?” right now, what would you say? Why? (In about 40 words) _______________________________________________________________________",
+          "stem_line_ids": [
+            "N7L036",
+            "N7L037"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "45. I would say “Yes, I’m happy. Because I have good friends who support me and I can enjoy the beauty of nature every day.”",
+          "answer_line_ids": [
+            "N9L073",
+            "N10L001"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        }
+      ],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": null,
+      "difficulty": null
+    },
+    {
+      "question_number": "46",
+      "question_type": "writing",
+      "section_id": "书面表达_写作",
+      "stem": "46. 假如你是红星中学高一年级学生李华，你的英国好友Jim 对中国文化遗产非常感兴趣，他计划来中国实 地体验。请你给他写封邮件，内容包括： 1.建议； 2.理由。 注意： 1.词数100 左右； 2.开头和结尾已给出，不计入总词数。 Dear Jim, ____________________________________________________________________________________________ ____________________________________________________________________________________________ ____________________________________________________________________________________________ ____________________________________________________________________________________________ __________________________________________________________________________________",
+      "stem_line_ids": [
+        "N7L039",
+        "N7L040",
+        "N8L001",
+        "N8L002",
+        "N8L003",
+        "N8L004",
+        "N8L005",
+        "N8L006",
+        "N8L007",
+        "N8L008",
+        "N8L009",
+        "N8L010",
+        "N8L011"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": null,
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [],
+      "options_line_ids": {},
+      "answer": "One possible version:\nDear Jim,\nI’m so glad to hear you’re coming to China to check out our cultural heritage!\nSince you are into history, my top suggestion is the Terracotta Army in Xi’an. It is a treasure of ancient\nChinese history. Seeing thousands of life-sized statues standing there is an amazing experience — it feels like\ntraveling back 2,000 years!\nI also recommend that you should climb Mount Tai in Shandong Province. It is not just a natural wonder but\nalso a symbol of traditional Chinese culture and strength. If you make it to the top for the sunrise, the view is just\nbreathtaking.\nBoth sites will help you truly understand the origin of Chinese culture. I am sure you will have an\nunforgettable trip!\nYours,\nLi Hua",
+      "answer_line_ids": [
+        "N10L003",
+        "N10L004",
+        "N10L005",
+        "N10L006",
+        "N10L007",
+        "N10L008",
+        "N10L009",
+        "N10L010",
+        "N10L011",
+        "N10L012",
+        "N10L013",
+        "N10L014",
+        "N10L015"
+      ],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": "20分",
+      "images": [],
+      "answer_images": [],
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": 20,
+      "difficulty": null
+    }
+  ]
+}

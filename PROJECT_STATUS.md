@@ -207,3 +207,10 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 - 三个验收 golden 已按 `DISPLAY_CONTRACT.md` v0.4 增加展示结构字段。
 - 新增 `test_golden_contract.py` 契约字段校验。
 - 全量 pytest 754 passed + 8 skipped。
+
+## 东城英语契约化 golden（2026-08-29 22:01:41）
+
+- 新增 `english_2026_dongcheng_real_golden.json`：11 组综合题、45 个子题。
+- 新增对应原生 L1 fixture `l1_native_english_dongcheng_2026.json`。
+- `test_golden_contract.py` 已纳入新 golden 并校验子题字段。
+- 全量 pytest 754 passed + 8 skipped。

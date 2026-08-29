@@ -1,4 +1,4 @@
-﻿"""Golden 展示契约字段校验。
+"""Golden 展示契约字段校验。
 
 校验 test/annotations/golden/ 下当前验收 golden 是否已按
 Docs/00_Requirements/DISPLAY_CONTRACT.md v0.4 补齐展示结构字段。
@@ -30,6 +30,7 @@ REQUIRED_QUESTION_FIELDS = {
 def _real_golden_paths():
     paths = [
         GOLDEN_DIR / "english_2026_real_golden.json",
+        GOLDEN_DIR / "english_2026_dongcheng_real_golden.json",
         GOLDEN_DIR / "math_real_golden.json",
         GOLDEN_DIR / "physics_2026_real_golden.json",
     ]
@@ -55,4 +56,9 @@ def test_golden_questions_have_contract_fields():
             if q.get("is_composite"):
                 assert q.get("sub_questions"), (
                     f"{path.name} Q{q.get('question_number')} is_composite but sub_questions empty"
+                )
+            for sub in q.get("sub_questions", []):
+                sub_missing = REQUIRED_QUESTION_FIELDS - set(sub)
+                assert not sub_missing, (
+                    f"{path.name} Q{sub.get('question_number')} missing: {sorted(sub_missing)}"
                 )
