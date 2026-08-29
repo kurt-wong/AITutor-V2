@@ -1,7 +1,7 @@
 ﻿# AI Tutor Personal Edition — PROJECT_STATUS
 
 Version: 6.46
-Status: v6.46 题型树+知识节点库完成；Phase 1-3 全量修复；754 passed（8 skipped）。
+Status: v6.46 题型树+知识节点库完成；Phase 1-3 全量修复；755 passed（8 skipped）。
 Date: 2026-08-29
 
 ---
@@ -214,3 +214,10 @@ Phase 4 验收：新增回归测试 + golden + 重跑东城英语/样本卷。
 - 新增对应原生 L1 fixture `l1_native_english_dongcheng_2026.json`。
 - `test_golden_contract.py` 已纳入新 golden 并校验子题字段。
 - 全量 pytest 754 passed + 8 skipped。
+
+## 数理化语文契约化 golden（2026-08-29 22:15:21）
+
+- 新增数学、物理、化学、语文四份契约化 golden，覆盖代表性题型与展示结构。
+- 新增数学/化学/语文原生 L1 fixture。
+- `test_golden_contract.py` 覆盖四份新 golden 的字段与 line_id 校验。
+- 全量 pytest 755 passed + 8 skipped。

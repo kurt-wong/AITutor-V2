@@ -1273,3 +1273,17 @@ section 标题）
 - 生成 `test/fixtures/l1_native_english_dongcheng_2026.json` 作为 golden 的 L1 fixture。
 - `test_golden_contract.py` 纳入新 golden 并校验组题与子题契约字段。
 - 验证：全量 pytest 754 passed + 8 skipped。
+
+### 2026-08-29 22:15:21
+
+#### 数理化语文契约化 golden 补齐
+
+- 新增四份契约化 golden：
+  - `math_2026_chaoyang_contract_golden.json`
+  - `physics_2026_chaoyang_contract_golden.json`
+  - `chemistry_2026_bashi_contract_golden.json`
+  - `chinese_2026_chaoyang_contract_golden.json`
+- 每份只覆盖代表性题型，不按题量验收。
+- 新增对应原生 L1 fixture：数学、化学、语文。
+- `test_golden_contract.py` 纳入四份新 golden，并增加 line_id 与 L1 fixture 一致性校验。
+- 验证：全量 pytest 755 passed + 8 skipped。

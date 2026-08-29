@@ -1,0 +1,424 @@
+{
+  "filename": "2026北京朝阳高一（上）期末物理（教师版）.pdf",
+  "subject": "物理",
+  "grade": "高一",
+  "year": 2026,
+  "school": "北京朝阳",
+  "l1_fixture": "l1_native_physics_2026.json",
+  "display_contract_version": "0.4",
+  "questions": [
+    {
+      "question_number": "1",
+      "question_type": "single_choice",
+      "section_id": "一、单项选择题",
+      "stem_line_ids": [
+        "N1L006"
+      ],
+      "options_line_ids": {
+        "A": [
+          "N1L007"
+        ],
+        "B": [
+          "N1L008"
+        ],
+        "C": [
+          "N1L009"
+        ],
+        "D": [
+          "N1L009"
+        ]
+      },
+      "answer": "C",
+      "answer_line_ids": [
+        "N9L004"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "1.下列物理量中，属于矢量的是（）",
+        "options": {
+          "A": "路程",
+          "B": "质量",
+          "C": "加速度D时间",
+          "D": "C.加速度D时间"
+        },
+        "answer": "B (2分)"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P1L005"
+        ],
+        "options_line_ids": [
+          [
+            "P1L006"
+          ],
+          [
+            "P1L007"
+          ],
+          [
+            "P1L008"
+          ],
+          [
+            "P1L008"
+          ]
+        ],
+        "answer_line_ids": [
+          "P9L007",
+          "P9L008",
+          "P9L020",
+          "P10L002",
+          "P10L007",
+          "P10L014"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 3,
+      "knowledge_points": [],
+      "confidence": 0.44999999999999996,
+      "source_page": 1,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "11",
+      "question_type": "multiple_choice",
+      "section_id": "二、多项选择题",
+      "stem_line_ids": [
+        "N3L025",
+        "N3L026"
+      ],
+      "options_line_ids": {
+        "A": [
+          "N3L027"
+        ],
+        "B": [
+          "N3L028"
+        ],
+        "C": [
+          "N3L029"
+        ],
+        "D": [
+          "N3L030"
+        ]
+      },
+      "answer": "BC",
+      "answer_line_ids": [
+        "N9L008"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "llm_fallback",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "11.如图所示，长方体物块受到一个沿斜面向上的拉力F静止于固定的斜面上，物块受力的个数可能为()\nF □",
+        "options": {
+          "A": "2",
+          "B": "3",
+          "C": "4",
+          "D": "5"
+        },
+        "answer": null
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P3L015",
+          "P3L016"
+        ],
+        "options_line_ids": [
+          [
+            "P3L017"
+          ],
+          [
+            "P3L018"
+          ],
+          [
+            "P3L019"
+          ],
+          [
+            "P3L020"
+          ]
+        ],
+        "answer_line_ids": [],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 4,
+      "knowledge_points": [],
+      "confidence": 0.35000000000000003,
+      "source_page": 3,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": true,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    },
+    {
+      "question_number": "15",
+      "question_type": "fill_in",
+      "section_id": "三、实验题",
+      "stem_line_ids": [
+        "N5L008",
+        "N5L009",
+        "N5L010",
+        "N5L011",
+        "N5L012",
+        "N5L013",
+        "N5L014",
+        "N5L015",
+        "N5L016",
+        "N6L001",
+        "N6L002",
+        "N6L003",
+        "N6L004",
+        "N6L005",
+        "N6L006"
+      ],
+      "options_line_ids": {},
+      "answer": "(1）1.50 (2分)(2）不能 (2分）（3）0.50(2分）100(2分)",
+      "answer_line_ids": [
+        "N9L010"
+      ],
+      "explanation_line_ids": [],
+      "answer_source": "document_answer_table",
+      "explanation_source": "llm_fallback",
+      "expected_content": {
+        "stem": "15.实验小组利用如图1所示的实验装置来测量橡皮绳的劲度系数k。将手机悬挂在橡皮绳下，用手机软件中的位移传感器，可以测量手机在竖直方向上的位移。该实验小组进行了如下主要的实验步骤：\n2\n图1\na.将橡皮绳分别与手机和铁架台相连接，使手机重心和橡皮绳在同一竖直线上。\nb.用手掌托着手机，使橡皮绳处于原长状态，打开手机中的位移传感器软件。\nc.缓慢释放手机，当手机平衡时记录手机下降的高度$x_{0}$ 。\nd.在手机正下方悬挂不同个数的钩码，每个钩码的质量$m=50\\mathrm{g}$ _，缓慢释放，当钩码平衡时，记录下从橡皮绳原长开始下降的伸长量x。\ne.重复上述d步操作。\nf.作出悬挂钩码数量n和对应的伸长量x的关系图像，如图2所示。\n↑n/个\n\n3\n\n2\n\n1\n\n→/cm\n00.\n51.\n01.5 2.0 2.\n53.0 3.5 4.0\n图2\n根据$n-x$ 图像，回答以下问题：\n（1）不挂钩码时，橡皮绳的伸长量为$x_{0}=\\underline{\\hspace{1cm}}cm$\n（2）为了测量更多的数据，______（选填“能”或“不能”）任意增加钩码个数。\n（3）每增加一个钩码，橡皮绳的形变量增加cm。若取$g=10\\mathrm{m}/\\mathrm{s}^{2}$ ，代入相关数据，计算出该橡皮绳的劲度系数$k=\\frac{\\sum\\sum N/m}{\\sum}$ 0",
+        "options": {},
+        "answer": "(1）1.50 (2分)(2）不能 (2分）（3）0.50(2分）100(2分)"
+      },
+      "expected_anchor": {
+        "stem_line_ids": [
+          "P5L008",
+          "P5L009",
+          "P5L010",
+          "P5L011",
+          "P5L012",
+          "P5L013",
+          "P5L014",
+          "P5L015",
+          "P5L016",
+          "P6L001",
+          "P6L002",
+          "P6L003",
+          "P6L004",
+          "P6L005",
+          "P6L006",
+          "P6L007",
+          "P6L008",
+          "P6L009",
+          "P6L010"
+        ],
+        "options_line_ids": [],
+        "answer_line_ids": [
+          "P9L007"
+        ],
+        "explanation_line_ids": []
+      },
+      "difficulty": null,
+      "score": 8.0,
+      "knowledge_points": [],
+      "confidence": 0.85,
+      "source_page": 5,
+      "status": "manual_review_draft_needs_pp",
+      "answer_needs_manual": false,
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "scoring_standard": null,
+      "is_composite": true,
+      "sub_questions": [
+        {
+          "question_number": "15-1",
+          "question_type": "fill_in",
+          "section_id": "三、实验题",
+          "stem": "b.用手掌托着手机，使橡皮绳处于原长状态，打开手机中的位移传感器软件。",
+          "stem_line_ids": [
+            "N6L002"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "1.50",
+          "answer_line_ids": [
+            "N9L010"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        },
+        {
+          "question_number": "15-2",
+          "question_type": "fill_in",
+          "section_id": "三、实验题",
+          "stem": "c.缓慢释放手机，当手机平衡时记录手机下降的高度 0x 。",
+          "stem_line_ids": [
+            "N6L003"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "不能",
+          "answer_line_ids": [
+            "N9L010"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 2,
+          "difficulty": null
+        },
+        {
+          "question_number": "15-3",
+          "question_type": "fill_in",
+          "section_id": "三、实验题",
+          "stem": "d.在手机正下方悬挂不同个数的钩码，每个钩码的质量 50g m = ，缓慢释放，当钩码平衡时，记录下从橡",
+          "stem_line_ids": [
+            "N6L005",
+            "N6L006"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "0.50；100",
+          "answer_line_ids": [
+            "N9L010"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": 4,
+          "difficulty": null
+        }
+      ],
+      "word_bank": null,
+      "answer_structure": null,
+      "images": [],
+      "answer_images": []
+    }
+  ]
+}

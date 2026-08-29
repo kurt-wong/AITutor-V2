@@ -32,7 +32,11 @@ def _real_golden_paths():
         GOLDEN_DIR / "english_2026_real_golden.json",
         GOLDEN_DIR / "english_2026_dongcheng_real_golden.json",
         GOLDEN_DIR / "math_real_golden.json",
+        GOLDEN_DIR / "math_2026_chaoyang_contract_golden.json",
         GOLDEN_DIR / "physics_2026_real_golden.json",
+        GOLDEN_DIR / "physics_2026_chaoyang_contract_golden.json",
+        GOLDEN_DIR / "chemistry_2026_bashi_contract_golden.json",
+        GOLDEN_DIR / "chinese_2026_chaoyang_contract_golden.json",
     ]
     return [p for p in paths if p.exists()]
 
@@ -62,3 +66,31 @@ def test_golden_questions_have_contract_fields():
                 assert not sub_missing, (
                     f"{path.name} Q{sub.get('question_number')} missing: {sorted(sub_missing)}"
                 )
+
+
+def _iter_question_and_subs(questions):
+    for q in questions:
+        yield q
+        yield from q.get("sub_questions", [])
+
+
+def test_golden_line_ids_exist_in_fixture():
+    """golden 中引用的 line_id 必须存在于对应 L1 fixture。"""
+    for path in [p for p in _real_golden_paths() if "contract_golden" in p.name]:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        fixture_path = ROOT / "test" / "fixtures" / data.get("l1_fixture", "")
+        if not fixture_path.exists():
+            continue
+        fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+        fixture_ids = {line["line_id"] for line in fixture.get("lines", [])}
+        missing = []
+        for q in _iter_question_and_subs(data.get("questions", [])):
+            ids = []
+            ids.extend(q.get("stem_line_ids", []))
+            ids.extend(q.get("answer_line_ids", []))
+            ids.extend(q.get("explanation_line_ids", []))
+            ids.extend(q.get("shared_material_line_ids", []))
+            for lid in ids:
+                if lid not in fixture_ids:
+                    missing.append(f"{q.get('question_number')}:{lid}")
+        assert not missing, f"{path.name} missing line ids: {sorted(set(missing))[:20]}"

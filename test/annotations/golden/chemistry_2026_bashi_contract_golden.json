@@ -1,0 +1,482 @@
+{
+  "filename": "2026北京八十中高一（上）期末化学（教师版）.pdf",
+  "subject": "化学",
+  "grade": "高一",
+  "year": 2026,
+  "school": "北京八十中",
+  "l1_fixture": "l1_native_chemistry_2026_bashi.json",
+  "display_contract_version": "0.4",
+  "questions": [
+    {
+      "question_number": "2",
+      "question_type": "single_choice",
+      "section_id": "化学选择题",
+      "stem": "2. 下列物质中，不属于 ．．．电解质的是",
+      "stem_line_ids": [
+        "N1L015"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": null,
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [
+        {
+          "label": "A",
+          "text": "3 HNO"
+        },
+        {
+          "label": "B",
+          "text": "KOH"
+        },
+        {
+          "label": "C",
+          "text": "Cu"
+        },
+        {
+          "label": "D",
+          "text": "2 4 Na SO"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "N1L016"
+        ],
+        "B": [
+          "N1L017"
+        ],
+        "C": [
+          "N1L018"
+        ],
+        "D": [
+          "N1L019"
+        ]
+      },
+      "answer": "C",
+      "answer_line_ids": [
+        "N10L006"
+      ],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": null,
+      "images": [],
+      "answer_images": [],
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": 3,
+      "difficulty": null
+    },
+    {
+      "question_number": "11",
+      "question_type": "multiple_choice",
+      "section_id": "化学选择题",
+      "stem": "11. 化学小组用下图所示装置制备Cl2并进行相关实验，当关闭弹簧夹时，④中的红布条未见明显变化；打 开弹簧夹后，④中的红布条逐渐褪色。 下列说法不正确 ．．．的是",
+      "stem_line_ids": [
+        "N2L016",
+        "N2L017",
+        "N2L018"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": null,
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [
+        {
+          "label": "A",
+          "text": "①中MnO2作氧化剂"
+        },
+        {
+          "label": "B",
+          "text": "②中饱和食盐水的作用是除去Cl2中的HCl"
+        },
+        {
+          "label": "C",
+          "text": "关闭弹簧夹时，③中盛放的试剂只能选用浓H2SO4"
+        },
+        {
+          "label": "D",
+          "text": "打开弹簧夹后，⑤中反应的离子方程式：Cl2+2OH-=Cl-+ClO-+H2O"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "N2L019"
+        ],
+        "B": [
+          "N2L020"
+        ],
+        "C": [
+          "N2L021"
+        ],
+        "D": [
+          "N2L022"
+        ]
+      },
+      "answer": "C",
+      "answer_line_ids": [
+        "N10L006"
+      ],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": null,
+      "images": [],
+      "answer_images": [],
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": 3,
+      "difficulty": null
+    },
+    {
+      "question_number": "16",
+      "question_type": "short_answer",
+      "section_id": "化学综合题",
+      "stem": "16. 研究金属Na 及 2 3 Na CO 、 3 NaHCO 的性质。 （1）钠的化学性质非常活泼，其原子结构示意图为_____。 （2）在烧杯中加入少量水，滴入几滴酚酞溶液，把一块绿豆大的钠放入水中。可见钠熔成小球，四处游 动，溶液变为红色。 ①钠与水反应的化学方程式为_____。 ②推断反应时放出热量，依据的现象是_____。 ③如果火灾现场存放有大量金属钠，则不能用水而需要用_____来灭火。 （3）小组同学用传感器探究 2 3 Na CO 、 3 NaHCO 的性质，实验如下表。 已知：pH 越小，( ) OH c −越小 实验操作  实验数据 测量下述实验过程的pH 变化 ①依据实验数据分析， 2 3 Na CO 溶液和澄清石灰水反应的离子方程式为_____。 ②滴加 3 NaHCO 溶液至5 mL 的过程中，参与反应的离子有_____。",
+      "stem_line_ids": [
+        "N4L020",
+        "N4L021",
+        "N4L022",
+        "N4L023",
+        "N4L024",
+        "N4L025",
+        "N4L026",
+        "N4L027",
+        "N4L028",
+        "N4L029",
+        "N5L001",
+        "N5L002",
+        "N5L003"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": null,
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [],
+      "options_line_ids": {},
+      "answer": "见试题解答内容",
+      "answer_line_ids": [
+        "N10L031"
+      ],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": "共10分",
+      "images": [],
+      "answer_images": [],
+      "is_composite": true,
+      "sub_questions": [
+        {
+          "question_number": "16-1",
+          "question_type": "fill_in",
+          "section_id": "化学综合题",
+          "stem": "（1）钠的化学性质非常活泼，其原子结构示意图为_____。",
+          "stem_line_ids": [
+            "N4L021"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "钠的原子结构示意图（见答案）",
+          "answer_line_ids": [
+            "N10L031"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "16-2-1",
+          "question_type": "fill_in",
+          "section_id": "化学综合题",
+          "stem": "①钠与水反应的化学方程式为_____。",
+          "stem_line_ids": [
+            "N4L024"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "2Na+2H2O=2NaOH+H2↑",
+          "answer_line_ids": [
+            "N10L032"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "16-2-2",
+          "question_type": "fill_in",
+          "section_id": "化学综合题",
+          "stem": "②推断反应时放出热量，依据的现象是_____。",
+          "stem_line_ids": [
+            "N4L025"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "钠熔成小球",
+          "answer_line_ids": [
+            "N10L032"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "16-2-3",
+          "question_type": "fill_in",
+          "section_id": "化学综合题",
+          "stem": "③如果火灾现场存放有大量金属钠，则不能用水而需要用_____来灭火。",
+          "stem_line_ids": [
+            "N4L026"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "干燥的沙土覆盖",
+          "answer_line_ids": [
+            "N10L032"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "16-3-1",
+          "question_type": "fill_in",
+          "section_id": "化学综合题",
+          "stem": "①依据实验数据分析， 2 3 Na CO 溶液和澄清石灰水反应的离子方程式为_____。",
+          "stem_line_ids": [
+            "N5L002"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "Ca2++CO3^2-=CaCO3↓",
+          "answer_line_ids": [
+            "N11L001"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "16-3-2",
+          "question_type": "fill_in",
+          "section_id": "化学综合题",
+          "stem": "②滴加 3 NaHCO 溶液至5 mL 的过程中，参与反应的离子有_____。",
+          "stem_line_ids": [
+            "N5L003"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "OH-、HCO3-、Ca2+",
+          "answer_line_ids": [
+            "N11L001"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        }
+      ],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": 10,
+      "difficulty": null
+    }
+  ]
+}

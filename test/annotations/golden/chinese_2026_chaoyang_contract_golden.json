@@ -1,0 +1,380 @@
+{
+  "filename": "2026北京朝阳高一（上）期末语文（教师版）.pdf",
+  "subject": "语文",
+  "grade": "高一",
+  "year": 2026,
+  "school": "北京朝阳",
+  "l1_fixture": "l1_native_chinese_2026_chaoyang.json",
+  "display_contract_version": "0.4",
+  "questions": [
+    {
+      "question_number": "1",
+      "question_type": "single_choice",
+      "section_id": "现代文阅读",
+      "stem": "1. 根据材料一，下列理解正确的一项是（   ）",
+      "stem_line_ids": [
+        "N2L020"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": "材料二\n园林是由山水、草木和人文建筑等构成的综合性审美场所。游园时，既能欣赏山水、草木、风月等自\n然景观，悟自然之逸趣，又能将闲情雅致融入亭台山水之间，品味园中活动的雅趣。\n古代文人常将园林之景塑造为诗画交织的盛宴。从整体布置到亭台楼阁的修建都流露出诗心文韵，古\n建筑园林艺术学家陈从周将此称为“以诗文造园”。园林中的匾额、题咏等，就是“以诗文造园”的典型\n体现。因为有了诗文的加持，园林的山水楼阁更具格调。如拙政园有“与谁同坐轩”，若仅从字面来看，\n就是与谁结伴同坐的意思。其实，这是化用了苏东坡《点绛唇·闲倚胡床》中的“与谁同坐？明月清风\n我”，这就让一座普通的亭子增添了潇洒自在的意境。\n雅集是古代文人聚会的一种方式，往往选择宁静高雅、远离喧嚣的地方。而园林，因其优美的自然景\n观和浓郁的文化氛围成为雅集的主要场所。园林中的文人雅集，是一种综合性的文艺活动，主要包含游园\n赏景、谈玄论道、赋诗作文、抚琴观乐、投壶弈棋、展演昆曲等。其中最常见的是诗文酒会，它既是文人\n交流思想的载体，更是抒发高雅情怀的途径。早在兰亭雅集曲水流觞之前，西晋石崇的“金谷雅集”，就\n以饮宴作诗为活动内容。后代的园林雅集，也多采用这种方式。\n古人重视传统节日，景致优美的园林常成为举办节庆活动的场所，清代诗人查慎行曾作诗赞叹清代大\n学士明珠的自怡园的元宵灯会盛景：“二分明月一分灯，引入仙山第几层。洞口烟霞浓似染，雪边亭榭暖\n如蒸。”据文献记载，古人在园林中举办的节日活动，既植根于元宵挂灯、中秋赏月、重阳登高赏菊等民\n俗传统，将时令习俗与园林景致巧妙融合；又让亭台楼阁、山水草木成为鲜活的载体，承载着亲友相聚的\n生活乐趣与真挚情感。这些活动极大地丰富了节日的文化意蕴与雅致情调。\n（取材于付林鹏等的文章）",
+      "shared_material_line_ids": [
+        "N2L001",
+        "N2L002",
+        "N2L003",
+        "N2L004",
+        "N2L005",
+        "N2L006",
+        "N2L007",
+        "N2L008",
+        "N2L009",
+        "N2L010",
+        "N2L011",
+        "N2L012",
+        "N2L013",
+        "N2L014",
+        "N2L015",
+        "N2L016",
+        "N2L017",
+        "N2L018",
+        "N2L019"
+      ],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [
+        {
+          "label": "A",
+          "text": "中国园林历史悠久，最初以皇家园林为主，魏晋南北朝时私家园林成主流。"
+        },
+        {
+          "label": "B",
+          "text": "叠山理水作为独立的造园环节，与园林中建筑、楹联等元素缺乏内在关联。"
+        },
+        {
+          "label": "C",
+          "text": "园林建筑兼具实用与审美功能，既可遮阳避雨，又能以特定设计引导观景。"
+        },
+        {
+          "label": "D",
+          "text": "传统园林步入现代语境，原有价值已被消解，只能通过技术模仿留存形式。"
+        }
+      ],
+      "options_line_ids": {
+        "A": [
+          "N2L021"
+        ],
+        "B": [
+          "N2L022"
+        ],
+        "C": [
+          "N2L023"
+        ],
+        "D": [
+          "N2L024"
+        ]
+      },
+      "answer": "C",
+      "answer_line_ids": [
+        "N10L004"
+      ],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": null,
+      "images": [],
+      "answer_images": [],
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": 3,
+      "difficulty": null
+    },
+    {
+      "question_number": "17",
+      "question_type": "fill_in",
+      "section_id": "默写",
+      "stem": "17. 在横线处填写作品原句。要求：字迹清晰。",
+      "stem_line_ids": [
+        "N5L025"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": null,
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [],
+      "options_line_ids": {},
+      "answer": "见试题解答内容",
+      "answer_line_ids": [
+        "N16L014"
+      ],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": "每空1分，共8分",
+      "images": [],
+      "answer_images": [],
+      "is_composite": true,
+      "sub_questions": [
+        {
+          "question_number": "17-1",
+          "question_type": "fill_in",
+          "section_id": "默写",
+          "stem": "（1）古诗词常借“月”来表达情感。曹操在《短歌行》中慨叹贤才难求“明明如月，",
+          "stem_line_ids": [
+            "N5L026"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "何时可掇",
+          "answer_line_ids": [
+            "N16L014"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "17-2",
+          "question_type": "fill_in",
+          "section_id": "默写",
+          "stem": "____________”，白居易在《琵琶行》中渲染离愁别绪“醉不成欢惨将别，____________”。",
+          "stem_line_ids": [
+            "N5L027"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "别时茫茫江浸月",
+          "answer_line_ids": [
+            "N16L015"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "17-3",
+          "question_type": "fill_in",
+          "section_id": "默写",
+          "stem": "（2）《赤壁赋》中“盖将自其变者而观之，___________；自其不变者而观之，则物与我皆无尽也，",
+          "stem_line_ids": [
+            "N5L028"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "则天地曾不能以一瞬",
+          "answer_line_ids": [
+            "N16L016"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        },
+        {
+          "question_number": "17-4",
+          "question_type": "fill_in",
+          "section_id": "默写",
+          "stem": "____________”，表达了苏轼豁达的人生态度；而《念奴娇·赤壁怀古》的结尾两句",
+          "stem_line_ids": [
+            "N5L029"
+          ],
+          "stem_region": {
+            "start": "题干区开始",
+            "end": "题干区结束"
+          },
+          "shared_material": null,
+          "shared_material_line_ids": [],
+          "shared_material_notes": null,
+          "shared_material_notes_line_ids": [],
+          "options": [],
+          "options_line_ids": {},
+          "answer": "而又何羡乎",
+          "answer_line_ids": [
+            "N16L017"
+          ],
+          "answer_region": {
+            "start": "答案区开始",
+            "end": "答案区结束"
+          },
+          "explanation": null,
+          "explanation_line_ids": [],
+          "explanation_region": {
+            "start": "详解区开始",
+            "end": "详解区结束"
+          },
+          "scoring_standard": null,
+          "images": [],
+          "answer_images": [],
+          "is_composite": false,
+          "sub_questions": [],
+          "word_bank": null,
+          "answer_structure": null,
+          "answer_source": "document_answer_table",
+          "explanation_source": null,
+          "score": null,
+          "difficulty": null
+        }
+      ],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": 8,
+      "difficulty": null
+    },
+    {
+      "question_number": "23",
+      "question_type": "writing",
+      "section_id": "微写作",
+      "stem": "23. 微写作：从下面三个题目中任选一题，按要求作答。 （1）为保障社区居民度过平安祥和的春节，增强邻里安全防范意识，维护节日期间社区秩序，居委 会向全体居民发出“安全过春节”的倡议。请你为居委会撰写一篇倡议书。要求：内容具体可行，语言简",
+      "stem_line_ids": [
+        "N8L009",
+        "N8L010",
+        "N8L011"
+      ],
+      "stem_region": {
+        "start": "题干区开始",
+        "end": "题干区结束"
+      },
+      "shared_material": null,
+      "shared_material_line_ids": [],
+      "shared_material_notes": null,
+      "shared_material_notes_line_ids": [],
+      "options": [],
+      "options_line_ids": {},
+      "answer": "23.【答案】例文：\n安全过春节倡议书\n全体居民朋友们：\n新春佳节将至，为守护社区平安祥和，筑牢安全防线，居委会特发出如下倡议：注意用火、用电、用\n气安全，及时排查隐患；外出锁好门窗，贵重物品妥善保管，防范盗窃。文明燃放烟花爆竹，遵守禁燃规\n定；聚餐适量饮酒，杜绝酒驾。邻里互助守望，遇异常情况及时联系居委会或报警。\n让我们携手同心，严守安全底线，共度一个平安、欢乐、祥和的春节！\nXX 社区居委会\nXXXX 年XX 月XX 日",
+      "answer_line_ids": [
+        "N18L021",
+        "N18L022",
+        "N18L023",
+        "N18L024",
+        "N18L025",
+        "N18L026",
+        "N18L027",
+        "N18L028",
+        "N18L029"
+      ],
+      "answer_region": {
+        "start": "答案区开始",
+        "end": "答案区结束"
+      },
+      "explanation": null,
+      "explanation_line_ids": [],
+      "explanation_region": {
+        "start": "详解区开始",
+        "end": "详解区结束"
+      },
+      "scoring_standard": null,
+      "images": [],
+      "answer_images": [],
+      "is_composite": false,
+      "sub_questions": [],
+      "word_bank": null,
+      "answer_structure": null,
+      "answer_source": "document_answer_table",
+      "explanation_source": null,
+      "score": 10,
+      "difficulty": null
+    }
+  ]
+}
