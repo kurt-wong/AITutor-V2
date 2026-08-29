@@ -1,15 +1,29 @@
 # AI Tutor Personal Edition — RESTART_PROMPT
 
-Version: 6.46
-Status: 文档治理精简完成（v6.46：TASK/PLAN/T3/Design 归档，ROADMAP 吸收任务规范）
+Version: 6.47
+Status: 展示契约 v0.4 + golden 契约化完成；答案噪音归一化完成；东城英语入库对比 45/45
 Date: 2026-08-29
+
+---
+
+## 0. 当前工作状态（2026-08-29 23:05:58）
+
+- HEAD：`d3ee4ae`
+- 当前基线：全量 pytest `757 passed + 8 skipped`
+- 展示契约：`Docs/00_Requirements/DISPLAY_CONTRACT.md` v0.4
+- golden：英语东城 + 数学/物理/化学/语文契约化 golden 已纳入版本管理
+- 入库验证：东城英语真实入库成功，11 组综合题、45 个子题，答案归一化后 `45/45` 匹配
+- 待办：把 `stem_region` / `answer_region` / `explanation_region` / `scoring_standard` / `images` / `answer_images` 接入 `simple_pipeline` / ingestion / API
+- 待办：P4E.1 任务5 三份验证文档
+- 阻塞：`test/results_to_delete/pytest-of-Kurtw` 仍被 PID 6408 锁定；`paper_structure` 8 个测试 skipped
+- 详情：先读 `PROJECT_STATUS.md`，再按需读 `LOG.md`
 
 ---
 
 ## 1. 用途
 
 Codex/Claude 重启后先读本文件恢复上下文。本文件只承载稳定信息：项目目标、
-基础架构、强制规则、文档地图、恢复流程。最新状态不写入本文件。
+基础架构、强制规则、文档地图、恢复流程，以及重启后可直接读取的当前恢复要点。最新状态细节以 `PROJECT_STATUS.md` 为准。
 
 ---
 
@@ -51,7 +65,7 @@ Codex/Claude 重启后先读本文件恢复上下文。本文件只承载稳定�
 | `bugs.md` | 已知问题与修复记录 |
 | `docs_archive/status/` | 版本化状态快照 |
 | `Docs/00_Requirements/REQUIREMENTS_AND_SOLUTION.md` | 需求与方案基线 |
-| Docs/00_Requirements/DISPLAY_CONTRACT.md | 题目展示与切片契约 |
+| `Docs/00_Requirements/DISPLAY_CONTRACT.md` | 题目展示与切片契约 |
 | `Docs/01_Product/ROADMAP.md` | 阶段任务计划 |
 | `Docs/02_Architecture/SAD.md` | 系统架构 |
 | `Docs/02_Architecture/MIS.md` | MCP 工具规范 |

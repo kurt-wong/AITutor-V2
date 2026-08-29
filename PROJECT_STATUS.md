@@ -1,10 +1,18 @@
-﻿# AI Tutor Personal Edition — PROJECT_STATUS
+# AI Tutor Personal Edition — PROJECT_STATUS
 
-Version: 6.46
-Status: v6.46 题型树+知识节点库完成；Phase 1-3 全量修复；757 passed（8 skipped）。
+Version: 6.47
+Status: v6.47 展示契约 v0.4 + golden 契约化完成；757 passed（8 skipped）。
 Date: 2026-08-29
 
 ---
+
+## 最新摘要（2026-08-29 23:05:58）
+
+- HEAD：`d3ee4ae`；全量 pytest `757 passed + 8 skipped`。
+- 展示契约 v0.4 已固化；golden 已按契约迁移并补齐英语/数学/物理/化学/语文。
+- 东城英语真实入库验证：11 组综合题、45 个子题，答案归一化后 `45/45` 匹配。
+- 下一步：把展示区块字段接入 `simple_pipeline` / ingestion / API；P4E.1 任务5。
+- 阻塞：`test/results_to_delete/pytest-of-Kurtw` 仍锁定；`paper_structure` 8 个测试 skipped。
 
 ## 当前阶段
 
