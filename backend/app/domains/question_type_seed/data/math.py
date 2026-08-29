@@ -99,6 +99,31 @@ _L2 = [
         description="圆锥曲线，含曲线方程、弦长面积、定点定值",
         keywords=["解析几何", "analytic geometry", "圆锥曲线", "椭圆", "抛物线"],
     ),
+    # -- 北京卷特有
+    QuestionTypeSeed(
+        code="MATH-SOL-NEWDEF",
+        name="新定义题",
+        level=2,
+        parent_code="MATH-SOL",
+        description="北京卷特有：以数表/数阵为背景定义新性质，层层递进（判断→计数→证明），通常为压轴题",
+        keywords=["新定义题", "new definition", "数表", "数阵", "新性质"],
+    ),
+    QuestionTypeSeed(
+        code="MATH-SOL-ILLSTRUCT",
+        name="结构不良/开放型",
+        level=2,
+        parent_code="MATH-SOL",
+        description="北京卷特有：条件或结论开放、答案不唯一的开放性试题",
+        keywords=["结构不良", "ill-structured", "开放型", "open-ended", "条件开放"],
+    ),
+    QuestionTypeSeed(
+        code="MATH-SOL-TASKDRIV",
+        name="任务驱动题",
+        level=2,
+        parent_code="MATH-SOL",
+        description="北京卷特有：以实际任务为载体的综合应用题",
+        keywords=["任务驱动题", "task-driven", "真实情境题", "real-world context"],
+    ),
 ]
 
 # ═══ Level 3: Specific types ═════════════════════════════════════════════════

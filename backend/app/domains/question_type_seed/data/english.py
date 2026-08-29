@@ -44,6 +44,15 @@ _L1 = [
         description="书面表达能力考查，含应用文与读后续写",
         keywords=["写作", "writing", "书面表达"],
     ),
+    # -- 北京卷特有：听说机考（50分，与笔试分离，计算机考试，一年两考）
+    QuestionTypeSeed(
+        code="ENG-SPEAK",
+        name="听说机考",
+        level=1,
+        parent_code=None,
+        description="北京卷特有：英语听说计算机考试（满分50分），含听后选择、听后记录、听后转述、短文朗读、回答问题",
+        keywords=["听说机考", "speaking test", "computer-based test", "口语考试"],
+    ),
 ]
 
 # ═══ Level 2: Subcategories ══════════════════════════════════════════════════
@@ -124,6 +133,47 @@ _L2 = [
         parent_code="ENG-WRITE",
         description="读后续写，根据前文续写故事",
         keywords=["读后续写", "continuation writing", "续写"],
+    ),
+    # -- 北京卷特有：听说机考子题型
+    QuestionTypeSeed(
+        code="ENG-SPEAK-LC",
+        name="听后选择",
+        level=2,
+        parent_code="ENG-SPEAK",
+        description="听录音后选择正确答案",
+        keywords=["听后选择", "listen & choose"],
+    ),
+    QuestionTypeSeed(
+        code="ENG-SPEAK-LR",
+        name="听后记录",
+        level=2,
+        parent_code="ENG-SPEAK",
+        description="听录音后记录关键信息",
+        keywords=["听后记录", "listen & record"],
+    ),
+    QuestionTypeSeed(
+        code="ENG-SPEAK-LRTELL",
+        name="听后转述",
+        level=2,
+        parent_code="ENG-SPEAK",
+        description="听录音后转述内容",
+        keywords=["听后转述", "listen & retell"],
+    ),
+    QuestionTypeSeed(
+        code="ENG-SPEAK-READ",
+        name="短文朗读",
+        level=2,
+        parent_code="ENG-SPEAK",
+        description="朗读指定短文",
+        keywords=["短文朗读", "passage reading", "朗读"],
+    ),
+    QuestionTypeSeed(
+        code="ENG-SPEAK-QA",
+        name="回答问题",
+        level=2,
+        parent_code="ENG-SPEAK",
+        description="根据所听内容回答问题",
+        keywords=["回答问题", "question & answer"],
     ),
 ]
 

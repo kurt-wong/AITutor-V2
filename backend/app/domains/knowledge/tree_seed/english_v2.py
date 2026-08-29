@@ -943,7 +943,6 @@ ENGLISH_KNOWLEDGE_TREE_V2: list[KnowledgeTreeSeed] = [
             "passage",
             "read the following",
             "read the passage",
-            "七选五",
             "主旨",
             "推理",
             "根据短文",

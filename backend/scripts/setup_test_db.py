@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""建立专用测试库（幂等）：创建 <库名>_test → alembic upgrade head → 知识树种子。
+"""建立专用测试库（幂等）：创建 <库名>_test → alembic upgrade head → 知识树种子 → 题型种子。
 
 用法：
     python backend/scripts/setup_test_db.py
@@ -9,7 +9,7 @@
     python backend/scripts/setup_test_db.py
 
 说明：pytest（backend/tests/conftest.py）默认会把 DATABASE_URL 重定向到 <库名>_test，
-本脚本保证该库存在且 schema/知识树就绪（新机器/新环境先跑本脚本再跑全量 pytest）。
+本脚本保证该库存在且 schema/知识树/题型树就绪（新机器/新环境先跑本脚本再跑全量 pytest）。
 """
 from __future__ import annotations
 
@@ -60,6 +60,11 @@ async def main() -> None:
     print("running: seed_knowledge_tree.py")
     subprocess.run(
         [sys.executable, "scripts/seed_knowledge_tree.py"],
+        cwd=BACKEND, env=env, check=True,
+    )
+    print("running: seed_question_types")
+    subprocess.run(
+        [sys.executable, "-m", "app.domains.question_type_seed.seed"],
         cwd=BACKEND, env=env, check=True,
     )
     print("test db ready:", test_url)

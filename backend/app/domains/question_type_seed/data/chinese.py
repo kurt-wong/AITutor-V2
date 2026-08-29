@@ -41,8 +41,17 @@ _L1 = [
         name="写作",
         level=1,
         parent_code=None,
-        description="写作能力考查，含材料议论文与任务驱动型",
+        description="写作能力考查，含材料议论文、记叙文与任务驱动型",
         keywords=["写作", "writing", "作文"],
+    ),
+    # -- 北京卷特有
+    QuestionTypeSeed(
+        code="CHN-BOOK",
+        name="整本书阅读",
+        level=1,
+        parent_code=None,
+        description="北京卷特有：整本书阅读考查（如《红楼梦》），考查对主要人物、事件的整体把握",
+        keywords=["整本书阅读", "whole book reading", "红楼梦", "名著阅读"],
     ),
 ]
 
@@ -65,6 +74,15 @@ _L2 = [
         parent_code="CHN-MODERN",
         description="小说/散文等文学类文本阅读",
         keywords=["文学类文本", "literary text", "小说", "散文"],
+    ),
+    # -- 北京卷特有
+    QuestionTypeSeed(
+        code="CHN-MODERN-MULTI",
+        name="多文本阅读",
+        level=2,
+        parent_code="CHN-MODERN",
+        description="北京卷特有：多则材料对比阅读，客观题4道+主观题1道",
+        keywords=["多文本阅读", "multi-text reading", "多材料阅读", "非连续性文本"],
     ),
     # -- 古诗文阅读
     QuestionTypeSeed(
@@ -107,6 +125,15 @@ _L2 = [
         parent_code="CHN-WRITE",
         description="任务驱动型写作，含书信、演讲稿、倡议书、通知等",
         keywords=["任务驱动型", "task-driven writing", "书信", "演讲稿"],
+    ),
+    # -- 北京卷特有
+    QuestionTypeSeed(
+        code="CHN-WRITE-NARR",
+        name="记叙文",
+        level=2,
+        parent_code="CHN-WRITE",
+        description="北京卷特有：大作文二选一中的记叙文选项",
+        keywords=["记叙文", "narrative essay", "叙事散文"],
     ),
 ]
 

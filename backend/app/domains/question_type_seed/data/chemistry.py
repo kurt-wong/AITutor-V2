@@ -74,6 +74,15 @@ _L2 = [
         description="原子/分子结构与性质",
         keywords=["物质结构", "atomic/molecular structure", "结构与性质"],
     ),
+    # -- 北京卷特有
+    QuestionTypeSeed(
+        code="CHEM-CHOICE-UNCERT",
+        name="不定项选择",
+        level=2,
+        parent_code="CHEM-CHOICE",
+        description="北京卷特有：答案选项个数不确定的选择题（可能1-4个正确答案）",
+        keywords=["不定项选择", "uncertain-choice", "不定项"],
+    ),
 ]
 
 # ═══ Level 3: Specific types ═════════════════════════════════════════════════
