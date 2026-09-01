@@ -1,20 +1,21 @@
 # AI Tutor 题库展示与切片契约
 
-Version: 0.4
+Version: 0.5
 Status: 当前固化基线；后续问题按 LOG 更新
-Date: 2026-08-29
+Date: 2026-08-30
 用途：根据用户提供的英语、理科、语文展示期望，定义入库题目在 golden、API 与前端展示中应保留的结构。
 
 ## 0. 已确认决策
 
-1. 展示标记统一为“题干区/答案区/详解区/配图锚点”。
+1. 展示标记统一为”题干区/答案区/详解区/配图锚点”。
 2. 标记只作为 golden 校验和切片入库元数据，不进入前端页面渲染。
-3. 英语和语文试卷默认按“综合题 + 子题”建模；没有共享材料/情境的题才建模为独立题。
+3. 英语和语文试卷默认按”综合题 + 子题”建模；没有共享材料/情境的题才建模为独立题。
 4. 写作参考范文放 `answer`。
 5. 理科化学式统一使用标准化显示：`Cl₂`、`OH⁻`、`Fe₃O₄`；OCR 原文中的 `Cl(2)` 只作为 provenance。
-6. 配图锚点统一为“配图锚点”；`配图起始点`、`配图位置锚点`、`配图锚点指示` 作为兼容输入，归一化后保存为 `配图锚点`。
+6. 配图锚点统一为”配图锚点”；`配图起始点`、`配图位置锚点`、`配图锚点指示` 作为兼容输入，归一化后保存为 `配图锚点`。
 7. golden 不约束题量、组数、子题数；只作为题型种类与展示结构样例，不作为数量验收标准。
 8. golden 答案比较必须忽略全半角、引号样式、题号前缀、常见分隔符和 OCR 转义噪音；格式差异不视为内容不匹配。
+9. **综合题容器（分组题头）不是独立题目，只是承载统一材料和子题分组。容器不保存答案类字段，答案只在子题中。**
 
 ## 1. 核心原则
 
@@ -85,6 +86,79 @@ Date: 2026-08-29
   "explanation_source": "document_inline_explanation",
   "score": 5,
   "difficulty": 1
+}
+```
+
+## 3.1 综合题容器字段标准
+
+综合题容器（分组题头）不是独立题目，只是承载统一材料和子题分组。
+
+**容器应该保存的字段：**
+
+| 字段 | 含义 | 示例 |
+|---|---|---|
+| question_number | 分组标识 | "1-10"、"11-13" |
+| question_type | 综合题类型 | "cloze"、"grammar_fill"、"reading" |
+| is_composite | true | true |
+| stem | 统一任务说明/指令 | "第一节(共10小题;每小题1.5分，共15分)" |
+| stem_line_ids | 任务说明行号 | ["P1L001"] |
+| shared_material | 统一材料文本 | "The Ultimate Goal\nI sat..." |
+| shared_material_line_ids | 材料行号 | ["P1L002", "P1L003"] |
+| shared_material_notes | 文言注释等附属材料 | null |
+| shared_material_notes_line_ids | 注释行号 | [] |
+| scoring_standard | 整个分组的评分标准 | "共10小题，每空1.5分，共15分" |
+| images | 材料配图 | [] |
+| sub_questions | 真正的小题 | [{...}, {...}] |
+
+**容器不应该保存的字段（应为 null 或 []）：**
+
+| 字段 | 原因 |
+|---|---|
+| answer | 答案只在子题中 |
+| answer_line_ids | 答案行号只在子题中 |
+| answer_region | 答案区域只在子题中 |
+| answer_images | 答案图片只在子题中 |
+| explanation | 详解只在子题中 |
+| explanation_line_ids | 详解行号只在子题中 |
+| explanation_region | 详解区域只在子题中 |
+| options | 选项只在子题中 |
+| options_line_ids | 选项行号只在子题中 |
+
+**容器字段示例（完形填空）：**
+
+```json
+{
+  "question_number": "1-10",
+  "question_type": "cloze",
+  "section_id": "完形填空_1",
+  "is_composite": true,
+  "stem": "第一节(共10小题;每小题1.5分，共15分) 阅读下面短文，掌握其大意...",
+  "stem_line_ids": ["P1L001", "P1L002"],
+  "stem_region": {"start": "题干区开始", "end": "题干区结束"},
+  "shared_material": "The Ultimate Goal\nI sat in the dressing room...",
+  "shared_material_line_ids": ["P1L003", "P1L004", "P1L005"],
+  "scoring_standard": "共10小题，每空1.5分，共15分",
+  "images": [],
+  "answer": null,
+  "answer_line_ids": null,
+  "answer_region": null,
+  "answer_images": null,
+  "explanation": null,
+  "explanation_line_ids": null,
+  "explanation_region": null,
+  "options": null,
+  "options_line_ids": null,
+  "sub_questions": [
+    {
+      "qno": "1",
+      "question_type": "single_choice",
+      "answer": "C",
+      "answer_line_ids": ["P5L001"],
+      "explanation_line_ids": [],
+      "scoring_standard": "每空1.5分",
+      "answer_images": []
+    }
+  ]
 }
 ```
 

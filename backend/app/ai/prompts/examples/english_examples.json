@@ -1,0 +1,85 @@
+{
+  "subject": "英语",
+  "examples": [
+    {
+      "description": "完形填空（完整子题字段示例）",
+      "input": "第一节(共10小题;每小题1.5分，共15分)\n阅读下面短文，掌握其大意，从每题所给的 A、B、C、D 四个选项中，选出最佳选项。\n\nThe Ultimate Goal\nI sat in the dressing room before my first major ____1____, feeling anxious.\n[N1L014] I looked like a pianist, but I didn't feel like one.\n[N1L015] My teacher, Kurt, had told me, \"You've practiced, and you are well-prepared,\"",
+      "output": {
+        "question_number": "1-10",
+        "question_type": "cloze",
+        "section_id": "完形填空_1",
+        "is_composite": true,
+        "stem_markers": {
+          "start": "第一节(共10小题",
+          "end": "选出最佳选项"
+        },
+        "stem_line_ids": ["N1L007", "N1L008", "N1L009", "N1L010", "N1L011", "N1L012"],
+        "shared_material_line_ids": ["N1L013", "N1L014", "N1L015"],
+        "scoring_standard": "共10小题，每空1.5分，共15分",
+        "answer_line_ids": ["N5L001", "N5L002"],
+        "explanation_line_ids": [],
+        "sub_questions": [
+          {
+            "qno": "1",
+            "question_type": "single_choice",
+            "answer": "C",
+            "stem_line_ids": ["N1L031"],
+            "answer_line_ids": ["N5L001"],
+            "explanation_line_ids": [],
+            "scoring_standard": "每空1.5分",
+            "answer_images": []
+          },
+          {
+            "qno": "2",
+            "question_type": "single_choice",
+            "answer": "B",
+            "stem_line_ids": ["N1L032"],
+            "answer_line_ids": ["N5L002"],
+            "explanation_line_ids": [],
+            "scoring_standard": "每空1.5分",
+            "answer_images": []
+          },
+          {
+            "qno": "3",
+            "question_type": "single_choice",
+            "answer": "A",
+            "stem_line_ids": ["N1L033"],
+            "answer_line_ids": ["N5L003"],
+            "explanation_line_ids": [],
+            "scoring_standard": "每空1.5分",
+            "answer_images": []
+          }
+        ],
+        "difficulty": 3
+      }
+    },
+    {
+      "description": "语法填空（fill_in 子题示例）",
+      "input": "阅读下面短文，在空白处填入1个适当的单词或括号内单词的正确形式。\n\nTangshan started to revive ____11____(it) and get back up on its feet.",
+      "output": {
+        "question_number": "11-20",
+        "question_type": "grammar_fill",
+        "section_id": "语法填空_1",
+        "is_composite": true,
+        "stem_line_ids": ["P2L009"],
+        "shared_material_line_ids": ["P2L001", "P2L002", "P2L003"],
+        "scoring_standard": "共10小题，每空1分，共10分",
+        "answer_line_ids": ["P9L010"],
+        "explanation_line_ids": [],
+        "sub_questions": [
+          {
+            "qno": "11",
+            "question_type": "fill_in",
+            "answer": "itself",
+            "stem_line_ids": ["P2L009"],
+            "answer_line_ids": ["P9L010"],
+            "explanation_line_ids": [],
+            "scoring_standard": "每空1分",
+            "answer_images": []
+          }
+        ],
+        "difficulty": 3
+      }
+    }
+  ]
+}

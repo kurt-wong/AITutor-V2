@@ -191,8 +191,12 @@ def test_slice_questions_builds_parent_answer_from_subs():
     sliced = slice_questions(annotation, doc)
     assert len(sliced) == 1
     assert sliced[0].is_composite is True
-    # 父题答案从子题汇总构建
-    assert sliced[0].answer == "(9) A (10) B (11) D"
+    # 容器不应有答案（答案只在子题中）
+    assert sliced[0].answer is None
+    # 子题答案保留
+    assert sliced[0].sub_questions[0].answer == "A"
+    assert sliced[0].sub_questions[1].answer == "B"
+    assert sliced[0].sub_questions[2].answer == "D"
 
 
 def test_slice_questions_keeps_existing_parent_answer():
@@ -222,7 +226,10 @@ def test_slice_questions_keeps_existing_parent_answer():
 
     sliced = slice_questions(annotation, doc)
     assert len(sliced) == 1
-    assert sliced[0].answer == "（1）已有答案"  # 不覆盖
+    # 容器不应有答案（即使 LLM 输出了容器答案）
+    assert sliced[0].answer is None
+    # 子题答案保留
+    assert sliced[0].sub_questions[0].answer == "子题答案"
 
 def test_merge_question_group_keeps_original_question_type():
     """Merged composite keeps the first question fine-grained type."""

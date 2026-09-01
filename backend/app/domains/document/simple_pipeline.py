@@ -12,6 +12,7 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import os
 import re
@@ -322,6 +323,41 @@ def _build_pp_canonical(
     return doc, stats
 
 
+def _save_l1_snapshot(doc: L1Document, path: Path) -> None:
+    """持久化 canonical L1 快照（带行号），用于 A/B 对比可复现性。"""
+    data = {
+        "filename": doc.filename,
+        "source": doc.source,
+        "total_pages": doc.total_pages,
+        "text_coverage": doc.text_coverage,
+        "lines": [
+            {
+                "line_id": line.line_id,
+                "page_no": line.page_no,
+                "line_no_in_page": line.line_no_in_page,
+                "order": line.order,
+                "text": line.text,
+                "block_type": line.block_type,
+                "source": line.source,
+            }
+            for line in doc.lines
+        ],
+        "images": [
+            {
+                "image_id": img.image_id,
+                "page_no": img.page_no,
+                "bbox": img.bbox,
+                "source": img.source,
+                "placement": img.placement,
+            }
+            for img in doc.images
+        ],
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    logger.info("L1 snapshot saved: %s (%d lines)", path, len(doc.lines))
+
+
 async def run_simple_pipeline(
     pdf_path: Path | None = None,
     *,
@@ -333,6 +369,8 @@ async def run_simple_pipeline(
     ppsv3_doc: L1Document | None = None,
     native_doc: L1Document | None = None,
     progress_callback=None,
+    use_modular_prompt: bool = True,
+    l1_snapshot_path: Path | None = None,
 ) -> PipelineResult:
     """执行 PP 主路径实验管线，返回 PipelineResult。
 
@@ -342,6 +380,9 @@ async def run_simple_pipeline(
         subject: 学科名（如"化学"），用于 OCR 模型路由。
                  为 None 时从 filename 自动提取；均无则用默认模型。
         ocr_model: 显式覆盖 OCR 模型（如"PaddleOCR-VL"），优先级最高。
+        use_modular_prompt: 是否使用模块化 Prompt（默认 True）
+        l1_snapshot_path: 可选，保存 canonical L1（带行号）到此路径，
+                          用于 A/B 对比的可复现性。
     """
     # 学科识别：优先参数 > 文件名
     if subject is None:
@@ -482,6 +523,10 @@ async def run_simple_pipeline(
     )
     await _emit_progress("l1_generation", 0.3)
 
+    # 可选：持久化 canonical L1 快照（A/B 对比可复现性）
+    if l1_snapshot_path is not None:
+        _save_l1_snapshot(doc, l1_snapshot_path)
+
     # 3. 图片去重
     if doc.images:
         try:
@@ -520,6 +565,8 @@ async def run_simple_pipeline(
                 gateway,
                 temperature=temperature,
                 retry_hints=retry_hints,
+                subject=subject,
+                use_modular_prompt=use_modular_prompt,
             )
             # 2026-08-28（LOG v6.44）：annotation.subject 来自 LLM metadata，
             # 可能为空 → content_slicer._mark_blank_positions 的文本科目

@@ -23,6 +23,8 @@ class L2SubQuestion:
     2026-08-27（P4E.1）：新增 stem/options 文本字段——content_slicer 按
     子题行号切片后填充，入库/API/前端全程保留（此前只存行号，链路丢弃
     子题内容导致"完形选项聚合/子题无内容"质量事故，见 LOG v6.43）。
+
+    2026-08-30（展示契约 v0.4）：补齐展示字段，与父题保持一致。
     """
 
     qno: str                    # 子题编号（如 "1"、"2"、"（1）"）
@@ -32,11 +34,19 @@ class L2SubQuestion:
     stem_line_ids: list[str] = field(default_factory=list)
     options_line_ids: dict[str, list[str]] = field(default_factory=dict)
     answer: str | None = None   # 子题答案
+    answer_line_ids: list[str] = field(default_factory=list)  # 子题答案行号
+    explanation_line_ids: list[str] = field(default_factory=list)  # 子题详解行号
     knowledge_points: list[str] = field(default_factory=list)
     score: float | None = None  # 子题分值
     # 切片文本（P4E.1）：由 content_slicer 按行号切片填充，L2 标注层不产生。
     stem: str = ""              # 子题题干文本
     options: list[dict] | None = None  # 子题选项 [{"label": "A", "text": "..."}]
+    # 展示契约 v0.4 字段
+    stem_region: dict | None = None  # {"start": "题干区开始", "end": "题干区结束"}
+    answer_region: dict | None = None  # {"start": "答案区开始", "end": "答案区结束"}
+    explanation_region: dict | None = None  # {"start": "详解区开始", "end": "详解区结束"}
+    scoring_standard: str | None = None  # 评分标准
+    answer_images: list[dict] = field(default_factory=list)  # 答案图片
     sub_sub_questions: list["L2SubQuestion"] | None = None  # recursive nested sub-questions
 
 
@@ -74,6 +84,9 @@ class L2QuestionAnnotation:
     # 综合题支持（共享材料 + 多子题）
     is_composite: bool = False        # 是否为综合题（材料 + 子题合并）
     sub_questions: list[L2SubQuestion] | None = None  # 子题元数据（仅综合题）
+    # 展示契约 v0.4 字段
+    scoring_standard: str | None = None  # 评分标准（如"每空1分，任选3小题完成"）
+    answer_images: list[dict] = field(default_factory=list)  # 答案图片
 
 
 @dataclass
@@ -98,6 +111,7 @@ class L2DocumentAnnotation:
     corrected_anchors: list[CorrectedAnchor] = field(default_factory=list)  # 校正后
     anchor_status_summary: dict[str, int] = field(default_factory=dict)  # {"exact": 5, "nearest": 2, ...}
     raw_response: str | None = None  # LLM 原始 JSON 响应，用于诊断 marker 质量问题
+    annotation_version: str | None = None  # Prompt 版本标记（用于 A/B 对比可追溯性）
 
 
 # ── 锚点校正 ──────────────────────────────────────────────────────
@@ -169,6 +183,21 @@ class SlicedQuestion:
     explanation: str | None = None
     section_id: str | None = None
     shared_material_line_ids: list[str] = field(default_factory=list)  # 共享材料的 L1 行号
+    # 展示契约 v0.4 字段（2026-08-30）
+    stem_line_ids: list[str] = field(default_factory=list)             # 题干行号
+    answer_line_ids: list[str] = field(default_factory=list)           # 答案行号
+    explanation_line_ids: list[str] = field(default_factory=list)      # 详解行号
+    shared_material_notes_line_ids: list[str] = field(default_factory=list)  # 文言注释行号
+    # 区域标记（仅 golden 校验和切片元数据，不进前端）
+    stem_region: dict | None = None          # {"start": "题干区开始", "end": "题干区结束"}
+    answer_region: dict | None = None        # {"start": "答案区开始", "end": "答案区结束"}
+    explanation_region: dict | None = None   # {"start": "详解区开始", "end": "详解区结束"}
+    # 内容字段
+    scoring_standard: str | None = None      # 评分标准
+    shared_material: str | None = None       # 共享材料文本
+    shared_material_notes: str | None = None  # 文言注释文本
+    # 图片关联
+    answer_images: list[dict] = field(default_factory=list)  # 答案图片列表
     difficulty: int | None = None
     score: float | None = None
     knowledge_points: list[str] = field(default_factory=list)
@@ -176,9 +205,6 @@ class SlicedQuestion:
     source_page: int | None = None
     # Phase 2C：Structure Signature（Annotation，非事实）
     structure_signature: dict | None = None
-    # 行号审计字段（V1_LESSONS 3.22）
-    answer_line_ids: list[str] = field(default_factory=list)
-    explanation_line_ids: list[str] = field(default_factory=list)
     # 锚点状态
     stem_anchor: CorrectedAnchor | None = None
     options_anchor: CorrectedAnchor | None = None
@@ -196,3 +222,90 @@ class SlicedQuestion:
     sub_questions: list[L2SubQuestion] | None = None  # 子题元数据
     # 人工复查标记
     review_notes: list[str] | None = None  # 供人工复查的备注
+
+
+def deserialize_l2_from_json(data: dict) -> L2DocumentAnnotation:
+    """从 JSON 字典反序列化为 L2DocumentAnnotation。
+
+    与 _serialize_l2_for_persistence 互逆，用于 A/B 对比加载 L2。
+    """
+
+    def _parse_sub(raw: dict) -> L2SubQuestion:
+        return L2SubQuestion(
+            qno=str(raw.get("qno", "")),
+            question_type=raw.get("question_type"),
+            stem_line_ids=raw.get("stem_line_ids", []),
+            options_line_ids=raw.get("options_line_ids", {}),
+            answer=raw.get("answer"),
+            answer_line_ids=raw.get("answer_line_ids", []),
+            explanation_line_ids=raw.get("explanation_line_ids", []),
+            knowledge_points=raw.get("knowledge_points", []),
+            score=raw.get("score"),
+            stem=raw.get("stem", ""),
+            options=raw.get("options"),
+            scoring_standard=raw.get("scoring_standard"),
+            answer_images=raw.get("answer_images", []),
+            sub_sub_questions=(
+                [_parse_sub(s) for s in raw.get("sub_sub_questions", [])]
+                if raw.get("sub_sub_questions") else None
+            ),
+        )
+
+    questions: list[L2QuestionAnnotation] = []
+    for q in data.get("questions", []):
+        subs = None
+        if q.get("sub_questions"):
+            subs = [_parse_sub(s) for s in q["sub_questions"]]
+        questions.append(L2QuestionAnnotation(
+            question_number=str(q.get("question_number", "")),
+            question_type=q.get("question_type", "unknown"),
+            original_question_type=q.get("original_question_type"),
+            section_id=q.get("section_id"),
+            stem_start_marker=q.get("stem_start_marker"),
+            stem_end_marker=q.get("stem_end_marker"),
+            shared_material_line_ids=q.get("shared_material_line_ids", []),
+            stem_line_ids=q.get("stem_line_ids", []),
+            options_line_ids=q.get("options_line_ids", {}),
+            answer=q.get("answer"),
+            answer_structure=q.get("answer_structure"),
+            word_bank=q.get("word_bank"),
+            answer_line_ids=q.get("answer_line_ids", []),
+            explanation_line_ids=q.get("explanation_line_ids", []),
+            difficulty=q.get("difficulty"),
+            score=q.get("score"),
+            knowledge_points=q.get("knowledge_points", []),
+            confidence=q.get("confidence", 0.5),
+            source_page=q.get("source_page"),
+            structure_signature=q.get("structure_signature"),
+            is_composite=q.get("is_composite", False),
+            sub_questions=subs,
+            scoring_standard=q.get("scoring_standard"),
+            answer_images=q.get("answer_images", []),
+        ))
+
+    corrected_anchors = [
+        CorrectedAnchor(
+            field=a["field"],
+            llm_line_ids=a.get("llm_line_ids", []),
+            corrected_line_ids=a.get("corrected_line_ids", []),
+            anchor_status=a.get("anchor_status", "unknown"),
+            validation_passed=a.get("validation_passed", False),
+            evidence=a.get("evidence"),
+            question_number=a.get("question_number"),
+        )
+        for a in data.get("corrected_anchors", [])
+    ]
+
+    return L2DocumentAnnotation(
+        filename=data.get("filename", ""),
+        subject=data.get("subject"),
+        grade=data.get("grade"),
+        year=data.get("year"),
+        school=data.get("school"),
+        questions=questions,
+        metadata_confidence=data.get("metadata_confidence", 0.5),
+        warnings=data.get("warnings", []),
+        corrected_anchors=corrected_anchors,
+        anchor_status_summary=data.get("anchor_status_summary", {}),
+        annotation_version=data.get("annotation_version"),
+    )

@@ -50,6 +50,7 @@ def _make_document(db) -> Document:
 
 def _make_question(qno: str, stem: str = "test stem") -> SlicedQuestion:
     """构造最小可入库的 SlicedQuestion。"""
+    from app.domains.document.schemas_l2 import SourceProvenance
     anchor = CorrectedAnchor(
         field="stem",
         llm_line_ids=["P1L001"],
@@ -65,23 +66,35 @@ def _make_question(qno: str, stem: str = "test stem") -> SlicedQuestion:
                  {"label": "C", "text": "opt3"}, {"label": "D", "text": "opt4"}],
         confidence=0.9,
         answer="A",
+        answer_provenance=SourceProvenance("answer", "document_answer_table", 1.0),
         stem_anchor=anchor,
         corrected_anchors=[anchor],
+        stem_line_ids=["P1L001"],
         answer_line_ids=["P2L001"],
+        section_id="section_1",
+        score=3.0,
+        difficulty=2,
+        knowledge_points=["知识点A"],
     )
 
 
 def _make_pipeline_result(questions: list[SlicedQuestion]) -> PipelineResult:
-    line = L1Line(
-        line_id="P1L001", page_no=1, line_no_in_page=1, order=1,
-        text="test", block_type="text",
-        bbox={"x1": 0, "y1": 0, "x2": 100, "y2": 20},
-        source="ppsv3",
-    )
+    lines = []
+    for i, q in enumerate(questions):
+        line = L1Line(
+            line_id=f"P1L{i+1:03d}", page_no=1, line_no_in_page=i+1, order=i+1,
+            text=q.stem or "test", block_type="text",
+            bbox={"x1": 0, "y1": 0, "x2": 100, "y2": 20},
+            source="ppsv3",
+        )
+        lines.append(line)
+        # 更新 stem_line_ids 以匹配生成的行 ID
+        q.stem_line_ids = [f"P1L{i+1:03d}"]
+
     l1_doc = L1Document(
         filename="test.pdf",
-        pages=[L1Page(page_no=1, lines=[line])],
-        lines=[line],
+        pages=[L1Page(page_no=1, lines=lines)],
+        lines=lines,
         images=[],
         source="ppsv3",
         total_pages=1,

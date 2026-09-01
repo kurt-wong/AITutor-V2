@@ -242,22 +242,14 @@
       "shared_material_line_ids": [],
       "shared_material_notes": null,
       "shared_material_notes_line_ids": [],
-      "options": [],
-      "options_line_ids": {},
-      "answer": "见试题解答内容",
-      "answer_line_ids": [
-        "N5L012"
-      ],
-      "answer_region": {
-        "start": "答案区开始",
-        "end": "答案区结束"
-      },
+      "options": null,
+      "options_line_ids": [],
+      "answer": null,
+      "answer_line_ids": [],
+      "answer_region": null,
       "explanation": null,
       "explanation_line_ids": [],
-      "explanation_region": {
-        "start": "详解区开始",
-        "end": "详解区结束"
-      },
+      "explanation_region": null,
       "scoring_standard": "共13分",
       "images": [],
       "answer_images": [],

@@ -135,7 +135,23 @@ async def subject_id(db):
 def _make_pipeline_result(qno: str, stem: str, options: list[dict], qtype: str = "single_choice"):
     """构造最小 PipelineResult（一道高置信度题）。"""
     from app.domains.document.pipeline_shared import PipelineResult
-    from app.domains.document.schemas_l2 import SlicedQuestion
+    from app.domains.document.schemas_l1 import L1Document, L1Line, L1Page
+    from app.domains.document.schemas_l2 import SlicedQuestion, SourceProvenance
+
+    line = L1Line(
+        line_id="P1L001", page_no=1, line_no_in_page=1, order=1,
+        text=stem, block_type="text",
+        bbox={"x1": 0, "y1": 0, "x2": 100, "y2": 20},
+        source="ppsv3",
+    )
+    l1_doc = L1Document(
+        filename="test.pdf",
+        pages=[L1Page(page_no=1, lines=[line])],
+        lines=[line],
+        images=[],
+        source="ppsv3",
+        total_pages=1,
+    )
 
     result = PipelineResult()
     result.sliced_questions = [
@@ -146,8 +162,15 @@ def _make_pipeline_result(qno: str, stem: str, options: list[dict], qtype: str =
             options=options,
             answer="A",
             confidence=0.95,
+            answer_provenance=SourceProvenance("answer", "document_answer_table", 1.0),
+            stem_line_ids=["P1L001"],
+            section_id="section_1",
+            score=3.0,
+            difficulty=2,
+            knowledge_points=["知识点A"],
         )
     ]
+    result.l1_document = l1_doc
     return result
 
 
@@ -765,7 +788,23 @@ async def test_update_question_content_unknown_question_returns_none(db, subject
 def _make_composite_pipeline_result(qno: str, stem: str, subs: list[dict]):
     """构造选择题组综合题 PipelineResult（子题带切片文本）。"""
     from app.domains.document.pipeline_shared import PipelineResult
-    from app.domains.document.schemas_l2 import L2SubQuestion, SlicedQuestion
+    from app.domains.document.schemas_l1 import L1Document, L1Line, L1Page
+    from app.domains.document.schemas_l2 import L2SubQuestion, SlicedQuestion, SourceProvenance
+
+    line = L1Line(
+        line_id="P1L001", page_no=1, line_no_in_page=1, order=1,
+        text=stem, block_type="text",
+        bbox={"x1": 0, "y1": 0, "x2": 100, "y2": 20},
+        source="ppsv3",
+    )
+    l1_doc = L1Document(
+        filename="test.pdf",
+        pages=[L1Page(page_no=1, lines=[line])],
+        lines=[line],
+        images=[],
+        source="ppsv3",
+        total_pages=1,
+    )
 
     result = PipelineResult()
     result.sliced_questions = [
@@ -776,7 +815,14 @@ def _make_composite_pipeline_result(qno: str, stem: str, subs: list[dict]):
             options=[],
             answer="(1) A (2) B",
             confidence=0.95,
+            answer_provenance=SourceProvenance("answer", "document_answer_table", 1.0),
             is_composite=True,
+            stem_line_ids=["P1L001"],
+            shared_material="综合题材料内容",
+            section_id="section_1",
+            score=3.0,
+            difficulty=2,
+            knowledge_points=["知识点A"],
             sub_questions=[
                 L2SubQuestion(
                     qno=s["qno"],
@@ -791,6 +837,7 @@ def _make_composite_pipeline_result(qno: str, stem: str, subs: list[dict]):
             ],
         )
     ]
+    result.l1_document = l1_doc
     return result
 
 

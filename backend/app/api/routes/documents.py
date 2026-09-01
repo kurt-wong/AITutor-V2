@@ -12,6 +12,7 @@ from app.core.database import get_db_session
 from app.core.response import build_error, build_response
 from app.infrastructure.storage import StorageError
 from app.models import Document, DocumentProcessingLog, BackgroundTask
+from app.utils.encoding import fix_gbk_mojibake
 
 router = APIRouter(prefix="/api/admin/documents", tags=["admin documents"])
 
@@ -29,10 +30,17 @@ async def upload_documents(
     ocr_model: str | None = Form(None),
     service: DocumentApplicationService = Depends(get_document_application_service),
 ) -> dict | JSONResponse:
+    # 修复 GBK mojibake（Windows/GBK 客户端上传的中文乱码）
+    subject = fix_gbk_mojibake(subject) if subject else subject
+    grade = fix_gbk_mojibake(grade) if grade else grade
+
     document_ids: list[str] = []
     task_ids: list[str] = []
     for upload in files:
         filename = Path(upload.filename or "").name
+        # 修复文件名编码
+        filename = fix_gbk_mojibake(filename)
+
         extension = Path(filename).suffix.lower()
         if not filename or extension not in ALLOWED_EXTENSIONS:
             return _error_response(

@@ -76,9 +76,8 @@ def _real_question(
         corrected_anchors=corrected_anchors,
         answer_line_ids=["P2L001"],
     )
-    # 明确不设置这些属性：验证修复后从 anchor 读取（此前 getattr 返回 None）
-    assert not hasattr(q, "stem_line_ids")
-    assert not hasattr(q, "options_line_ids")
+    # 展示契约 v0.4（2026-08-30）：stem_line_ids 现在是 SlicedQuestion 的标准字段
+    # 用于保存题干行号引用，不再需要断言不存在
     return q
 
 

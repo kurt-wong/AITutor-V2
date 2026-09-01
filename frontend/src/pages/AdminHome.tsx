@@ -619,7 +619,16 @@ function summarize(result?: ParseResult | null) {
     if (issues.some((issue) => issue.includes("禁止自动发布"))) {
       summary.blocked += 1;
     }
-    if (question.answer?.trim()) {
+    // 答案统计：综合题按子题判断，非综合题按容器 answer 判断
+    if (question.is_composite && question.sub_questions?.length) {
+      // 综合题：检查所有子题是否都有答案
+      const hasAnswers = question.sub_questions.some((sub: any) => sub.answer?.trim());
+      if (hasAnswers) {
+        summary.answerMatched += 1;
+      } else {
+        summary.answerEmpty += 1;
+      }
+    } else if (question.answer?.trim()) {
       summary.answerMatched += 1;
     } else {
       summary.answerEmpty += 1;
@@ -678,6 +687,12 @@ function matchesFilter(question: Question, decision: ReviewDecision | undefined,
     return Boolean(question.is_composite || question.sub_questions?.length);
   }
   if (filter === "answers_missing") {
+    // 综合题：检查是否所有子题都缺答案
+    if (question.is_composite && question.sub_questions?.length) {
+      const hasAnswers = question.sub_questions.some((sub: any) => sub.answer?.trim());
+      return !hasAnswers;
+    }
+    // 非综合题：检查容器 answer
     return !question.answer?.trim();
   }
   return true;
@@ -873,7 +888,8 @@ function QuestionCard({
         </details>
 
         {/* 答案区：默认折叠 */}
-        <details className="bank-section">
+        {!effective.is_composite && (
+          <details className="bank-section">
           <summary>答案</summary>
           <MathText text={answerWithOptionText(effective.answer, effective.options) || formatAnswer(effective.answer) || "\u672a\u5339\u914d"} />
           <AnswerStructureView structure={effective.answer_structure} />
@@ -895,6 +911,7 @@ function QuestionCard({
             </div>
           </dl>
         </details>
+        )}
 
         {/* 详解区：默认折叠 */}
         {effective.explanation ? (

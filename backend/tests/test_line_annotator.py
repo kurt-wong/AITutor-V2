@@ -663,7 +663,7 @@ def test_merge_wordbank_fill_composites():
     assert result[0].is_composite is True
     assert [s.qno for s in result[0].sub_questions] == ["21", "22"]
     assert result[0].shared_material_line_ids == ["P2L002"]
-    assert result[0].stem_line_ids == ["P2L002", "P2L003", "P2L004"]
+    assert result[0].stem_line_ids == []
     assert result[1].is_composite is False
 
 

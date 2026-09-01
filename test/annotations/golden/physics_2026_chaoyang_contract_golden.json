@@ -215,11 +215,9 @@
         "N6L005",
         "N6L006"
       ],
-      "options_line_ids": {},
-      "answer": "(1）1.50 (2分)(2）不能 (2分）（3）0.50(2分）100(2分)",
-      "answer_line_ids": [
-        "N9L010"
-      ],
+      "options_line_ids": [],
+      "answer": null,
+      "answer_line_ids": [],
       "explanation_line_ids": [],
       "answer_source": "document_answer_table",
       "explanation_source": "llm_fallback",
@@ -267,14 +265,8 @@
         "start": "题干区开始",
         "end": "题干区结束"
       },
-      "answer_region": {
-        "start": "答案区开始",
-        "end": "答案区结束"
-      },
-      "explanation_region": {
-        "start": "详解区开始",
-        "end": "详解区结束"
-      },
+      "answer_region": null,
+      "explanation_region": null,
       "shared_material_line_ids": [],
       "shared_material_notes": null,
       "shared_material_notes_line_ids": [],

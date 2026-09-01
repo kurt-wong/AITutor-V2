@@ -529,7 +529,10 @@ def correct_anchors(
             question_number=question.question_number,
         ))
         corrected_anchors.append(stem_anchor)
-        question.stem_line_ids = stem_anchor.corrected_line_ids
+        # 展示契约 v0.5: 综合题容器保留 line_annotator 扩展的 stem_line_ids
+        # （已覆盖完整任务说明），不使用 anchor_corrector 的结果
+        if not question.is_composite:
+            question.stem_line_ids = stem_anchor.corrected_line_ids
 
         # P0-B: stem 结束位置校验 — 截断到下一题起点之前。
         # 语义锚点在有 marker 时已计算下一题边界，但 LLM 裸行号路径不做此检查。

@@ -11,9 +11,8 @@
       "question_number": "1-10",
       "question_type": "cloze",
       "section_id": "完形填空_1",
-      "stem": "第一节(共10 小题;每小题1.5 分，共15 分) 阅读下面短文，掌握其大意，从每题所给的 A、 B、 C、D 四个选项中，选出最佳选项，并在 答题卡上将该项涂黑。",
+      "stem": "阅读下面短文，掌握其大意，从每题所给的 A、 B、 C、D 四个选项中，选出最佳选项，并在 答题卡上将该项涂黑。",
       "stem_line_ids": [
-        "N1L007",
         "N1L008",
         "N1L009",
         "N1L010",
@@ -61,7 +60,7 @@
         "start": "详解区开始",
         "end": "详解区结束"
       },
-      "scoring_standard": "共10小题，每空1.5分，共15分",
+      "scoring_standard": "共10小题，每小题1.5分，共15分",
       "images": [],
       "answer_images": [],
       "is_composite": true,
@@ -128,7 +127,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1.5分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -202,7 +201,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1.5分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -276,7 +275,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1.5分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -350,7 +349,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1.5分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -424,7 +423,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1.5分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -498,7 +497,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1.5分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -572,7 +571,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1.5分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -646,7 +645,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1.5分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -720,7 +719,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1.5分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -794,7 +793,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1.5分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -818,7 +817,7 @@
       "question_number": "11-13",
       "question_type": "grammar_fill",
       "section_id": "语法填空_1",
-      "stem": "A 阅读下面短文，根据短文内容填空。在未给提示词的空白处仅填写1 个恰当的单词，在给出提示词的空白 处用括号内所给词的正确形式填空。请在答题卡指定区域作答。",
+      "stem": "A\n阅读下面短文，根据短文内容填空。在未给提示词的空白处仅填写1个恰当的单词，在给出提示词的空白处用括号内所给词的正确形式填空。请在答题卡指定区域作答。",
       "stem_line_ids": [
         "N2L007",
         "N2L008",
@@ -889,7 +888,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -933,7 +932,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -977,7 +976,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1070,7 +1069,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1114,7 +1113,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1158,7 +1157,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1202,7 +1201,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1297,7 +1296,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1341,7 +1340,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1385,7 +1384,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1409,10 +1408,8 @@
       "question_number": "21-25",
       "question_type": "word_bank",
       "section_id": "选词填空_1",
-      "stem": "A. 请用方框中的单词完成句子。 (本题见校本卷) B. 请用方框中单词的正确形式完成句子。",
+      "stem": "B. 请用方框中单词的正确形式完成句子。",
       "stem_line_ids": [
-        "N2L032",
-        "N2L033",
         "N2L034",
         "N2L035"
       ],
@@ -1420,12 +1417,8 @@
         "start": "题干区开始",
         "end": "题干区结束"
       },
-      "shared_material": "A. 请用方框中的单词完成句子。\n(本题见校本卷)\nB.\n请用方框中单词的正确形式完成句子。\npack     confuse     equal     contribute     athlete",
+      "shared_material": "pack     confuse     equal     contribute     athlete",
       "shared_material_line_ids": [
-        "N2L032",
-        "N2L033",
-        "N2L034",
-        "N2L035",
         "N2L036"
       ],
       "shared_material_notes": null,
@@ -1482,7 +1475,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1526,7 +1519,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1570,7 +1563,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1614,7 +1607,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1658,7 +1651,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每空1分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1694,9 +1687,8 @@
       "question_number": "26-28",
       "question_type": "reading",
       "section_id": "阅读理解_A",
-      "stem": "第一节(共11 小题;每小题2 分，共22 分) 阅读下列短文，从每题所给的 A、 B、 C、D 四个选项中，选出最佳选项，并在答题卡上将该 项涂黑。",
+      "stem": "阅读下列短文，从每题所给的 A、 B、 C、D 四个选项中，选出最佳选项，并在答题卡上将该 项涂黑。",
       "stem_line_ids": [
-        "N3L004",
         "N3L005",
         "N3L006",
         "N3L007",
@@ -1707,8 +1699,43 @@
         "start": "题干区开始",
         "end": "题干区结束"
       },
-      "shared_material": "",
-      "shared_material_line_ids": [],
+      "shared_material": "Welcome to the Camp Association (CA)! We offer quality experiences where every child feels safe, valued,\nand celebrated. Let’s explore a few of the most exciting camps in our community this summer!\nThe Voyage Camp (July 10th — August 5th)\nAt this popular camp, every camper chooses their own “Journey”, creating a week packed with excitement and\nteamwork.\nAges: 9 — 16\nActivities:\n·Younger campers (ages 9 — 12) can pick things like fishing, swimming, and competing in friendly water\ngames.\n·Older campers (ages 13 — 16) can do all those things, plus new ones like climbing on the big rock wall and\nnight hike.\nThe Summit Camp (July 15th — August 1st)\nHigh in the Colorado Rockies, this is where science and fun come together. Campers mix outdoor adventures\nwith hands-on science exploration.\nAges: 16 — 18\nActivities:\n·Study local wildlife on field trips.\n·Learn basic survival skills in the wild.\nThe Spark Camp (July 20th — August 20th)\nThis camp is for young artists and performers. Guided by experienced art and music teachers, campers focus\non color, rhythm, and imagination.\nAges: 9 — 16\nActivities:\n•Bring art to life through painting and digital design workshops.\n•Sharpen musical talents with one-on-one guidance.\nGlobal Gateway Camp (August 5th — August 25th)\nAt this camp, the world comes together! Campers explore new languages and cultures while making friends\nwith people from different backgrounds.\nAges: 12 — 18\nActivities:\n·Choose from Spanish, French, or Chinese language classes taught by native-speaking teachers.\n·Take part in “Global Village Day”, where campers share food, music, and performances inspired by\ndifferent cultures.\nReady to start the adventure? For more information, please visit: www.ACamps.com.",
+      "shared_material_line_ids": [
+        "N3L011",
+        "N3L012",
+        "N3L013",
+        "N3L014",
+        "N3L015",
+        "N3L016",
+        "N3L017",
+        "N3L018",
+        "N3L019",
+        "N3L020",
+        "N3L021",
+        "N3L022",
+        "N3L023",
+        "N3L024",
+        "N3L025",
+        "N3L026",
+        "N3L027",
+        "N3L028",
+        "N3L029",
+        "N3L030",
+        "N3L031",
+        "N3L032",
+        "N3L033",
+        "N3L034",
+        "N3L035",
+        "N3L036",
+        "N3L037",
+        "N3L038",
+        "N3L039",
+        "N3L040",
+        "N3L041",
+        "N4L001",
+        "N4L002",
+        "N4L003"
+      ],
       "shared_material_notes": null,
       "shared_material_notes_line_ids": [],
       "options": [],
@@ -1725,7 +1752,7 @@
         "start": "详解区开始",
         "end": "详解区结束"
       },
-      "scoring_standard": "共3小题，每题2分，共6分",
+      "scoring_standard": "共3小题，每小题2分，共6分",
       "images": [],
       "answer_images": [],
       "is_composite": true,
@@ -1792,7 +1819,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1866,7 +1893,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1940,7 +1967,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -1964,15 +1991,19 @@
       "question_number": "29-32",
       "question_type": "reading",
       "section_id": "阅读理解_B",
-      "stem": "B",
+      "stem": "阅读下列短文，从每题所给的 A、 B、 C、D 四个选项中，选出最佳选项，并在答题卡上将该 项涂黑。",
       "stem_line_ids": [
-        "N4L019"
+        "N3L005",
+        "N3L006",
+        "N3L007",
+        "N3L008",
+        "N3L009"
       ],
       "stem_region": {
         "start": "题干区开始",
         "end": "题干区结束"
       },
-      "shared_material": "A study published in Ageing, Neuropsychology and Cognition by researchers at the University of Birmingham\nfound that monolingual (单语的) seniors who completed a six-month exercise programme were quicker at\ncompleting language processing tests compared to a control group — but bilinguals didn’t show similar\nimprovement.\nIn the study, participants who followed a six-month home-based exercise programme were asked to complete a\nmix of workout plans each week. Following the experiment, the exercise groups for both monolingual and bilingual\nparticipants greatly improved their fitness levels. They were tested before and after the exercise programme on their\nability to recognize target words in a spoken sentence. The monolingual participants who followed the exercise\nprogramme were 7% faster at detecting the correct words after their fitness increased, while the bilingual\nparticipants showed very few language gains.\nDr Segart, an author of the study, said: “This is the first study we know of that establishes a causal link\nbetween improving fitness and language processing, particularly with older adults. Language processing is an\nimportant and interesting area of study, as the ability to communicate plays a key role in everyone’s daily life. The\nresults from the monolingual group provide strong evidence that increasing fitness correlates with better cognition\n(认知), highlighting the importance of regular exercise for healthy ageing.”\n“Among bilingual participants in the study, despite seeing increases in the fitness levels within the exercise\ngroup, there was no relationship with improved scores in the language processing tests and the results were very\nsimilar to those of the control group. The finding might be explained by the lifetime patination (积淀) produced in\ntheir neural pathways thanks to the lifelong use of several languages — that is, a cognitive reserve that has already\noffset age-related loss. Older adults who are bilingual may enhance cognitive reserve, thus reducing the additional\nbenefits gained from exercise,” he added.\nWhile the study establishes a clear link between physical fitness and language processing, follow-up research\nis needed to explore the broader benefits of physical activity for cognitive development. Also, further research will\nfocus on the lasting influence of exercise on cognitive health among other age groups, which may provide much\nbetter solutions to age-related language loss.\nA. The monolinguals could identify certain words faster.\nB. Both groups made great progress in language learning.\nC. The bilinguals improved their speaking ability gradually.\nD. The participants were quicker at finishing cognitive tests.",
+      "shared_material": "B\nA study published in Ageing, Neuropsychology and Cognition by researchers at the University of Birmingham found that monolingual (单语的) seniors who completed a six-month exercise programme were quicker at completing language processing tests compared to a control group — but bilinguals didn't show similar improvement.\nIn the study, participants who followed a six-month home-based exercise programme were asked to complete a mix of workout plans each week. Following the experiment, the exercise groups for both monolingual and bilingual participants greatly improved their fitness levels. They were tested before and after the exercise programme on their ability to recognize target words in a spoken sentence. The monolingual participants who followed the exercise programme were 7% faster at detecting the correct words after their fitness increased, while the bilingual participants showed very few language gains.\nDr Segart, an author of the study, said: \"This is the first study we know of that establishes a causal link between improving fitness and language processing, particularly with older adults. Language processing is an important and interesting area of study, as the ability to communicate plays a key role in everyone's daily life. The results from the monolingual group provide strong evidence that increasing fitness correlates with better cognition (认知),highlighting the importance of regular exercise for healthy ageing.\n\"Among bilingual participants in the study, despite seeing increases in the fitness levels within the exercise group, there was no relationship with improved scores in the language processing tests and the results were very similar to those of the control group.The finding might be explained by the lifetime patination (积淀) produced in their neural pathways thanks to the lifelong use of several languages — that is, a cognitive reserve that has already offset age-related loss. Older adults who are bilingual may enhance cognitive reserve, thus reducing the additional benefits gained from exercise,\" he added.\nWhile the study establishes a clear link between physical fitness and language processing, follow-up research is needed to explore the broader benefits of physical activity for cognitive development. Also, further research wil focus on the lasting influence of exercise on cognitive health among other age groups, which may provide much better solutions to age-related language loss.",
       "shared_material_line_ids": [
         "N4L020",
         "N4L021",
@@ -1998,11 +2029,7 @@
         "N4L041",
         "N4L042",
         "N4L043",
-        "N4L044",
-        "N5L001",
-        "N5L002",
-        "N5L003",
-        "N5L004"
+        "N4L044"
       ],
       "shared_material_notes": null,
       "shared_material_notes_line_ids": [],
@@ -2020,7 +2047,7 @@
         "start": "详解区开始",
         "end": "详解区结束"
       },
-      "scoring_standard": "共4小题，每题2分，共8分",
+      "scoring_standard": "共4小题，每小题2分，共8分",
       "images": [],
       "answer_images": [],
       "is_composite": true,
@@ -2087,7 +2114,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -2161,7 +2188,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -2235,7 +2262,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -2309,7 +2336,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -2333,15 +2360,19 @@
       "question_number": "33-36",
       "question_type": "reading",
       "section_id": "阅读理解_C",
-      "stem": "C",
+      "stem": "阅读下列短文，从每题所给的 A、 B、 C、D 四个选项中，选出最佳选项，并在答题卡上将该 项涂黑。",
       "stem_line_ids": [
-        "N5L020"
+        "N3L005",
+        "N3L006",
+        "N3L007",
+        "N3L008",
+        "N3L009"
       ],
       "stem_region": {
         "start": "题干区开始",
         "end": "题干区结束"
       },
-      "shared_material": "I’ve been a psychology professor since 2012. In the past six years, I’ve seen students of all ages procrastinate\n(拖延) on papers, avoid presentation days, miss schoolwork, and let due dates fly by.\nI don’t think laziness was ever at fault.\nEver.\nI’m a social psychologist, so I’m interested in the situational factors that drive human behaviour. When you’re\nseeking to predict or explain a person’s actions, looking at the social expectations, and the person’s context — their\nday-to-day reality, their problems and hard times — is usually safe. Situational limits typically predict behaviour far\nbetter than personality, intelligence, or other personal qualities. So, when it comes to behavioral “laziness”, I’m\nmoved to ask: what are the blocks to action that I can’t see?\nThere are always blocks. Recognizing those blocks and viewing them as reasonable — is often the first step to\nbreaking “lazy” behaviour patterns (模式). It’s really helpful to respond to a person’s ineffective behaviour with\ncuriosity rather than judgment. If a person’s behaviour doesn’t make sense to you, it is because you are missing a\npart of their context. Let’s look at a sign of academic “laziness” that I believe is anything but procrastination.\nPeople think procrastinators cause their own problems. Putting off work sure looks lazy. Even the people who\nare actively doing the procrastinating can mistake their behaviour for laziness. You’re supposed to be doing\nsomething, and you’re not doing it. That means you’re weak-willed, not motivated, and lazy, doesn’t it?\nFor decades, psychological research has been able to explain procrastination as a functioning problem, not a\nresult of laziness. When a person fails to begin a project that they care about, it’s typically due to either anxiety\nabout their efforts not being “good enough” or confusion about what the first steps of the task are. Not laziness. In\nfact, procrastination is more likely when the task is meaningful and the individual cares about doing it well.\nWhen you’re paralyzed with fear of failure, or you don’t even know how to begin a massive, challenging task,\nit’s extremely hard to get it done. It has nothing to do with desire or motivation.\nThe solution, instead, is to look for what is holding the procrastinator back. If anxiety is the major block, the\nprocrastinator actually needs to take part in a relaxing activity. Being judged “lazy” by other people is likely to lead\nto the exact opposite behaviour.\nPeople do not choose to fail or disappoint. No one wants to feel incapable or ineffective. There is always an\nexplanation. There are always blocks. Just because you can’t see them, or don’t view them as reasonable, doesn’t\nmean they’re not. Look harder.",
+      "shared_material": "C\nI've been a psychology professor since 2012. In the past six years, I've seen students of all ages procrastinate (拖延) on papers, avoid presentation days,miss schoolwork,and let due dates fly by.\nI don't think laziness was ever at fault.\nEver.\nI'm a social psychologist, so I'm interested in the situational factors that drive human behaviour. When you're seeking to predict or explain a person's actions, looking at the social expectations, and the person's context— their day-to-day reality, their problems and hard times — is usually safe. Situational limits typically predict behaviour far better than personality, intelligence, or other personal qualities. So, when it comes to behavioral \"laziness\", I'm moved to ask: what are the blocks to action that I can't see?\nThere are always blocks. Recognizing those blocks and viewing them as reasonable — is often the first step to breaking \"lazy\" behaviour patterns (模式). It's really helpful to respond to a person's ineffective behaviour with curiosity rather than judgment. If a person's behaviour doesn't make sense to you, it is because you are missing a part of their context. Let's look at a sign of academic \"laziness\" that I believe is anything but procrastination.\nPeople think procrastinators cause their own problems. Putting off work sure looks lazy. Even the people who are actively doing the procrastinating can mistake their behaviour for laziness. You're supposed to be doing something, and you're not doing it. That means you're weak-willed, not motivated, and lazy, doesn't it?\nFor decades, psychological research has been able to explain procrastination as a functioning problem, not a result of laziness.When a person fails to begin a projectthat they care about,it's typically dueto either anxiety about their eforts not being\"good enough\" or confusion about what the first steps ofthe task are. Not laziness. In fact, procrastination is more likely when the task is meaningful and the individual cares about doing it well.\nWhen you're paralyzed with fear of failure, or you don't even know how to begin a massive, challenging task,it's extremely hard to get it done. It has nothing to do with desire or motivation.\nThe solution, instead, is to look for what is holding the procrastinator back. If anxiety is the major block, the procrastinator actually needs to take part in a relaxing activity. Being judged \"lazy\" by other people is likely to lead\nto the exact opposite behaviour.\nPeople do not choose to fail or disappoint. No one wants to feel incapable or ineffective. There is always an explanation. There are always blocks. Just because you can't see them, or don't view them as reasonable, doesn't mean they're not. Look harder.",
       "shared_material_line_ids": [
         "N5L021",
         "N5L022",
@@ -2388,7 +2419,7 @@
         "start": "详解区开始",
         "end": "详解区结束"
       },
-      "scoring_standard": "共4小题，每题2分，共8分",
+      "scoring_standard": "共4小题，每小题2分，共8分",
       "images": [],
       "answer_images": [],
       "is_composite": true,
@@ -2455,7 +2486,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -2529,7 +2560,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -2603,7 +2634,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -2677,7 +2708,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -2701,9 +2732,8 @@
       "question_number": "37-41",
       "question_type": "seven_to_five",
       "section_id": "七选五_1",
-      "stem": "第二节(共5 小题;每小题2 分，共10 分) 根据短文内容，从短文后的七个选项中选出能填入空白处的最佳选项，并在答题卡上将该项 涂黑。选项中有两项为多余选项。",
+      "stem": "根据短文内容，从短文后的七个选项中选出能填入空白处的最佳选项，并在答题卡上将该项 涂黑。选项中有两项为多余选项。",
       "stem_line_ids": [
-        "N6L025",
         "N6L026",
         "N6L027"
       ],
@@ -2799,7 +2829,7 @@
         "start": "详解区开始",
         "end": "详解区结束"
       },
-      "scoring_standard": "共5小题，每题2分，共10分",
+      "scoring_standard": "共5小题，每小题2分，共10分",
       "images": [],
       "answer_images": [],
       "is_composite": true,
@@ -2887,7 +2917,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -2982,7 +3012,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -3077,7 +3107,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -3172,7 +3202,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -3267,7 +3297,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "每小题2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -3292,10 +3322,8 @@
       "question_number": "42-45",
       "question_type": "reading_expression",
       "section_id": "阅读表达_1",
-      "stem": "第一节(共4 小题;第 48、49 题各2 分，第50 题3 分，第51 题5 分，共12 分) 阅读下面短文，根据题目要求用英文回答问题。请在答题卡指定区域作答。",
+      "stem": "阅读下面短文，根据题目要求用英文回答问题。请在答题卡指定区域作答。",
       "stem_line_ids": [
-        "N7L007",
-        "N7L008",
         "N7L009"
       ],
       "stem_region": {
@@ -3340,7 +3368,7 @@
         "start": "详解区开始",
         "end": "详解区结束"
       },
-      "scoring_standard": "42/43各2分，44题3分，45题5分，共12分",
+      "scoring_standard": "共4小题；第42、43题各2分，第44题3分，第45题5分，共12分",
       "images": [],
       "answer_images": [],
       "is_composite": true,
@@ -3378,7 +3406,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -3423,7 +3451,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "2分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -3472,7 +3500,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "3分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -3518,7 +3546,7 @@
             "start": "详解区开始",
             "end": "详解区结束"
           },
-          "scoring_standard": null,
+          "scoring_standard": "5分",
           "images": [],
           "answer_images": [],
           "is_composite": false,
@@ -3542,7 +3570,7 @@
       "question_number": "46",
       "question_type": "writing",
       "section_id": "书面表达_写作",
-      "stem": "46. 假如你是红星中学高一年级学生李华，你的英国好友Jim 对中国文化遗产非常感兴趣，他计划来中国实 地体验。请你给他写封邮件，内容包括： 1.建议； 2.理由。 注意： 1.词数100 左右； 2.开头和结尾已给出，不计入总词数。 Dear Jim, ____________________________________________________________________________________________ ____________________________________________________________________________________________ ____________________________________________________________________________________________ ____________________________________________________________________________________________ __________________________________________________________________________________",
+      "stem": "46.假如你是红星中学高一年级学生李华，你的英国好友Jim对中国文化遗产非常感兴趣，他计划来中国实地体验。请你给他写封邮件，内容包括：\n1.建议；\n2.理由。\n注意：\n1.词数100左右；\n2.开头和结尾已给出，不计入总词数。\nDear Jim,\nYours,Li Hua",
       "stem_line_ids": [
         "N7L039",
         "N7L040",
@@ -3552,11 +3580,8 @@
         "N8L004",
         "N8L005",
         "N8L006",
-        "N8L007",
-        "N8L008",
-        "N8L009",
-        "N8L010",
-        "N8L011"
+        "N8L012",
+        "N8L013"
       ],
       "stem_region": {
         "start": "题干区开始",

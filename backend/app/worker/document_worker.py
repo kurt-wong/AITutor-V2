@@ -330,6 +330,9 @@ def _serialize_l2_for_persistence(l2_annotation) -> dict:
 
     l2 = l2_annotation
 
+    # 从 L2 结果读取实际版本，如无则用默认值
+    annotation_version = getattr(l2, 'annotation_version', None) or ANNOTATION_PROMPT_VERSION
+
     def _serialize_signature(q) -> dict | None:
         """Phase 2C：structure_signature 附带上 source/confidence/annotation_version 元数据。
 
@@ -345,7 +348,7 @@ def _serialize_l2_for_persistence(l2_annotation) -> dict:
             return None
         enriched = dict(sig)
         enriched["source"] = "llm"
-        enriched["annotation_version"] = ANNOTATION_PROMPT_VERSION
+        enriched["annotation_version"] = annotation_version
         enriched["confidence"] = q.confidence
         return enriched
 
@@ -355,7 +358,7 @@ def _serialize_l2_for_persistence(l2_annotation) -> dict:
         "grade": l2.grade,
         "year": l2.year,
         "school": l2.school,
-        "annotation_version": ANNOTATION_PROMPT_VERSION,
+        "annotation_version": annotation_version,
         "metadata_confidence": l2.metadata_confidence,
         "warnings": l2.warnings,
         "anchor_status_summary": l2.anchor_status_summary,
@@ -391,6 +394,8 @@ def _serialize_l2_for_persistence(l2_annotation) -> dict:
                 "stem_start_marker": q.stem_start_marker,
                 "stem_end_marker": q.stem_end_marker,
                 "structure_signature": _serialize_signature(q),
+                "scoring_standard": q.scoring_standard,
+                "answer_images": q.answer_images or [],
                 "sub_questions": [
                     {
                         "qno": s.qno,

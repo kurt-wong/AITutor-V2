@@ -55,6 +55,7 @@ class DocumentProcessor:
         filename: str,
         subject: str | None = None,
         ocr_model: str | None = None,
+        use_modular_prompt: bool = True,
     ) -> PipelineResult:
         """处理单个文档。
 
@@ -97,6 +98,7 @@ class DocumentProcessor:
                 ocr_model=ocr_model,
                 gateway=self.gateway,
                 progress_callback=progress_cb,
+                use_modular_prompt=use_modular_prompt,
             )
 
             # 4. 根据管线结果状态决定任务状态（C5/C6 修复）

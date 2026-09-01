@@ -282,7 +282,8 @@ async def test_ingestion_auto_maps_knowledge(db):
     """ingest_pipeline_result 入库时自动写入 question_knowledge。"""
     from app.domains.document.ingestion import ingest_pipeline_result
     from app.domains.document.pipeline_shared import PipelineResult
-    from app.domains.document.schemas_l2 import SlicedQuestion
+    from app.domains.document.schemas_l1 import L1Document, L1Line, L1Page
+    from app.domains.document.schemas_l2 import SlicedQuestion, SourceProvenance
 
     subject = await _make_math_subject(db)
     doc = Document(filename=f"kp_{uuid.uuid4().hex[:6]}.pdf", file_type="pdf",
@@ -299,9 +300,24 @@ async def test_ingestion_auto_maps_knowledge(db):
             options=[{"label": "A", "text": "增函数"}, {"label": "B", "text": "减函数"}],
             answer="A",
             confidence=0.95,
+            answer_provenance=SourceProvenance("answer", "document_answer_table", 1.0),
             knowledge_points=["函数单调性"],
+            stem_line_ids=["P1L001"],
+            section_id="section_1",
+            score=3.0,
+            difficulty=2,
         )
     ]
+
+    line = L1Line(
+        line_id="P1L001", page_no=1, line_no_in_page=1, order=1,
+        text="函数单调性选择题", block_type="text",
+        bbox={"x1": 0, "y1": 0, "x2": 100, "y2": 20}, source="ppsv3",
+    )
+    result.l1_document = L1Document(
+        filename="test.pdf", pages=[L1Page(page_no=1, lines=[line])],
+        lines=[line], images=[], source="ppsv3", total_pages=1,
+    )
 
     ingest = await ingest_pipeline_result(
         db,

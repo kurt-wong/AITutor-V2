@@ -250,15 +250,15 @@ class TestMergeQuestionGroupOptionsPreserved:
         assert a_opt["text"] == "选项1", f"A 保留第一个子题的值，实际 {a_opt['text']}"
 
 
-class TestCompositeMaterialMergedIntoStem:
-    """回归测试：composite 的 stem_line_ids 不含材料行时，材料必须从 shared_material_line_ids 合并入 stem。
+class TestCompositeMaterialKeptSeparate:
+    """归回测试：composite 容器 stem 只放任务说明，材料放 shared_material。
 
-    这是英语 11 题材料丢失的根因：LLM 给出的 stem_line_ids 只有子题行号，
-    材料行只在 shared_material_line_ids 中。旧代码只取 stem_line_ids，材料丢失。
+    DISPLAY_CONTRACT v0.5：综合题容器不是独立题目，
+    不把整篇文章拼进 stem。
     """
 
-    def test_material_merged_when_stem_ids_exclude_material(self):
-        """stem_line_ids 不含材料行 → 材料从 shared_material_line_ids 合并入 stem。"""
+    def test_material_kept_in_shared_material(self):
+        """stem_line_ids 不含材料行时，材料只保留在 shared_material。"""
         doc = _doc()
         q = L2QuestionAnnotation(
             question_number="1",
@@ -271,12 +271,12 @@ class TestCompositeMaterialMergedIntoStem:
         line_by_id = {l.line_id: l for l in doc.lines}
         sq = _slice_single_question(q, line_by_id, {})
 
-        # 材料必须出现在 stem 中
-        assert "共享材料" in (sq.stem or ""), "composite 材料必须从 shared_material_line_ids 合并入 stem"
-        assert "第一道子题题干" in (sq.stem or ""), "子题内容也必须在 stem 中"
+        assert "共享材料" not in (sq.stem or "")
+        assert "第一道子题题干" in (sq.stem or "")
+        assert "共享材料" in (sq.shared_material or "")
 
-    def test_material_order_material_before_stem(self):
-        """材料行在前，stem 行在后（展示顺序）。"""
+    def test_material_stays_in_shared_material(self):
+        """材料行不进入容器 stem，保持分离展示。"""
         doc = _doc()
         q = L2QuestionAnnotation(
             question_number="1",
@@ -289,15 +289,11 @@ class TestCompositeMaterialMergedIntoStem:
         line_by_id = {l.line_id: l for l in doc.lines}
         sq = _slice_single_question(q, line_by_id, {})
 
-        lines = (sq.stem or "").split("\n")
-        # 材料行在前
-        assert "共享材料的第一行" in lines[0], f"第一行应是材料，实际: {lines[0]}"
-        assert "共享材料的第二行" in lines[1], f"第二行应是材料，实际: {lines[1]}"
-        # 子题行在后
-        assert "第一道子题题干" in lines[2], f"第三行应是子题，实际: {lines[2]}"
+        assert sq.stem == "1. 第一道子题题干"
+        assert sq.shared_material == "这是一段共享材料的第一行。\n这是共享材料的第二行内容。"
 
     def test_no_duplicate_when_stem_ids_already_include_material(self):
-        """stem_line_ids 已含材料行时，不重复。"""
+        """stem_line_ids 已含材料行时，保持 L2 行号不重复。"""
         doc = _doc()
         q = L2QuestionAnnotation(
             question_number="1",
@@ -311,19 +307,15 @@ class TestCompositeMaterialMergedIntoStem:
         sq = _slice_single_question(q, line_by_id, {})
 
         lines = (sq.stem or "").split("\n")
-        # 材料行不重复
-        assert len(lines) == 3, f"应有3行（去重），实际 {len(lines)} 行: {lines}"
+        assert len(lines) == 3, f"应有3行（不重复），实际 {len(lines)} 行: {lines}"
 
     def test_independent_question_with_material_merges_and_dedupes(self):
-        """独立题带共享材料：材料并入 stem 且去重（2026-08-25 修订）。
-
-        stem_line_ids 已含材料行时不得重复并入。
-        """
+        """独立题带共享材料：材料并入 stem 且去重。"""
         doc = _doc()
         q = L2QuestionAnnotation(
             question_number="1",
             question_type="single_choice",
-            stem_line_ids=["P1L001", "P1L003"],  # stem 含材料行 P1L001
+            stem_line_ids=["P1L001", "P1L003"],
             options_line_ids={},
             shared_material_line_ids=["P1L001"],
             is_composite=False,
@@ -331,14 +323,13 @@ class TestCompositeMaterialMergedIntoStem:
         line_by_id = {l.line_id: l for l in doc.lines}
         sq = _slice_single_question(q, line_by_id, {})
 
-        # 独立题：材料并入 stem（材料在前），去重不重复
         lines = (sq.stem or "").split("\n")
-        assert lines[0] == "这是一段共享材料的第一行。", f"材料应在前，实际 {lines}"
-        assert len(lines) == 2, f"应有2行（材料+题干去重），实际 {len(lines)}: {lines}"
+        assert lines[0] == "这是一段共享材料的第一行。"
+        assert len(lines) == 2
         assert "第一道子题题干" in (sq.stem or "")
 
-    def test_end_to_end_slice_questions_material_merged(self):
-        """端到端：slice_questions 对 composite → stem 含材料（即使 stem_line_ids 不含材料行）。"""
+    def test_end_to_end_material_stays_separate(self):
+        """端到端：综合题容器 stem 不包含材料。"""
         doc = _doc()
         annotation = L2DocumentAnnotation(
             filename="test.pdf",
@@ -346,7 +337,7 @@ class TestCompositeMaterialMergedIntoStem:
                 L2QuestionAnnotation(
                     question_number="1",
                     question_type="single_choice",
-                    stem_line_ids=["P1L003"],  # 只有子题行
+                    stem_line_ids=["P1L003"],
                     options_line_ids={},
                     shared_material_line_ids=["P1L001", "P1L002"],
                     is_composite=True,
@@ -355,10 +346,9 @@ class TestCompositeMaterialMergedIntoStem:
         )
         result = slice_questions(annotation, doc)
         assert len(result) == 1
-        assert "共享材料" in (result[0].stem or ""), "端到端：composite stem 必须含材料"
-        assert "第一道子题题干" in (result[0].stem or ""), "端到端：composite stem 必须含子题"
-
-
+        assert "共享材料" not in (result[0].stem or "")
+        assert "第一道子题题干" in (result[0].stem or "")
+        assert "共享材料" in (result[0].shared_material or "")
 class TestL2PersistenceFields:
     """P0-G-3 测试：L2 持久化包含 shared_material_line_ids 和 stem_markers。"""
 

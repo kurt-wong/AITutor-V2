@@ -382,8 +382,10 @@ def test_composite_shared_material_uses_deterministic_stem_boundary():
     )
 
     result = correct_anchors(annotation, doc)
+    # 展示契约 v0.5: 综合题容器保留 line_annotator 扩展的 stem_line_ids，
+    # 不使用 anchor_corrector 的结果（shared_material 由展示层单独渲染）
     assert result.corrected_anchors[0].corrected_line_ids == [
-        "P1L001", "P1L002", "P1L003", "P1L004"
+        "P1L001", "P1L004", "P1L008"
     ]
     assert "composite_deterministic" in (
         result.corrected_anchors[0].evidence or ""
@@ -494,11 +496,11 @@ def test_composite_fill_in_stem_respects_end_marker():
     )
 
     result = correct_anchors(annotation, doc)
-    # stem 只含语法填空_A 材料行，不吞入 B/C 与选词填空
-    assert result.questions[0].stem_line_ids == ["P1L001"]
-    assert "end=min(end_marker,next_question)" in (
-        result.corrected_anchors[0].evidence or ""
-    )
+    # 展示契约 v0.5: 综合题容器保留 line_annotator 扩展的 stem_line_ids，
+    # 不使用 anchor_corrector 的结果（end_marker 截断不再应用于综合题）
+    assert result.questions[0].stem_line_ids == [
+        "P1L001", "P1L002", "P1L003", "P1L004", "P1L005"
+    ]
 
 
 def test_truncation_uses_document_order_not_number_order():

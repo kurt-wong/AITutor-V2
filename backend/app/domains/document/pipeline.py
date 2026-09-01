@@ -550,6 +550,7 @@ async def run_pipeline(
     page_range: tuple[int, int] | None = None,
     ppsv3_doc: L1Document | None = None,
     native_doc: L1Document | None = None,
+    subject: str | None = None,
 ) -> PipelineResult:
     """执行完整的文档处理管线（双源 L1 + LLM 行级仲裁路径）。
 
@@ -569,6 +570,7 @@ async def run_pipeline(
             用于 eval 和测试；生产环境不传此参数，由 OCR 链路生成。
         native_doc: 预计算的 native L1Document（可选，跳过 native 提取）。
             用于 eval 和测试；生产环境不传此参数，由 PyMuPDF 提取。
+        subject: 科目（可选，用于 Prompt 路由）
     """
     result = PipelineResult()
     total_start = time.perf_counter()
@@ -678,7 +680,7 @@ async def run_pipeline(
     # Stage 3: LLM 标注
     stage_start = time.perf_counter()
     try:
-        annotation = await annotate_document(doc, gateway)
+        annotation = await annotate_document(doc, gateway, subject=subject)
         result.l2_annotation = annotation
         duration = int((time.perf_counter() - stage_start) * 1000)
         result.add_stage("llm_annotation", duration, questions=len(annotation.questions))

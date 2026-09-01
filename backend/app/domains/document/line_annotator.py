@@ -26,7 +26,9 @@ from app.domains.document.schemas_l2 import L2DocumentAnnotation, L2QuestionAnno
 logger = logging.getLogger(__name__)
 
 # Phase 2C：Annotation 版本标记（prompt 版本号，用于 llm_annotated_markdown 数据可比性）
-ANNOTATION_PROMPT_VERSION = "v2.1-structure-v1"
+# 2026-08-30：升级到模块化 Prompt（Registry + Router）
+ANNOTATION_PROMPT_VERSION = "v2.2-modular-v1"
+LEGACY_ANNOTATION_PROMPT_VERSION = "v2.1-legacy"
 
 # 小问标记：（1）（2）或 ①②③ 的括号格式（用于实验题/多小问题型归一化）
 _SUB_QUESTION_RE = re.compile(r"[（(]\s*[一二三四五六七八九十\d]{1,2}\s*[）)]")
@@ -373,6 +375,42 @@ def _find_shared_wordbank_line(
     return candidate.line_id if candidate is not None else None
 
 
+def _find_wordbank_instruction_lines(
+    doc: L1Document,
+    wordbank_line_id: str,
+) -> list[str]:
+    """Find Chinese task instruction lines before the word-bank line.
+
+    展示契约 v0.5: 综合题容器 stem 只放"统一任务说明/指令"。
+    对于选词填空题，这些是中文任务说明行（如"选词填空中的单词拼写"）。
+    """
+    line_by_id = {line.line_id: line for line in doc.lines}
+    wordbank_line = line_by_id.get(wordbank_line_id)
+    if not wordbank_line:
+        return []
+
+    instruction_lines: list[str] = []
+    for line in doc.lines:
+        if line.order >= wordbank_line.order:
+            break
+        text = line.text.strip()
+        if not text:
+            continue
+        # 跳过题号行
+        if _QUESTION_NUMBER_RE.match(text) or _is_placeholder_question_line(text):
+            continue
+        # 跳过节标题行（如"第二节(共11小题;每小题1分，共11分)"）
+        if _SECTION_HEADER_RE.match(text):
+            continue
+        # 跳过空行和纯标点行
+        if not any('一' <= c <= '鿿' for c in text):
+            continue
+        # 这是中文任务说明行
+        instruction_lines.append(line.line_id)
+
+    return instruction_lines
+
+
 def _is_wordbank_fill(question: L2QuestionAnnotation) -> bool:
     return (
         not question.is_composite
@@ -432,16 +470,19 @@ def _build_wordbank_composite(
     word_bank = list(first.word_bank or [])
     if not word_bank and shared_id and shared_id in line_by_id:
         word_bank = _parse_word_bank_line(line_by_id[shared_id].text)
-    stem_ids: list[str] = []
+
+    # 查找中文任务说明行（展示契约 v0.5: 容器 stem 只放任务说明）
+    instruction_line_ids = _find_wordbank_instruction_lines(doc, shared_id) if shared_id else []
+
+    # 容器 stem_line_ids = 中文任务说明行
+    stem_ids: list[str] = list(instruction_line_ids)
+
+    # 容器 shared_material_line_ids = 中文任务说明行 + 词库行
+    shared_material_ids: list[str] = list(instruction_line_ids)
     if shared_id:
-        stem_ids.append(shared_id)
-    for question in group:
-        stem_ids.extend(question.stem_line_ids)
+        shared_material_ids.append(shared_id)
 
     sub_questions: list[L2SubQuestion] = []
-    answers: list[str] = []
-    answer_ids: list[str] = []
-    explanation_ids: list[str] = []
     knowledge_points: list[str] = []
     scores: list[float] = []
     structure_signature = next(
@@ -449,34 +490,43 @@ def _build_wordbank_composite(
         None,
     )
     for question in group:
+        # 构造子题，保留所有展示契约字段
         sub_questions.append(L2SubQuestion(
             qno=question.question_number,
             question_type=question.question_type,
+            stem_line_ids=question.stem_line_ids or [],
+            options_line_ids=question.options_line_ids or {},
             answer=question.answer,
-            knowledge_points=question.knowledge_points,
+            answer_line_ids=question.answer_line_ids or [],
+            explanation_line_ids=question.explanation_line_ids or [],
+            knowledge_points=question.knowledge_points or [],
             score=question.score,
+            # 展示契约 v0.5 字段
+            scoring_standard=getattr(question, "scoring_standard", None),
+            answer_images=getattr(question, "answer_images", None) or [],
         ))
-        if question.answer:
-            answers.append(f"({question.question_number}) {question.answer}")
-        answer_ids.extend(question.answer_line_ids)
-        explanation_ids.extend(question.explanation_line_ids)
         knowledge_points.extend(question.knowledge_points)
         if question.score is not None:
             scores.append(question.score)
+
+    # 聚合容器的评分标准（如果所有子题相同，取第一个）
+    scoring_standards = [getattr(q, "scoring_standard", None) for q in group if getattr(q, "scoring_standard", None)]
+    container_scoring_standard = scoring_standards[0] if scoring_standards and len(set(scoring_standards)) == 1 else None
 
     return L2QuestionAnnotation(
         question_number=first.question_number,
         question_type="fill_in",
         original_question_type=first.original_question_type,
         section_id=first.section_id,
-        answer_structure=first.answer_structure,
+        answer_structure=None,  # 容器不保存答案结构
         word_bank=word_bank,
-        shared_material_line_ids=[shared_id] if shared_id else list(first.stem_line_ids),
+        shared_material_line_ids=shared_material_ids,
         stem_line_ids=_unique_ordered(stem_ids),
-        options_line_ids={},
-        answer=" ".join(answers) or None,
-        answer_line_ids=_unique_ordered(answer_ids),
-        explanation_line_ids=_unique_ordered(explanation_ids),
+        options_line_ids={},  # 容器不保存选项
+        # 容器不保存答案类字段
+        answer=None,
+        answer_line_ids=[],
+        explanation_line_ids=[],
         difficulty=first.difficulty,
         score=sum(scores) if scores else None,
         knowledge_points=_unique_ordered(knowledge_points),
@@ -485,7 +535,65 @@ def _build_wordbank_composite(
         structure_signature=structure_signature,
         is_composite=True,
         sub_questions=sub_questions,
+        # 展示契约 v0.5 字段
+        scoring_standard=container_scoring_standard,
     )
+
+
+def _expand_composite_stem_line_ids(
+    question: L2QuestionAnnotation,
+    doc: L1Document,
+) -> None:
+    """扩展综合题容器的 stem_line_ids，覆盖完整任务说明行。
+
+    展示契约 v0.5: 综合题容器 stem 应包含完整任务说明（中文指令行）。
+    LLM 给出的 stem_line_ids 常常不完整（如只包含"阅读下面短文，掌握其大意，
+    从每题所给的"，缺少"A、B、C、D 四个选项中，选出最佳选项"部分）。
+
+    规则：
+    1. 仅处理 is_composite=True 的容器题
+    2. 找到 stem_line_ids 的最后一行
+    3. 从最后一行向后扫描，将连续的中文任务说明行加入 stem_line_ids
+    4. 遇到英文内容、题号行、空行时停止
+    """
+    if not question.is_composite:
+        return
+    if not question.stem_line_ids:
+        return
+
+    logger.info(f"_expand_composite_stem_line_ids: q={question.question_number}, stem_line_ids={question.stem_line_ids}")
+
+    line_by_id = {line.line_id: line for line in doc.lines}
+    last_stem_line_id = question.stem_line_ids[-1]
+    last_stem_line = line_by_id.get(last_stem_line_id)
+    if not last_stem_line:
+        logger.warning(f"_expand_composite_stem_line_ids: last_stem_line_id={last_stem_line_id} not found in doc.lines")
+        return
+
+    # 找到最后一行在 doc.lines 中的索引
+    last_order = last_stem_line.order
+    new_ids = list(question.stem_line_ids)
+
+    # 从下一行开始扫描
+    for line in doc.lines:
+        if line.order <= last_order:
+            continue
+        text = line.text.strip()
+        if not text:
+            continue
+        # 遇到英文内容停止（任务说明行应该是中文）
+        if not any('一' <= c <= '鿿' for c in text):
+            logger.info(f"_expand_composite_stem_line_ids: stop at non-Chinese line: {line.line_id}: {text[:50]}")
+            break
+        # 遇到题号行停止（如 "11.", "12." 等）
+        if re.match(r'^\d+[\.\．、]', text):
+            logger.info(f"_expand_composite_stem_line_ids: stop at question number line: {line.line_id}: {text[:50]}")
+            break
+        # 这是中文任务说明行，加入 stem_line_ids
+        logger.info(f"_expand_composite_stem_line_ids: adding line: {line.line_id}: {text[:50]}")
+        new_ids.append(line.line_id)
+
+    question.stem_line_ids = new_ids
 
 
 def _merge_wordbank_fill_composites(
@@ -750,28 +858,54 @@ ANNOTATION_PROMPT = """你是一个试卷文档标注助手。给定一份试卷
 def build_annotation_prompt(
     doc: L1Document,
     retry_hints: list[str] | None = None,
+    use_modular_prompt: bool = True,
+    subject: str | None = None,
 ) -> str:
     """构建标注 Prompt。
 
     将 L1 文档的行文本格式化为带行号的列表，发送给 LLM。
+
+    Args:
+        doc: L1 文档
+        retry_hints: 重试提示（可选）
+        use_modular_prompt: 是否使用模块化 Prompt（默认 True）
+        subject: 科目（可选，用于 Prompt 路由，优先级高于 doc.subject）
     """
     text_lines = []
     for line in doc.lines:
         text_lines.append(f"[{line.line_id}] {line.text}")
 
-    prompt = ANNOTATION_PROMPT.format(
-        filename=doc.filename,
-        text_lines="\n".join(text_lines),
-    )
-    if retry_hints:
-        hint_text = "\n".join(f"- {hint}" for hint in retry_hints)
-        prompt += (
-            "\n\n## 上一轮标注问题（必须修正）\n"
-            "以下题目在上轮标注中未通过校验。请只修正这些问题对应的行号或字段，"
-            "不要遗漏，也不要虚构不存在的行号。\n"
-            f"{hint_text}\n"
+    text_content = "\n".join(text_lines)
+
+    if use_modular_prompt:
+        # 使用新的模块化 Prompt 系统
+        from app.ai.prompts import LLMRouter
+
+        router = LLMRouter()
+        detected_subject, prompt = router.build_prompt(
+            filename=doc.filename,
+            text_lines=text_content,
+            subject=subject,
+            metadata_subject=getattr(doc, "subject", None),
+            retry_hints=retry_hints,
         )
-    return prompt
+        logger.info("Using modular prompt: subject=%s", detected_subject)
+        return prompt
+    else:
+        # 使用旧的巨型 Prompt（fallback）
+        prompt = ANNOTATION_PROMPT.format(
+            filename=doc.filename,
+            text_lines=text_content,
+        )
+        if retry_hints:
+            hint_text = "\n".join(f"- {hint}" for hint in retry_hints)
+            prompt += (
+                "\n\n## 上一轮标注问题（必须修正）\n"
+                "以下题目在上轮标注中未通过校验。请只修正这些问题对应的行号或字段，"
+                "不要遗漏，也不要虚构不存在的行号。\n"
+                f"{hint_text}\n"
+            )
+        return prompt
 
 
 async def annotate_document(
@@ -780,6 +914,8 @@ async def annotate_document(
     *,
     temperature: float = 0.2,
     retry_hints: list[str] | None = None,
+    subject: str | None = None,
+    use_modular_prompt: bool = True,
 ) -> L2DocumentAnnotation:
     """用 LLM 标注文档中的题目。
 
@@ -787,11 +923,19 @@ async def annotate_document(
         doc: L1 文档
         gateway: LLM 网关
         temperature: 生成温度
+        retry_hints: 重试提示（可选）
+        subject: 科目（可选，用于 Prompt 路由）
+        use_modular_prompt: 是否使用模块化 Prompt（默认 True）
 
     Returns:
         L2DocumentAnnotation：标注结果
     """
-    prompt = build_annotation_prompt(doc, retry_hints=retry_hints)
+    prompt = build_annotation_prompt(
+        doc,
+        retry_hints=retry_hints,
+        subject=subject,
+        use_modular_prompt=use_modular_prompt,
+    )
 
     # 调用 LLM
     response_text = await gateway.complete(prompt, temperature=temperature)
@@ -803,6 +947,7 @@ async def annotate_document(
     questions: list[L2QuestionAnnotation] = []
     valid_line_ids = {l.line_id for l in doc.lines}
     def _parse_subs(raw_subs: list | None) -> list[L2SubQuestion] | None:
+        """解析子题列表，包含展示契约 v0.4 字段。"""
         if not raw_subs:
             return None
         parsed_subs = []
@@ -813,16 +958,31 @@ async def annotate_document(
                 for label, ids in raw_sub_opts.items()
             }
             nested_raw = sq_data.get("sub_sub_questions") or sq_data.get("sub_questions") or []
+
+            # 验证子题行号
+            sub_stem_ids = _validate_line_ids(
+                sq_data.get("stem_line_ids", []), valid_line_ids, "sub_stem"
+            )
+            sub_answer_ids = _validate_line_ids(
+                sq_data.get("answer_line_ids", []), valid_line_ids, "sub_answer"
+            )
+            sub_explanation_ids = _validate_line_ids(
+                sq_data.get("explanation_line_ids", []), valid_line_ids, "sub_explanation"
+            )
+
             parsed_subs.append(L2SubQuestion(
                 qno=str(sq_data.get("qno", "")),
                 question_type=sq_data.get("question_type"),
-                stem_line_ids=_validate_line_ids(
-                    sq_data.get("stem_line_ids", []), valid_line_ids, "sub_stem"
-                ),
+                stem_line_ids=sub_stem_ids,
                 options_line_ids=sub_options,
                 answer=sq_data.get("answer"),
+                answer_line_ids=sub_answer_ids,
+                explanation_line_ids=sub_explanation_ids,
                 knowledge_points=sq_data.get("knowledge_points", []),
                 score=sq_data.get("score"),
+                # 展示契约 v0.4 字段
+                scoring_standard=sq_data.get("scoring_standard") if isinstance(sq_data.get("scoring_standard"), str) else None,
+                answer_images=sq_data.get("answer_images") if isinstance(sq_data.get("answer_images"), list) else [],
                 sub_sub_questions=_parse_subs(nested_raw),
             ))
         return parsed_subs
@@ -907,12 +1067,18 @@ async def annotate_document(
             structure_signature=_normalize_structure_signature(
                 q_data.get("structure_signature")
             ),
+            # 展示契约 v0.4 字段
+            scoring_standard=q_data.get("scoring_standard") if isinstance(q_data.get("scoring_standard"), str) else None,
+            answer_images=q_data.get("answer_images") if isinstance(q_data.get("answer_images"), list) else [],
         )
         questions.append(question)
 
     questions = _drop_placeholder_questions(questions, doc)
     questions = _split_no_material_fill_composites(questions)
     questions = _merge_wordbank_fill_composites(questions, doc)
+    # 展示契约 v0.5: 扩展综合题容器的 stem_line_ids，覆盖完整任务说明
+    for q in questions:
+        _expand_composite_stem_line_ids(q, doc)
     questions = _normalize_subquestion_questions(questions)
 
     return L2DocumentAnnotation(
@@ -925,6 +1091,7 @@ async def annotate_document(
         metadata_confidence=parsed.get("metadata_confidence", 0.5),
         warnings=parsed.get("warnings", []),
         raw_response=response_text,
+        annotation_version=ANNOTATION_PROMPT_VERSION if use_modular_prompt else LEGACY_ANNOTATION_PROMPT_VERSION,
     )
 
 

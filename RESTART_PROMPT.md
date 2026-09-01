@@ -1,24 +1,28 @@
 # AI Tutor Personal Edition — RESTART_PROMPT
 
-Version: 6.47
-Status: 展示契约 v0.4 + golden 契约化完成；答案噪音归一化完成；东城英语入库对比 45/45
-Date: 2026-08-29
+Version: 6.57
+Status: v6.57 89 字段 A/B：modular 98.9% vs legacy 69.3%，stem/scoring/Q21-25 全部消除
+Date: 2026-09-01
 
 ---
 
-## 0. 当前工作状态（2026-08-29 23:05:58）
+## 0. 当前工作状态（2026-09-01 09:00:00）
 
-- HEAD：`d3ee4ae`
-- 当前基线：全量 pytest `757 passed + 8 skipped`
-- 展示契约：`Docs/00_Requirements/DISPLAY_CONTRACT.md` v0.4
-- golden：英语东城 + 数学/物理/化学/语文契约化 golden 已纳入版本管理
-- 入库验证：东城英语真实入库成功，11 组综合题、45 个子题，答案归一化后 `45/45` 匹配
-- 待办：把 `stem_region` / `answer_region` / `explanation_region` / `scoring_standard` / `images` / `answer_images` 接入 `simple_pipeline` / ingestion / API
-- 待办：P4E.1 任务5 三份验证文档
-- 阻塞：`test/results_to_delete/pytest-of-Kurtw` 仍被 PID 6408 锁定；`paper_structure` 8 个测试 skipped
-- 详情：先读 `PROJECT_STATUS.md`，再按需读 `LOG.md`
-
----
+- **A/B 对比基础设施 v2**：可复现。`l1_snapshot_path` 保存带行号 L1，`ab_golden_compare.py` 先按 question_number 精确匹配再 fallback 文本 key
+- **89 字段 A/B 结果**（可复现）：modular **98.9%** vs legacy 69.3%（11 父题 × 多字段 + 45 子题 + 3 未匹配 = 89 字段）
+- **Golden 对比（DB vs golden）**：392 字段 100% pass（0 mismatch, 0 number_diff）
+- **已知问题**：
+  - 1 个 scoring_standard true_number_diff（Q21-25）：数字一致，格式简化
+  - 89 字段 ≠ 392 字段全量展示契约
+- **下一步**：(1) 扩展到 392 字段对比 (2) 批量导入验证（P4E.2）
+- **关键文件**：
+  - `scripts/ab_golden_compare.py`：A/B 对比脚本（question_number 精确匹配 + 文本 fallback）
+  - `scripts/generate_ab_artifacts.py`：生成 L1 快照 + raw L2
+  - `reports/l1_snapshot_dongcheng_english.json`：L1 快照（298 行）
+  - `reports/l2_modular_20260901_084739_no_section_header.json`：modular L2（最新）
+  - `reports/l2_legacy_raw.json`：legacy raw L2
+  - `reports/ab_comparison_v6.56_final.json`：A/B 对比报告
+- **详情**：先读 `PROJECT_STATUS.md`，再按需读 `LOG.md`
 
 ## 1. 用途
 

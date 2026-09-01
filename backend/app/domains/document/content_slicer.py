@@ -187,32 +187,6 @@ def slice_questions(
         # 常只给第一个子题裸值（东城英语 Q11 只给 "itself"，实际应为
         # "(11) itself (12) to (13) to stay"）→ 父题答案截断。修复：父题
         # 答案未覆盖全部子题（qno 未出现在父题答案中）时用汇总覆盖；
-        # 父题已覆盖全部子题（如答案表匹配的 "（1）已有答案"、LLM 完整
-        # 汇总 "(1) C (2) B ..."）保留父题（教师版答案优先，V1 3.8）。
-        if (
-            getattr(sq, "is_composite", False)
-            and sq.sub_questions
-        ):
-            sub_answers = [
-                f"({sub.qno}) {sub.answer}"
-                for sub in sq.sub_questions
-                if (sub.answer or "").strip()
-            ]
-            if sub_answers:
-                parent_ans = (sq.answer or "").strip()
-                if parent_ans:
-                    covered = sum(
-                        1
-                        for sub in sq.sub_questions
-                        if (sub.answer or "").strip()
-                        and str(sub.qno) in parent_ans
-                    )
-                    if covered < len(sub_answers):
-                        # 父题只覆盖部分子题（单值/截断）→ 用完整汇总
-                        sq.answer = " ".join(sub_answers)
-                else:
-                    sq.answer = " ".join(sub_answers)
-
         # P4E.1（2026-08-28）：综合题题干/材料中的填空位标记为结构化 〔N〕，
         # 前端渲染高亮（完形 1、2、3 → 〔1〕〔2〕〔3〕；语法填空 {11} → 〔11〕；
         # 七选五 （37） → 〔37〕）。数理化填空位为下划线/空括号，原样保留。
@@ -531,18 +505,45 @@ def _slice_sub_question(
     fallback_kp=None,
     fallback_score=None,
 ):
-    """Slice a sub-question and its nested sub-questions from L1 line ids."""
+    """Slice a sub-question and its nested sub-questions from L1 line ids.
+
+    2026-08-30（展示契约 v0.4）：补齐展示字段，与父题保持一致。
+    """
     from app.domains.document.schemas_l2 import L2SubQuestion
+
+    # 切片子题题干
+    stem_text = _slice_lines(sub.stem_line_ids or [], line_by_id)
+
+    # 切片子题选项
+    options = _slice_options(sub.options_line_ids or {}, line_by_id)
+
+    # 构建子题区域标记
+    stem_region = None
+    if sub.stem_line_ids:
+        stem_region = {"start": "题干区开始", "end": "题干区结束"}
+
+    answer_region = None
+    if sub.answer:
+        answer_region = {"start": "答案区开始", "end": "答案区结束"}
+
     return L2SubQuestion(
         qno=sub.qno or fallback_qno,
         question_type=sub.question_type,
         stem_line_ids=sub.stem_line_ids or [],
         options_line_ids=sub.options_line_ids or {},
         answer=sub.answer,
+        answer_line_ids=getattr(sub, "answer_line_ids", None) or [],
+        explanation_line_ids=getattr(sub, "explanation_line_ids", None) or [],
         knowledge_points=sub.knowledge_points or fallback_kp or [],
         score=sub.score or fallback_score,
-        stem=_slice_lines(sub.stem_line_ids or [], line_by_id),
-        options=_slice_options(sub.options_line_ids or {}, line_by_id),
+        stem=stem_text,
+        options=options,
+        # 展示契约 v0.4 字段
+        stem_region=stem_region,
+        answer_region=answer_region,
+        explanation_region=None,  # 子题通常没有独立详解区
+        scoring_standard=getattr(sub, "scoring_standard", None),
+        answer_images=getattr(sub, "answer_images", None) or [],
         sub_sub_questions=[
             _slice_sub_question(
                 child,
@@ -572,28 +573,33 @@ def _slice_single_question(
 ) -> SlicedQuestion:
     """切片单个题目。
 
-    共享材料并入规则（2026-08-25 修订）：
-    - 综合题：stem 应包含材料 + 子题内容（前端展示需要连贯性），
-      不剔除 shared_material_line_ids。
+    共享材料并入规则（2026-08-31 修订）：
+    - 综合题容器：stem 只放统一任务说明/指令，材料放 shared_material
+      （展示契约 v0.5，容器不是独立题目，不把整篇文章拼进 stem）。
     - 独立题带共享材料（语文材料阅读/文言文等 LLM 标为独立的共享材料题）：
       P0-5 旧行为从 stem 剔除材料 → 题目失去材料上下文，无法独立使用
       （报告材料覆盖 0%）。共享材料是题目的必要上下文，独立题同样并入。
     - 无共享材料的题目：原样切片，不受影响。
     """
-    material_ids = list(question.shared_material_line_ids or [])
-    stem_only_ids = list(question.stem_line_ids or [])
-    seen: set[str] = set()
-    stem_ids: list[str] = []
-    for lid in material_ids + stem_only_ids:
-        if lid not in seen:
-            seen.add(lid)
-            stem_ids.append(lid)
-    stem = _slice_lines(stem_ids, line_by_id)
-    options = _slice_options(question.options_line_ids, line_by_id)
-
     # 获取 anchors
     q_anchors = anchor_map.get(question.question_number, {})
     stem_anchor = q_anchors.get("stem")
+
+    material_ids = list(question.shared_material_line_ids or [])
+    stem_only_ids = list(question.stem_line_ids or [])
+    if question.is_composite:
+        # 展示契约 v0.5: 综合题容器使用 line_annotator 扩展后的 stem_line_ids
+        # （已覆盖完整任务说明），不再使用 anchor_corrector 的结果
+        stem_ids = list(stem_only_ids)
+    else:
+        seen: set[str] = set()
+        stem_ids: list[str] = []
+        for lid in material_ids + stem_only_ids:
+            if lid not in seen:
+                seen.add(lid)
+                stem_ids.append(lid)
+    stem = _slice_lines(stem_ids, line_by_id)
+    options = _slice_options(question.options_line_ids, line_by_id)
     # 合并所有 option anchors 为 options_anchor 列表
     option_anchors = [v for k, v in q_anchors.items() if k.startswith("option_")]
     # 构建 options_anchor: 合并所有选项锚点
@@ -641,14 +647,67 @@ def _slice_single_question(
         for sub in (question.sub_questions or [])
     ] or None
 
+    # 切片共享材料文本（2026-08-30 展示契约 v0.4）
+    shared_material_text = None
+    if question.shared_material_line_ids:
+        shared_material_text = _slice_lines(question.shared_material_line_ids, line_by_id)
+
+    # 切片文言注释文本
+    shared_material_notes_text = None
+    notes_line_ids = getattr(question, "shared_material_notes_line_ids", None) or []
+    if notes_line_ids:
+        shared_material_notes_text = _slice_lines(notes_line_ids, line_by_id)
+
+    # 构建区域标记（基于行号范围）
+    stem_region = None
+    if stem_anchor and stem_anchor.corrected_line_ids:
+        stem_region = {
+            "start": "题干区开始",
+            "end": "题干区结束"
+        }
+
+    answer_region = None
+    if question.answer_line_ids:
+        answer_region = {
+            "start": "答案区开始",
+            "end": "答案区结束"
+        }
+
+    explanation_region = None
+    if question.explanation_line_ids:
+        explanation_region = {
+            "start": "详解区开始",
+            "end": "详解区结束"
+        }
+
     return SlicedQuestion(
         question_number=question.question_number,
         question_type=_canonical_question_type(question.question_type),
         original_question_type=question.original_question_type or question.question_type,
         stem=stem,
-        options=options,
+        # 综合题容器不保存选项（选项只在子题中）
+        options=None if question.is_composite else options,
         section_id=question.section_id,
         shared_material_line_ids=question.shared_material_line_ids,
+        # 展示契约 v0.5 字段
+        stem_line_ids=(
+            stem_ids
+            if question.is_composite
+            else (stem_anchor.corrected_line_ids if stem_anchor else [])
+        ),
+        # 综合题容器不保存答案类字段（答案只在子题中）
+        answer_line_ids=None if question.is_composite else (question.answer_line_ids or []),
+        explanation_line_ids=None if question.is_composite else (question.explanation_line_ids or []),
+        shared_material_notes_line_ids=notes_line_ids,
+        stem_region=stem_region,
+        # 综合题容器不保存答案/详解区域
+        answer_region=None if question.is_composite else answer_region,
+        explanation_region=None if question.is_composite else explanation_region,
+        scoring_standard=getattr(question, "scoring_standard", None),
+        shared_material=shared_material_text,
+        shared_material_notes=shared_material_notes_text,
+        # 综合题容器不保存答案图片
+        answer_images=None if question.is_composite else (getattr(question, "answer_images", None) or []),
         difficulty=question.difficulty,
         score=question.score,
         knowledge_points=question.knowledge_points,
@@ -659,12 +718,9 @@ def _slice_single_question(
         source_page=question.source_page,
         structure_signature=question.structure_signature,
         is_composite=question.is_composite,
-        # 透传 LLM 的父题答案：综合题父题 answer 可能已有值（解答题从答案表
-        # 匹配）或为空（选择题组把答案写在 sub_questions 里）。answer_matcher
-        # 对非综合题会覆盖此值；综合题父题答案由 slice_questions 汇总逻辑或
-        # 此透传值决定。
-        answer=question.answer,
-        answer_structure=question.answer_structure,
+        # 综合题容器不保存答案（答案只在子题中）
+        answer=None if question.is_composite else question.answer,
+        answer_structure=None if question.is_composite else question.answer_structure,
         word_bank=question.word_bank,
         sub_questions=sub_questions_out,
     )

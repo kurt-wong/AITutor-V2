@@ -13,6 +13,7 @@ EXPECTED_TABLES = {
     "mastery_records",
     "practice_answers",
     "practice_sessions",
+    "question_candidates",
     "question_embeddings",
     "question_images",
     "question_instances",

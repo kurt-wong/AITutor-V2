@@ -780,11 +780,13 @@ export default function QuestionBankPage() {
                               ) : null}
                             </details>
                             {/* 答案区：默认折叠 */}
-                            <details className="bank-section">
+                            {!detail.is_composite && (
+                              <details className="bank-section">
                               <summary>答案</summary>
                               <MathText text={answerWithOptionText(detail.answer, detail.options) || formatAnswer(detail.answer) || "\u672a\u5339\u914d"} />
                               <AnswerStructureView structure={detail.answer_structure} />
                             </details>
+                            )}
                             {/* 详解区：默认折叠 */}
                             {detail.explanation ? (
                               <details className="bank-section">
