@@ -1,22 +1,26 @@
 # AI Tutor Personal Edition — PROJECT_STATUS
 
-Version: 6.47
-Status: v6.47 展示契约 v0.4 + golden 契约化完成；757 passed（8 skipped）。
-Date: 2026-08-29
+Version: 6.58
+Status: Admission Gate 落地：17 条规则 / 三态决策 / question_candidates 隔离 / 922 passed
+Date: 2026-09-01
 
 ---
 
-## 最新摘要（2026-08-29 23:05:58）
+## 最新摘要（2026-09-01）
 
-- HEAD：`d3ee4ae`；全量 pytest `757 passed + 8 skipped`。
-- 展示契约 v0.4 已固化；golden 已按契约迁移并补齐英语/数学/物理/化学/语文。
-- 东城英语真实入库验证：11 组综合题、45 个子题，答案归一化后 `45/45` 匹配。
-- 下一步：把展示区块字段接入 `simple_pipeline` / ingestion / API；P4E.1 任务5。
-- 阻塞：`test/results_to_delete/pytest-of-Kurtw` 仍锁定；`paper_structure` 8 个测试 skipped。
+- **v6.58 Admission Gate 落地**：
+  1. **17 条入库校验规则**（R01-R17）：覆盖空题干、答案污染、行号一致性、来源可信度、图片元数据、子题完整性等
+  2. **三态决策**：approve 入 questions 表，review/reject 进 question_candidates 表，实现审核队列硬隔离
+  3. **question_candidates 模型 + Alembic 迁移**：独立表存储待审题目，含 gate_decision/gate_reason/gate_checks
+  4. **API 端点**：候选列表/批准（content_hash 去重）/拒绝/通过率统计
+  5. **R15 误伤修复**：只检查 word_fill/vocabulary_fill/wordbank_fill，grammar_fill/cloze/fill_in/seven_to_five 不再触发
+  6. **R16 图片粒度**：ingestion 按 question_number 过滤后传给 admission，回归测试覆盖
+- **全量测试**：922 passed, 17 skipped, 0 failed
+- **已知遗留**：R14 材料检测仍为关键词启发式，待按题型维护；旧数据无 instance 的 reviewing 题迁移前需确认
 
 ## 当前阶段
 
-Phase 2A/2B/2C 已验收；OCR Provider 策略落地；Sprint 治理五项完成。
+Phase 2A/2B/2C 已验收；OCR Provider 策略落地；Sprint 治理五项完成；Prompt A/B 对比基础设施完成。
 
 **v6.45（2026-08-28，切片入库规则差距修复，用户第三次提供展示标准）**：
 - **差距 1 修复**：fill_in/short_answer 综合题父题答案未汇总（Q11=`itself`、Q21=`confusing`、
@@ -49,17 +53,14 @@ Phase 2A/2B/2C 已验收；OCR Provider 策略落地；Sprint 治理五项完成
 | **v6.45：fill_in/short_answer 综合题父题答案汇总** | ✅ 端到端验证 |
 | **v6.45：七选五 A-G 选项完整性（含合并行）** | ✅ 端到端验证 |
 | **v6.45：空位标记（下划线/子题/裸数字）** | ✅ 端到端验证 |
+| **Admission Gate（17 规则 / 三态决策 / question_candidates 隔离）** | ✅ 113 + 9 测试，922 全量通过 |
 | **异步富化（理科选择题详解）** | ⏳ 未实现，待设计 |
-| **P4E.1 任务 4（测试门禁）** | ⏳ 未启动 |
 | pytest（专用测试库） | ✅ 改动范围 129 passed（全量挂起/失败均为沙箱 ACL） |
 
-## 当前状态（v6.45）
+## 当前状态（v6.58）
 
-- **代码修复完成**（5 个文件）：`answer_matcher.py`（主循环跳过所有有汇总答案的
-  composite）、`anchor_corrector.py`（子题选项锚点校验 + 合并行行内归属）、
-  `content_slicer.py`（A-G 行内拆分、下划线空位规则 1.5、子题 stem 标记）、
-  `l1_postprocessor.py`（行内拆行 A-G）、`simple_pipeline.py`（subject 兜底 +
-  retry hints 覆盖子题选项）。
+- **Admission Gate 已落地**：`admission_gate.py`（17 条规则），review/reject 进 `question_candidates` 表，
+  questions 表只存 approved 题目，审核队列硬隔离。R15 误伤和 R16 图片粒度已修复并有回归测试。
 - **存量数据待重跑**：东城英语文档（Q11/21/42 父题答案、Q37-41 选项、空位标记）。
 - **异步富化待实现**：理科选择题详解（用户确认方向：入库后 LLM 异步生成）。
 - **服务状态**：8000（uvicorn）与 5173（vite）当前未监听（会话收尾已停）。

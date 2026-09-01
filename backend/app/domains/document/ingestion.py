@@ -18,6 +18,7 @@ from uuid import UUID
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.domains.document.admission_gate import admit_question
 from app.domains.document.answer_extractor import AnswerExtractionResult
 from app.domains.document.chemistry_formula import normalize_chemistry_question
 from app.domains.document.content_hash import compact_answer, compute_content_hash
@@ -29,6 +30,7 @@ from app.models import (
     Document,
     DomainEvent,
     Question,
+    QuestionCandidate,
     QuestionImage,
     QuestionInstance,
     QuestionType,
@@ -59,10 +61,12 @@ _FALLBACK_SUBJECT_NAME = "未知"
 class IngestionResult:
     """入库结果。"""
     total_questions: int = 0
-    ingested: int = 0       # 成功入库
+    ingested: int = 0       # 成功入库（approved）
+    candidates: int = 0     # 候选（review/reject，入 question_candidates 表）
     skipped: int = 0        # 跳过（低置信度/无答案）
     failed: int = 0         # 入库失败
     question_ids: list[UUID] = field(default_factory=list)
+    candidate_ids: list[UUID] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
     # 答案提取状态（由 processor 设置）
     answer_extraction_status: str = "skipped"  # skipped / success / failed / exception
@@ -72,6 +76,7 @@ class IngestionResult:
         return {
             "total": self.total_questions,
             "ingested": self.ingested,
+            "candidates": self.candidates,
             "skipped": self.skipped,
             "failed": self.failed,
             "answer_extraction_status": self.answer_extraction_status,
@@ -144,7 +149,7 @@ async def ingest_pipeline_result(
         # 外层事务（含之前成功的题目）继续有效。
         try:
             async with session.begin_nested():
-                question_id = await _ingest_one_question(
+                question_id, candidate_id = await _ingest_one_question(
                     session,
                     sq=sq,
                     subject=subject,
@@ -156,6 +161,9 @@ async def ingest_pipeline_result(
                 if question_id:
                     result.ingested += 1
                     result.question_ids.append(question_id)
+                elif candidate_id:
+                    result.candidates += 1
+                    result.candidate_ids.append(candidate_id)
                 else:
                     result.skipped += 1
         except Exception as exc:
@@ -190,8 +198,13 @@ async def _ingest_one_question(
     answer_map: dict,
     l1_document: L1Document | None,
     question_images: list[dict],
-) -> UUID | None:
-    """入库单道题。返回 question_id 或 None（跳过）。
+) -> tuple[UUID | None, UUID | None]:
+    """入库单道题。返回 (question_id, candidate_id)。
+
+    返回值约定：
+    - (UUID, None): approved 入 questions 表
+    - (None, UUID): review/reject 入 question_candidates 表
+    - (None, None): 跳过（无题干等）
 
     去重逻辑：
     1. 精确匹配：stem 完全相同 → 只创建 QuestionInstance，累加 occurrence_count
@@ -200,13 +213,51 @@ async def _ingest_one_question(
        - 共享知识点映射，参与频率统计
     """
 
-    # 判断是否入库：高置信度且无"禁止自动发布"
-    is_high_conf = sq.confidence >= 0.8
-    is_blocked = any("禁止自动发布" in i for i in (sq.issues or []))
     has_stem = bool((sq.stem or "").strip())
 
     if not has_stem:
-        return None  # 无题干，跳过
+        return None, None  # 无题干，跳过
+
+    # ── Admission Gate 门禁决策 ───────────────────────────────────
+    # 传递 l1_lines 以支持 R08 行号切片一致性校验
+    l1_lines = (
+        [{"id": ln.line_id, "text": ln.text} for ln in l1_document.lines]
+        if l1_document else None
+    )
+    # 按当前题号过滤图片，避免无关题图片影响 R16 校验
+    current_question_images = [
+        img for img in (question_images or [])
+        if img.get("question_number") == str(sq.question_number)
+    ]
+    decision = admit_question(sq, l1_lines=l1_lines, question_images=current_question_images)
+    gate_decision = decision.decision  # approve / review / reject
+
+    if gate_decision == "reject":
+        # reject → question_candidates 表
+        candidate_id = await _ingest_as_candidate(
+            session,
+            sq=sq,
+            subject=subject,
+            document=document,
+            decision=decision,
+            answer_map=answer_map,
+        )
+        return None, candidate_id
+
+    if gate_decision == "review":
+        # review → 也进 question_candidates 表（不进 questions）
+        candidate_id = await _ingest_as_candidate(
+            session,
+            sq=sq,
+            subject=subject,
+            document=document,
+            decision=decision,
+            answer_map=answer_map,
+        )
+        return None, candidate_id
+
+    # 只有 approve 才进 questions 表
+    status = "approved"
 
     # 获取答案：管线切片（教师版原文）优先，LLM 答案提取只做缺失兜底。
     # 综合题（共享题图/材料）：父题答案 = content_slicer 子题答案汇总
@@ -230,14 +281,6 @@ async def _ingest_one_question(
     final_explanation = sq.explanation or (
         llm_answer_data.explanation if llm_answer_data else None
     ) or ""
-
-    # 确定状态和审核原因
-    if is_high_conf and not is_blocked and final_answer.strip():
-        status = "approved"
-        review_reason = None
-    else:
-        status = "reviewing"
-        review_reason = _extract_review_reason(sq, final_answer)
 
     # ── Phase 2A Step 5：content_hash 精确去重 ───────────────────
     # 去重从"只看 stem"升级为"规范化题干 + 选项 + 题型"的 SHA256
@@ -313,7 +356,7 @@ async def _ingest_one_question(
                     "dedup exact: Q%s cleared stale answer_conflict (normalized answers equal) → approved",
                     sq.question_number,
                 )
-        return existing_question.id
+        return existing_question.id, None
 
     # 第二步：LLM 相似判断（已禁用）
     # 设计决策（2026-08-27）：相似题判断方案待重新设计，当前只做精确匹配
@@ -346,16 +389,19 @@ async def _ingest_one_question(
         score=Decimal(str(sq.score)) if sq.score else None,
         difficulty=sq.difficulty,
         stem=sq.stem,
-        options=parent_options,
-        answer=final_answer,
-        answer_structure=getattr(sq, "answer_structure", None) or _build_answer_structure(final_answer),
+        # 综合题容器不保存选项（选项只在子题中）
+        options=None if sq.is_composite else parent_options,
+        # 综合题容器不保存答案（答案只在子题中）
+        answer=None if sq.is_composite else final_answer,
+        answer_structure=None if sq.is_composite else (getattr(sq, "answer_structure", None) or _build_answer_structure(final_answer)),
         word_bank=getattr(sq, "word_bank", None),
-        explanation=final_explanation,
+        # 综合题容器不保存详解（详解只在子题中）
+        explanation=None if sq.is_composite else final_explanation,
         source_type="document",
         source_document_name=document.filename,
         status=status,
         confidence=Decimal(str(round(sq.confidence, 3))),
-        review_reason=review_reason,
+        review_reason=None,
         occurrence_count=1,  # 缓存字段，初始为 1
         is_composite=sq.is_composite or False,
         original_question_type=getattr(sq, "original_question_type", None),
@@ -367,6 +413,23 @@ async def _ingest_one_question(
             _sub_question_to_dict(sub)
             for sub in (sq.sub_questions or [])
         ] or None,
+        # 展示契约 v0.5 字段（2026-08-30）
+        stem_line_ids=sq.stem_line_ids or [],
+        # 综合题容器不保存答案行号（答案只在子题中）
+        answer_line_ids=None if sq.is_composite else (sq.answer_line_ids or []),
+        # 综合题容器不保存详解行号（详解只在子题中）
+        explanation_line_ids=None if sq.is_composite else (sq.explanation_line_ids or []),
+        shared_material_line_ids=sq.shared_material_line_ids or [],
+        shared_material_notes_line_ids=getattr(sq, "shared_material_notes_line_ids", None) or [],
+        stem_region=getattr(sq, "stem_region", None),
+        # 综合题容器不保存答案/详解区域
+        answer_region=None if sq.is_composite else getattr(sq, "answer_region", None),
+        explanation_region=None if sq.is_composite else getattr(sq, "explanation_region", None),
+        scoring_standard=getattr(sq, "scoring_standard", None),
+        shared_material=getattr(sq, "shared_material", None),
+        shared_material_notes=getattr(sq, "shared_material_notes", None),
+        # 综合题容器不保存答案图片
+        answer_images=None if sq.is_composite else (getattr(sq, "answer_images", None) or []),
     )
     session.add(question)
     await session.flush()
@@ -441,10 +504,130 @@ async def _ingest_one_question(
         ))
 
     await session.flush()
-    return question.id
+    return question.id, None
 
 
 # ── 辅助函数 ──────────────────────────────────────────────────────
+
+
+async def _ingest_as_candidate(
+    session: AsyncSession,
+    *,
+    sq: SlicedQuestion,
+    subject: Subject,
+    document: Document,
+    decision,
+    answer_map: dict,
+) -> UUID:
+    """将 review/reject 题目写入 question_candidates 表。
+
+    同一文档内相同 content_hash 不重复写入候选（去重）。
+    """
+    content_hash = compute_content_hash(
+        stem=sq.stem,
+        options=sq.options,
+        question_type=sq.question_type,
+        sub_questions=[
+            _sub_question_to_dict(sub)
+            for sub in (sq.sub_questions or [])
+        ] or None,
+    )
+
+    # 去重：同一文档内同一 content_hash 不重复候选
+    from sqlalchemy import select as sa_select
+    existing = await session.scalar(
+        sa_select(QuestionCandidate).where(
+            QuestionCandidate.document_id == document.id,
+            QuestionCandidate.content_hash == content_hash,
+        ).limit(1)
+    )
+    if existing:
+        logger.info(
+            "candidate dedup: Q%s hash=%s already exists as candidate %s",
+            sq.question_number, content_hash[:12], existing.id,
+        )
+        return existing.id
+
+    # 获取答案（与 approved 路径相同逻辑）
+    llm_answer_data = answer_map.get(str(sq.question_number))
+    is_composite_q = bool(getattr(sq, "is_composite", False))
+    if (
+        llm_answer_data
+        and llm_answer_data.answer.strip()
+        and not is_composite_q
+    ):
+        final_answer = llm_answer_data.answer
+    else:
+        final_answer = sq.answer or ""
+    final_explanation = sq.explanation or (
+        llm_answer_data.explanation if llm_answer_data else None
+    ) or ""
+
+    question_type_id = await _get_question_type_id(
+        session,
+        getattr(sq, "original_question_type", None) or sq.question_type,
+        subject.id,
+    )
+
+    parent_options = _normalize_options(sq.options)
+    if sq.is_composite and (sq.sub_questions or []):
+        has_sub_options = any(
+            getattr(s, "options", None) or getattr(s, "options_line_ids", None)
+            for s in sq.sub_questions
+        )
+        if has_sub_options:
+            parent_options = None
+
+    candidate = QuestionCandidate(
+        subject_id=subject.id,
+        grade=document.grade,
+        question_type_id=question_type_id,
+        score=Decimal(str(sq.score)) if sq.score else None,
+        difficulty=sq.difficulty,
+        stem=sq.stem,
+        options=None if sq.is_composite else parent_options,
+        answer=None if sq.is_composite else final_answer,
+        answer_structure=None if sq.is_composite else (getattr(sq, "answer_structure", None) or _build_answer_structure(final_answer)),
+        word_bank=getattr(sq, "word_bank", None),
+        explanation=None if sq.is_composite else final_explanation,
+        source_type="document",
+        source_document_name=document.filename,
+        confidence=Decimal(str(round(sq.confidence, 3))),
+        content_hash=content_hash,
+        is_composite=sq.is_composite or False,
+        original_question_type=getattr(sq, "original_question_type", None),
+        section_id=getattr(sq, "section_id", None),
+        sub_questions=[
+            _sub_question_to_dict(sub)
+            for sub in (sq.sub_questions or [])
+        ] or None,
+        # 展示契约 v0.4 字段
+        stem_line_ids=sq.stem_line_ids or [],
+        answer_line_ids=None if sq.is_composite else (sq.answer_line_ids or []),
+        explanation_line_ids=None if sq.is_composite else (sq.explanation_line_ids or []),
+        shared_material_line_ids=sq.shared_material_line_ids or [],
+        shared_material_notes_line_ids=getattr(sq, "shared_material_notes_line_ids", None) or [],
+        stem_region=getattr(sq, "stem_region", None),
+        answer_region=None if sq.is_composite else getattr(sq, "answer_region", None),
+        explanation_region=None if sq.is_composite else getattr(sq, "explanation_region", None),
+        scoring_standard=getattr(sq, "scoring_standard", None),
+        shared_material=getattr(sq, "shared_material", None),
+        shared_material_notes=getattr(sq, "shared_material_notes", None),
+        answer_images=None if sq.is_composite else (getattr(sq, "answer_images", None) or []),
+        # Admission Gate 专属字段
+        gate_decision=decision.decision,
+        gate_reason=decision.reject_reason or decision.review_reason,
+        gate_checks=[{"rule": c.rule, "passed": c.passed, "severity": c.severity, "message": c.message} for c in decision.checks],
+        admission_version="1.0",
+        document_id=document.id,
+    )
+    session.add(candidate)
+    await session.flush()
+    logger.info(
+        "candidate created: Q%s gate=%s reason=%s hash=%s",
+        sq.question_number, decision.decision, decision.reject_reason or decision.review_reason, content_hash[:12],
+    )
+    return candidate.id
 
 
 def _extract_review_reason(sq: SlicedQuestion, final_answer: str) -> str:
@@ -739,17 +922,28 @@ def _build_answer_structure(answer_text: str | None) -> dict | None:
 
 
 def _sub_question_to_dict(sub) -> dict:
-    """Serialize a sub-question recursively for Question.sub_questions JSONB."""
+    """Serialize a sub-question recursively for Question.sub_questions JSONB.
+
+    2026-08-30（展示契约 v0.4）：补齐展示字段，与父题保持一致。
+    """
     return {
         "qno": getattr(sub, "qno", None),
         "question_type": getattr(sub, "question_type", None),
         "answer": getattr(sub, "answer", None),
+        "answer_line_ids": getattr(sub, "answer_line_ids", None) or [],
+        "explanation_line_ids": getattr(sub, "explanation_line_ids", None) or [],
         "knowledge_points": getattr(sub, "knowledge_points", None) or [],
         "score": getattr(sub, "score", None),
         "stem_line_ids": getattr(sub, "stem_line_ids", None) or [],
         "options_line_ids": getattr(sub, "options_line_ids", None) or {},
         "stem": getattr(sub, "stem", "") or "",
         "options": getattr(sub, "options", None) or [],
+        # 展示契约 v0.4 字段
+        "stem_region": getattr(sub, "stem_region", None),
+        "answer_region": getattr(sub, "answer_region", None),
+        "explanation_region": getattr(sub, "explanation_region", None),
+        "scoring_standard": getattr(sub, "scoring_standard", None),
+        "answer_images": getattr(sub, "answer_images", None) or [],
         "sub_sub_questions": [
             _sub_question_to_dict(child)
             for child in (getattr(sub, "sub_sub_questions", None) or [])

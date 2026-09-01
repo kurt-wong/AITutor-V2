@@ -149,6 +149,23 @@ class Question(Base):
     original_question_type: Mapped[str | None] = mapped_column(String(50))
     section_id: Mapped[str | None] = mapped_column(String(100))
     sub_questions: Mapped[Any | None] = mapped_column(JSONB)
+    # 展示契约 v0.4 字段（2026-08-30）
+    # 行号引用（JSONB）
+    stem_line_ids: Mapped[Any | None] = mapped_column(JSONB)           # 题干行号
+    answer_line_ids: Mapped[Any | None] = mapped_column(JSONB)         # 答案行号
+    explanation_line_ids: Mapped[Any | None] = mapped_column(JSONB)    # 详解行号
+    shared_material_line_ids: Mapped[Any | None] = mapped_column(JSONB)  # 共享材料行号
+    shared_material_notes_line_ids: Mapped[Any | None] = mapped_column(JSONB)  # 文言注释行号
+    # 区域标记（JSONB）- 仅 golden 校验和切片元数据，不进前端
+    stem_region: Mapped[Any | None] = mapped_column(JSONB)             # {"start": "题干区开始", "end": "题干区结束"}
+    answer_region: Mapped[Any | None] = mapped_column(JSONB)           # {"start": "答案区开始", "end": "答案区结束"}
+    explanation_region: Mapped[Any | None] = mapped_column(JSONB)      # {"start": "详解区开始", "end": "详解区结束"}
+    # 内容字段（Text）
+    scoring_standard: Mapped[str | None] = mapped_column(Text)         # 评分标准
+    shared_material: Mapped[str | None] = mapped_column(Text)          # 共享材料文本
+    shared_material_notes: Mapped[str | None] = mapped_column(Text)    # 文言注释文本
+    # 图片关联（JSONB）
+    answer_images: Mapped[Any | None] = mapped_column(JSONB)           # 答案图片列表
     # 审核原因分类
     review_reason: Mapped[str | None] = mapped_column(String(200))  # answer_missing/stem_empty/anchor_uncertain/options_anomaly/answer_suspicious
     created_at: Mapped[datetime] = created_at_column()
@@ -159,6 +176,84 @@ class Question(Base):
         Index("ix_questions_status_confidence", "status", "confidence"),
         Index("ix_questions_source_type", "source_type"),
         Index("ix_questions_content_hash", "content_hash"),
+    )
+
+
+class QuestionCandidate(Base):
+    """候选题目表 — Admission Gate 审核为 review/reject 的题目。
+
+    与 questions 表结构几乎相同，但额外字段：
+    - gate_decision: review / reject 的具体决策
+    - gate_reason: 不通过的具体原因（rule name）
+    - gate_checks: 完整的 13 条校验结果 JSON
+    - admission_version: 门禁规则版本（用于升级后重新审核）
+    - document_id: 关联来源文档
+    """
+    __tablename__ = "question_candidates"
+
+    id: Mapped[uuid.UUID] = uuid_pk()
+    subject_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("subjects.id"),
+        index=True,
+        nullable=False,
+    )
+    grade: Mapped[str | None] = mapped_column(String(50))
+    question_type_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("question_types.id"),
+        index=True,
+    )
+    score: Mapped[Decimal | None] = mapped_column(Numeric(8, 2))
+    difficulty: Mapped[int | None] = mapped_column(Integer)
+    stem: Mapped[str] = mapped_column(Text, nullable=False)
+    options: Mapped[Any | None] = mapped_column(JSONB)
+    answer: Mapped[str | None] = mapped_column(Text)
+    answer_structure: Mapped[Any | None] = mapped_column(JSONB)
+    word_bank: Mapped[Any | None] = mapped_column(JSONB)
+    explanation: Mapped[str | None] = mapped_column(Text)
+    source_type: Mapped[str] = mapped_column(String(20), default="document")
+    source_document_name: Mapped[str | None] = mapped_column(String(255))
+    confidence: Mapped[Decimal | None] = mapped_column(Numeric(4, 3))
+    content_hash: Mapped[str | None] = mapped_column(String(64))
+    is_composite: Mapped[bool] = mapped_column(Boolean, default=False)
+    original_question_type: Mapped[str | None] = mapped_column(String(50))
+    section_id: Mapped[str | None] = mapped_column(String(100))
+    sub_questions: Mapped[Any | None] = mapped_column(JSONB)
+    # 展示契约 v0.4 字段
+    stem_line_ids: Mapped[Any | None] = mapped_column(JSONB)
+    answer_line_ids: Mapped[Any | None] = mapped_column(JSONB)
+    explanation_line_ids: Mapped[Any | None] = mapped_column(JSONB)
+    shared_material_line_ids: Mapped[Any | None] = mapped_column(JSONB)
+    shared_material_notes_line_ids: Mapped[Any | None] = mapped_column(JSONB)
+    stem_region: Mapped[Any | None] = mapped_column(JSONB)
+    answer_region: Mapped[Any | None] = mapped_column(JSONB)
+    explanation_region: Mapped[Any | None] = mapped_column(JSONB)
+    scoring_standard: Mapped[str | None] = mapped_column(Text)
+    shared_material: Mapped[str | None] = mapped_column(Text)
+    shared_material_notes: Mapped[str | None] = mapped_column(Text)
+    answer_images: Mapped[Any | None] = mapped_column(JSONB)
+    # Admission Gate 专属字段
+    gate_decision: Mapped[str] = mapped_column(String(20), nullable=False)  # review / reject
+    gate_reason: Mapped[str | None] = mapped_column(String(200))  # rule name
+    gate_checks: Mapped[Any | None] = mapped_column(JSONB)  # 完整 13 条校验结果
+    admission_version: Mapped[str] = mapped_column(String(50), default="1.0")  # 门禁规则版本
+    document_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("documents.id"),
+        index=True,
+        nullable=False,
+    )
+    created_at: Mapped[datetime] = created_at_column()
+    updated_at: Mapped[datetime] = updated_at_column()
+
+    __table_args__ = (
+        Index("ix_question_candidates_document", "document_id"),
+        Index("ix_question_candidates_gate_decision", "gate_decision"),
+        Index(
+            "ix_question_candidates_doc_hash",
+            "document_id",
+            "content_hash",
+            unique=True,
+            postgresql_where=sa.text("content_hash IS NOT NULL"),
+        ),
     )
 
 

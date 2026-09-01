@@ -7,6 +7,220 @@
 
 ## 变更记录
 
+### 2026-09-01
+
+#### Admission Gate 入库门禁（版本 6.58）
+
+**目标**：入库前终审，17 条规则逐题校验，三态决策（approve/review/reject），
+review/reject 题目进入 `question_candidates` 表而非 `questions` 表，
+实现审核队列硬隔离。
+
+**新增文件**：
+- `app/domains/document/admission_gate.py`：17 条校验规则（R01-R17）
+- `tests/test_admission_gate.py`：113 个规则单元测试
+- `tests/test_admission_gate_api.py`：9 个 API 集成测试
+- `alembic/versions/20260831_0001_add_question_candidates.py`：question_candidates 表迁移
+
+**规则清单**：
+
+| 规则 | 类型 | 检查内容 |
+|------|------|----------|
+| R01 | reject | stem 非空 |
+| R02 | reject | answer 不含 stem/options 文本 |
+| R03 | reject | stem 长度合理（≤800，综合题/材料题 ≤3000） |
+| R04 | reject | 选择题选项数量合理（3-7） |
+| R05 | review | 选择题选项标签匹配（A/B/C...） |
+| R06 | review | 答案来源可信 + 置信度 ≥ 0.5 |
+| R07 | review | answer/explanation 来源一致性 |
+| R08 | reject | 行号切片文本与 stem 一致（SequenceMatcher ≥ 0.7） |
+| R09 | review | explanation ≠ answer 重复 |
+| R10 | metadata | explanation 长度 > 3 字符 |
+| R11 | metadata | 关键元数据完整（score/difficulty） |
+| R12 | reject | 答案无 PUA/替换符/纯标点 |
+| R13 | review | 综合题至少一个子题有答案 |
+| R14 | review | 材料型综合题必须有 shared_material |
+| R15 | review | word_fill/vocabulary_fill/wordbank_fill 必须有 word_bank |
+| R16 | review | 有图题图片元数据完整（page_no/bbox/source） |
+| R17 | review | 子题完整（qno+stem+answer，选择题还要 options） |
+
+**路由逻辑**（`ingestion.py`）：
+- `approve` → questions 表（status="approved"）
+- `review` → question_candidates 表（gate_decision="review"）
+- `reject` → question_candidates 表（gate_decision="reject"）
+- 图片过滤：`current_question_images` 按 question_number 过滤后传给 admission，
+  避免其他题的图片误触发 R16
+
+**API 新增**：
+- `GET /question-candidates`：候选题目列表（支持 gate_decision 过滤）
+- `POST /question-candidates/{id}/approve`：批准入 questions 表（content_hash 去重）
+- `POST /question-candidates/{id}/reject`：拒绝删除候选
+- `GET /admission-metrics`：通过率/拒绝率/待审核数统计
+
+**关键修复**：
+- R06 零置信度 bug：`0.0 or 1.0` Python truthiness → 改为显式 None 检查
+- R15 误伤修复：只检查 word_fill/vocabulary_fill/wordbank_fill，grammar_fill/cloze/fill_in/seven_to_five 不再触发
+- R16 图片粒度：ingestion 按 question_number 过滤后再传给 admission（回归测试覆盖）
+
+**测试**：
+- `test_admission_gate.py`：113 passed（R01-R17 全覆盖，含 R15 9 个、R16 5 个回归）
+- `test_admission_gate_api.py`：9 passed（列表/批准/拒绝/404/冲突/指标）
+- 全量测试：922 passed, 17 skipped, 0 failed
+
+### 2026-09-01 08:28:51
+
+#### Golden stem 决策：移除 section header 前缀
+
+- 用户确认以 question 为核心，golden 不需要考试 section header / 分值前缀。
+- `test/annotations/golden/english_2026_dongcheng_real_golden.json`：6 个父题 stem 移除“第一节/第二节(共N小题...)”前缀，`stem_line_ids` 同步只保留任务说明行。
+- 验证：`rg` 未发现 golden 中 section header 前缀；`test_golden_contract.py` / `test_golden_2026.py` / `test_display_contract_fields.py` 14 passed。
+
+### 2026-08-31 13:50:00
+
+#### Prompt A/B 对比基础设施（版本 6.51）
+
+**目标**：支持模块化 Prompt 和旧巨型 Prompt 的公平对比。
+
+**修改文件**：
+- `app/domains/document/line_annotator.py`：`annotate_document` 增加 `use_modular_prompt` 参数，新增 `LEGACY_ANNOTATION_PROMPT_VERSION` 常量
+- `app/domains/document/simple_pipeline.py`：`run_simple_pipeline` 增加 `use_modular_prompt` 参数并透传
+- `app/domains/document/processor.py`：`process_document` 增加 `use_modular_prompt` 参数并透传
+- `app/domains/document/schemas_l2.py`：`L2DocumentAnnotation` 增加 `annotation_version` 字段
+- `app/worker/document_worker.py`：`_serialize_l2_for_persistence` 从 L2 结果读取实际版本，不再硬编码
+
+**新增文件**：
+- `tests/test_prompt_ab_switch.py`：A/B 切换单元测试（8 个测试）
+- `scripts/prompt_ab_comparison.py`：Prompt A/B 对比脚本
+- `reports/prompt_ab_modular_baseline.txt`：模块化基线报告
+- `reports/prompt_ab_comparison.json`：A/B 对比报告
+
+**测试结果**：
+- `test_prompt_ab_switch.py`：8 passed
+- `test_line_annotator.py`：27 passed
+- 全量测试：774 passed, 2 failed（pre-existing failures in `test_semantic_anchor.py`）
+
+**Golden 对比基线**：
+- Total fields: 392
+- Matched: 375
+- Granularity: 17
+- Mismatched: 0
+- Content-verified rate: 100.0%
+- Verdict: PASS_WITH_GRANULARITY
+
+**A/B 对比结果**：
+- Modular prompt: 31304 chars, 726 lines, 包含英语专用规则和示例
+- Legacy prompt: 33977 chars, 658 lines, 不包含科目专用规则
+- 差异：模块化 Prompt 包含 JSON 输出规范、行号规范、难度判断标准、综合题识别规则、答案/详解提取规则、英语专用规则、示例
+
+**验收**：
+- 默认 `use_modular_prompt=True` 后，所有现有测试不回归
+- `use_modular_prompt=False` 能成功生成旧 Prompt
+- modular 和 legacy 两次运行在持久化数据中版本可区分
+- 东城英语 golden 对比中，modular 基线仍为 PASS_WITH_GRANULARITY
+
+### 2026-08-31 23:59:00
+
+#### 88 字段 A/B 可复现对比（版本 6.54）
+
+**基础设施修改**：
+- `simple_pipeline.py`：`l1_snapshot_path` 保存带 P 行号 L1
+- `schemas_l2.py`：`deserialize_l2_from_json()` 反序列化 L2
+- `document_worker.py`：`_serialize_l2_for_persistence` 补齐 `scoring_standard` + `answer_images`（此前丢失）
+- `ab_golden_compare.py` v2：子题 key 修复（golden 用 `question_number`，sliced 用 `qno`）
+
+**新增文件**：
+- `scripts/ab_golden_compare.py`：A/B 对比脚本 v2（88 字段）
+- `scripts/generate_ab_artifacts.py`：生成 L1 快照 + raw L2
+- `reports/l1_snapshot_dongcheng_english.json`：L1 快照（298 行）
+- `reports/l2_modular_raw.json`：modular raw L2（v2.2-modular-v1）
+- `reports/l2_legacy_raw.json`：legacy raw L2（v2.1-legacy）
+- `reports/ab_comparison_report_v2.json`：A/B 对比报告
+
+**88 字段 A/B 结果**（可复现）：
+- 口径：40 父题字段 + 45 子题答案 + 3 未匹配项 = 88 字段
+- modular (v2.2-modular-v1)：80.7%，raw_exact=55, semantic=14, format_diff=1, true_number_diff=9, scoring_missing=0, unmatched=8
+- legacy (v2.1-legacy)：69.3%，raw_exact=51, semantic=9, format_diff=1, true_number_diff=9, scoring_missing=10, unmatched=8
+- 差距来源：子题答案准确率（modular 40/45 matched 全对）+ scoring_standard 覆盖
+
+**已知问题**：
+1. Q21-25 整题未匹配（8 字段）：sliced 缺少中文任务说明/选词材料，是数据缺口非统计问题
+2. 9 个 true_number_diff：6 个 scoring_standard 输出 section header 而非 per-question 分值，3 个 stem 仍带"第二节"前缀
+3. 88 字段 ≠ 392 字段全量展示契约（options/line_ids/answer_images/explanation/子题 scoring_standard 未纳入）
+
+**下一步**：
+1. scoring_standard 输出 per-question 分值，不再写整节 header
+2. 语法填空 stem 去掉"第二节(共10小题...)"前缀
+3. 修复 Q21-25 中文任务说明/选词材料丢失
+
+### 2026-09-01
+
+#### stem section header 消除 + Q21-25 匹配修复（版本 6.57）
+
+**Prompt 修改**：
+- `app/ai/prompts/base/__init__.py`：CompositeRules stem 归属规则重写
+  - stem 只放任务说明/指令，❌ 不放 section header（如"第一节(共10小题;每小题1.5分，共15分）"）
+  - section header 中的评分信息提取后放入 scoring_standard
+  - ❌ 不放考试操作指令（"并在答题卡上将该项涂黑""请在答题卡指定区域作答"）
+
+**Golden 修改**：
+- `test/annotations/golden/english_2026_dongcheng_real_golden.json`：
+  - 6 处 stem 去除 section header 前缀（Q1-10、Q26-28、Q29-32、Q33-36、Q37-41、Q42-45）
+  - Q21-25 stem/shared_material 字段划分对齐 sliced 结构（stem=任务指令，shared_material=词库）
+
+**对比脚本修改**：
+- `scripts/ab_golden_compare.py`：匹配逻辑改为先按 question_number 精确匹配，fallback 文本 key
+
+**89 字段 A/B 结果**（可复现，同一份 L1 + modular prompt）：
+- modular (v2.2-modular-v1)：**98.9%**，raw_exact=70, semantic=13, format=1, format_diff=4, true_number_diff=1, scoring_missing=0, unmatched=0
+- legacy (v2.1-legacy)：69.3%，raw_exact=51, semantic=9, format_diff=1, true_number_diff=9, scoring_missing=10, unmatched=8
+- 11/11 题全部匹配，0 unmatched
+- **可复现 L2 artifact**：`reports/l2_modular_20260901_084739_no_section_header.json`
+
+**修复历程**：
+- v6.54: modular 80.7%, true_number_diff=9, unmatched=8
+- v6.55: modular 85.2%, true_number_diff=5（scoring_standard 修复）
+- v6.56: golden stem 去前缀（用户操作）
+- v6.57: prompt stem 规则修正 + golden 字段对比匹配修复 → **98.9%**
+
+**剩余问题**：
+1. 1 个 scoring_standard true_number_diff（Q21-25）：golden "共5小题，每空1分，共5分" vs LLM "每小题1分"，数字一致，格式简化
+2. 89 字段 ≠ 392 字段全量展示契约
+
+**下一步**：
+1. 扩展到 392 字段对比
+2. 批量导入验证（P4E.2）
+
+#### Prompt fix + 七选五回归（版本 6.55）
+
+**Prompt 修改**：
+- `app/ai/prompts/base/__init__.py`：stem vs scoring_standard 边界规则优化
+  - scoring_standard 改为必填，描述为"per-question 分值"
+  - 子节（A/B/C）不包含父节 section header
+- `app/ai/prompts/subjects/__init__.py`：新增七选五保留规则
+  - 七选五（seven_to_five）必须保留为 is_composite=true 综合题，不能吞掉
+
+**对比脚本修复**：
+- `scripts/ab_golden_compare.py`：拆分 number_diff 为 scoring_missing/true_number_diff/content_mismatch
+- `scripts/generate_ab_artifacts.py`：L2 文件名加时间戳，不覆盖历史
+
+**新增文件**：
+- `scripts/save_l1_snapshot.py`：L1 快照工具
+- `reports/l2_modular_20260901_002153_prompt_fix_7to5.json`：可复现 L2 artifact
+
+**88 字段 A/B 结果**（可复现）：
+- modular (v2.2-modular-v1)：**85.2%**，raw_exact=62, semantic=12, format_diff=1, true_number_diff=5, scoring_missing=0, unmatched=8
+- legacy (v2.1-legacy)：69.3%，raw_exact=51, semantic=9, format_diff=1, true_number_diff=9, scoring_missing=10, unmatched=8
+- 改进：scoring_standard 全部正确（scoring_missing=0），七选五 Q37-41 回归（11 题完整），pass rate 80.7% → 85.2%
+
+**已知问题**（更新）：
+1. Q21-25（选词填空）5 个子题答案未匹配：非题目缺失，是中文任务说明/选词材料的行号归属与 golden 不一致导致 match key 对不上
+2. 5 个 stem true_number_diff：golden 期望含"第一节(共11小题;每小题2分，共22分)"前缀，modular 按 prompt 规则只输出任务说明
+3. 88 字段 ≠ 392 字段全量展示契约
+
+**下一步**：
+1. 明确 stem 是否保留 section header 前缀：要么 prompt 补上，要么更新 golden
+2. 修复 Q21-25 材料/任务说明行号归属
+3. 扩展到 392 字段对比
+
 ### 2026-08-25 16:00:00
 
 #### 6 项遗留按序修复：基线 215/231 → 223/231 (97%)（版本 6.25）
@@ -1310,3 +1524,61 @@ section 标题）
 
 - `RESTART_PROMPT.md` 升级 v6.47，新增“当前工作状态”节，重启后可直接恢复上下文。
 - `PROJECT_STATUS.md` 升级 v6.47，新增“最新摘要”，记录当前 HEAD、测试基线、展示契约、golden、入库验证、下一步和阻塞项。
+
+### 2026-08-30 23:10:23
+
+#### 东城英语 golden/DB 对比口径修正（39 -> 3 mismatch）
+
+- 确认 `scoring_standard` 不是编码问题：golden 与 DB 均为 UTF-8 中文，原报告中的乱码是控制台编码显示问题。
+- 更新东城英语 golden：
+  - Q7 移除重复放入 `shared_material` 的 A-D 选项，选项保留在子题 `options_line_ids`。
+  - Q6 补充 Camp Association `shared_material` 与 `shared_material_line_ids`。
+  - Q6-Q10 评分标准按真实源卷修正；Q8/Q9/Q10 分值从错误的每空 1 分更新为每小 2 分/10 分/12 分详细标准。
+- 增强 `backend/scripts/golden_field_comparison.py`：
+  - 答案比较复用项目标准 `run_phase1_eval.normalize_answer_text`。
+  - `shared_material` 归一化忽略引号、空白、填空位、A-G 小节标签和 LaTeX `\text{}` 噪音。
+- 最新对比：124 个字段中 121 个匹配，剩余 3 个全部为 DB `shared_material` 内容问题：
+  - Q5：DB 漏词库说明且 `athlete` 识别为 `athlte`。
+  - Q7：DB `will` 识别为 `wil`。
+  - Q8：DB `efforts` 识别为 `eforts`。
+- 验证：`test_golden_contract.py` 3 passed；`test_display_contract_fields.py` + `test_wordbank_composite_fields.py` 10 passed；`test_validation_harness.py` 22 passed；后端非 e2e 全量 774 passed + 8 skipped。
+
+### 2026-08-31 00:23:40
+
+#### 综合题容器 stem 与 golden 对比口径修正
+
+- `content_slicer._slice_single_question`：综合题容器 `stem` 只保留任务说明行，不再把 `shared_material` 拼进 `stem`；`stem_line_ids` 与 `stem` 文本使用同一组行号。
+- 新增 `backend/tests/test_composite_stem_contract.py`：覆盖容器 stem 不包含材料，以及选词填空容器说明行/词库行归属。
+- `golden_field_comparison.py`：新增 `normalize_scoring_standard`，`每空/每小题`、`本题2分/2分`、分号/逗号等格式差异不再误报。
+- 对比脚本新增按子题号区间匹配 Q5/Q10，并增强评分标准归一化；Q7/Q8 OCR 错误已回填，当前 392 字段中 367 匹配 (93.6%)，剩余 25 个 mismatch 全部为容器 stem、行号长度、Q5 shared_material 和 Q10 sub3 行号。
+- 验证：全量 pytest 776 passed + 8 skipped（非 e2e）；新增容器 stem 回归测试 2 passed。
+- 下一步：用当前代码重新入库东城英语，验证容器 stem 与 Q5/Q10 材料完整；之后处理 Q7/Q8 OCR 差异和行号长度口径。
+
+
+### 2026-08-31
+
+#### 东城英语 golden/DB 行号粒度口径修正
+
+- `golden_field_comparison.py` 不再用行号长度直接判 mismatch。
+- 当 `stem` / `shared_material` / 子题 `answer` 文本已归一化匹配时，行号数量差异归类为 `granularity`。
+- 当前结果：392 字段中 374 matched + 16 granularity + 2 mismatched；剩余 2 项为 Q11 `stem` 内容与 `stem_line_ids`。
+- 不建议使用 ±1/±2 容差，因为 `shared_material_line_ids` 差异可达 18 vs 6、25 vs 6 等，不是简单粒度偏移。
+
+### 2026-08-31
+
+#### 东城英语 Q11 收口，对比达到 PASS_WITH_GRANULARITY
+
+- Q11 `stem` 内容与 `stem_line_ids` 已对齐；当前 golden/DB 对比 392 字段 = 375 matched + 17 granularity + 0 mismatch。
+- 17 项 granularity 均为对应文本已匹配后的行号数量差异（Native L1 vs PP-StructureV3）。
+- Verdict: PASS_WITH_GRANULARITY。
+- 注意：PP 行号映射仍未持久化，后续如需行号级内容校验应补 L1 line map。
+
+### 2026-08-31
+
+#### 东城英语 golden/DB 分级对比最终收口（v6.52）
+
+- `golden_field_comparison.py` 分级：raw_exact / normalized / matched / format / blank_marker / punct_diff / format_diff / number_diff / granularity / mismatch。
+- 当前结果：raw_exact 253 (64.5%)，normalized 102，matched 355 (90.6%)；format 3，punct_diff 8，format_diff 9，blank_marker 0，number_diff 0，granularity 17，mismatch 0。
+- Verdict: PASS_WITH_GRANULARITY_PUNCT_FORMAT_DIFF_FORMAT；All pass rate 100.0%。
+- 回归测试：tests/test_golden_comparison_rules.py + tests/test_prompt_ab_switch.py 共 34 passed。
+- 关键规则：format_diff 必须数字相同；number_diff 仍拦截 1.5 vs 1；行号差异在对应文本通过时归 granularity。
