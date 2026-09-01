@@ -1,0 +1,17 @@
+{
+  "golden_count": 11,
+  "modular": {
+    "version": "v2.2-modular-v1",
+    "question_count": 15,
+    "non_empty_stems": 0,
+    "non_empty_shared_material": 0,
+    "sub_question_answers": 40
+  },
+  "legacy": {
+    "version": "v2.1-legacy",
+    "question_count": 11,
+    "non_empty_stems": 0,
+    "non_empty_shared_material": 0,
+    "sub_question_answers": 45
+  }
+}

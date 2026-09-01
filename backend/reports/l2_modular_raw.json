@@ -1,0 +1,2463 @@
+{
+  "filename": "2026北京东城高一（上）期末英语（教师版）.pdf",
+  "subject": "英语",
+  "grade": null,
+  "year": null,
+  "school": null,
+  "annotation_version": "v2.2-modular-v1",
+  "metadata_confidence": 0.5,
+  "warnings": [],
+  "anchor_status_summary": {
+    "semantic": 10
+  },
+  "corrected_anchors": [
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P1L006",
+        "P1L007"
+      ],
+      "corrected_line_ids": [
+        "P1L006",
+        "P1L007",
+        "P1L008",
+        "P1L009",
+        "P1L010"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P1L006@1.00 end=first_option_boundary",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P1L018"
+      ],
+      "corrected_line_ids": [
+        "P1L018"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P1L019"
+      ],
+      "corrected_line_ids": [
+        "P1L019"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P1L020"
+      ],
+      "corrected_line_ids": [
+        "P1L020"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P1L021"
+      ],
+      "corrected_line_ids": [
+        "P1L021"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P1L023"
+      ],
+      "corrected_line_ids": [
+        "P1L023"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P1L024"
+      ],
+      "corrected_line_ids": [
+        "P1L024"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P1L025"
+      ],
+      "corrected_line_ids": [
+        "P1L025"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P1L026"
+      ],
+      "corrected_line_ids": [
+        "P1L026"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P1L028"
+      ],
+      "corrected_line_ids": [
+        "P1L028"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P1L029"
+      ],
+      "corrected_line_ids": [
+        "P1L029"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P1L030"
+      ],
+      "corrected_line_ids": [
+        "P1L030"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P1L031"
+      ],
+      "corrected_line_ids": [
+        "P1L031"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P1L033"
+      ],
+      "corrected_line_ids": [
+        "P1L033"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P1L034"
+      ],
+      "corrected_line_ids": [
+        "P1L034"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P1L035"
+      ],
+      "corrected_line_ids": [
+        "P1L035"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P1L036"
+      ],
+      "corrected_line_ids": [
+        "P1L036"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P1L038"
+      ],
+      "corrected_line_ids": [
+        "P1L038"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P1L039"
+      ],
+      "corrected_line_ids": [
+        "P1L039"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P1L040"
+      ],
+      "corrected_line_ids": [
+        "P1L040"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P1L041"
+      ],
+      "corrected_line_ids": [
+        "P1L041"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P1L043"
+      ],
+      "corrected_line_ids": [
+        "P1L043"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P1L044"
+      ],
+      "corrected_line_ids": [
+        "P1L044"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P1L045"
+      ],
+      "corrected_line_ids": [
+        "P1L045"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P1L046"
+      ],
+      "corrected_line_ids": [
+        "P1L046"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P1L048"
+      ],
+      "corrected_line_ids": [
+        "P1L048"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P1L049"
+      ],
+      "corrected_line_ids": [
+        "P1L049"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P1L050"
+      ],
+      "corrected_line_ids": [
+        "P1L050"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P1L051"
+      ],
+      "corrected_line_ids": [
+        "P1L051"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P1L053"
+      ],
+      "corrected_line_ids": [
+        "P1L053"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P1L054"
+      ],
+      "corrected_line_ids": [
+        "P1L054"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P1L055"
+      ],
+      "corrected_line_ids": [
+        "P1L055"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P1L056"
+      ],
+      "corrected_line_ids": [
+        "P1L056"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P1L058"
+      ],
+      "corrected_line_ids": [
+        "P1L058"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P1L059"
+      ],
+      "corrected_line_ids": [
+        "P1L059"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P1L060"
+      ],
+      "corrected_line_ids": [
+        "P1L060"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P1L061"
+      ],
+      "corrected_line_ids": [
+        "P1L061"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P2L002"
+      ],
+      "corrected_line_ids": [
+        "P2L002"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P2L003"
+      ],
+      "corrected_line_ids": [
+        "P2L003"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P2L004"
+      ],
+      "corrected_line_ids": [
+        "P2L004"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P2L005"
+      ],
+      "corrected_line_ids": [
+        "P2L005"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "1-10"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P1L008",
+        "P1L009",
+        "P1L010",
+        "P1L011",
+        "P1L012",
+        "P1L013",
+        "P1L014",
+        "P1L015",
+        "P1L016"
+      ],
+      "corrected_line_ids": [
+        "P2L007",
+        "P2L008"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P1L008@1.00 end=min(end_marker,next_question)",
+      "question_number": "11-13"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P1L009",
+        "P1L010",
+        "P1L011",
+        "P1L012",
+        "P1L013",
+        "P1L014",
+        "P1L015",
+        "P1L016"
+      ],
+      "corrected_line_ids": [
+        "P2L010",
+        "P2L011"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P1L009@1.00 end=min(end_marker,next_question)",
+      "question_number": "14-17"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P1L010",
+        "P1L011",
+        "P1L012",
+        "P1L013",
+        "P1L014",
+        "P1L015",
+        "P1L016"
+      ],
+      "corrected_line_ids": [
+        "P2L013",
+        "P2L014"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P1L010@1.00 end=min(end_marker,next_question)",
+      "question_number": "18-20"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P1L009",
+        "P1L010",
+        "P1L011",
+        "P1L012",
+        "P1L013",
+        "P1L014",
+        "P1L015",
+        "P1L016"
+      ],
+      "corrected_line_ids": [
+        "P2L019",
+        "P2L020"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P1L009@1.00 end_capped_at_boundary(from=P2L020)",
+      "question_number": "21-25"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P3L004",
+        "P3L005"
+      ],
+      "corrected_line_ids": [
+        "P3L004",
+        "P3L005",
+        "P3L006",
+        "P3L007",
+        "P3L008"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P3L004@1.00 end=first_option_boundary",
+      "question_number": "26-28"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P4L004"
+      ],
+      "corrected_line_ids": [
+        "P4L004"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "26-28"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P4L005"
+      ],
+      "corrected_line_ids": [
+        "P4L005"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "26-28"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P4L006"
+      ],
+      "corrected_line_ids": [
+        "P4L006"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "26-28"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P4L007"
+      ],
+      "corrected_line_ids": [
+        "P4L007"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "26-28"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P4L009"
+      ],
+      "corrected_line_ids": [
+        "P4L009"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "26-28"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P4L010"
+      ],
+      "corrected_line_ids": [
+        "P4L010"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "26-28"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P4L011"
+      ],
+      "corrected_line_ids": [
+        "P4L011"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "26-28"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P4L012"
+      ],
+      "corrected_line_ids": [
+        "P4L012"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "26-28"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P4L014"
+      ],
+      "corrected_line_ids": [
+        "P4L014"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "26-28"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P4L015"
+      ],
+      "corrected_line_ids": [
+        "P4L015"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "26-28"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P4L016"
+      ],
+      "corrected_line_ids": [
+        "P4L016"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "26-28"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P4L017"
+      ],
+      "corrected_line_ids": [
+        "P4L017"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "26-28"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P3L004",
+        "P3L005"
+      ],
+      "corrected_line_ids": [
+        "P3L004",
+        "P3L005",
+        "P3L006",
+        "P3L007",
+        "P3L008"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P3L004@1.00 end=first_option_boundary",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P5L001"
+      ],
+      "corrected_line_ids": [
+        "P5L001"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P5L002"
+      ],
+      "corrected_line_ids": [
+        "P5L002"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P5L003"
+      ],
+      "corrected_line_ids": [
+        "P5L003"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P5L004"
+      ],
+      "corrected_line_ids": [
+        "P5L004"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P5L006"
+      ],
+      "corrected_line_ids": [
+        "P5L006"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P5L007"
+      ],
+      "corrected_line_ids": [
+        "P5L007"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P5L008"
+      ],
+      "corrected_line_ids": [
+        "P5L008"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P5L009"
+      ],
+      "corrected_line_ids": [
+        "P5L009"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P5L011"
+      ],
+      "corrected_line_ids": [
+        "P5L011"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P5L012"
+      ],
+      "corrected_line_ids": [
+        "P5L012"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P5L013"
+      ],
+      "corrected_line_ids": [
+        "P5L013"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P5L014"
+      ],
+      "corrected_line_ids": [
+        "P5L014"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P5L016"
+      ],
+      "corrected_line_ids": [
+        "P5L016"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P5L017"
+      ],
+      "corrected_line_ids": [
+        "P5L017"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P5L018"
+      ],
+      "corrected_line_ids": [
+        "P5L018"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P5L019"
+      ],
+      "corrected_line_ids": [
+        "P5L019"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "29-32"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P3L004",
+        "P3L005"
+      ],
+      "corrected_line_ids": [
+        "P3L004",
+        "P3L005",
+        "P3L006",
+        "P3L007",
+        "P3L008"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P3L004@1.00 end=first_option_boundary",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P6L004"
+      ],
+      "corrected_line_ids": [
+        "P6L004"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P6L005"
+      ],
+      "corrected_line_ids": [
+        "P6L005"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P6L006"
+      ],
+      "corrected_line_ids": [
+        "P6L006"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P6L007"
+      ],
+      "corrected_line_ids": [
+        "P6L007"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P6L009"
+      ],
+      "corrected_line_ids": [
+        "P6L009"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P6L010"
+      ],
+      "corrected_line_ids": [
+        "P6L010"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P6L011"
+      ],
+      "corrected_line_ids": [
+        "P6L011"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P6L012"
+      ],
+      "corrected_line_ids": [
+        "P6L012"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P6L014"
+      ],
+      "corrected_line_ids": [
+        "P6L014"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P6L015"
+      ],
+      "corrected_line_ids": [
+        "P6L015"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P6L016"
+      ],
+      "corrected_line_ids": [
+        "P6L016"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P6L017"
+      ],
+      "corrected_line_ids": [
+        "P6L017"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_A",
+      "llm_line_ids": [
+        "P6L019"
+      ],
+      "corrected_line_ids": [
+        "P6L019"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 A 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_B",
+      "llm_line_ids": [
+        "P6L020"
+      ],
+      "corrected_line_ids": [
+        "P6L020"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 B 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_C",
+      "llm_line_ids": [
+        "P6L021"
+      ],
+      "corrected_line_ids": [
+        "P6L021"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 C 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "option_D",
+      "llm_line_ids": [
+        "P6L022"
+      ],
+      "corrected_line_ids": [
+        "P6L022"
+      ],
+      "anchor_status": "exact",
+      "validation_passed": true,
+      "evidence": "校验通过：首行为选项 D 标签行",
+      "question_number": "33-36"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P7L007"
+      ],
+      "corrected_line_ids": [
+        "P7L007",
+        "P7L008",
+        "P7L009"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P7L007@1.00 end=min(end_marker,next_question)",
+      "question_number": "42-45"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P7L022",
+        "P8L001",
+        "P8L002",
+        "P8L003",
+        "P8L004",
+        "P8L005",
+        "P8L006",
+        "P8L007"
+      ],
+      "corrected_line_ids": [
+        "P7L022",
+        "P8L001",
+        "P8L002",
+        "P8L003",
+        "P8L004",
+        "P8L005",
+        "P8L006",
+        "P8L007"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P7L022@1.00 end=deterministic_boundary",
+      "question_number": "46"
+    }
+  ],
+  "questions": [
+    {
+      "question_number": "1-10",
+      "question_type": "single_choice",
+      "section_id": "完形填空_1",
+      "stem_line_ids": [
+        "P1L006",
+        "P1L007",
+        "P1L008",
+        "P1L009",
+        "P1L010"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 1,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P1L011",
+        "P1L012",
+        "P1L013",
+        "P1L014",
+        "P1L015",
+        "P1L016"
+      ],
+      "stem_start_marker": "第一节(共10小题",
+      "stem_end_marker": "并在答题卡上将该项涂黑。",
+      "structure_signature": null,
+      "scoring_standard": "共10小题，每空1.5分，共15分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "1",
+          "question_type": "single_choice",
+          "answer": "C",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L012"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P1L018"
+            ],
+            "B": [
+              "P1L019"
+            ],
+            "C": [
+              "P1L020"
+            ],
+            "D": [
+              "P1L021"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "2",
+          "question_type": "single_choice",
+          "answer": "D",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L012"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P1L023"
+            ],
+            "B": [
+              "P1L024"
+            ],
+            "C": [
+              "P1L025"
+            ],
+            "D": [
+              "P1L026"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "3",
+          "question_type": "single_choice",
+          "answer": "A",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L013"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P1L028"
+            ],
+            "B": [
+              "P1L029"
+            ],
+            "C": [
+              "P1L030"
+            ],
+            "D": [
+              "P1L031"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "4",
+          "question_type": "single_choice",
+          "answer": "B",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L013"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P1L033"
+            ],
+            "B": [
+              "P1L034"
+            ],
+            "C": [
+              "P1L035"
+            ],
+            "D": [
+              "P1L036"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "5",
+          "question_type": "single_choice",
+          "answer": "D",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L013"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P1L038"
+            ],
+            "B": [
+              "P1L039"
+            ],
+            "C": [
+              "P1L040"
+            ],
+            "D": [
+              "P1L041"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "6",
+          "question_type": "single_choice",
+          "answer": "C",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L014"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P1L043"
+            ],
+            "B": [
+              "P1L044"
+            ],
+            "C": [
+              "P1L045"
+            ],
+            "D": [
+              "P1L046"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "7",
+          "question_type": "single_choice",
+          "answer": "C",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L014"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P1L048"
+            ],
+            "B": [
+              "P1L049"
+            ],
+            "C": [
+              "P1L050"
+            ],
+            "D": [
+              "P1L051"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "8",
+          "question_type": "single_choice",
+          "answer": "B",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L015"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P1L053"
+            ],
+            "B": [
+              "P1L054"
+            ],
+            "C": [
+              "P1L055"
+            ],
+            "D": [
+              "P1L056"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "9",
+          "question_type": "single_choice",
+          "answer": "D",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L015"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P1L058"
+            ],
+            "B": [
+              "P1L059"
+            ],
+            "C": [
+              "P1L060"
+            ],
+            "D": [
+              "P1L061"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "10",
+          "question_type": "single_choice",
+          "answer": "A",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L016"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P2L002"
+            ],
+            "B": [
+              "P2L003"
+            ],
+            "C": [
+              "P2L004"
+            ],
+            "D": [
+              "P2L005"
+            ]
+          },
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "11-13",
+      "question_type": "fill_in",
+      "section_id": "语法填空_A",
+      "stem_line_ids": [
+        "P2L007",
+        "P2L008"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 2,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 2,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P2L009"
+      ],
+      "stem_start_marker": "A",
+      "stem_end_marker": "请在答题卡指定区域作答。",
+      "structure_signature": null,
+      "scoring_standard": "共3小题，每空1分，共3分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "11",
+          "question_type": "fill_in",
+          "answer": "itself",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L009"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "12",
+          "question_type": "fill_in",
+          "answer": "to",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L009"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "13",
+          "question_type": "fill_in",
+          "answer": "to stay",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L009"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "14-17",
+      "question_type": "fill_in",
+      "section_id": "语法填空_B",
+      "stem_line_ids": [
+        "P2L010",
+        "P2L011"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 2,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P2L012"
+      ],
+      "stem_start_marker": "B",
+      "stem_end_marker": "请在答题卡指定区域作答。",
+      "structure_signature": null,
+      "scoring_standard": "共4小题，每空1分，共4分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "14",
+          "question_type": "fill_in",
+          "answer": "when",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L012"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "15",
+          "question_type": "fill_in",
+          "answer": "asking",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L012"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "16",
+          "question_type": "fill_in",
+          "answer": "that##which",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L012"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "17",
+          "question_type": "fill_in",
+          "answer": "will feel",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L012"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "18-20",
+      "question_type": "fill_in",
+      "section_id": "语法填空_C",
+      "stem_line_ids": [
+        "P2L013",
+        "P2L014"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 2,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P2L015"
+      ],
+      "stem_start_marker": "C",
+      "stem_end_marker": "请在答题卡指定区域作答。",
+      "structure_signature": null,
+      "scoring_standard": "共3小题，每空1分，共3分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "18",
+          "question_type": "fill_in",
+          "answer": "was awarded",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L015"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "19",
+          "question_type": "fill_in",
+          "answer": "led",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L015"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "20",
+          "question_type": "fill_in",
+          "answer": "titles",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L015"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "21-25",
+      "question_type": "wordbank_fill",
+      "section_id": "选词填空_B",
+      "stem_line_ids": [
+        "P2L019",
+        "P2L020"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 2,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 2,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P2L021"
+      ],
+      "stem_start_marker": "B",
+      "stem_end_marker": "请用方框中单词的正确形式完成句子。",
+      "structure_signature": null,
+      "scoring_standard": "共5小题，每空1分，共5分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "21",
+          "question_type": "fill_in",
+          "answer": "confusing",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L022"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "22",
+          "question_type": "fill_in",
+          "answer": "athletic",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L023"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "23",
+          "question_type": "fill_in",
+          "answer": "package",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L024"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "24",
+          "question_type": "fill_in",
+          "answer": "contribution",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P3L001"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "25",
+          "question_type": "fill_in",
+          "answer": "equality",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P3L002"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "26-28",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_A",
+      "stem_line_ids": [
+        "P3L004",
+        "P3L005",
+        "P3L006",
+        "P3L007",
+        "P3L008"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 2,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 3,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P3L010",
+        "P3L011",
+        "P3L012",
+        "P3L013",
+        "P3L014",
+        "P3L015",
+        "P3L016",
+        "P3L017",
+        "P3L018",
+        "P3L019",
+        "P3L020",
+        "P3L021",
+        "P3L022",
+        "P3L023",
+        "P3L024",
+        "P3L025",
+        "P3L026",
+        "P3L027",
+        "P3L028",
+        "P3L029",
+        "P3L030",
+        "P3L031",
+        "P3L032",
+        "P3L033",
+        "P4L001",
+        "P4L002"
+      ],
+      "stem_start_marker": "第一节(共11小题",
+      "stem_end_marker": "并在答题卡上将该项涂黑。",
+      "structure_signature": null,
+      "scoring_standard": "共3小题，每小题2分，共6分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "26",
+          "question_type": "single_choice",
+          "answer": "A",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P4L003"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P4L004"
+            ],
+            "B": [
+              "P4L005"
+            ],
+            "C": [
+              "P4L006"
+            ],
+            "D": [
+              "P4L007"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "27",
+          "question_type": "single_choice",
+          "answer": "D",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P4L008"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P4L009"
+            ],
+            "B": [
+              "P4L010"
+            ],
+            "C": [
+              "P4L011"
+            ],
+            "D": [
+              "P4L012"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "28",
+          "question_type": "single_choice",
+          "answer": "B",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P4L013"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P4L014"
+            ],
+            "B": [
+              "P4L015"
+            ],
+            "C": [
+              "P4L016"
+            ],
+            "D": [
+              "P4L017"
+            ]
+          },
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "29-32",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_B",
+      "stem_line_ids": [
+        "P3L004",
+        "P3L005",
+        "P3L006",
+        "P3L007",
+        "P3L008"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 3,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P4L019",
+        "P4L020",
+        "P4L021",
+        "P4L022",
+        "P4L023"
+      ],
+      "stem_start_marker": "第一节(共11小题",
+      "stem_end_marker": "并在答题卡上将该项涂黑。",
+      "structure_signature": null,
+      "scoring_standard": "共4小题，每小题2分，共8分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "29",
+          "question_type": "single_choice",
+          "answer": "A",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P4L024"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P5L001"
+            ],
+            "B": [
+              "P5L002"
+            ],
+            "C": [
+              "P5L003"
+            ],
+            "D": [
+              "P5L004"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "30",
+          "question_type": "single_choice",
+          "answer": "A",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P5L005"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P5L006"
+            ],
+            "B": [
+              "P5L007"
+            ],
+            "C": [
+              "P5L008"
+            ],
+            "D": [
+              "P5L009"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "31",
+          "question_type": "single_choice",
+          "answer": "D",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P5L010"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P5L011"
+            ],
+            "B": [
+              "P5L012"
+            ],
+            "C": [
+              "P5L013"
+            ],
+            "D": [
+              "P5L014"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "32",
+          "question_type": "single_choice",
+          "answer": "C",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P5L015"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P5L016"
+            ],
+            "B": [
+              "P5L017"
+            ],
+            "C": [
+              "P5L018"
+            ],
+            "D": [
+              "P5L019"
+            ]
+          },
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "33-36",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_C",
+      "stem_line_ids": [
+        "P3L004",
+        "P3L005",
+        "P3L006",
+        "P3L007",
+        "P3L008"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 3,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P5L021",
+        "P5L022",
+        "P5L023",
+        "P5L024",
+        "P5L025",
+        "P5L026",
+        "P5L027",
+        "P5L028",
+        "P5L029",
+        "P6L001",
+        "P6L002"
+      ],
+      "stem_start_marker": "第一节(共11小题",
+      "stem_end_marker": "并在答题卡上将该项涂黑。",
+      "structure_signature": null,
+      "scoring_standard": "共4小题，每小题2分，共8分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "33",
+          "question_type": "single_choice",
+          "answer": "D",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P6L003"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P6L004"
+            ],
+            "B": [
+              "P6L005"
+            ],
+            "C": [
+              "P6L006"
+            ],
+            "D": [
+              "P6L007"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "34",
+          "question_type": "single_choice",
+          "answer": "C",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P6L008"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P6L009"
+            ],
+            "B": [
+              "P6L010"
+            ],
+            "C": [
+              "P6L011"
+            ],
+            "D": [
+              "P6L012"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "35",
+          "question_type": "single_choice",
+          "answer": "B",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P6L013"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P6L014"
+            ],
+            "B": [
+              "P6L015"
+            ],
+            "C": [
+              "P6L016"
+            ],
+            "D": [
+              "P6L017"
+            ]
+          },
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "36",
+          "question_type": "single_choice",
+          "answer": "B",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P6L018"
+          ],
+          "options_line_ids": {
+            "A": [
+              "P6L019"
+            ],
+            "B": [
+              "P6L020"
+            ],
+            "C": [
+              "P6L021"
+            ],
+            "D": [
+              "P6L022"
+            ]
+          },
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "42-45",
+      "question_type": "short_answer",
+      "section_id": "阅读表达_1",
+      "stem_line_ids": [
+        "P7L007",
+        "P7L008",
+        "P7L009"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 7,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P7L010",
+        "P7L011",
+        "P7L012",
+        "P7L013",
+        "P7L014",
+        "P7L015",
+        "P7L016"
+      ],
+      "stem_start_marker": "第一节(共4小题",
+      "stem_end_marker": "请在答题卡指定区域作答。",
+      "structure_signature": null,
+      "scoring_standard": "共4小题，42、43题各2分，44题3分，45题5分，共12分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "42",
+          "question_type": "short_answer",
+          "answer": "Most people felt surprised (at Eric's question)",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P7L017"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "43",
+          "question_type": "short_answer",
+          "answer": "An appreciation for small things",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P7L018"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "44",
+          "question_type": "short_answer",
+          "answer": "When you focus on finding the good, your life will change unexpectedly. According to the passage, when you concentrate on finding the good in things, you start to change the chemistry in your brain to turn unexpected changes in your life into positives, which means you can turn unexpected changes into positive things rather than your life changing unexpectedly.",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P7L019"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "45",
+          "question_type": "short_answer",
+          "answer": "I would say \"Yes, I'm happy. Because I have good friends who support me and I can enjoy the beauty of nature every day.\"",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P7L020"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "46",
+      "question_type": "short_answer",
+      "section_id": "书面表达_第二节",
+      "stem_line_ids": [
+        "P7L022",
+        "P8L001",
+        "P8L002",
+        "P8L003",
+        "P8L004",
+        "P8L005",
+        "P8L006",
+        "P8L007"
+      ],
+      "options_line_ids": {},
+      "answer": "Dear Jim,\nI'm so glad to hear you're coming to China to check out our cultural heritage!\nSince you are into history, my top suggestion is the Terracotta Army in Xi'an. It is a treasure of ancient Chinese history. Seeing thousands of life-sized statues standing there is an amazing experience — it feels like traveling back 2,000 years!\nI also recommend that you should climb Mount Tai in Shandong Province. It is not just a natural wonder but also a symbol of traditional Chinese culture and strength. If you make it to the top for the sunrise, the view is just breathtaking.\nBoth sites will help you truly understand the origin of Chinese culture.I am sure you will have an unforgettable trip!\nYours,Li Hua",
+      "answer_line_ids": [
+        "P10L004",
+        "P10L005",
+        "P10L006",
+        "P10L007",
+        "P10L008",
+        "P10L009"
+      ],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 7,
+      "is_composite": false,
+      "shared_material_line_ids": [],
+      "stem_start_marker": "46.假如你是红星中学高一年级学生李华",
+      "stem_end_marker": "不计入总词数。",
+      "structure_signature": null,
+      "scoring_standard": "20分",
+      "answer_images": [],
+      "sub_questions": []
+    }
+  ]
+}

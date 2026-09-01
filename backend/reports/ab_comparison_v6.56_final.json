@@ -1,0 +1,247 @@
+{
+  "l1": "reports/l1_snapshot_dongcheng_english.json",
+  "golden_count": 11,
+  "golden_sub_answers": 45,
+  "modular_v6.56": {
+    "label": "modular_v6.56",
+    "golden_count": 11,
+    "sliced_count": 11,
+    "matched": 11,
+    "unmatched": 0,
+    "total_fields": 89,
+    "golden_sub_answers": 45,
+    "stats": {
+      "true_number_diff": 1,
+      "unmatched": 0,
+      "blank_marker": 0,
+      "scoring_missing": 0,
+      "format_diff": 4,
+      "semantic": 13,
+      "raw_exact": 70,
+      "content_mismatch": 0,
+      "format": 1
+    },
+    "pass_rate": 98.87640449438202
+  },
+  "legacy": {
+    "label": "legacy",
+    "golden_count": 11,
+    "sliced_count": 11,
+    "matched": 10,
+    "unmatched": 1,
+    "total_fields": 88,
+    "golden_sub_answers": 45,
+    "stats": {
+      "true_number_diff": 9,
+      "unmatched": 8,
+      "blank_marker": 0,
+      "scoring_missing": 10,
+      "format_diff": 1,
+      "semantic": 9,
+      "raw_exact": 51,
+      "content_mismatch": 0,
+      "format": 0
+    },
+    "pass_rate": 69.31818181818183
+  },
+  "modular_v6.56_issues": [
+    {
+      "question": "21-25",
+      "field": "scoring_standard",
+      "verdict": "true_number_diff",
+      "golden": "共5小题，每空1分，共5分",
+      "actual": "每小题1分"
+    }
+  ],
+  "legacy_issues": [
+    {
+      "question": "1-10",
+      "field": "stem",
+      "verdict": "true_number_diff",
+      "golden": "阅读下面短文，掌握其大意，从每题所给的 A、 B、 C、D 四个选项中，选出最佳选项，并在 答题卡上将该项涂黑。",
+      "actual": "The Ultimate Goal\nI sat in the dressing room before my first major 〔1〕, feeling anxious. I looked li"
+    },
+    {
+      "question": "1-10",
+      "field": "scoring_standard",
+      "verdict": "scoring_missing",
+      "golden": "共10小题，每小题1.5分，共15分",
+      "actual": ""
+    },
+    {
+      "question": "11-13",
+      "field": "stem",
+      "verdict": "true_number_diff",
+      "golden": "A\n阅读下面短文，根据短文内容填空。在未给提示词的空白处仅填写1个恰当的单词，在给出提示词的空白处用括号内所给词的正确形式填空。请在答题卡指定区域作答。",
+      "actual": "Tangshan started to revive 〔11〕(it) and get back up on its feet. With strong support from the govern"
+    },
+    {
+      "question": "11-13",
+      "field": "scoring_standard",
+      "verdict": "scoring_missing",
+      "golden": "共3小题，每空1分，共3分",
+      "actual": ""
+    },
+    {
+      "question": "14-17",
+      "field": "stem",
+      "verdict": "true_number_diff",
+      "golden": "阅读下面短文，根据短文内容填空。在未给提示词的空白处仅填写1 个恰当的单词，在给出提示词的空白 处用括号内所给词的正确形式填空。请在答题卡指定区域作答。",
+      "actual": "Anger is an emotion that almost everyone experiences. We feel it on days 14a classmate borrows our t"
+    },
+    {
+      "question": "14-17",
+      "field": "scoring_standard",
+      "verdict": "scoring_missing",
+      "golden": "共4小题，每空1分，共4分",
+      "actual": ""
+    },
+    {
+      "question": "18-20",
+      "field": "stem",
+      "verdict": "true_number_diff",
+      "golden": "阅读下面短文，根据短文内容填空。在未给提示词的空白处仅填写1 个恰当的单词，在给出提示词的空白 处用括号内所给词的正确形式填空。请在答题卡指定区域作答。",
+      "actual": "The International Olympic Committee (IOC) announced that Chinese volleyball legend and former head c"
+    },
+    {
+      "question": "18-20",
+      "field": "scoring_standard",
+      "verdict": "scoring_missing",
+      "golden": "共3小题，每空1分，共3分",
+      "actual": ""
+    },
+    {
+      "question": "21-25",
+      "field": "stem",
+      "verdict": "unmatched",
+      "golden": "B. 请用方框中单词的正确形式完成句子。",
+      "actual": ""
+    },
+    {
+      "question": "21-25",
+      "field": "shared_material",
+      "verdict": "unmatched",
+      "golden": "pack     confuse     equal     contribute     athlete",
+      "actual": ""
+    },
+    {
+      "question": "21-25",
+      "field": "scoring_standard",
+      "verdict": "unmatched",
+      "golden": "共5小题，每空1分，共5分",
+      "actual": ""
+    },
+    {
+      "question": "21-25/?",
+      "field": "sub_answer",
+      "verdict": "unmatched",
+      "golden": "confusing",
+      "actual": ""
+    },
+    {
+      "question": "21-25/?",
+      "field": "sub_answer",
+      "verdict": "unmatched",
+      "golden": "athletic",
+      "actual": ""
+    },
+    {
+      "question": "21-25/?",
+      "field": "sub_answer",
+      "verdict": "unmatched",
+      "golden": "package",
+      "actual": ""
+    },
+    {
+      "question": "21-25/?",
+      "field": "sub_answer",
+      "verdict": "unmatched",
+      "golden": "contribution",
+      "actual": ""
+    },
+    {
+      "question": "21-25/?",
+      "field": "sub_answer",
+      "verdict": "unmatched",
+      "golden": "equality",
+      "actual": ""
+    },
+    {
+      "question": "26-28",
+      "field": "stem",
+      "verdict": "true_number_diff",
+      "golden": "阅读下列短文，从每题所给的 A、 B、 C、D 四个选项中，选出最佳选项，并在答题卡上将该 项涂黑。",
+      "actual": "Welcome to the Camp Association (CA)! We offer quality experiences where every child feels safe, val"
+    },
+    {
+      "question": "26-28",
+      "field": "scoring_standard",
+      "verdict": "scoring_missing",
+      "golden": "共3小题，每小题2分，共6分",
+      "actual": ""
+    },
+    {
+      "question": "29-32",
+      "field": "stem",
+      "verdict": "true_number_diff",
+      "golden": "阅读下列短文，从每题所给的 A、 B、 C、D 四个选项中，选出最佳选项，并在答题卡上将该 项涂黑。",
+      "actual": "A study published in Ageing, Neuropsychology and Cognition by researchers at the University of Birmi"
+    },
+    {
+      "question": "29-32",
+      "field": "scoring_standard",
+      "verdict": "scoring_missing",
+      "golden": "共4小题，每小题2分，共8分",
+      "actual": ""
+    },
+    {
+      "question": "33-36",
+      "field": "stem",
+      "verdict": "true_number_diff",
+      "golden": "阅读下列短文，从每题所给的 A、 B、 C、D 四个选项中，选出最佳选项，并在答题卡上将该 项涂黑。",
+      "actual": "I've been a psychology professor since 2012. In the past six years, I've seen students of all ages p"
+    },
+    {
+      "question": "33-36",
+      "field": "scoring_standard",
+      "verdict": "scoring_missing",
+      "golden": "共4小题，每小题2分，共8分",
+      "actual": ""
+    },
+    {
+      "question": "37-41",
+      "field": "stem",
+      "verdict": "true_number_diff",
+      "golden": "根据短文内容，从短文后的七个选项中选出能填入空白处的最佳选项，并在答题卡上将该项 涂黑。选项中有两项为多余选项。",
+      "actual": "We live in a culture addicted to winning. The spotlight shines brightest on the people who reach the"
+    },
+    {
+      "question": "37-41",
+      "field": "scoring_standard",
+      "verdict": "scoring_missing",
+      "golden": "共5小题，每小题2分，共10分",
+      "actual": ""
+    },
+    {
+      "question": "42-45",
+      "field": "stem",
+      "verdict": "true_number_diff",
+      "golden": "阅读下面短文，根据题目要求用英文回答问题。请在答题卡指定区域作答。",
+      "actual": "What if you quit your job, grabbed a camera, and hit the road with one simple question for every str"
+    },
+    {
+      "question": "42-45",
+      "field": "scoring_standard",
+      "verdict": "scoring_missing",
+      "golden": "共4小题；第42、43题各2分，第44题3分，第45题5分，共12分",
+      "actual": ""
+    },
+    {
+      "question": "46",
+      "field": "scoring_standard",
+      "verdict": "scoring_missing",
+      "golden": "20分",
+      "actual": ""
+    }
+  ]
+}

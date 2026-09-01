@@ -1,0 +1,1184 @@
+{
+  "filename": "2026北京东城高一（上）期末英语（教师版）.pdf",
+  "subject": "英语",
+  "grade": null,
+  "year": null,
+  "school": null,
+  "annotation_version": "v2.2-modular-v1",
+  "metadata_confidence": 0.5,
+  "warnings": [],
+  "anchor_status_summary": {
+    "semantic": 11,
+    "retry": 1
+  },
+  "corrected_anchors": [
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P1L007"
+      ],
+      "corrected_line_ids": [
+        "P1L007",
+        "P1L008",
+        "P1L009",
+        "P1L010"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P1L007@1.00 end=first_option_boundary",
+      "question_number": "1-10"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P2L008"
+      ],
+      "corrected_line_ids": [
+        "P2L008"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P2L008@1.00 end=min(end_marker,next_question)",
+      "question_number": "11-13"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P2L008"
+      ],
+      "corrected_line_ids": [
+        "P2L011"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P2L008@1.00 end=min(end_marker,next_question)",
+      "question_number": "14-17"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P2L008"
+      ],
+      "corrected_line_ids": [
+        "P2L014"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P2L008@1.00 end=min(end_marker,next_question)",
+      "question_number": "18-20"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P2L019",
+        "P2L020"
+      ],
+      "corrected_line_ids": [
+        "P2L019",
+        "P2L020"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P2L019@1.00 end_marker=P2L020@1.00",
+      "question_number": "21-25"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P3L005"
+      ],
+      "corrected_line_ids": [
+        "P3L005",
+        "P3L006",
+        "P3L007",
+        "P3L008"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P3L005@1.00 end=first_option_boundary",
+      "question_number": "26-28"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P3L005"
+      ],
+      "corrected_line_ids": [
+        "P3L005",
+        "P3L006",
+        "P3L007",
+        "P3L008"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P3L005@1.00 end=first_option_boundary",
+      "question_number": "29-32"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P3L005"
+      ],
+      "corrected_line_ids": [
+        "P3L005",
+        "P3L006",
+        "P3L007",
+        "P3L008"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P3L005@1.00 end=first_option_boundary",
+      "question_number": "33-36"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P6L024",
+        "P6L025",
+        "P6L026",
+        "P6L027",
+        "P6L028",
+        "P6L029",
+        "P6L030"
+      ],
+      "corrected_line_ids": [
+        "P6L024"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P6L024@1.00 end=first_option_boundary",
+      "question_number": "37-41"
+    },
+    {
+      "field": "sub_options",
+      "llm_line_ids": [],
+      "corrected_line_ids": [],
+      "anchor_status": "retry",
+      "validation_passed": false,
+      "evidence": "子题选项行号无效: A-G-missing:A,B,C,D,E,F,G，需重新标注",
+      "question_number": "37-41"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P7L009"
+      ],
+      "corrected_line_ids": [
+        "P7L009"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P7L009@1.00 end=min(end_marker,next_question)",
+      "question_number": "42-45"
+    },
+    {
+      "field": "stem",
+      "llm_line_ids": [
+        "P7L022",
+        "P8L001",
+        "P8L002",
+        "P8L003",
+        "P8L004",
+        "P8L005",
+        "P8L006",
+        "P8L007"
+      ],
+      "corrected_line_ids": [
+        "P7L022",
+        "P8L001",
+        "P8L002",
+        "P8L003",
+        "P8L004",
+        "P8L005",
+        "P8L006",
+        "P8L007"
+      ],
+      "anchor_status": "semantic",
+      "validation_passed": true,
+      "evidence": "semantic_marker start_marker=P7L022@1.00 end=deterministic_boundary",
+      "question_number": "46"
+    }
+  ],
+  "questions": [
+    {
+      "question_number": "1-10",
+      "question_type": "single_choice",
+      "section_id": "知识运用_第一节_完形填空",
+      "stem_line_ids": [
+        "P1L007",
+        "P1L008",
+        "P1L009",
+        "P1L010"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 1,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P1L011",
+        "P1L012",
+        "P1L013",
+        "P1L014",
+        "P1L015",
+        "P1L016"
+      ],
+      "stem_start_marker": "阅读下面短文，掌握其大意，从每题所给的",
+      "stem_end_marker": "选出最佳选项，并在答题卡上将该项涂黑。",
+      "structure_signature": null,
+      "scoring_standard": "共10小题，每小题1.5分，共15分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "1",
+          "question_type": "single_choice",
+          "answer": "C",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L012"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "2",
+          "question_type": "single_choice",
+          "answer": "D",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L012"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "3",
+          "question_type": "single_choice",
+          "answer": "A",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L013"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "4",
+          "question_type": "single_choice",
+          "answer": "B",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L013"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "5",
+          "question_type": "single_choice",
+          "answer": "D",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L013"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "6",
+          "question_type": "single_choice",
+          "answer": "C",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L014"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "7",
+          "question_type": "single_choice",
+          "answer": "C",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L014"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "8",
+          "question_type": "single_choice",
+          "answer": "B",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L015"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "9",
+          "question_type": "single_choice",
+          "answer": "D",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L015"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "10",
+          "question_type": "single_choice",
+          "answer": "A",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P1L016"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "11-13",
+      "question_type": "fill_in",
+      "section_id": "知识运用_第二节_A组",
+      "stem_line_ids": [
+        "P2L008"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 2,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P2L009"
+      ],
+      "stem_start_marker": "阅读下面短文，根据短文内容填空。在未给提示词的空白处仅填写1个恰当的单词，在给出提示词的空白处用括号内所给词的正确形式填空。请在答题卡指定区域作答。",
+      "stem_end_marker": "请在答题卡指定区域作答。",
+      "structure_signature": null,
+      "scoring_standard": "共3小题，每小题1分，共3分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "11",
+          "question_type": "fill_in",
+          "answer": "itself",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L009"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "12",
+          "question_type": "fill_in",
+          "answer": "to",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L009"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "13",
+          "question_type": "fill_in",
+          "answer": "to stay",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L009"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "14-17",
+      "question_type": "fill_in",
+      "section_id": "知识运用_第二节_B组",
+      "stem_line_ids": [
+        "P2L011"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 2,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P2L012"
+      ],
+      "stem_start_marker": "阅读下面短文，根据短文内容填空。在未给提示词的空白处仅填写1个恰当的单词，在给出提示词的空白处用括号内所给词的正确形式填空。请在答题卡指定区域作答。",
+      "stem_end_marker": "请在答题卡指定区域作答。",
+      "structure_signature": null,
+      "scoring_standard": "共4小题，每小题1分，共4分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "14",
+          "question_type": "fill_in",
+          "answer": "when",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L012"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "15",
+          "question_type": "fill_in",
+          "answer": "asking",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L012"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "16",
+          "question_type": "fill_in",
+          "answer": "that##which",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L012"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "17",
+          "question_type": "fill_in",
+          "answer": "will feel",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L012"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "18-20",
+      "question_type": "fill_in",
+      "section_id": "知识运用_第二节_C组",
+      "stem_line_ids": [
+        "P2L014"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 2,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P2L015"
+      ],
+      "stem_start_marker": "阅读下面短文，根据短文内容填空。在未给提示词的空白处仅填写1个恰当的单词，在给出提示词的空白处用括号内所给词的正确形式填空。请在答题卡指定区域作答。",
+      "stem_end_marker": "请在答题卡指定区域作答。",
+      "structure_signature": null,
+      "scoring_standard": "共3小题，每小题1分，共3分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "18",
+          "question_type": "fill_in",
+          "answer": "was awarded",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L015"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "19",
+          "question_type": "fill_in",
+          "answer": "led",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L015"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "20",
+          "question_type": "fill_in",
+          "answer": "titles",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L015"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "21-25",
+      "question_type": "wordbank_fill",
+      "section_id": "知识运用_第三节_B组",
+      "stem_line_ids": [
+        "P2L019",
+        "P2L020"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 2,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P2L021"
+      ],
+      "stem_start_marker": "B. 请用方框中单词的正确形式完成句子。",
+      "stem_end_marker": "请用方框中单词的正确形式完成句子。",
+      "structure_signature": null,
+      "scoring_standard": "每小题1分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "21",
+          "question_type": "fill_in",
+          "answer": "confusing",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L022"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "22",
+          "question_type": "fill_in",
+          "answer": "athletic",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L023"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "23",
+          "question_type": "fill_in",
+          "answer": "package",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P2L024"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "24",
+          "question_type": "fill_in",
+          "answer": "contribution",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P3L001"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "25",
+          "question_type": "fill_in",
+          "answer": "equality",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P3L002"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "26-28",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_第一节_A篇",
+      "stem_line_ids": [
+        "P3L005",
+        "P3L006",
+        "P3L007",
+        "P3L008"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 3,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P3L009",
+        "P3L010",
+        "P3L011",
+        "P3L012",
+        "P3L013",
+        "P3L014",
+        "P3L015",
+        "P3L016",
+        "P3L017",
+        "P3L018",
+        "P3L019",
+        "P3L020",
+        "P3L021",
+        "P3L022",
+        "P3L023",
+        "P3L024",
+        "P3L025",
+        "P3L026",
+        "P3L027",
+        "P3L028",
+        "P3L029",
+        "P3L030",
+        "P3L031",
+        "P3L032",
+        "P4L001",
+        "P4L002"
+      ],
+      "stem_start_marker": "阅读下列短文，从每题所给的",
+      "stem_end_marker": "选出最佳选项，并在答题卡上将该项涂黑。",
+      "structure_signature": null,
+      "scoring_standard": "共3小题，每小题2分，共6分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "26",
+          "question_type": "single_choice",
+          "answer": "A",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P4L003"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "27",
+          "question_type": "single_choice",
+          "answer": "D",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P4L008"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "28",
+          "question_type": "single_choice",
+          "answer": "B",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P4L013"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "29-32",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_第一节_B篇",
+      "stem_line_ids": [
+        "P3L005",
+        "P3L006",
+        "P3L007",
+        "P3L008"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 3,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P4L018",
+        "P4L019",
+        "P4L020",
+        "P4L021",
+        "P4L022",
+        "P4L023"
+      ],
+      "stem_start_marker": "阅读下列短文，从每题所给的",
+      "stem_end_marker": "选出最佳选项，并在答题卡上将该项涂黑。",
+      "structure_signature": null,
+      "scoring_standard": "共4小题，每小题2分，共8分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "29",
+          "question_type": "single_choice",
+          "answer": "A",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P4L024"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "30",
+          "question_type": "single_choice",
+          "answer": "A",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P5L005"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "31",
+          "question_type": "single_choice",
+          "answer": "D",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P5L010"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "32",
+          "question_type": "single_choice",
+          "answer": "C",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P5L015"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "33-36",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_第一节_C篇",
+      "stem_line_ids": [
+        "P3L005",
+        "P3L006",
+        "P3L007",
+        "P3L008"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 3,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P5L020",
+        "P5L021",
+        "P5L022",
+        "P5L023",
+        "P5L024",
+        "P5L025",
+        "P5L026",
+        "P5L027",
+        "P5L028",
+        "P5L029",
+        "P6L001",
+        "P6L002"
+      ],
+      "stem_start_marker": "阅读下列短文，从每题所给的",
+      "stem_end_marker": "选出最佳选项，并在答题卡上将该项涂黑。",
+      "structure_signature": null,
+      "scoring_standard": "共4小题，每小题2分，共8分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "33",
+          "question_type": "single_choice",
+          "answer": "D",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P6L003"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "34",
+          "question_type": "single_choice",
+          "answer": "C",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P6L008"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "35",
+          "question_type": "single_choice",
+          "answer": "B",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P6L013"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "36",
+          "question_type": "single_choice",
+          "answer": "B",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P6L018"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "37-41",
+      "question_type": "single_choice",
+      "section_id": "阅读理解_第二节_七选五",
+      "stem_line_ids": [
+        "P6L024"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 6,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P6L025",
+        "P6L026",
+        "P6L027",
+        "P6L028",
+        "P6L029",
+        "P6L030",
+        "P6L031",
+        "P7L001",
+        "P7L002",
+        "P7L003",
+        "P7L004",
+        "P7L005"
+      ],
+      "stem_start_marker": "根据短文内容，从短文后的七个选项中选出能填入空白处的最佳选项，并在答题卡上将该项涂黑。选项中有两项为多余选项。",
+      "stem_end_marker": "选项中有两项为多余选项。",
+      "structure_signature": null,
+      "scoring_standard": "共5小题，每小题2分，共10分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "37",
+          "question_type": "single_choice",
+          "answer": "B",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P6L026"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "38",
+          "question_type": "single_choice",
+          "answer": "G",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P6L027"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "39",
+          "question_type": "single_choice",
+          "answer": "F",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P6L027"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "40",
+          "question_type": "single_choice",
+          "answer": "E",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P6L028"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "41",
+          "question_type": "single_choice",
+          "answer": "C",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P6L029"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "42-45",
+      "question_type": "short_answer",
+      "section_id": "书面表达_第一节_阅读表达",
+      "stem_line_ids": [
+        "P7L009"
+      ],
+      "options_line_ids": {},
+      "answer": null,
+      "answer_line_ids": [],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 7,
+      "is_composite": true,
+      "shared_material_line_ids": [
+        "P7L010",
+        "P7L011",
+        "P7L012",
+        "P7L013",
+        "P7L014",
+        "P7L015",
+        "P7L016"
+      ],
+      "stem_start_marker": "阅读下面短文，根据题目要求用英文回答问题。",
+      "stem_end_marker": "请在答题卡指定区域作答。",
+      "structure_signature": null,
+      "scoring_standard": "共4小题，第42、43题各2分，第44题3分，第45题5分，共12分",
+      "answer_images": [],
+      "sub_questions": [
+        {
+          "qno": "42",
+          "question_type": "short_answer",
+          "answer": "Most people felt surprised (at Eric's question)",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P7L017"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "43",
+          "question_type": "short_answer",
+          "answer": "An appreciation for small things",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P7L018"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "44",
+          "question_type": "short_answer",
+          "answer": "When you focus on finding the good, your life will change unexpectedly. According to the passage, when you concentrate on finding the good in things, you start to change the chemistry in your brain to turn unexpected changes in your life into positives, which means you can turn unexpected changes into positive things rather than your life changing unexpectedly.",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P7L019"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        },
+        {
+          "qno": "45",
+          "question_type": "short_answer",
+          "answer": "I would say \"Yes, I'm happy. Because I have good friends who support me and I can enjoy the beauty of nature every day.\"",
+          "knowledge_points": [],
+          "score": null,
+          "stem_line_ids": [
+            "P7L020"
+          ],
+          "options_line_ids": {},
+          "stem": "",
+          "options": []
+        }
+      ]
+    },
+    {
+      "question_number": "46",
+      "question_type": "short_answer",
+      "section_id": "书面表达_第二节_书面表达",
+      "stem_line_ids": [
+        "P7L022",
+        "P8L001",
+        "P8L002",
+        "P8L003",
+        "P8L004",
+        "P8L005",
+        "P8L006",
+        "P8L007"
+      ],
+      "options_line_ids": {},
+      "answer": "Dear Jim,\nI'm so glad to hear you're coming to China to check out our cultural heritage!\nSince you are into history, my top suggestion is the Terracotta Army in Xi'an. It is a treasure of ancient Chinese history. Seeing thousands of life-sized statues standing there is an amazing experience — it feels like traveling back 2,000 years!\nI also recommend that you should climb Mount Tai in Shandong Province. It is not just a natural wonder but also a symbol of traditional Chinese culture and strength. If you make it to the top for the sunrise, the view is just breathtaking.\nBoth sites will help you truly understand the origin of Chinese culture.I am sure you will have an unforgettable trip!\nYours, Li Hua",
+      "answer_line_ids": [
+        "P10L004",
+        "P10L005",
+        "P10L006",
+        "P10L007",
+        "P10L008",
+        "P10L009"
+      ],
+      "explanation_line_ids": [],
+      "difficulty": 3,
+      "score": null,
+      "knowledge_points": [],
+      "confidence": 0.5,
+      "source_page": 7,
+      "is_composite": false,
+      "shared_material_line_ids": [],
+      "stem_start_marker": "假如你是红星中学高一年级学生李华，你的英国好友Jim对中国文化遗产非常感兴趣，他计划来中国实地体验。请你给他写封邮件，内容包括：",
+      "stem_end_marker": "2.开头和结尾已给出，不计入总词数。",
+      "structure_signature": null,
+      "scoring_standard": "20分",
+      "answer_images": [],
+      "sub_questions": []
+    }
+  ]
+}

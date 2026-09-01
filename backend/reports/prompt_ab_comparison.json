@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-08-31T17:39:26.622604",
+  "modular_version": "v2.2-modular-v1",
+  "legacy_version": "v2.1-legacy",
+  "l1_fixture_lines": 433,
+  "golden_questions": 11,
+  "modular_prompt": {
+    "length": 31933,
+    "lines": 740,
+    "contains_subject_rules": true
+  },
+  "legacy_prompt": {
+    "length": 33977,
+    "lines": 658,
+    "contains_subject_rules": false
+  },
+  "diff_sections": [
+    "### JSON 输出规范",
+    "### 行号规范",
+    "### 难度判断标准",
+    "### 综合题识别规则",
+    "### 答案/详解提取规则",
+    "## 英语专用规则",
+    "#### 英语典型题型",
+    "#### 英语专用规则",
+    "#### 综合题子题展示字段要求",
+    "## 示例",
+    "### 示例 1: 完形填空（完整子题字段示例）",
+    "### 示例 2: 语法填空（fill_in 子题示例）"
+  ]
+}

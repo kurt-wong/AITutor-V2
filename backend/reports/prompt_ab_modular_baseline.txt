@@ -1,0 +1,106 @@
+======================================================================
+Complete Field-Level Golden Comparison
+======================================================================
+
+Golden: 11 questions
+DB: 11 questions
+
+Question 1: 1-10
+  GRANULARITY: stem_line_ids: granularity difference (text matched) [granularity]
+    Golden=6 lines | DB=5 lines
+  GRANULARITY: shared_material_line_ids: granularity difference (text matched) [granularity]
+    Golden=18 lines | DB=6 lines
+  All fields match
+
+Question 2: 11-13
+  GRANULARITY: stem_line_ids: granularity difference (text matched) [granularity]
+    Golden=3 lines | DB=2 lines
+  GRANULARITY: shared_material_line_ids: granularity difference (text matched) [granularity]
+    Golden=5 lines | DB=1 lines
+  All fields match
+
+Question 3: 14-17
+  GRANULARITY: shared_material_line_ids: granularity difference (text matched) [granularity]
+    Golden=4 lines | DB=1 lines
+  All fields match
+
+Question 4: 18-20
+  GRANULARITY: shared_material_line_ids: granularity difference (text matched) [granularity]
+    Golden=6 lines | DB=1 lines
+  All fields match
+
+Question 5: 21-25
+  All fields match
+
+Question 6: 26-28
+  GRANULARITY: stem_line_ids: granularity difference (text matched) [granularity]
+    Golden=6 lines | DB=5 lines
+  GRANULARITY: shared_material_line_ids: granularity difference (text matched) [granularity]
+    Golden=34 lines | DB=27 lines
+  All fields match
+
+Question 7: 29-32
+  GRANULARITY: stem_line_ids: granularity difference (text matched) [granularity]
+    Golden=6 lines | DB=5 lines
+  GRANULARITY: shared_material_line_ids: granularity difference (text matched) [granularity]
+    Golden=25 lines | DB=6 lines
+  All fields match
+
+Question 8: 33-36
+  GRANULARITY: stem_line_ids: granularity difference (text matched) [granularity]
+    Golden=6 lines | DB=5 lines
+  GRANULARITY: shared_material_line_ids: granularity difference (text matched) [granularity]
+    Golden=28 lines | DB=12 lines
+  All fields match
+
+Question 9: 37-41
+  GRANULARITY: stem_line_ids: granularity difference (text matched) [granularity]
+    Golden=3 lines | DB=2 lines
+  GRANULARITY: shared_material_line_ids: granularity difference (text matched) [granularity]
+    Golden=18 lines | DB=6 lines
+  All fields match
+
+Question 10: 42-45
+  GRANULARITY: shared_material_line_ids: granularity difference (text matched) [granularity]
+    Golden=19 lines | DB=7 lines
+  GRANULARITY Sub 3.answer_line_ids: answer_line_ids: granularity difference (text matched) [granularity]
+    Golden=4 lines | DB=1 lines
+  All fields match
+
+Question 11: 46
+  GRANULARITY: stem_line_ids: granularity difference (text matched) [granularity]
+    Golden=10 lines | DB=9 lines
+  All fields match
+
+======================================================================
+Summary
+======================================================================
+Total fields compared: 392
+Matched: 375
+Granularity (text matched, line source differs): 17
+Mismatched: 0
+Strict match rate: 95.7%
+Content-verified rate: 100.0%
+
+No content mismatches found!
+
+Granularity notes (not counted as content mismatches):
+  - Q1.stem_line_ids: stem_line_ids: granularity difference (text matched)
+  - Q1.shared_material_line_ids: shared_material_line_ids: granularity difference (text matched)
+  - Q2.stem_line_ids: stem_line_ids: granularity difference (text matched)
+  - Q2.shared_material_line_ids: shared_material_line_ids: granularity difference (text matched)
+  - Q3.shared_material_line_ids: shared_material_line_ids: granularity difference (text matched)
+  - Q4.shared_material_line_ids: shared_material_line_ids: granularity difference (text matched)
+  - Q6.stem_line_ids: stem_line_ids: granularity difference (text matched)
+  - Q6.shared_material_line_ids: shared_material_line_ids: granularity difference (text matched)
+  - Q7.stem_line_ids: stem_line_ids: granularity difference (text matched)
+  - Q7.shared_material_line_ids: shared_material_line_ids: granularity difference (text matched)
+  - Q8.stem_line_ids: stem_line_ids: granularity difference (text matched)
+  - Q8.shared_material_line_ids: shared_material_line_ids: granularity difference (text matched)
+  - Q9.stem_line_ids: stem_line_ids: granularity difference (text matched)
+  - Q9.shared_material_line_ids: shared_material_line_ids: granularity difference (text matched)
+  - Q10.shared_material_line_ids: shared_material_line_ids: granularity difference (text matched)
+  - Q10.sub3.answer_line_ids: answer_line_ids: granularity difference (text matched)
+  - Q11.stem_line_ids: stem_line_ids: granularity difference (text matched)
+
+Verdict: PASS_WITH_GRANULARITY
